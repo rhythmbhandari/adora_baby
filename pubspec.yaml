@@ -19,3 +19,27 @@ dev_dependencies:
 flutter: 
   uses-material-design: true
 
+  fonts:
+    - family: Encode Sans
+      fonts:
+        - asset: assets/fonts/encode_sans/Encode.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-Black.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-ExtraBold.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-ExtraLight.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-Light.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-Medium.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-Regular.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-SemiBold.ttf
+        - asset: assets/fonts/encode_sans/EncodeSans-Thin.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/poppins/Poppins-ExtraLight.ttf
+        - asset: assets/fonts/poppins/Poppins-Light.ttf
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+        - asset: assets/fonts/poppins/Poppins-Thin.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+
