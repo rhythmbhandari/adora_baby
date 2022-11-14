@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-final kThemeData = ThemeData().copyWith(
+MaterialColor mycolor = MaterialColor(
+  const Color.fromRGBO(174, 5, 233, 1).value,
+  const <int, Color>{
+    50: Color.fromRGBO(247, 230, 253, 1),
+    100: Color.fromRGBO(230, 178, 248, 1),
+    200: Color.fromRGBO(128, 140, 245, 1),
+    300: Color.fromRGBO(201, 88, 240, 1),
+    400: Color.fromRGBO(190, 55, 237, 1),
+    500: Color.fromRGBO(174, 5, 233, 1),
+    600: Color.fromRGBO(158, 5, 212, 1),
+    700: Color.fromRGBO(124, 4, 165, 1),
+    800: Color.fromRGBO(96, 3, 128, 1),
+    900: Color.fromRGBO(73, 2, 98, 1),
+  },
+);
+
+final kThemeDataDark = ThemeData.dark();
+
+final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
     primaryColor: const Color(0xffAE05E9),
     hintColor: Colors.grey[900],
     splashColor: const Color(0xffAE05E9).withOpacity(0.5),
@@ -121,7 +139,7 @@ final kThemeData = ThemeData().copyWith(
           letterSpacing: 0.04),
     ),
     colorScheme: const ColorScheme.light().copyWith(
-      primary: Color(0xffAE05E9),
-      secondary: Color(0xffAE05E9),
-      error: Color(0xffAE05E9),
-    ));
+      primary: const Color(0xffAE05E9),
+      secondary: const Color(0xffAE05E9),
+      error: const Color(0xffAE05E9),
+    ),);
