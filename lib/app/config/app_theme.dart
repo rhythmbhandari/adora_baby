@@ -122,12 +122,12 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
 
       //Button Text
       labelMedium: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontFamily: "Poppins",
           fontSize: 16,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
-          letterSpacing: 0.04),
+          letterSpacing: 0),
 
       //Card Body
       labelSmall: const TextStyle(
