@@ -12,6 +12,8 @@ dependencies:
   floating_frosted_bottom_bar: ^0.0.1
   flutter_svg: ^1.1.6
   auto_size_text: ^3.0.0
+  dio: ^4.0.6
+  rxdart: ^0.27.7
   flutter: 
     sdk: flutter
 
@@ -51,4 +53,7 @@ flutter:
         - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
         - asset: assets/fonts/poppins/Poppins-Thin.ttf
         - asset: assets/fonts/poppins/Poppins-Italic.ttf
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/playfair/PlayfairDisplay.ttf
 
