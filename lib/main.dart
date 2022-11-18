@@ -8,6 +8,7 @@ import 'app/routes/app_pages.dart';
 void main() {
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Application",
       theme: kThemeData,
       initialRoute: AppPages.INITIAL,
