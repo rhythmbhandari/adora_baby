@@ -6,12 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/config/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_colors.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/config/app_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_theme.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/home/views/home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/home/views/home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adora_baby.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adora_baby.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/config/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/otp_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/phone_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/storage_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/storage_manager.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,13 +60,16 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/app/config" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/app/config" />
+      <recent name="$PROJECT_DIR$/lib/app" />
+      <recent name="$PROJECT_DIR$/assets/fonts/playfair" />
       <recent name="$PROJECT_DIR$/assets/images" />
-      <recent name="$PROJECT_DIR$/assets/fonts/poppins" />
+      <recent name="$PROJECT_DIR$/lib/widgets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/fonts/encode_sans" />

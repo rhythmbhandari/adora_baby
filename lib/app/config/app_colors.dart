@@ -13,6 +13,8 @@ class AppColors {
   static const Color primary900 = Color.fromRGBO(73, 2, 98, 1);
   static const Color linear1 = Color.fromRGBO(127,0,255,1);
   static const Color linear2 = Color.fromRGBO(255,0,255,1);
+  static const Color mainColor = Color.fromRGBO(181, 103, 233, 1);
+
 
   static const Color secondary50 = Color.fromRGBO(253, 242, 243, 1);
   static const Color secondary100 = Color.fromRGBO(249, 214, 217, 1);

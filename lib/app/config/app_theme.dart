@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -42,9 +43,9 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
       //Heading2
       displayMedium: const TextStyle(
           color: Colors.black,
-          fontFamily: "Encode Sans",
+          fontFamily: "PLayfair Display",
           fontSize: 40,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w500,
           fontStyle: FontStyle.normal,
           letterSpacing: -0.02),
 
@@ -95,12 +96,13 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
 
       //Small Copy
       bodyMedium: const TextStyle(
-          color: Colors.black,
+          color: AppColors.mainColor,
           fontFamily: "Poppins",
           fontSize: 14,
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
           letterSpacing: 0.08),
+
 
       //Caption
       bodySmall: const TextStyle(
