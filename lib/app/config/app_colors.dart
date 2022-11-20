@@ -1,3 +1,4 @@
+import 'package:adora_baby/utils/sp_calculator.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -56,6 +57,16 @@ class LightTheme {
   static const Color normalHover = Color.fromRGBO(248, 241, 151, 1);
   static const Color normalActive = Color.fromRGBO(243, 234, 249, 1);
   static const Color dark = Color.fromRGBO(250, 246, 252, 1);
+}
+
+class AppText {
+  static final heading4 = TextStyle(
+      color: Color(0xff1D242D),
+      fontSize: getResponsiveFont(16),
+      fontFamily: 'Poppins',
+      letterSpacing: 0.04,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400);
 }
 
 class DarkTheme {

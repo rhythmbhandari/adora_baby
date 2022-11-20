@@ -2,6 +2,8 @@ import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../utils/sp_calculator.dart';
+
 MaterialColor mycolor = MaterialColor(
   const Color.fromRGBO(174, 5, 233, 1).value,
   const <int, Color>{
@@ -34,7 +36,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
       //Heading1
       displayLarge: const TextStyle(
           color: Colors.black,
-          fontFamily: "Encode Sans",
+          fontFamily: "Playfair",
           fontSize: 64,
           fontWeight: FontWeight.w800,
           fontStyle: FontStyle.normal,
@@ -50,9 +52,9 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
           letterSpacing: -0.02),
 
       //Heading3
-      displaySmall: const TextStyle(
+      displaySmall:  TextStyle(
           color: Colors.black,
-          fontFamily: "Encode Sans",
+          fontFamily: "Playfair",
           fontSize: 24,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,

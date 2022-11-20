@@ -17,7 +17,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.WALKTHROUGH;
 
   static final routes = [
     GetPage(
@@ -47,7 +47,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.WALKTHROUGH,
-      page: () => const WalkthroughView(),
+      page: () => WalkthroughView(),
       binding: WalkthroughBinding(),
     ),
   ];
