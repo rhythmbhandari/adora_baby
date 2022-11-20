@@ -102,7 +102,7 @@ class PhoneView extends GetView<AuthController> {
                         print("success");
                       }
 
-                    Get.offAllNamed(Routes.OTP);
+                    Get.toNamed(Routes.OTP,arguments: controller.phoneController);
                     }
                     }
                   },

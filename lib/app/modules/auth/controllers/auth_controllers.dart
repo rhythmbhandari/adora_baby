@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,9 @@ class AuthController extends GetxController {
   final phone = ''.obs;
   final otp = ''.obs;
   final authError = ''.obs;
+  final progressBarStatus = false.obs;
+
+
   bool validatePhoneNumber() {
     phone.value = phoneController.text.trim();
     bool isValid = true;
@@ -36,7 +40,7 @@ class AuthController extends GetxController {
   }
   Future<bool> requestOtpController() async {
     try {
-
+      const CircularProgressIndicator(color: AppColors.mainColor);
       final status = await AuthRepository.requestOtp(phoneController.text.trim())
           .catchError((error) {
         authError.value = error;
@@ -55,6 +59,7 @@ class AuthController extends GetxController {
   }
   Future<bool> verifyOtpController() async {
     try {
+
       final status = await AuthRepository.verifyOtp(phoneController.text.trim(),otpController.text.trim())
           .catchError((error) {
         authError.value = error;

@@ -45,7 +45,9 @@ class AuthRepository {
         final response = await NetworkHelper().postRequest(url, data: body);
         print('Response is $response');
         if (response.statusCode == 200) {
-          // storage.saveAccessToken(signup.accessToken);
+          storage.saveAccessToken(response.data["token"] ["access"]);
+          storage.saveRefreshToken(response.data["token"] ["refresh"]);
+          print(response.data["token"] ["access"]);
           print(response);
           print(response.statusCode);
 

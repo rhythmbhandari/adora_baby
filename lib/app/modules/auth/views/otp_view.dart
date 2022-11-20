@@ -16,6 +16,8 @@ class OtpView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final StopWatchTimer stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countDown,
       presetMillisecond: StopWatchTimer.getMilliSecFromSecond(60),
@@ -49,6 +51,7 @@ class OtpView extends GetView<AuthController> {
                 const SizedBox(
                   height: 36,
                 ),
+
                 Container(
                   decoration: BoxDecoration(
                     border:  Border.all(color: Colors.grey.shade300,width: 2) ,
