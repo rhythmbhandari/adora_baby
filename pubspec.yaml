@@ -5,7 +5,9 @@ description: A new Flutter project.
 environment: 
   sdk: '>=2.18.0-394.0.dev <3.0.0'
 
-dependencies: 
+dependencies:
+  flutter:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   get: 4.6.5
   get_cli: ^1.8.1
@@ -15,8 +17,7 @@ dependencies:
   dio: ^4.0.6
   rxdart: ^0.27.7
   flutter_secure_storage: ^6.0.0
-  flutter: 
-    sdk: flutter
+  lottie: ^2.0.0
 
 dev_dependencies: 
   flutter_lints: 2.0.1
@@ -28,6 +29,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/animations/loader.json
 
 
 

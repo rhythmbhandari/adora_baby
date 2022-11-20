@@ -18,7 +18,7 @@ class ButtonsWidget extends StatelessWidget {
         height: 0.065 * Get.height,
         width: 0.9 * Get.width,
         decoration: BoxDecoration(
-          color: AppColors.mainColor,
+          color: AppColors.primary500,
           borderRadius: BorderRadius.circular(30),
         ),
         child:  Center(

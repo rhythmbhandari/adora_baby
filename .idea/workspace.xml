@@ -10,37 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/fonts/playfair/PlayfairDisplay-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/playfair/PlayfairDisplay-ExtraBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fonts/playfair/PlayfairDisplay-SemiBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/arrow-left.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/walkthrough_1.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/walkthrough_2.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/walkthrough_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/walkthrough_3.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/page_view_content.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/proceed_button.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/three_dot_indicator.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/walkthrough_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/animations/loader.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/custom_progress_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/Encode.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Black.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-ExtraBold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-ExtraLight.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Light.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Medium.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-SemiBold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/encode_sans/EncodeSans-Thin.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fonts/playfair/PlayfairDisplay.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/config/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_colors.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/config/app_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_theme.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/walkthrough/controllers/walkthrough_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/controllers/walkthrough_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/walkthrough_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/walkthrough/views/walkthrough_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/buttons.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/buttons.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +63,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/animations" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -94,11 +71,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/animations" />
       <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/fonts/playfair" />
       <recent name="$PROJECT_DIR$/lib/app/modules/walkthrough/views" />
       <recent name="$PROJECT_DIR$/lib/app/config" />
-      <recent name="$PROJECT_DIR$/lib/app" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/fonts/encode_sans" />
