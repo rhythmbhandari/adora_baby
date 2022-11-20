@@ -57,6 +57,7 @@ class PhoneView extends GetView<AuthController> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextField(
+                    controller: controller.phoneController,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(10),
                       ],
@@ -81,10 +82,28 @@ class PhoneView extends GetView<AuthController> {
                 ),
                 ButtonsWidget(
                   name: 'Register',
-                  onPressed: () {
-                    if (kDebugMode) {
-                      print('abc');
-                      Get.toNamed(Routes.OTP);
+                  onPressed: () async {
+
+                    if (await controller.validatePhoneNumber()) {
+
+                    final status = await controller.requestOtpController();
+                    if (!status) {
+
+                    var snackBar = const SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.red,
+                    duration: Duration(milliseconds: 2000),
+                    content: Text("Failed! Try again"),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      if (kDebugMode) {
+                        print("success");
+                      }
+
+                    Get.offAllNamed(Routes.OTP);
+                    }
                     }
                   },
                 ),

@@ -55,8 +55,9 @@ class OtpView extends GetView<AuthController> {
 
                     borderRadius: BorderRadius.circular(20)),
                   child: TextField(
+                    controller: controller.otpController,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(4),
+                        LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType: TextInputType.number,
                       cursorColor: AppColors.mainColor,
@@ -77,13 +78,29 @@ class OtpView extends GetView<AuthController> {
                 ),
                 ButtonsWidget(
                   name: 'Submit',
-                  onPressed: () {
-                    if (kDebugMode) {
-                      print('abc');
-                      Get.offAllNamed(Routes.HOME);
+                  onPressed: () async {
 
 
-                    }
+                      final status = await controller.verifyOtpController();
+
+                      if (!status) {
+
+                        var snackBar = const SnackBar(
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.red,
+                          duration: Duration(milliseconds: 2000),
+                          content:Text("Failed"),
+
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+
+                        Get.offAllNamed(Routes.HOME);
+
+                      }
+
+
                   },
                 ),
                 const SizedBox(
