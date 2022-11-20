@@ -1,19 +1,23 @@
-import 'package:adora_baby/app/modules/auth/views/otp_view.dart';
-import 'package:adora_baby/app/modules/auth/views/phone_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/auth/bindings/auth_bindings.dart';
+import '../modules/auth/views/otp_view.dart';
+import '../modules/auth/views/phone_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/splash/views/splash_view.dart';
+import '../modules/walkthrough/bindings/walkthrough_binding.dart';
+import '../modules/walkthrough/views/walkthrough_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.PHONE;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -35,6 +39,16 @@ class AppPages {
       name: _Paths.PHONE,
       page: () => const PhoneView(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => const SplashView(),
+      binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.WALKTHROUGH,
+      page: () => const WalkthroughView(),
+      binding: WalkthroughBinding(),
     ),
   ];
 }

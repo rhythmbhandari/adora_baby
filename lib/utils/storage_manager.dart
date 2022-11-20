@@ -8,6 +8,14 @@ class StorageManager {
 
   StorageManager() {}
 
+  void writeData(key, data) {
+    flutterSecureStorage.write(key: key, value: data);
+  }
+
+  Future<String?> readData(key) async {
+    return await flutterSecureStorage.read(key: key);
+  }
+
   void saveAccessToken(accessToken) {
     flutterSecureStorage.write(
       key: Constants.ACCESS_TOKEN,
