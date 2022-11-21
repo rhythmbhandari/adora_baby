@@ -15,13 +15,22 @@ class AuthController extends GetxController {
   TextEditingController dobController = TextEditingController();
   TextEditingController specialNoteController = TextEditingController();
 
-
   TextEditingController loginPhoneController = TextEditingController();
 
   TextEditingController loginPasswordController = TextEditingController();
 
+  TextEditingController resetPasswordController = TextEditingController();
+
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  final resetPassword = false.obs;
+
   final passwordInvisible = true.obs;
   final passwordInvisibleLogin = true.obs;
+
+  final resetPasswordInvisibleLogin = true.obs;
+
+  final confirmPasswordInvisibleLogin = true.obs;
   String? _dob;
 
   final storeMedicalCategories = [].obs;
@@ -46,11 +55,15 @@ class AuthController extends GetxController {
   final password = ''.obs;
   final authError = ''.obs;
 
+  final resetPassw = ''.obs;
+  final confirmPass = ''.obs;
 
   final loginPhone = ''.obs;
   final loginPassword = ''.obs;
 
   final progressBarStatus = false.obs;
+
+  final progressBarStatusReset = false.obs;
 
   final progressBarStatusLogin = false.obs;
 
@@ -83,8 +96,15 @@ class AuthController extends GetxController {
   void changePasswordVisibilityLogin(bool status) =>
       passwordInvisibleLogin.value = status;
 
+  void changePasswordVisibilityReset(bool status) =>
+      resetPasswordInvisibleLogin.value = status;
+
+  void changePasswordVisibilityConfirm(bool status) =>
+      confirmPasswordInvisibleLogin.value = status;
+
   bool validatePhoneNumber() {
     phone.value = phoneController.text.trim();
+
     bool isValid = true;
     if (phone.value.isEmpty) {
       isValid = false;
@@ -92,6 +112,30 @@ class AuthController extends GetxController {
     } else if (phone.value.length != 10) {
       isValid = false;
       authError.value = 'Phone number needs to be 10 digit'.tr;
+    }
+    return isValid;
+  }
+
+  bool validateResetPassword() {
+    resetPassw.value = resetPasswordController.text.trim();
+    confirmPass.value = confirmPasswordController.text.trim();
+
+    bool isValid = true;
+    if (resetPassw.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Password cannot be empty.'.tr;
+    } else if (resetPassw.value.length < 8) {
+      isValid = false;
+      authError.value = 'Password needs to be at least 8 digits.'.tr;
+    } else if (confirmPass.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Confirm Password cannot be empty.'.tr;
+    } else if (confirmPass.value.length < 8) {
+      isValid = false;
+      authError.value = 'Confirm Password needs to be at least 8 digits.'.tr;
+    } else if (confirmPass.value != resetPassw.value) {
+      isValid = false;
+      authError.value = 'Password and Confirm Password do not match.'.tr;
     }
     return isValid;
   }
@@ -198,6 +242,49 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> resetPasswordStarted() async {
+    try {
+      const CircularProgressIndicator(color: AppColors.mainColor);
+      // if (phoneController.text.trim() == '9869191572') {
+      //   return true;
+      // }
+      final status =
+      await AuthRepository.reset(resetPasswordController.text.trim())
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> requestResetPassword() async {
+    try {
+      const CircularProgressIndicator(color: AppColors.mainColor);
+      final status =
+          await AuthRepository.resetPassword(phoneController.text.trim())
+              .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> verifyOtpController() async {
     try {
       final status = await AuthRepository.verifyOtp(
@@ -217,10 +304,30 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> verifyResetPassword() async {
+    try {
+      final status = await AuthRepository.verifyReset(
+              phoneController.text.trim(), otpController.text.trim())
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> login() async {
     try {
       final status = await AuthRepository.initiateLogin(
-          loginPhoneController.text.trim(), loginPasswordController.text.trim())
+              loginPhoneController.text.trim(),
+              loginPasswordController.text.trim())
           .catchError((error) {
         authError.value = error;
         return false;

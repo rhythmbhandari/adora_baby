@@ -126,8 +126,7 @@ class PhoneView extends GetView<AuthController> {
                                         controller.progressBarStatus.value =
                                             false;
                                         Get.toNamed(Routes.OTP,
-                                            arguments:
-                                                controller.phoneController);
+                                            arguments: false);
                                       }
                                     } else {
                                       var snackBar = SnackBar(

@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/auth/views/forget_password_view.dart';
 import 'package:adora_baby/app/modules/auth/views/phone_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -228,10 +229,15 @@ class LoginView extends GetView<AuthController> {
                             width: 0.01 * Get.width,
                           ),
                         ),
-                        Text(
-                          "Forgot Password?",
-                          style: Get.textTheme.bodyMedium
-                              ?.copyWith(color: AppColors.primary500),
+                        GestureDetector(
+                          onTap: (){
+                            Get.to(ForgetPasswordView(), preventDuplicates: true);
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: Get.textTheme.bodyMedium
+                                ?.copyWith(color: AppColors.primary500),
+                          ),
                         ),
                       ],
                     ),
