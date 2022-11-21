@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../widgets/buttons.dart';
 import '../../../../widgets/custom_progress_bar.dart';
+import '../../../../widgets/filter_chip.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../controllers/auth_controllers.dart';
@@ -50,9 +51,15 @@ class MedicalCondition extends GetView<AuthController> {
                         const SizedBox(
                           height: 28,
                         ),
-                        Text(
-                          'Baby’s Medical Condition',
-                          style: kThemeData.textTheme.displayMedium,
+                        GestureDetector(
+                          onTap: () {
+                            controller.getMedicalCategories();
+                            print('Started');
+                          },
+                          child: Text(
+                            'Baby’s Medical Condition',
+                            style: kThemeData.textTheme.displayMedium,
+                          ),
                         ),
                         const SizedBox(
                           height: 20,
@@ -61,6 +68,7 @@ class MedicalCondition extends GetView<AuthController> {
                           'Select all that applies. You can always change your answer from Profile.',
                           style: kThemeData.textTheme.bodyLarge,
                         ),
+
                         const SizedBox(
                           height: 32,
                         ),
@@ -70,15 +78,64 @@ class MedicalCondition extends GetView<AuthController> {
                               ?.copyWith(color: AppColors.primary700),
                         ),
                         const SizedBox(
-                          height: 22,
+                          height: 10,
                         ),
+
+                        Wrap(
+                            spacing: 5.0,
+                            runSpacing: 5.0,
+                            direction: Axis.horizontal,
+                            children: <Widget>[
+                              for (int i = 0;
+                                  i < controller.chipList.length;
+                                  i++)
+                                Obx(() => FilterChipWidget(
+                                      chipName: controller.chipList[i],
+                                      chipType: '1',
+                                      index: i,
+                                    )),
+                            ]),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        // Wrap(
+                        //     spacing: 5.0,
+                        //     runSpacing: 5.0,
+                        //     direction: Axis.horizontal,
+                        //     children: <Widget>[
+                        //       for (int i = 0;
+                        //       i < controller.chipList.length;
+                        //       i++)
+                        //         Obx(() => FilterChipWidget(
+                        //           chipName: controller.chipList[i],
+                        //           index: i,
+                        //         )),
+                        //     ]),
                         Text(
                           'Frequent Difficulties',
                           style: kThemeData.textTheme.titleMedium
                               ?.copyWith(color: AppColors.primary700),
                         ),
                         const SizedBox(
-                          height: 38,
+                          height: 10,
+                        ),
+
+                        Wrap(
+                            spacing: 5.0,
+                            runSpacing: 5.0,
+                            direction: Axis.horizontal,
+                            children: <Widget>[
+                              for (int i = 0;
+                              i < controller.chipList1.length;
+                              i++)
+                                Obx(() => FilterChipWidget(
+                                  chipName: controller.chipList1[i],
+                                  chipType: '2',
+                                  index: i,
+                                )),
+                            ]),
+                        const SizedBox(
+                          height: 16,
                         ),
                         Text(
                           'Special Note',

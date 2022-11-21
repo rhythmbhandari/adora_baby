@@ -18,6 +18,17 @@ class AuthController extends GetxController {
   final passwordInvisible = true.obs;
   String? _dob;
 
+  final storeMedicalCategories = [].obs;
+  final storeMedicalCategoriesId = [].obs;
+
+  final storeMedicalSubCategories = [].obs;
+  final storeMedicalSubCategoriesId = [].obs;
+
+  final storeMedicalCategoriesBool = [].obs;
+  final storeMedicalSubCategoriesBool = [].obs;
+
+  final storeMedicalLength = [].obs;
+
   setDate(String date) => _dob = date;
 
   final phone = ''.obs;
@@ -29,6 +40,22 @@ class AuthController extends GetxController {
   final password = ''.obs;
   final authError = ''.obs;
   final progressBarStatus = false.obs;
+
+  final chipList = ['Peanut', 'Milk', 'Soy'].obs;
+  final chipIdList = [
+    'a75e0c55-d518-4dc3-86dc-3d5569a6f1f9',
+    'd9360b4f-ecb7-4eef-a85d-bdcee7810fc9',
+    '9b5a9f8a-1f5d-433a-98c3-9713bb263de8'
+  ].obs;
+  final boolList = [false, false, false, false, false, false].obs;
+
+  final chipList1 = ['Cold', 'Vomit', 'Insomnia'].obs;
+  final chipIdList1 = [
+    'a3db1ce6-4cda-464b-8d0f-3bb6afa0a783',
+    '1840a1cc-9fb3-47c3-8dc8-c4392677d4e6',
+    'a1352eb9-6a78-45ce-9a9c-9f9774e41233'
+  ].obs;
+  final boolList1 = [false, false, false, false, false, false].obs;
 
   final progressBarStatusOtp = false.obs;
 
@@ -144,6 +171,34 @@ class AuthController extends GetxController {
       });
 
       if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> getMedicalCategories() async {
+    try {
+      final response =
+          await AuthRepository.fetchMedicalCategories().catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (response.isNotEmpty) {
+        storeMedicalCategories.value = response[0];
+        storeMedicalCategoriesId.value = response[1];
+
+        storeMedicalSubCategories.value = response[2];
+        storeMedicalSubCategoriesId.value = response[3];
+
+        storeMedicalLength.value = response[4];
+
+        storeMedicalCategoriesBool.value = response[5];
+        storeMedicalSubCategoriesBool.value = response[6];
         return true;
       } else {
         return false;
