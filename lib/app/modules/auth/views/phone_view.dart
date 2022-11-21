@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/auth/views/login_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,9 +165,14 @@ class PhoneView extends GetView<AuthController> {
                                   fontStyle: FontStyle.normal,
                                   letterSpacing: 0.08),
                             ),
-                            Text(
-                              "Login",
-                              style: kThemeData.textTheme.bodyMedium,
+                            GestureDetector(
+                              onTap: (){
+                                Get.to(LoginView(), preventDuplicates: true);
+                              },
+                              child: Text(
+                                "Login",
+                                style: kThemeData.textTheme.bodyMedium,
+                              ),
                             )
                           ],
                         )

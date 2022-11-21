@@ -15,7 +15,13 @@ class AuthController extends GetxController {
   TextEditingController dobController = TextEditingController();
   TextEditingController specialNoteController = TextEditingController();
 
+
+  TextEditingController loginPhoneController = TextEditingController();
+
+  TextEditingController loginPasswordController = TextEditingController();
+
   final passwordInvisible = true.obs;
+  final passwordInvisibleLogin = true.obs;
   String? _dob;
 
   final storeMedicalCategories = [].obs;
@@ -39,7 +45,14 @@ class AuthController extends GetxController {
   final babyName = ''.obs;
   final password = ''.obs;
   final authError = ''.obs;
+
+
+  final loginPhone = ''.obs;
+  final loginPassword = ''.obs;
+
   final progressBarStatus = false.obs;
+
+  final progressBarStatusLogin = false.obs;
 
   final chipList = ['Peanut', 'Milk', 'Soy'].obs;
   final chipIdList = [
@@ -61,11 +74,14 @@ class AuthController extends GetxController {
 
   final progressBarBabyDetail = false.obs;
   final progressBarCompleteProfile = false.obs;
-
+  final isChecked = false.obs;
   final progressBarStatusUsername = false.obs;
 
   void changePasswordVisibility(bool status) =>
       passwordInvisible.value = status;
+
+  void changePasswordVisibilityLogin(bool status) =>
+      passwordInvisibleLogin.value = status;
 
   bool validatePhoneNumber() {
     phone.value = phoneController.text.trim();
@@ -76,6 +92,27 @@ class AuthController extends GetxController {
     } else if (phone.value.length != 10) {
       isValid = false;
       authError.value = 'Phone number needs to be 10 digit'.tr;
+    }
+    return isValid;
+  }
+
+  bool validateLogin() {
+    loginPhone.value = loginPhoneController.text.trim();
+    loginPassword.value = loginPasswordController.text.trim();
+
+    bool isValid = true;
+    if (loginPhone.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Phone number cannot be empty.'.tr;
+    } else if (loginPhone.value.length != 10) {
+      isValid = false;
+      authError.value = 'Phone number needs to be 10 digit'.tr;
+    } else if (loginPassword.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Password cannot be empty.'.tr;
+    } else if (loginPassword.value.length < 8) {
+      isValid = false;
+      authError.value = 'Password needs to be at least 8 digits.'.tr;
     }
     return isValid;
   }
@@ -165,6 +202,25 @@ class AuthController extends GetxController {
     try {
       final status = await AuthRepository.verifyOtp(
               phoneController.text.trim(), otpController.text.trim())
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> login() async {
+    try {
+      final status = await AuthRepository.initiateLogin(
+          loginPhoneController.text.trim(), loginPasswordController.text.trim())
           .catchError((error) {
         authError.value = error;
         return false;
