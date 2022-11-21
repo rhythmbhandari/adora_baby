@@ -10,15 +10,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/baby_detail_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/forget_password_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/login_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/medical_condition_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/reset_password_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/breastfeeding-mother.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/calendar.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/forget_password_svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/login_svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/reset_password.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/username_svg.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/config/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_colors.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/baby_detail_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/baby_detail_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/medical_condition_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/medical_condition_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/buttons.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/buttons.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +72,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/animations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -71,13 +80,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/assets/animations" />
       <recent name="$PROJECT_DIR$/assets/images" />
+      <recent name="$PROJECT_DIR$/assets/animations" />
       <recent name="$PROJECT_DIR$/assets/fonts/playfair" />
       <recent name="$PROJECT_DIR$/lib/app/modules/walkthrough/views" />
       <recent name="$PROJECT_DIR$/lib/app/config" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/fonts/encode_sans" />
     </key>
   </component>

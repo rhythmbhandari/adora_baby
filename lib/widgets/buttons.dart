@@ -15,7 +15,7 @@ class ButtonsWidget extends StatelessWidget {
       onTap: onPressed,
 
       child: Container(
-        height: 0.065 * Get.height,
+        height: 0.055 * Get.height,
         width: 0.9 * Get.width,
         decoration: BoxDecoration(
           color: AppColors.primary500,

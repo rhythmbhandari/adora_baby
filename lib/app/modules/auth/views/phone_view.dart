@@ -63,35 +63,34 @@ class PhoneView extends GetView<AuthController> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.grey.shade300, width: 0.1),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: TextField(
-                              controller: controller.phoneController,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              keyboardType: TextInputType.number,
-                              cursorColor: AppColors.mainColor,
-                              style: kThemeData.textTheme.bodyLarge,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  hintText: 'Phone Number',
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 24),
-                                  hintStyle: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      color: Color.fromRGBO(178, 187, 198, 1),
-                                      letterSpacing: 0.04))),
-                        ),
+                        TextField(
+                            controller: controller.phoneController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                            cursorColor: AppColors.mainColor,
+                            style: kThemeData.textTheme.bodyLarge,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(33),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: DarkTheme.normal.withOpacity(0.7),
+                                    ),
+                                    borderRadius: BorderRadius.circular(33)),
+                                hintText: 'Phone Number',
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 24),
+                                hintStyle: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    color: Color.fromRGBO(178, 187, 198, 1),
+                                    letterSpacing: 0.04))),
                         const SizedBox(
                           height: 30,
                         ),
@@ -108,13 +107,14 @@ class PhoneView extends GetView<AuthController> {
                                       if (!status) {
                                         controller.progressBarStatus.value =
                                             false;
-                                        var snackBar = const SnackBar(
+                                        var snackBar = SnackBar(
                                           elevation: 0,
                                           behavior: SnackBarBehavior.floating,
                                           backgroundColor: Colors.red,
                                           duration:
                                               Duration(milliseconds: 2000),
-                                          content: Text("Failed! Try again"),
+                                          content: Text(
+                                              "${controller.authError.toUpperCase()}"),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);

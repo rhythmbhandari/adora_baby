@@ -71,30 +71,33 @@ class OtpView extends GetView<AuthController> {
                         const SizedBox(
                           height: 36,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300, width: 2),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: TextField(
-                              controller: controller.otpController,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(6),
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              keyboardType: TextInputType.number,
-                              cursorColor: AppColors.mainColor,
-                              style: kThemeData.textTheme.bodyLarge,
-                              decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'OTP',
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 24),
-                                  hintStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      color: Color.fromRGBO(178, 187, 198, 1),
-                                      letterSpacing: 0.04))),
-                        ),
+                        TextField(
+                            controller: controller.otpController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(6),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                            cursorColor: AppColors.mainColor,
+                            style: kThemeData.textTheme.bodyLarge,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(33),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: DarkTheme.normal.withOpacity(0.7),
+                                    ),
+                                    borderRadius: BorderRadius.circular(33)),
+                                hintText: 'OTP',
+                                contentPadding: EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    color: Color.fromRGBO(178, 187, 198, 1),
+                                    letterSpacing: 0.04))),
                         const SizedBox(
                           height: 36,
                         ),
@@ -104,17 +107,17 @@ class OtpView extends GetView<AuthController> {
                             controller.progressBarStatusOtp.value = true;
                             final status = await controller.verifyOtpController();
                             if (!status) {
-                              var snackBar = const SnackBar(
+                              var snackBar = SnackBar(
                                 elevation: 0,
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: Colors.red,
                                 duration: Duration(milliseconds: 2000),
-                                content: Text("Failed"),
+                                content: Text("${controller.authError.toUpperCase()}"),
                               );
                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               controller.progressBarStatusOtp.value = false;
                             } else {
-                              Get.to(const UsernameView());
+                              Get.to(UsernameView());
                               controller.progressBarStatusOtp.value = false;
                             }
                           }: (){

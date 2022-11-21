@@ -42,6 +42,8 @@ class AppColors {
   static const Color error500 = Color.fromRGBO(231, 51, 51, 1);
 
   static const Color warning500 = Color.fromRGBO(231, 125, 54, 1);
+
+
 }
 
 class LightTheme {
@@ -70,15 +72,15 @@ class AppText {
 }
 
 class DarkTheme {
-  static const Color lighter = Color.fromRGBO(255, 255, 255, 1);
-  static const Color lightHover = Color.fromRGBO(253, 252, 254, 1);
-  static const Color lightActive = Color.fromRGBO(250, 245, 252, 1);
+  static const Color lighter = Color.fromRGBO(175, 152, 168, 1);
+  static const Color lightHover = Color.fromRGBO(159, 131, 150, 1);
+  static const Color lightActive = Color.fromRGBO(150, 106, 129, 1);
 
-  static const Color normal = Color.fromRGBO(253, 252, 254, 1);
-  static const Color normalHover = Color.fromRGBO(250, 245, 252, 1);
-  static const Color normalActive = Color.fromRGBO(247, 239, 251, 1);
+  static const Color normal = Color.fromRGBO(78, 26, 61, 1);
+  static const Color normalHover = Color.fromRGBO(66, 22, 52, 1);
+  static const Color normalActive = Color.fromRGBO(57, 19, 45, 1);
 
-  static const Color dark = Color.fromRGBO(252, 249, 253, 1);
-  static const Color darkHover = Color.fromRGBO(248, 241, 151, 1);
-  static const Color darkActive = Color.fromRGBO(243, 234, 249, 1);
+  static const Color dark = Color.fromRGBO(27, 9, 21, 1);
+  static const Color darkHover = Color.fromRGBO(20, 7, 15, 1);
+  static const Color darkActive = Color.fromRGBO(9, 3, 7, 1);
 }
