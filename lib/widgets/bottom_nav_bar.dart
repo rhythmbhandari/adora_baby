@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:floating_frosted_bottom_bar/app/frosted_bottom_bar.dart';
 import 'package:flutter/gestures.dart';
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<BottomNavBar>
                 children: const [
                   Text("home"),
                   Text("moments"),
-                  Text("shop"),
+                  ShopView(),
                   Text("cart"),
                   Text("profile"),
                 ]),

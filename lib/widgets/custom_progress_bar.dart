@@ -18,7 +18,7 @@ class CustomProgressBar extends StatelessWidget {
     return Container(
       height: size.height,
       width: size.width,
-      color: Color(0xff181818).withOpacity(0.75),
+      color: const Color(0xff181818).withOpacity(0.75),
       child: Center(
         child: SizedBox(
             height: 0.2 * Get.height,
