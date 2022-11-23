@@ -27,7 +27,7 @@ class UsernameView extends GetView<AuthController> {
             SafeArea(
               child: Column(
                 children: [
-                  Hero(
+                  const Hero(
                     tag: 'progress',
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.transparent,
@@ -50,7 +50,7 @@ class UsernameView extends GetView<AuthController> {
                           child: SvgPicture.asset(
                               "assets/images/arrow-left.svg",
                               height: 22,
-                              color: Color(0xff667080)),
+                              color: const Color(0xff667080)),
                         ),
                         const SizedBox(
                           height: 14,
@@ -93,14 +93,14 @@ class UsernameView extends GetView<AuthController> {
                             style: kThemeData.textTheme.bodyLarge,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                                 disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
@@ -114,8 +114,8 @@ class UsernameView extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText: 'Full Name',
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 24),
-                                hintStyle: TextStyle(
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -140,14 +140,14 @@ class UsernameView extends GetView<AuthController> {
                             },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                                 disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
@@ -161,8 +161,8 @@ class UsernameView extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText: 'User Name',
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 24),
-                                hintStyle: TextStyle(
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -192,14 +192,14 @@ class UsernameView extends GetView<AuthController> {
                                   },
                                   decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           width: 1,
                                           color: Colors.transparent,
                                         ),
                                         borderRadius: BorderRadius.circular(33),
                                       ),
                                       disabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           width: 1,
                                           color: Colors.transparent,
                                         ),
@@ -225,9 +225,9 @@ class UsernameView extends GetView<AuthController> {
                                           color: DarkTheme.dark,
                                         ),
                                       ),
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 12),
-                                      hintStyle: TextStyle(
+                                      hintStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
                                           fontFamily: 'Poppins',
@@ -253,7 +253,7 @@ class UsernameView extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text("${controller.authError}"),
                                     );
                                     ScaffoldMessenger.of(context)

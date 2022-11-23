@@ -84,7 +84,7 @@ class AuthRepository {
       if (response.statusCode == 200) {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
-        print(decodedResponse["token"]["access"]);
+        print(response.body);
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');

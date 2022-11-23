@@ -10,14 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/forget_password_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/forget_password_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/login_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/login_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/config/app_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/medical_condition_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/medical_condition_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/reset_password_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/reset_password_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/bottom_nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/bottom_nav_bar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
