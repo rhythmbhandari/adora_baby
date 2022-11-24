@@ -14,9 +14,9 @@ class ShopView extends GetView<ShopController> {
      backgroundColor: const Color.fromRGBO(250, 245, 252, 1),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             HotSale(),
-            Text("abc")
+
           ],
         ),
       ),

@@ -1,10 +1,12 @@
-
+// To parse this JSON data, do
+//
+//     final hot = hotFromJson(jsonString);
 
 import 'dart:convert';
 
-Hot hotSalesFromJson(String str) => Hot.fromJson(json.decode(str));
+Hot hotFromJson(String str) => Hot.fromJson(json.decode(str));
 
-String hotSalesToJson(Hot data) => json.encode(data.toJson());
+String hotToJson(Hot data) => json.encode(data.toJson());
 
 class Hot {
   Hot({
@@ -16,7 +18,7 @@ class Hot {
 
   dynamic next;
   dynamic previous;
-  int count;
+  num count;
   List<Datum> data;
 
   factory Hot.fromJson(Map<String, dynamic> json) => Hot(
@@ -58,8 +60,8 @@ class Datum {
   String name;
   String shortName;
   String slug;
-  int regularPrice;
-  int salePrice;
+  num regularPrice;
+  num salePrice;
   bool stockAvailable;
   String permalink;
   String cp;
@@ -72,9 +74,9 @@ class Datum {
   List<ProductImage> productImages;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    name: json["name"],
-    shortName: json["short_name"],
+    id: json["id"] ?? '',
+    name: json["name"]?? '',
+    shortName: json["short_name"]?? '',
     slug: json["slug"],
     regularPrice: json["regular_price"],
     salePrice: json["sale_price"],
@@ -143,7 +145,7 @@ class Rating {
     required this.gradeAvg,
   });
 
-  int gradeAvg;
+  num gradeAvg;
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
     gradeAvg: json["grade__avg"],
