@@ -64,7 +64,34 @@ class HotSale extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15)),
                               child: Column(
                                 children: [
-                                  Image.network(snapshot.data![index].productImages[index].name, height: 100,),
+                                  Stack(
+                                    children: [
+                                      Image.network(snapshot.data![index].productImages[index].name, height: 100,),
+                                      snapshot.data![index].productImages[index].isFeaturedImage==true?
+                                      Container(
+                                        padding:const EdgeInsets.only(top: 2,bottom: 2,left: 6,right: 6),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          gradient: const LinearGradient(
+                                            begin: Alignment.topRight,
+                                            end: Alignment.bottomLeft,
+                                            colors: [
+                                              AppColors.linear2,
+                                              AppColors.linear1,
+                                            ],
+                                          ),
+                                        ),
+                                        child:  const Text("Sale!",style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: "Poppins",
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle: FontStyle.normal,
+                                            letterSpacing: 0.04),
+                                        ),
+                                      ): const SizedBox()
+                                    ],
+                                  ),
                                   const SizedBox(height: 5,),
 
                                   Expanded(

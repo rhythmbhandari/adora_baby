@@ -95,7 +95,7 @@ class _MyHomePageState extends State<BottomNavBar>
           ),
           child: TabBar(
 
-            padding: EdgeInsets.only(top: 20,bottom: 20),
+            padding: const EdgeInsets.only(top: 20,bottom: 20),
             controller: tabController,
 
 
