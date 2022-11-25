@@ -15,8 +15,8 @@ class HotSale extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 40.0,
-        right: 40,
+        left: 30.0,
+        right: 30,
         top: 80,
         bottom: 40,
       ),
@@ -48,7 +48,7 @@ class HotSale extends StatelessWidget {
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
                         return GridView.count(
-                          childAspectRatio: 0.55,
+                          childAspectRatio: 0.6,
                           shrinkWrap: true,
                           crossAxisCount: 2,
                           children: List.generate(
