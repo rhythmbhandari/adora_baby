@@ -94,8 +94,12 @@ class _MyHomePageState extends State<BottomNavBar>
             ),
           ),
           child: TabBar(
+
+            padding: EdgeInsets.only(top: 20,bottom: 20),
             controller: tabController,
-            indicator: const DotIndicator(color: Colors.white),
+
+
+            indicator: const DotIndicator(),
             tabs: [
               currentPage == 0
                   ? text[0]
@@ -181,7 +185,7 @@ class TabsIcon extends StatelessWidget {
   const TabsIcon(
       {Key? key,
       this.texts = "Home",
-      this.height = 60,
+      this.height = 30,
       this.width = 50,
       required this.images})
       : super(key: key);
