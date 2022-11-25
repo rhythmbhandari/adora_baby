@@ -15,16 +15,11 @@ class CustomProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      height: size.height,
-      width: size.width,
-      color: const Color(0xff181818).withOpacity(0.75),
-      child: Center(
-        child: SizedBox(
-            height: 0.2 * Get.height,
-            width: 0.2 * Get.height,
-            child: Lottie.asset('assets/animations/loader.json')),
-      ),
+    return Center(
+      child: SizedBox(
+          height: 0.2 * Get.height,
+          width: 0.2 * Get.height,
+          child: Lottie.asset('assets/animations/loader.json')),
     );
   }
 }

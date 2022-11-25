@@ -167,7 +167,7 @@ class OtpView extends GetView<AuthController> {
 
                                 Get.to(UsernameView());
                                 controller.progressBarStatusOtp.value =
-                                false;
+                                true;
                               }
                             }
                           }

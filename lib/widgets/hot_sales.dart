@@ -1,4 +1,6 @@
+import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/repositories/shop_respository.dart';
+import 'package:adora_baby/widgets/custom_progress_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -142,9 +144,7 @@ class HotSale extends StatelessWidget {
                     return Center(
                         child: Padding(
                       padding: EdgeInsets.only(top: 0.2 * Get.height),
-                      child: const CircularProgressIndicator(
-                        color: AppColors.mainColor,
-                      ),
+                      child: CustomProgressBar()
                     ));
                   }),
             ),
