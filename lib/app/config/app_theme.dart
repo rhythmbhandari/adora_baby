@@ -52,7 +52,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
           letterSpacing: -0.02),
 
       //Heading3
-      displaySmall:  TextStyle(
+      displaySmall:  const TextStyle(
           color: Colors.black,
           fontFamily: "Playfair",
           fontSize: 24,
@@ -128,7 +128,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
       labelMedium: const TextStyle(
           color: Colors.white,
           fontFamily: "Poppins",
-          fontSize: 16,
+          fontSize: 10,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
           letterSpacing: 0),

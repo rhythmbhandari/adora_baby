@@ -17,7 +17,7 @@ class PhoneView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController phoneController = TextEditingController();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -25,7 +25,7 @@ class PhoneView extends GetView<AuthController> {
             SafeArea(
               child: Column(
                 children: [
-                  Hero(
+                  const Hero(
                     tag: 'progress',
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.transparent,
@@ -113,9 +113,9 @@ class PhoneView extends GetView<AuthController> {
                                           behavior: SnackBarBehavior.floating,
                                           backgroundColor: Colors.red,
                                           duration:
-                                              Duration(milliseconds: 2000),
+                                              const Duration(milliseconds: 2000),
                                           content: Text(
-                                              "${controller.authError.toUpperCase()}"),
+                                              controller.authError.toUpperCase()),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
@@ -133,7 +133,7 @@ class PhoneView extends GetView<AuthController> {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
-                                        duration: Duration(milliseconds: 2000),
+                                        duration: const Duration(milliseconds: 2000),
                                         content:
                                             Text("${controller.authError}"),
                                       );

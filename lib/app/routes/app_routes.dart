@@ -9,6 +9,7 @@ abstract class Routes {
   static const PHONE = _Paths.PHONE;
   static const SPLASH = _Paths.SPLASH;
   static const WALKTHROUGH = _Paths.WALKTHROUGH;
+  static const SHOP = _Paths.SHOP;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const PHONE = '/phone';
   static const SPLASH = '/splash';
   static const WALKTHROUGH = '/walkthrough';
+  static const SHOP = '/shop';
 }

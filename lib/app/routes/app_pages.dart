@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/shop/bindings/shop_binding.dart';
+import '../modules/shop/views/shop_view.dart';
 import '../modules/auth/bindings/auth_bindings.dart';
 import '../modules/auth/views/otp_view.dart';
 import '../modules/auth/views/phone_view.dart';
@@ -17,7 +19,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.WALKTHROUGH;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -49,6 +51,11 @@ class AppPages {
       name: _Paths.WALKTHROUGH,
       page: () => WalkthroughView(),
       binding: WalkthroughBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHOP,
+      page: () => const ShopView(),
+      binding: ShopBinding(),
     ),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/username_view.dart';
+import 'package:adora_baby/app/modules/home/views/home_view.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -108,8 +109,8 @@ class OtpView extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText: 'OTP',
                                 contentPadding:
-                                EdgeInsets.symmetric(horizontal: 24),
-                                hintStyle: TextStyle(
+                                const EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -132,9 +133,9 @@ class OtpView extends GetView<AuthController> {
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.red,
-                                  duration: Duration(milliseconds: 2000),
+                                  duration: const Duration(milliseconds: 2000),
                                   content: Text(
-                                      "${controller.authError.toUpperCase()}"),
+                                      controller.authError.toUpperCase()),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
@@ -148,23 +149,25 @@ class OtpView extends GetView<AuthController> {
                             } else {
                               final status =
                               await controller.verifyOtpController();
+
                               if (!status) {
                                 var snackBar = SnackBar(
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.red,
-                                  duration: Duration(milliseconds: 2000),
+                                  duration: const Duration(milliseconds: 2000),
                                   content: Text(
-                                      "${controller.authError.toUpperCase()}"),
+                                      controller.authError.toUpperCase()),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                                 controller.progressBarStatusOtp.value =
                                 false;
                               } else {
+
                                 Get.to(UsernameView());
                                 controller.progressBarStatusOtp.value =
-                                false;
+                                true;
                               }
                             }
                           }

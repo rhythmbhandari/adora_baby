@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:floating_frosted_bottom_bar/app/frosted_bottom_bar.dart';
 import 'package:flutter/gestures.dart';
@@ -20,31 +21,17 @@ class _MyHomePageState extends State<BottomNavBar>
   late TabController tabController;
 
   final List<Widget> text = [
-    AutoSizeText(
-      'Home',
-      style: kThemeData.textTheme.labelMedium,
-      maxLines: 1,
-    ),
-    AutoSizeText(
-      'Moments',
-      style: kThemeData.textTheme.labelMedium,
-      maxLines: 1,
-    ),
-    AutoSizeText(
-      'Shop',
-      style: kThemeData.textTheme.labelMedium,
-      maxLines: 1,
-    ),
-    AutoSizeText(
-      'Cart',
-      style: kThemeData.textTheme.labelMedium,
-      maxLines: 1,
-    ),
-    AutoSizeText(
-      'Profile',
-      style: kThemeData.textTheme.labelMedium,
-      maxLines: 1,
-    )
+    Text("Home",style: kThemeData.textTheme.labelMedium,),
+    const Text("Moment",style:  TextStyle(
+        color: Colors.white,
+        fontFamily: "Poppins",
+        fontSize: 8.8,
+        fontWeight: FontWeight.w600,
+        fontStyle: FontStyle.normal,
+        letterSpacing: 0),),
+    Text("Shop",style: kThemeData.textTheme.labelMedium,),
+    Text("Cart",style: kThemeData.textTheme.labelMedium,),
+    Text("Profile",style: kThemeData.textTheme.labelMedium,),
   ];
 
   @override
@@ -78,25 +65,23 @@ class _MyHomePageState extends State<BottomNavBar>
   Widget build(BuildContext context) {
     return FrostedBottomBar(
         opacity: 0.6,
+        width: 350,
         sigmaX: 5,
         sigmaY: 5,
         borderRadius: BorderRadius.circular(500),
         duration: const Duration(milliseconds: 10),
         hideOnScroll: false,
-        body: (context, controller) => Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: TabBarView(
-                  controller: tabController,
-                  dragStartBehavior: DragStartBehavior.down,
-                  physics: const BouncingScrollPhysics(),
-                  children: const [
-                    Text("home"),
-                    Text("moments"),
-                    Text("shop"),
-                    Text("cart"),
-                    Text("profile"),
-                  ]),
-            ),
+        body: (context, controller) => TabBarView(
+                controller: tabController,
+                dragStartBehavior: DragStartBehavior.down,
+                physics: const BouncingScrollPhysics(),
+                children: const [
+                  Text("home"),
+                  Text("moments"),
+                  ShopView(),
+                  Text("cart"),
+                  Text("profile"),
+                ]),
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -109,14 +94,12 @@ class _MyHomePageState extends State<BottomNavBar>
             ),
           ),
           child: TabBar(
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorPadding:
-                const EdgeInsets.only(left: 10, right: 10, top: 35),
+
+            padding: const EdgeInsets.only(top: 20,bottom: 20),
             controller: tabController,
-            indicator: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
+
+
+            indicator: const DotIndicator(),
             tabs: [
               currentPage == 0
                   ? text[0]
@@ -149,6 +132,50 @@ class _MyHomePageState extends State<BottomNavBar>
   }
 }
 
+class DotIndicator extends Decoration {
+  const DotIndicator({
+    this.color = Colors.white,
+    this.radius = 4.0,
+  });
+
+  final Color color;
+  final double radius;
+
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    return _DotPainter(
+      color: color,
+      radius: radius,
+      onChange: onChanged,
+    );
+  }
+}
+
+class _DotPainter extends BoxPainter {
+  _DotPainter({
+    required this.color,
+    required this.radius,
+    VoidCallback? onChange,
+  })  : _paint = Paint()
+          ..color = color
+          ..style = PaintingStyle.fill,
+        super(onChange);
+  final Paint _paint;
+  final Color color;
+  final double radius;
+
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    assert(configuration.size != null);
+    final Rect rect = offset & configuration.size!;
+    canvas.drawCircle(
+      Offset(rect.bottomCenter.dx, rect.bottomCenter.dy - radius),
+      radius,
+      _paint,
+    );
+  }
+}
+
 class TabsIcon extends StatelessWidget {
   final String texts;
   final double height;
@@ -158,7 +185,7 @@ class TabsIcon extends StatelessWidget {
   const TabsIcon(
       {Key? key,
       this.texts = "Home",
-      this.height = 60,
+      this.height = 30,
       this.width = 50,
       required this.images})
       : super(key: key);

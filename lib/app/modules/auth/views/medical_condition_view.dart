@@ -1,4 +1,6 @@
 import 'package:adora_baby/app/modules/auth/views/baby_detail_view.dart';
+import 'package:adora_baby/app/modules/home/views/home_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,7 +25,7 @@ class MedicalCondition extends GetView<AuthController> {
             SafeArea(
               child: Column(
                 children: [
-                  Hero(
+                  const Hero(
                     tag: 'progress',
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.transparent,
@@ -46,7 +48,7 @@ class MedicalCondition extends GetView<AuthController> {
                           child: SvgPicture.asset(
                               "assets/images/arrow-left.svg",
                               height: 22,
-                              color: Color(0xff667080)),
+                              color: const Color(0xff667080)),
                         ),
                         const SizedBox(
                           height: 28,
@@ -54,7 +56,9 @@ class MedicalCondition extends GetView<AuthController> {
                         GestureDetector(
                           onTap: () {
                             controller.getMedicalCategories();
-                            print('Started');
+                            if (kDebugMode) {
+                              print('Started');
+                            }
                           },
                           child: Text(
                             'Baby’s Medical Condition',
@@ -157,14 +161,14 @@ class MedicalCondition extends GetView<AuthController> {
                             style: kThemeData.textTheme.bodyLarge,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                                 disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.transparent,
                                   ),
@@ -178,9 +182,9 @@ class MedicalCondition extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText:
                                     'Type anything specific to your child...',
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 24, vertical: 14),
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -204,7 +208,7 @@ class MedicalCondition extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text("${controller.authError}"),
                                     );
                                     ScaffoldMessenger.of(context)
@@ -212,7 +216,7 @@ class MedicalCondition extends GetView<AuthController> {
                                     controller.progressBarStatusUsername.value =
                                         false;
                                   } else {
-                                    Get.to(BabyDetails());
+                                    Get.to(const HomeView());
                                     controller.progressBarStatusUsername.value =
                                         false;
                                   }
