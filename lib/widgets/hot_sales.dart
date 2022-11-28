@@ -123,11 +123,11 @@ class HotSale extends StatelessWidget {
                       } else {
                         return Center(
                           child: Text(
-                            "You don’t seem to have hot sales. Try again later",
+                            "Sorry, no hot sales at the moment!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 16,
-                                fontFamily: 'Graphik',
+                                fontFamily: 'Poppins',
                                 color: Colors.white.withOpacity(0.67),
                                 letterSpacing: 1.25,
                                 fontWeight: FontWeight.w300),
