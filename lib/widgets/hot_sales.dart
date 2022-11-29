@@ -19,7 +19,7 @@ class HotSale extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 30.0,
         right: 30,
-        top: 80,
+        top: 20,
         bottom: 40,
       ),
       child: Container(
