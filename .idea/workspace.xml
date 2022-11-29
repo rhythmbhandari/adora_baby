@@ -11,10 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adora_baby.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adora_baby.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/bindings/shop_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/bindings/shop_binding.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/controllers/shop_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/controllers/shop_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/buttons.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/buttons.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/hot_sales.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/hot_sales.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
