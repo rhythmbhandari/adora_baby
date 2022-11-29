@@ -9,12 +9,12 @@ class AllBrands extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 30.0,
         right: 30,
-        top: 20,
-        bottom: 40,
+
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -32,12 +32,13 @@ class AllBrands extends StatelessWidget {
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
                        return GridView.count(
-                                childAspectRatio: 0.6,
+                         childAspectRatio: 0.7,
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
                                 children: List.generate(
                                   snapshot.data!.length,
                                   (index) => Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                                     padding: const EdgeInsets.only(top: 10),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
@@ -52,7 +53,7 @@ class AllBrands extends StatelessWidget {
                                         Stack(
                                           children: [
                                             Image.network(
-                                              snapshot.data![index].name,
+                                              snapshot.data![index].image,
                                               height: 100,
                                             ),
                                           ],

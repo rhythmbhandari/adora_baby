@@ -20,7 +20,8 @@ class HotSale extends StatelessWidget {
         left: 30.0,
         right: 30,
         top: 20,
-        bottom: 40,
+        bottom: 15
+
       ),
       child: Container(
         decoration: BoxDecoration(
