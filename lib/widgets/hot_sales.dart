@@ -19,8 +19,9 @@ class HotSale extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 30.0,
         right: 30,
-        top: 80,
-        bottom: 40,
+        top: 20,
+        bottom: 15
+
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -48,7 +49,7 @@ class HotSale extends StatelessWidget {
                   future: ShopRepository.hotSales(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data != null) {
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                         return GridView.count(
                           childAspectRatio: 0.6,
                           shrinkWrap: true,
@@ -142,10 +143,7 @@ class HotSale extends StatelessWidget {
                     }
 
                     return Center(
-                        child: Padding(
-                      padding: EdgeInsets.only(top: 0.2 * Get.height),
-                      child: CustomProgressBar()
-                    ));
+                        child: CustomProgressBar());
                   }),
             ),
           ],
