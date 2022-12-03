@@ -3,11 +3,7 @@ import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:get/get.dart';
-
-import '../app/data/medical_categories.dart';
-import '../app/network/network_helper.dart';
 import '../main.dart';
-import '../utils/secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepository {

@@ -208,9 +208,11 @@ class UsernameView extends GetView<AuthController> {
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color: DarkTheme.normal.withOpacity(0.7),
+                                            color: DarkTheme.normal
+                                                .withOpacity(0.7),
                                           ),
-                                          borderRadius: BorderRadius.circular(33)),
+                                          borderRadius:
+                                              BorderRadius.circular(33)),
                                       hintText: 'Password',
                                       suffixIcon: GestureDetector(
                                         onTap: () {
@@ -225,8 +227,9 @@ class UsernameView extends GetView<AuthController> {
                                           color: DarkTheme.dark,
                                         ),
                                       ),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 12),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 24, vertical: 12),
                                       hintStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
@@ -253,7 +256,8 @@ class UsernameView extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: const Duration(milliseconds: 2000),
+                                      duration:
+                                          const Duration(milliseconds: 2000),
                                       content: Text("${controller.authError}"),
                                     );
                                     ScaffoldMessenger.of(context)
