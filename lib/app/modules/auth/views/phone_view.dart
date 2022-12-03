@@ -18,10 +18,10 @@ class PhoneView extends GetView<AuthController> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Stack(
           children: [
-            SafeArea(
+            SingleChildScrollView(
               child: Column(
                 children: [
                   const Hero(

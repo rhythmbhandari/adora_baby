@@ -10,18 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/images/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_container.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/config/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_colors.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/config/app_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_theme.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/dependencies.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/dependencies.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/secure_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/secure_storage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/sp_calculator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/sp_calculator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/storage_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/storage_manager.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/widgets/custom_progress_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/widgets/custom_progress_bar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +80,8 @@
       <recent name="$PROJECT_DIR$/assets/animations" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/app/widgets" />
+      <recent name="$PROJECT_DIR$/lib/app/data/models" />
       <recent name="$PROJECT_DIR$/lib/app/utils" />
       <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/fonts/encode_sans" />
