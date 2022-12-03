@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/custom_progress_bar.dart';
-import '../../../../widgets/filter_chip.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/custom_progress_bar.dart';
+import '../../../widgets/filter_chip.dart';
 import '../controllers/auth_controllers.dart';
 
 class MedicalCondition extends GetView<AuthController> {

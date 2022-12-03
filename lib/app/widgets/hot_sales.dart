@@ -1,14 +1,14 @@
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
-import 'package:adora_baby/repositories/shop_respository.dart';
-import 'package:adora_baby/widgets/custom_progress_bar.dart';
+import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../app/config/app_colors.dart';
-import '../app/config/app_theme.dart';
-import '../models/hot_sales_model.dart';
+import '../config/app_colors.dart';
+import '../config/app_theme.dart';
+import '../data/models/hot_sales_model.dart';
+import 'custom_progress_bar.dart';
 
 class HotSale extends StatelessWidget {
   const HotSale({super.key});

@@ -2,7 +2,7 @@ import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../repositories/auth_repository.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();

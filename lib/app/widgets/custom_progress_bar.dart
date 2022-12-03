@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../app/config/app_colors.dart';
+import '../config/app_colors.dart';
 
 class CustomProgressBar extends StatelessWidget {
 

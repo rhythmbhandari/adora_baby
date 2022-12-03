@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_colors.dart';
+import 'package:adora_baby/app/modules/splash/views/splash_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class SplashView extends GetView<SplashController> {
         (_) {
           return Container();
         },
-        onLoading: Container(),
+        onLoading: SplashContainer(),
       ),
     );
   }

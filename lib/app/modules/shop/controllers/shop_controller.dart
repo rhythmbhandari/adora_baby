@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/repositories/shop_respository.dart';
-import 'package:adora_baby/widgets/custom_progress_bar.dart';
+import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../main.dart';
-import '../../../../models/stages_brands.dart';
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/radio_buttons.dart';
+import '../../../data/models/stages_brands.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/radio_buttons.dart';
 import '../../../enums/progress_status.dart';
 
 class ShopController extends GetxController {

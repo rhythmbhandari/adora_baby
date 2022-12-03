@@ -5,11 +5,11 @@ import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
 import 'package:get/get.dart';
 
-import '../app/network/network_helper.dart';
+import '../network/network_helper.dart';
 
 import '../models/hot_sales_model.dart';
 import '../models/stages_brands.dart' as a;
-import '../utils/secure_storage.dart';
+import '../../utils/secure_storage.dart';
 
 
 class ShopRepository {

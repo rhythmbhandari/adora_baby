@@ -10,12 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_container.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adora_baby.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adora_baby.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/config/app_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_colors.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/config/app_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/config/app_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/dependencies.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/dependencies.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/splash/views/splash_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/secure_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/secure_storage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/sp_calculator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/sp_calculator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/storage_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/utils/storage_manager.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +74,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/app/modules/splash/views" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -76,13 +82,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/app/modules/splash/views" />
       <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/lib/shop" />
       <recent name="$PROJECT_DIR$/lib/widgets" />
       <recent name="$PROJECT_DIR$/assets/animations" />
-      <recent name="$PROJECT_DIR$/assets/fonts/playfair" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/app/utils" />
       <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/fonts/encode_sans" />
     </key>

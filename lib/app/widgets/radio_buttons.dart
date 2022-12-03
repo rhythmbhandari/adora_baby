@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app/config/app_colors.dart';
+import '../config/app_colors.dart';
 
 class RadioButtonWidget<T> extends StatelessWidget {
   final T value;

@@ -9,10 +9,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/custom_progress_bar.dart';
-import '../../../../widgets/stop_watcher.dart';
 import '../../../config/app_colors.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
 
 class BabyDetails extends GetView<AuthController> {

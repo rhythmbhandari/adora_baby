@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:get/get.dart';
-import '../main.dart';
+import '../../../main.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepository {

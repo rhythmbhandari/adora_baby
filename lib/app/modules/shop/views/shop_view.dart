@@ -1,14 +1,13 @@
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/models/stages_brands.dart' as a;
-import 'package:adora_baby/repositories/shop_respository.dart';
-import 'package:adora_baby/widgets/all_brands.dart';
+import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
+import 'package:adora_baby/app/data/repositories/shop_respository.dart';
+import 'package:adora_baby/app/widgets/all_brands.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
-import '../../../../widgets/custom_progress_bar.dart';
-import '../../../../widgets/hot_sales.dart';
+import '../../../widgets/hot_sales.dart';
 import '../../../config/app_colors.dart';
 import '../../../enums/progress_status.dart';
 import '../controllers/shop_controller.dart';
