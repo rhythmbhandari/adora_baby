@@ -47,7 +47,7 @@ class AuthRepository {
           'Please check your internet connection and try again.');
     } catch (e) {
       return Future.error(
-          'Please check your internet connection and try again.');
+          'Server Error');
     }
   }
 
