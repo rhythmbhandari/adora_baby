@@ -159,7 +159,9 @@ class ChoiceLeaderState extends State<ChoiceLeader> {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20),
                     ),
+
                   ),
+
                   choiceCheckmark: true,
                   textDirection: TextDirection.ltr,
                   wrapped: true,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
@@ -43,76 +44,6 @@ class _MedicalConditionState extends State<MedicalCondition> {
                       value: 1,
                       minHeight: 7,
                     ),
-                  ),
-                  FutureBuilder<List>(
-                    future: controller.getMedicalCategories(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data != null &&
-                            snapshot.data!.isNotEmpty) {
-                          return Container(
-                            height: Get.height,
-                            width: Get.width,
-                            child: ListView.builder(
-                                itemCount:
-                                    controller.babyMedicalCondition.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Content(
-                                    title: controller
-                                        .babyMedicalCondition[index][0][0],
-                                    child: ChipsChoice<dynamic>.multiple(
-                                      value: controller.selectedTags,
-                                      onChanged: (val) {
-                                        setState(() {
-
-                                        });
-                                        controller.selectedTags.value = val;
-                                        print(
-                                            'Tags is ${controller.selectedTags}');
-                                        print('Value is $val');
-                                      },
-                                      choiceItems:
-                                          C2Choice.listFrom<String, dynamic>(
-                                        source: controller
-                                            .babyMedicalCondition[index][2],
-                                        value: (i, v) => v,
-                                        label: (i, optionsId) => controller
-                                            .babyMedicalCondition[index][1][i],
-                                        tooltip: (i, v) => v,
-                                      ),
-                                      choiceStyle: C2ChipStyle.toned(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(20),
-                                        ),
-                                      ),
-                                      choiceCheckmark: true,
-                                      textDirection: TextDirection.ltr,
-                                      wrapped: true,
-                                    ),
-                                  );
-                                }),
-                          );
-                        } else {
-                          return Center(
-                            child: Text(
-                              "No Medical Categories Available",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Graphik',
-                                  color: Colors.white.withOpacity(0.67),
-                                  letterSpacing: 1.25,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                          child: Text("Sorry,not found!"),
-                        );
-                      }
-                      return Center(child: CustomProgressBar());
-                    },
                   ),
                   Padding(
                     padding:
@@ -155,8 +86,109 @@ class _MedicalConditionState extends State<MedicalCondition> {
                         const SizedBox(
                           height: 32,
                         ),
+                        FutureBuilder<List>(
+                          future: controller.getMedicalCategories(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data != null &&
+                                  snapshot.data!.isNotEmpty) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        controller.babyMedicalCondition.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              controller.babyMedicalCondition[
+                                                  index][0][0],
+                                              style: kThemeData
+                                                  .textTheme.titleMedium
+                                                  ?.copyWith(
+                                                      color: AppColors
+                                                          .primary700)),
+                                          ChipsChoice<dynamic>.multiple(
+                                            value: controller.selectedTags,
+                                            onChanged: (val) {
+                                              setState(() {});
+                                              controller.selectedTags.value =
+                                                  val;
+                                            },
+                                            choiceItems: C2Choice.listFrom<
+                                                String, dynamic>(
+                                              source: controller
+                                                      .babyMedicalCondition[
+                                                  index][2],
+                                              value: (i, v) => v,
+                                              label: (i, optionsId) =>
+                                                  controller
+                                                          .babyMedicalCondition[
+                                                      index][1][i],
+                                              tooltip: (i, v) => v,
+                                            ),
+                                            choiceStyle: C2ChipStyle.toned(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(20),
+                                              ),
+                                              borderStyle: BorderStyle.solid,
+                                              borderWidth: 0.8,
+                                              foregroundColor: Colors.green,
+                                              foregroundStyle: kThemeData
+                                                  .textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                      color: DarkTheme.lighter),
+                                              borderColor: DarkTheme.lighter,
+                                              backgroundColor: Colors.white,
+                                              selectedStyle: C2ChipStyle.filled(
+                                                color: AppColors.primary500,
+                                                  foregroundStyle: kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(color: Colors.white)
+                                              ),
+                                            ),
+                                            choiceCheckmark: false,
+                                            textDirection: TextDirection.ltr,
+                                            wrapped: true,
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                return Center(
+                                  child: Text(
+                                    "No Medical Categories Available",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'Graphik',
+                                        color: Colors.white.withOpacity(0.67),
+                                        letterSpacing: 1.25,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                );
+                              }
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                child: Text("Sorry,not found!"),
+                              );
+                            }
+                            return Center(
+                                child: SizedBox(
+                                    height: 0.2 * Get.height,
+                                    width: 0.2 * Get.height,
+                                    child: Lottie.asset(
+                                        'assets/animations/loader.json')));
+                          },
+                        ),
                         const SizedBox(
-                          height: 16,
+                          height: 8,
                         ),
                         GestureDetector(
                           onTap: () {
