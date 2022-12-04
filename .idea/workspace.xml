@@ -11,8 +11,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/data/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/data/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/controllers/auth_controllers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/baby_detail_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/baby_detail_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/otp_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/phone_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/widgets/custom_progress_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/widgets/custom_progress_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/auth/views/username_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../../../main.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/secure_storage.dart';
+
 class AuthRepository {
   static Future<bool> requestOtp(String phoneNumber) async {
     const url = '$BASE_URL/accounts/otp_request/';
@@ -49,9 +51,66 @@ class AuthRepository {
     }
   }
 
+  static Future<bool> registerUserName(
+      String fullName, String username, String password) async {
+    const url = '$BASE_URL/accounts/signup/';
+    final body = jsonEncode(
+        {"full_name": fullName, "password": password, "username": username});
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
+  static Future<bool> registerBabyName(String fullName, String username,
+      String password, String babyName, String dateOfBirth) async {
+    const url = '$BASE_URL/accounts/signup/';
+    print('Date of Birth $dateOfBirth');
+    final body = jsonEncode({
+      "full_name": fullName,
+      "password": password,
+      "username": username,
+      "baby_name": babyName,
+      "baby_dob": dateOfBirth
+    });
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
   static Future<bool> reset(String password) async {
     const url = '$BASE_URL/accounts/reset-password/';
-    final body = {"password": password, "refresh_token": storage.readRefreshToken()};
+    final body = {
+      "password": password,
+      "refresh_token": storage.readRefreshToken()
+    };
     try {
       final response = await http.post(Uri.parse(url), body: body);
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
@@ -97,7 +156,7 @@ class AuthRepository {
     try {
       print('hereee');
       const url = '$BASE_URL/accounts/verify-reset-password/';
-      final body = { "code": code, "phone_number": phoneNumber};
+      final body = {"code": code, "phone_number": phoneNumber};
       print(body);
 
       final response = await http.post(Uri.parse(url), body: body);

@@ -204,6 +204,7 @@ class AuthController extends GetxController {
 
   Future<bool> validateBabyDetail() async {
     babyName.value = babyNameController.text.trim();
+    _dob = dobController.text.trim();
 
     bool isValid = true;
     if (babyName.value.isEmpty) {
@@ -219,12 +220,8 @@ class AuthController extends GetxController {
     return isValid;
   }
 
-  Future<bool> requestOtpController() async {
+  Future<bool> requestOtpFromServer() async {
     try {
-      const CircularProgressIndicator(color: AppColors.mainColor);
-      // if (phoneController.text.trim() == '9869191572') {
-      //   return true;
-      // }
       final status =
           await AuthRepository.requestOtp(phoneController.text.trim())
               .catchError((error) {
@@ -242,15 +239,54 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> registerUsername() async {
+    try {
+      final status = await AuthRepository.registerUserName(
+              fullNameController.text.trim(),
+              userNameController.text.trim(),
+              passwordController.text.trim())
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> registerBabyName() async {
+    try {
+      final status = await AuthRepository.registerBabyName(
+          fullNameController.text.trim(),
+          userNameController.text.trim(),
+          passwordController.text.trim(),
+              babyNameController.text.trim(), '${dobController.text.trim()}T00:00')
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> resetPasswordStarted() async {
     try {
-      const CircularProgressIndicator(color: AppColors.mainColor);
-      // if (phoneController.text.trim() == '9869191572') {
-      //   return true;
-      // }
       final status =
-      await AuthRepository.reset(resetPasswordController.text.trim())
-          .catchError((error) {
+          await AuthRepository.reset(resetPasswordController.text.trim())
+              .catchError((error) {
         authError.value = error;
         return false;
       });
@@ -267,7 +303,6 @@ class AuthController extends GetxController {
 
   Future<bool> requestResetPassword() async {
     try {
-      const CircularProgressIndicator(color: AppColors.mainColor);
       final status =
           await AuthRepository.resetPassword(phoneController.text.trim())
               .catchError((error) {
@@ -285,7 +320,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> verifyOtpController() async {
+  Future<bool> verifyOtpFromServer() async {
     try {
       final status = await AuthRepository.verifyOtp(
               phoneController.text.trim(), otpController.text.trim())

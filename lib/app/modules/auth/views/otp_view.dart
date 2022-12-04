@@ -42,18 +42,18 @@ class OtpView extends GetView<AuthController> {
                   controller.resetPassword.value
                       ? Container()
                       : Hero(
-                    tag: 'progress',
-                    child: LinearProgressIndicator(
-                      backgroundColor: Colors.transparent,
-                      valueColor:
-                      AlwaysStoppedAnimation(AppColors.primary300),
-                      value: 0.45,
-                      minHeight: 7,
-                    ),
-                  ),
+                          tag: 'progress',
+                          child: LinearProgressIndicator(
+                            backgroundColor: Colors.transparent,
+                            valueColor:
+                                AlwaysStoppedAnimation(AppColors.primary300),
+                            value: 0.45,
+                            minHeight: 7,
+                          ),
+                        ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 32.0, right: 32, top: 12),
+                        const EdgeInsets.only(left: 32.0, right: 32, top: 12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +71,7 @@ class OtpView extends GetView<AuthController> {
                           height: 350,
                           width: double.infinity,
                           child:
-                          SvgPicture.asset("assets/images/Group 740.svg"),
+                              SvgPicture.asset("assets/images/Group 740.svg"),
                         ),
                         Text(
                           'Enter OTP',
@@ -108,7 +108,7 @@ class OtpView extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText: 'OTP',
                                 contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 24),
+                                    const EdgeInsets.symmetric(horizontal: 24),
                                 hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -121,55 +121,56 @@ class OtpView extends GetView<AuthController> {
                         ButtonsWidget(
                           name: 'Submit',
                           onPressed: controller.progressBarStatusOtp.value ==
-                              false
+                                  false
                               ? () async {
-                            controller.progressBarStatusOtp.value = true;
-                            if (controller.resetPassword.value) {
-                              final status =
-                              await controller.verifyResetPassword();
-                              if (!status) {
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content: Text(
-                                      controller.authError.toUpperCase()),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                controller.progressBarStatusOtp.value =
-                                false;
-                              } else {
-                                Get.to(ResetPasswordView());
-                                controller.progressBarStatusOtp.value =
-                                false;
-                              }
-                            } else {
-                              final status =
-                              await controller.verifyOtpController();
+                                  controller.progressBarStatusOtp.value = true;
+                                  if (controller.resetPassword.value) {
+                                    final status =
+                                        await controller.verifyResetPassword();
+                                    if (!status) {
+                                      var snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.red,
+                                        duration:
+                                            const Duration(milliseconds: 2000),
+                                        content: Text(
+                                            controller.authError.toUpperCase()),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                      controller.progressBarStatusOtp.value =
+                                          false;
+                                    } else {
+                                      Get.to(ResetPasswordView());
+                                      controller.progressBarStatusOtp.value =
+                                          false;
+                                    }
+                                  } else {
+                                    final status =
+                                        await controller.verifyOtpFromServer();
 
-                              if (!status) {
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content: Text(
-                                      controller.authError.toUpperCase()),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                controller.progressBarStatusOtp.value =
-                                false;
-                              } else {
-
-                                Get.to(UsernameView());
-                                controller.progressBarStatusOtp.value =
-                                true;
-                              }
-                            }
-                          }
+                                    if (!status) {
+                                      var snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.red,
+                                        duration:
+                                            const Duration(milliseconds: 2000),
+                                        content: Text(
+                                            controller.authError.toUpperCase()),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                      controller.progressBarStatusOtp.value =
+                                          false;
+                                    } else {
+                                      Get.to(UsernameView());
+                                      controller.progressBarStatusOtp.value =
+                                          false;
+                                    }
+                                  }
+                                }
                               : () {},
                         ),
                         const SizedBox(
@@ -193,14 +194,13 @@ class OtpView extends GetView<AuthController> {
                                       behavior: SnackBarBehavior.fixed,
                                       backgroundColor: AppColors.mainColor,
                                       duration:
-                                      const Duration(milliseconds: 2000),
+                                          const Duration(milliseconds: 2000),
                                       content: const Text(
                                           'Please wait for 1 minute'),
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .height -
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height -
                                               180),
                                     );
                                     ScaffoldMessenger.of(context)
@@ -223,10 +223,10 @@ class OtpView extends GetView<AuthController> {
                               builder: (context, snap) {
                                 final value = snap.data!;
                                 final displayTime =
-                                StopWatchTimer.getDisplayTime(value,
-                                    minute: true,
-                                    hours: false,
-                                    milliSecond: false);
+                                    StopWatchTimer.getDisplayTime(value,
+                                        minute: true,
+                                        hours: false,
+                                        milliSecond: false);
                                 return Text(
                                   ' in $displayTime',
                                   style: const TextStyle(
@@ -245,8 +245,7 @@ class OtpView extends GetView<AuthController> {
                 ],
               ),
             ),
-            Obx(() =>
-            controller.progressBarStatusOtp.value
+            Obx(() => controller.progressBarStatusOtp.value
                 ? CustomProgressBar()
                 : Container())
           ],

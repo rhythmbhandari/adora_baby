@@ -265,9 +265,27 @@ class UsernameView extends GetView<AuthController> {
                                     controller.progressBarStatusUsername.value =
                                         false;
                                   } else {
-                                    Get.to(BabyDetails());
-                                    controller.progressBarStatusUsername.value =
-                                        false;
+                                    final response =
+                                        await controller.registerUsername();
+                                    if (response) {
+                                      Get.to(BabyDetails());
+                                      controller.progressBarStatusUsername
+                                          .value = false;
+                                    } else {
+                                      var snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.red,
+                                        duration:
+                                            const Duration(milliseconds: 2000),
+                                        content:
+                                            Text("${controller.authError}"),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                      controller.progressBarStatusUsername
+                                          .value = false;
+                                    }
                                   }
                                 }
                               : () {},

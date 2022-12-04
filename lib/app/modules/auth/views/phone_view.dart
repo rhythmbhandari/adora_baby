@@ -103,7 +103,7 @@ class PhoneView extends GetView<AuthController> {
                                     if (await controller
                                         .validatePhoneNumber()) {
                                       final status = await controller
-                                          .requestOtpController();
+                                          .requestOtpFromServer();
                                       if (!status) {
                                         controller.progressBarStatus.value =
                                             false;
