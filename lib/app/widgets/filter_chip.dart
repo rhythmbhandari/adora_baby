@@ -23,11 +23,11 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.chipType == '1'){
-      boolList = authController.boolList;
-    }else{
-      boolList = authController.boolList1;
-    }
+    // if(widget.chipType == '1'){
+    //   boolList = authController.boolList;
+    // }else{
+    //   boolList = authController.boolList1;
+    // }
     return Obx(() => Stack(
       children: [
         Container(

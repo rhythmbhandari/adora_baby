@@ -200,26 +200,13 @@ class BabyDetails extends GetView<AuthController> {
                                     controller.progressBarBabyDetail.value =
                                         false;
                                   } else {
-                                    final response = await controller.registerBabyName();
-                                    if(response){
-                                      final status =
-                                      await controller.getMedicalCategories();
-                                      if (status) {
-                                        Get.to(MedicalCondition());
-                                      } else {
-                                        var snackBar = SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration: Duration(milliseconds: 2000),
-                                          content: Text("Please try again!"),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      }
+                                    final response =
+                                        await controller.registerBabyName();
+                                    if (response) {
+                                      Get.to(MedicalCondition());
                                       controller.progressBarBabyDetail.value =
-                                      false;
-                                    }else{
+                                          false;
+                                    } else {
                                       var snackBar = SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
@@ -230,9 +217,8 @@ class BabyDetails extends GetView<AuthController> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                       controller.progressBarBabyDetail.value =
-                                      false;
+                                          false;
                                     }
-
                                   }
                                 }
                               : () {},

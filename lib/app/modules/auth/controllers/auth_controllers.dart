@@ -33,16 +33,9 @@ class AuthController extends GetxController {
   final confirmPasswordInvisibleLogin = true.obs;
   String? _dob;
 
-  final storeMedicalCategories = [].obs;
-  final storeMedicalCategoriesId = [].obs;
+  final babyMedicalCondition = [].obs;
 
-  final storeMedicalSubCategories = [].obs;
-  final storeMedicalSubCategoriesId = [].obs;
-
-  final storeMedicalCategoriesBool = [].obs;
-  final storeMedicalSubCategoriesBool = [].obs;
-
-  final storeMedicalLength = [].obs;
+  final selectedTags = [].obs;
 
   setDate(String date) => _dob = date;
 
@@ -263,10 +256,11 @@ class AuthController extends GetxController {
   Future<bool> registerBabyName() async {
     try {
       final status = await AuthRepository.registerBabyName(
-          fullNameController.text.trim(),
-          userNameController.text.trim(),
-          passwordController.text.trim(),
-              babyNameController.text.trim(), '${dobController.text.trim()}T00:00')
+              fullNameController.text.trim(),
+              userNameController.text.trim(),
+              passwordController.text.trim(),
+              babyNameController.text.trim(),
+              '${dobController.text.trim()}T00:00')
           .catchError((error) {
         authError.value = error;
         return false;
@@ -378,7 +372,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> getMedicalCategories() async {
+  Future<List> getMedicalCategories() async {
     try {
       final response =
           await AuthRepository.fetchMedicalCategories().catchError((error) {
@@ -387,22 +381,13 @@ class AuthController extends GetxController {
       });
 
       if (response.isNotEmpty) {
-        storeMedicalCategories.value = response[0];
-        storeMedicalCategoriesId.value = response[1];
-
-        storeMedicalSubCategories.value = response[2];
-        storeMedicalSubCategoriesId.value = response[3];
-
-        storeMedicalLength.value = response[4];
-
-        storeMedicalCategoriesBool.value = response[5];
-        storeMedicalSubCategoriesBool.value = response[6];
-        return true;
+        babyMedicalCondition.value = response;
+        return response;
       } else {
-        return false;
+        return [];
       }
     } catch (e) {
-      return false;
+      return [];
     }
   }
 }

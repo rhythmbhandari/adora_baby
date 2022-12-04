@@ -1,5 +1,6 @@
 import 'package:adora_baby/app/modules/auth/views/baby_detail_view.dart';
 import 'package:adora_baby/app/modules/home/views/home_view.dart';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +10,21 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../widgets/buttons.dart';
+import '../../../widgets/choice_leader.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/filter_chip.dart';
 import '../controllers/auth_controllers.dart';
 
-class MedicalCondition extends GetView<AuthController> {
+class MedicalCondition extends StatefulWidget {
   const MedicalCondition({Key? key}) : super(key: key);
+
+  @override
+  State<MedicalCondition> createState() => _MedicalConditionState();
+}
+
+class _MedicalConditionState extends State<MedicalCondition> {
+  final AuthController controller = Get.find();
+  List<String> selectedTags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +43,76 @@ class MedicalCondition extends GetView<AuthController> {
                       value: 1,
                       minHeight: 7,
                     ),
+                  ),
+                  FutureBuilder<List>(
+                    future: controller.getMedicalCategories(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data != null &&
+                            snapshot.data!.isNotEmpty) {
+                          return Container(
+                            height: Get.height,
+                            width: Get.width,
+                            child: ListView.builder(
+                                itemCount:
+                                    controller.babyMedicalCondition.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Content(
+                                    title: controller
+                                        .babyMedicalCondition[index][0][0],
+                                    child: ChipsChoice<dynamic>.multiple(
+                                      value: controller.selectedTags,
+                                      onChanged: (val) {
+                                        setState(() {
+
+                                        });
+                                        controller.selectedTags.value = val;
+                                        print(
+                                            'Tags is ${controller.selectedTags}');
+                                        print('Value is $val');
+                                      },
+                                      choiceItems:
+                                          C2Choice.listFrom<String, dynamic>(
+                                        source: controller
+                                            .babyMedicalCondition[index][2],
+                                        value: (i, v) => v,
+                                        label: (i, optionsId) => controller
+                                            .babyMedicalCondition[index][1][i],
+                                        tooltip: (i, v) => v,
+                                      ),
+                                      choiceStyle: C2ChipStyle.toned(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                      ),
+                                      choiceCheckmark: true,
+                                      textDirection: TextDirection.ltr,
+                                      wrapped: true,
+                                    ),
+                                  );
+                                }),
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              "No Medical Categories Available",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Graphik',
+                                  color: Colors.white.withOpacity(0.67),
+                                  letterSpacing: 1.25,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Sorry,not found!"),
+                        );
+                      }
+                      return Center(child: CustomProgressBar());
+                    },
                   ),
                   Padding(
                     padding:
@@ -72,79 +152,21 @@ class MedicalCondition extends GetView<AuthController> {
                           'Select all that applies. You can always change your answer from Profile.',
                           style: kThemeData.textTheme.bodyLarge,
                         ),
-
                         const SizedBox(
                           height: 32,
                         ),
-                        Text(
-                          'Allergies',
-                          style: kThemeData.textTheme.titleMedium
-                              ?.copyWith(color: AppColors.primary700),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-                        Wrap(
-                            spacing: 5.0,
-                            runSpacing: 5.0,
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              for (int i = 0;
-                                  i < controller.chipList.length;
-                                  i++)
-                                Obx(() => FilterChipWidget(
-                                      chipName: controller.chipList[i],
-                                      chipType: '1',
-                                      index: i,
-                                    )),
-                            ]),
                         const SizedBox(
                           height: 16,
                         ),
-                        // Wrap(
-                        //     spacing: 5.0,
-                        //     runSpacing: 5.0,
-                        //     direction: Axis.horizontal,
-                        //     children: <Widget>[
-                        //       for (int i = 0;
-                        //       i < controller.chipList.length;
-                        //       i++)
-                        //         Obx(() => FilterChipWidget(
-                        //           chipName: controller.chipList[i],
-                        //           index: i,
-                        //         )),
-                        //     ]),
-                        Text(
-                          'Frequent Difficulties',
-                          style: kThemeData.textTheme.titleMedium
-                              ?.copyWith(color: AppColors.primary700),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-                        Wrap(
-                            spacing: 5.0,
-                            runSpacing: 5.0,
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              for (int i = 0;
-                              i < controller.chipList1.length;
-                              i++)
-                                Obx(() => FilterChipWidget(
-                                  chipName: controller.chipList1[i],
-                                  chipType: '2',
-                                  index: i,
-                                )),
-                            ]),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          'Special Note',
-                          style: kThemeData.textTheme.titleMedium
-                              ?.copyWith(color: AppColors.primary700),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(ChoiceLeader());
+                          },
+                          child: Text(
+                            'Special Note',
+                            style: kThemeData.textTheme.titleMedium
+                                ?.copyWith(color: AppColors.primary700),
+                          ),
                         ),
                         const SizedBox(
                           height: 16,
@@ -208,7 +230,8 @@ class MedicalCondition extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: const Duration(milliseconds: 2000),
+                                      duration:
+                                          const Duration(milliseconds: 2000),
                                       content: Text("${controller.authError}"),
                                     );
                                     ScaffoldMessenger.of(context)

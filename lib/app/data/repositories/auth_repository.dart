@@ -201,16 +201,7 @@ class AuthRepository {
   }
 
   static Future<List> fetchMedicalCategories() async {
-    final storeMedicalCategories = [].obs;
-    final storeMedicalCategoriesId = [].obs;
-
-    final storeMedicalSubCategories = [].obs;
-    final storeMedicalSubCategoriesId = [].obs;
-
-    final storeMedicalCategoriesBool = [].obs;
-    final storeMedicalSubCategoriesBool = [].obs;
-
-    final storeMedicalLength = [].obs;
+    final babyMedicalCondition = [];
 
     String url = '$BASE_URL/MedicalCategories/';
     final response = await http.get(Uri.parse(url));
@@ -218,37 +209,22 @@ class AuthRepository {
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     if (response.statusCode == 200) {
       if ((decodedResponse["data"] as List).isNotEmpty) {
-        for (var element in (decodedResponse["data"] as List)) {
-          storeMedicalCategories.add(element['name']);
-          storeMedicalCategoriesId.add(element['id']);
-          storeMedicalCategoriesBool.add(false);
-          var length = element['medicalcategories'] as List;
-          // print('Current length is till ${length.length}');
-          storeMedicalLength.add(length.length);
-          (element['medicalcategories'] as List).forEach((element) {
-            storeMedicalSubCategories.add(element['name']);
-            storeMedicalSubCategoriesId.add(element['id']);
-            storeMedicalSubCategoriesBool.add(false);
-          });
+        for (var elements in (decodedResponse["data"] as List)) {
+          babyMedicalCondition.add([
+            [
+              elements["name"],
+            ],
+            [
+              for (var element in (elements['medicalcategories'] as List))
+                element["name"],
+            ],
+            [
+              for (var element in (elements['medicalcategories'] as List))
+                element["id"],
+            ]
+          ]);
         }
-        print("Length is ${storeMedicalCategories.length}");
-        print("Length is ${storeMedicalCategoriesId.length}");
-
-        print("Length is ${storeMedicalSubCategories.length}");
-        print("Length is ${storeMedicalSubCategoriesId.length}");
-
-        print("Length is ${storeMedicalLength[0]}");
-        print("Length is ${storeMedicalLength[1]}");
-
-        return [
-          storeMedicalCategoriesId,
-          storeMedicalCategories,
-          storeMedicalSubCategoriesId,
-          storeMedicalSubCategories,
-          storeMedicalLength,
-          storeMedicalCategoriesBool,
-          storeMedicalSubCategoriesBool
-        ];
+        return babyMedicalCondition;
       } else {
         return [];
       }
