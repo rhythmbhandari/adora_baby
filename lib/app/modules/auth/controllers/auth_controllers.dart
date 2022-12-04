@@ -314,6 +314,25 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> addMedicalCondition() async {
+    try {
+      final status =
+      await AuthRepository.updateMedicalCondition(selectedTags)
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> verifyOtpFromServer() async {
     try {
       final status = await AuthRepository.verifyOtp(
@@ -361,7 +380,6 @@ class AuthController extends GetxController {
         authError.value = error;
         return false;
       });
-
       if (status) {
         return true;
       } else {

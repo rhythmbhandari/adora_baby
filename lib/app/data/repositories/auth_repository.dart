@@ -75,6 +75,29 @@ class AuthRepository {
     }
   }
 
+  static Future<bool> updateMedicalCondition(List medicalConditions) async {
+    const url = '$BASE_URL/accounts/signup/';
+    final body =
+        jsonEncode({"medical_conditions": medicalConditions.toString()});
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
   static Future<bool> registerBabyName(String fullName, String username,
       String password, String babyName, String dateOfBirth) async {
     const url = '$BASE_URL/accounts/signup/';
@@ -188,6 +211,9 @@ class AuthRepository {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
         print(decodedResponse["token"]["access"]);
+        if(!decodedResponse["baby_stage"]){
+          return Future.error('Baby stage incomplete');
+        }
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');

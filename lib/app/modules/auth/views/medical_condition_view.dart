@@ -8,8 +8,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../config/constants.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/choice_leader.dart';
 import '../../../widgets/custom_progress_bar.dart';
@@ -94,6 +96,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                   snapshot.data!.isNotEmpty) {
                                 return ListView.builder(
                                     shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
                                     itemCount:
                                         controller.babyMedicalCondition.length,
                                     itemBuilder:
@@ -146,11 +149,11 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                               borderColor: DarkTheme.lighter,
                                               backgroundColor: Colors.white,
                                               selectedStyle: C2ChipStyle.filled(
-                                                color: AppColors.primary500,
+                                                  color: AppColors.primary500,
                                                   foregroundStyle: kThemeData
                                                       .textTheme.bodyLarge
-                                                      ?.copyWith(color: Colors.white)
-                                              ),
+                                                      ?.copyWith(
+                                                          color: Colors.white)),
                                             ),
                                             choiceCheckmark: false,
                                             textDirection: TextDirection.ltr,
@@ -271,6 +274,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                     controller.progressBarStatusUsername.value =
                                         false;
                                   } else {
+                                    storage.writeData(
+                                        Constants.LOGGED_IN_STATUS, 'yes');
                                     Get.to(const HomeView());
                                     controller.progressBarStatusUsername.value =
                                         false;
