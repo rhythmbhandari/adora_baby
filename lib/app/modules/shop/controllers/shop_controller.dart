@@ -19,6 +19,7 @@ class ShopController extends GetxController {
   var toddler ="toddler";
   final isSelected = false.obs;
   final authError = ''.obs;
+  final trendingImagesList = [].obs;
 
   showAlertDialog(BuildContext context) {
     // Create AlertDialog
@@ -116,4 +117,22 @@ class ShopController extends GetxController {
   }
 
 
+  Future<List> getTrendingImages() async {
+    try {
+      final response =
+      await ShopRepository.fetchTrendingImages().catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (response.isNotEmpty) {
+        trendingImagesList.value = response;
+        return response;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
 }
