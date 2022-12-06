@@ -148,9 +148,9 @@ class ShopView extends GetView<ShopController> {
                           options: CarouselOptions(
                             height: 200.0,
                             autoPlay: false,
-                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
+                                const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             viewportFraction: 0.9,
@@ -165,9 +165,9 @@ class ShopView extends GetView<ShopController> {
                               imageUrl:
                                   '${i.name}',
                               placeholder: (context, url) =>
-                                  Center(child: CircularProgressIndicator()),
+                                  const Center(child: CircularProgressIndicator()),
                               errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                  const Icon(Icons.error),
                             );
                           }).toList(),
                         );
@@ -196,7 +196,7 @@ class ShopView extends GetView<ShopController> {
                       child: Shimmer.fromColors(
                         baseColor: Colors.red,
                         highlightColor: Colors.yellow,
-                        child: Text(
+                        child: const Text(
                           'Shimmer',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -208,7 +208,7 @@ class ShopView extends GetView<ShopController> {
                     );
                   },
                 ),
-                // const HotSale(),
+                const HotSale(),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()
                     : Container())

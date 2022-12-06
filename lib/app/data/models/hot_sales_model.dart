@@ -4,37 +4,6 @@
 
 import 'dart:convert';
 
-Hot hotFromJson(String str) => Hot.fromJson(json.decode(str));
-
-String hotToJson(Hot data) => json.encode(data.toJson());
-
-class Hot {
-  Hot({
-    this.next,
-    this.previous,
-    required this.count,
-    required this.data,
-  });
-
-  dynamic next;
-  dynamic previous;
-  num count;
-  List<Datum> data;
-
-  factory Hot.fromJson(Map<String, dynamic> json) => Hot(
-    next: json["next"],
-    previous: json["previous"],
-    count: json["count"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "next": next,
-    "previous": previous,
-    "count": count,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
-}
 
 class Datum {
   Datum({
@@ -42,7 +11,7 @@ class Datum {
     required this.name,
     required this.shortName,
     required this.slug,
-    required this.regularPrice,
+     required this.regularPrice,
     required this.salePrice,
     required this.stockAvailable,
     required this.permalink,
@@ -51,7 +20,6 @@ class Datum {
     required this.longDescription,
     this.weightInGrams,
     required this.bestBy,
-    required this.rating,
     required this.reviews,
     required this.productImages,
   });
@@ -60,8 +28,8 @@ class Datum {
   String name;
   String shortName;
   String slug;
-  num regularPrice;
-  num salePrice;
+  int regularPrice;
+  int salePrice;
   bool stockAvailable;
   String permalink;
   String cp;
@@ -69,14 +37,13 @@ class Datum {
   String longDescription;
   dynamic weightInGrams;
   DateTime bestBy;
-  Rating rating;
   List<Review> reviews;
   List<ProductImage> productImages;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"] ?? '',
-    name: json["name"]?? '',
-    shortName: json["short_name"]?? '',
+    id: json["id"],
+    name: json["name"] ,
+    shortName: json["short_name"],
     slug: json["slug"],
     regularPrice: json["regular_price"],
     salePrice: json["sale_price"],
@@ -87,7 +54,6 @@ class Datum {
     longDescription: json["long_description"],
     weightInGrams: json["weight_in_grams"],
     bestBy: DateTime.parse(json["Best_BY"]),
-    rating: Rating.fromJson(json["rating"]),
     reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
     productImages: List<ProductImage>.from(json["product_images"].map((x) => ProductImage.fromJson(x))),
   );
@@ -106,7 +72,6 @@ class Datum {
     "long_description": longDescription,
     "weight_in_grams": weightInGrams,
     "Best_BY": bestBy.toIso8601String(),
-    "rating": rating.toJson(),
     "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
     "product_images": List<dynamic>.from(productImages.map((x) => x.toJson())),
   };
@@ -140,21 +105,7 @@ class ProductImage {
   };
 }
 
-class Rating {
-  Rating({
-    required this.gradeAvg,
-  });
 
-  num gradeAvg;
-
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-    gradeAvg: json["grade__avg"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "grade__avg": gradeAvg,
-  };
-}
 
 class Review {
   Review({

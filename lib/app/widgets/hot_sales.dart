@@ -15,6 +15,7 @@ class HotSale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var index = 0;
     return Padding(
       padding: const EdgeInsets.only(
         left: 30.0,
@@ -49,9 +50,11 @@ class HotSale extends StatelessWidget {
                   future: ShopRepository.hotSales(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty&& snapshot.data!.length > index) {
                         return GridView.count(
-                          childAspectRatio: 0.6,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.6,
                           shrinkWrap: true,
                           crossAxisCount: 2,
                           children: List.generate(
@@ -69,8 +72,8 @@ class HotSale extends StatelessWidget {
                                 children: [
                                   Stack(
                                     children: [
-                                      Image.network(snapshot.data![index].productImages[index].name, height: 100,),
-                                      snapshot.data![index].productImages[index].isFeaturedImage==true?
+                                      Image.network(snapshot.data![index].productImages[0].name, height: 100,),
+                                      snapshot.data![index].productImages[0].isFeaturedImage==true?
                                       Container(
                                         padding:const EdgeInsets.only(top: 2,bottom: 2,left: 6,right: 6),
                                         decoration: BoxDecoration(
@@ -108,7 +111,7 @@ class HotSale extends StatelessWidget {
                                               BorderRadius.only(bottomRight: Radius.circular(15),bottomLeft: Radius.circular(15))),
                                       child: Text(
 
-                                        snapshot.data![index].name,
+                                        snapshot.data![0].name,
                                         style: kThemeData.textTheme.bodyMedium,
 
                                       )
@@ -119,7 +122,7 @@ class HotSale extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          ),
+                          )
                         );
                       } else {
                         return Center(
