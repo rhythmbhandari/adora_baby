@@ -109,7 +109,8 @@ class ShopView extends GetView<ShopController> {
                                   controller.isSelected.value = true;
                                   ShopRepository.brands();
                                 },
-                                child: Row(
+                                child:
+                                Row(
                                   children: [
                                     SvgPicture.asset("assets/images/tag.svg"),
                                     const Text(
@@ -123,7 +124,7 @@ class ShopView extends GetView<ShopController> {
                                       ),
                                     ),
                                   ],
-                                ),
+                                )
                               )
                             ],
                           ),
