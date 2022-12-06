@@ -2,6 +2,7 @@ import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
 class CartController extends GetxController {
   //TODO: Implement ProfileController
   TextEditingController productController = TextEditingController();
@@ -9,7 +10,7 @@ class CartController extends GetxController {
   TextEditingController idController = TextEditingController();
 
   final authError = ''.obs;
-
+  final progressBarStatus = false.obs;
 
 
   Future<bool> requestAddToCart() async {

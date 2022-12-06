@@ -11,6 +11,7 @@ abstract class Routes {
   static const WALKTHROUGH = _Paths.WALKTHROUGH;
   static const SHOP = _Paths.SHOP;
   static const CART = _Paths.CART;
+  static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const WALKTHROUGH = '/walkthrough';
   static const SHOP = '/shop';
   static const CART ='/cart';
+  static const PRODUCT_DETAILS = '/product_details';
 }
