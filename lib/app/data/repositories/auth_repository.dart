@@ -3,12 +3,10 @@ import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:get/get.dart';
-
-import '../app/data/medical_categories.dart';
-import '../app/network/network_helper.dart';
-import '../main.dart';
-import '../utils/secure_storage.dart';
+import '../../../main.dart';
 import 'package:http/http.dart' as http;
+
+import '../../utils/secure_storage.dart';
 
 class AuthRepository {
   static Future<bool> requestOtp(String phoneNumber) async {
@@ -49,13 +47,93 @@ class AuthRepository {
           'Please check your internet connection and try again.');
     } catch (e) {
       return Future.error(
+          'Server Error');
+    }
+  }
+
+  static Future<bool> registerUserName(
+      String fullName, String username, String password) async {
+    const url = '$BASE_URL/accounts/signup/';
+    final body = jsonEncode(
+        {"full_name": fullName, "password": password, "username": username});
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
+  static Future<bool> updateMedicalCondition(List medicalConditions) async {
+    const url = '$BASE_URL/accounts/signup/';
+    final body =
+        jsonEncode({"medical_conditions": medicalConditions.toString()});
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
+  static Future<bool> registerBabyName(String fullName, String username,
+      String password, String babyName, String dateOfBirth) async {
+    const url = '$BASE_URL/accounts/signup/';
+    print('Date of Birth $dateOfBirth');
+    final body = jsonEncode({
+      "full_name": fullName,
+      "password": password,
+      "username": username,
+      "baby_name": babyName,
+      "baby_dob": dateOfBirth
+    });
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
           'Please check your internet connection and try again.');
     }
   }
 
   static Future<bool> reset(String password) async {
     const url = '$BASE_URL/accounts/reset-password/';
-    final body = {"password": password, "refresh_token": storage.readRefreshToken()};
+    final body = {
+      "password": password,
+      "refresh_token": storage.readRefreshToken()
+    };
     try {
       final response = await http.post(Uri.parse(url), body: body);
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
@@ -101,7 +179,7 @@ class AuthRepository {
     try {
       print('hereee');
       const url = '$BASE_URL/accounts/verify-reset-password/';
-      final body = { "code": code, "phone_number": phoneNumber};
+      final body = {"code": code, "phone_number": phoneNumber};
       print(body);
 
       final response = await http.post(Uri.parse(url), body: body);
@@ -133,6 +211,9 @@ class AuthRepository {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
         print(decodedResponse["token"]["access"]);
+        if(!decodedResponse["baby_stage"]){
+          return Future.error('Baby stage incomplete');
+        }
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');
@@ -146,16 +227,7 @@ class AuthRepository {
   }
 
   static Future<List> fetchMedicalCategories() async {
-    final storeMedicalCategories = [].obs;
-    final storeMedicalCategoriesId = [].obs;
-
-    final storeMedicalSubCategories = [].obs;
-    final storeMedicalSubCategoriesId = [].obs;
-
-    final storeMedicalCategoriesBool = [].obs;
-    final storeMedicalSubCategoriesBool = [].obs;
-
-    final storeMedicalLength = [].obs;
+    final babyMedicalCondition = [];
 
     String url = '$BASE_URL/MedicalCategories/';
     final response = await http.get(Uri.parse(url));
@@ -163,37 +235,22 @@ class AuthRepository {
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     if (response.statusCode == 200) {
       if ((decodedResponse["data"] as List).isNotEmpty) {
-        for (var element in (decodedResponse["data"] as List)) {
-          storeMedicalCategories.add(element['name']);
-          storeMedicalCategoriesId.add(element['id']);
-          storeMedicalCategoriesBool.add(false);
-          var length = element['medicalcategories'] as List;
-          // print('Current length is till ${length.length}');
-          storeMedicalLength.add(length.length);
-          (element['medicalcategories'] as List).forEach((element) {
-            storeMedicalSubCategories.add(element['name']);
-            storeMedicalSubCategoriesId.add(element['id']);
-            storeMedicalSubCategoriesBool.add(false);
-          });
+        for (var elements in (decodedResponse["data"] as List)) {
+          babyMedicalCondition.add([
+            [
+              elements["name"],
+            ],
+            [
+              for (var element in (elements['medicalcategories'] as List))
+                element["name"],
+            ],
+            [
+              for (var element in (elements['medicalcategories'] as List))
+                element["id"],
+            ]
+          ]);
         }
-        print("Length is ${storeMedicalCategories.length}");
-        print("Length is ${storeMedicalCategoriesId.length}");
-
-        print("Length is ${storeMedicalSubCategories.length}");
-        print("Length is ${storeMedicalSubCategoriesId.length}");
-
-        print("Length is ${storeMedicalLength[0]}");
-        print("Length is ${storeMedicalLength[1]}");
-
-        return [
-          storeMedicalCategoriesId,
-          storeMedicalCategories,
-          storeMedicalSubCategoriesId,
-          storeMedicalSubCategories,
-          storeMedicalLength,
-          storeMedicalCategoriesBool,
-          storeMedicalSubCategoriesBool
-        ];
+        return babyMedicalCondition;
       } else {
         return [];
       }

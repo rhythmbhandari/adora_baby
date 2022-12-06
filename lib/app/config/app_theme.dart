@@ -2,7 +2,7 @@ import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../utils/sp_calculator.dart';
+import '../utils/sp_calculator.dart';
 
 MaterialColor mycolor = MaterialColor(
   const Color.fromRGBO(174, 5, 233, 1).value,

@@ -2,15 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
+import 'package:adora_baby/app/data/models/trending_images.dart';
 import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
-import 'package:adora_baby/widgets/custom_progress_bar.dart';
+
 import 'package:get/get.dart';
 
-import '../app/network/network_helper.dart';
+import '../../widgets/custom_progress_bar.dart';
+import '../network/network_helper.dart';
 
 import '../models/hot_sales_model.dart';
 import '../models/stages_brands.dart' as a;
-import '../utils/secure_storage.dart';
+
+
+import '../../utils/secure_storage.dart';
+import 'package:http/http.dart' as http;
+
 
 class ShopRepository {
   static Future<List<Datum>> hotSales() async {
@@ -72,4 +78,22 @@ class ShopRepository {
       return Future.error(data['message']);
     }
   }
+
+
+   static Future<List> fetchTrendingImages() async {
+    final babyMedicalCondition = [];
+
+    String url = '$BASE_URL/trending-images/?is_active=true';
+    final response = await http.get(Uri.parse(url));
+    print('Response is $response');
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (response.statusCode == 200) {
+      List<TrendingImages> trendingList =
+      (decodedResponse['data'] as List).map((i) => TrendingImages.fromJson(i)).toList();
+      return trendingList;
+    } else {
+      return [];
+    }
+  }
+
 }

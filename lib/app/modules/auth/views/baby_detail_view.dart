@@ -9,10 +9,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/custom_progress_bar.dart';
-import '../../../../widgets/stop_watcher.dart';
 import '../../../config/app_colors.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
 
 class BabyDetails extends GetView<AuthController> {
@@ -201,10 +200,12 @@ class BabyDetails extends GetView<AuthController> {
                                     controller.progressBarBabyDetail.value =
                                         false;
                                   } else {
-                                    final status =
-                                        await controller.getMedicalCategories();
-                                    if (status) {
+                                    final response =
+                                        await controller.registerBabyName();
+                                    if (response) {
                                       Get.to(MedicalCondition());
+                                      controller.progressBarBabyDetail.value =
+                                          false;
                                     } else {
                                       var snackBar = SnackBar(
                                         elevation: 0,
@@ -215,9 +216,9 @@ class BabyDetails extends GetView<AuthController> {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
+                                      controller.progressBarBabyDetail.value =
+                                          false;
                                     }
-                                    controller.progressBarBabyDetail.value =
-                                        false;
                                   }
                                 }
                               : () {},
@@ -228,7 +229,7 @@ class BabyDetails extends GetView<AuthController> {
                 ],
               ),
             ),
-            Obx(() => controller.progressBarStatusOtp.value
+            Obx(() => controller.progressBarBabyDetail.value
                 ? CustomProgressBar()
                 : Container())
           ],

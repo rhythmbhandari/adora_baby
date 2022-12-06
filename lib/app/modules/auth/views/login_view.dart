@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/auth/views/baby_detail_view.dart';
 import 'package:adora_baby/app/modules/auth/views/forget_password_view.dart';
 import 'package:adora_baby/app/modules/auth/views/phone_view.dart';
 import 'package:flutter/foundation.dart';
@@ -7,10 +8,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/custom_progress_bar.dart';
+import '../../../../main.dart';
 import '../../../config/app_colors.dart';
+import '../../../config/constants.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
 
 class LoginView extends GetView<AuthController> {
@@ -18,7 +21,6 @@ class LoginView extends GetView<AuthController> {
 
   final FocusNode loginPhoneNode = FocusNode();
   final FocusNode loginPasswordNode = FocusNode();
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class LoginView extends GetView<AuthController> {
                         ],
                         keyboardType: TextInputType.number,
                         cursorColor: AppColors.mainColor,
-                        onSubmitted: (_){
+                        onSubmitted: (_) {
                           node.requestFocus(loginPasswordNode);
                         },
                         style: kThemeData.textTheme.bodyLarge,
@@ -92,85 +94,85 @@ class LoginView extends GetView<AuthController> {
                     const SizedBox(
                       height: 32,
                     ),
-
                     Obx(() => Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: DarkTheme.lighter, width: 0),
-                          borderRadius: BorderRadius.circular(33)),
-                      child: TextField(
-                          controller: controller.loginPasswordController,
-                          // inputFormatters: [
-                          //   LengthLimitingTextInputFormatter(22),
-                          // ],
-                          focusNode: loginPasswordNode,
-                          obscureText:
-                          controller.passwordInvisibleLogin.value,
-                          keyboardType: TextInputType.visiblePassword,
-                          cursorColor: AppColors.mainColor,
-                          style: kThemeData.textTheme.bodyLarge,
-                          onSubmitted: (_) {
-                            node.unfocus();
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.circular(33),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.circular(33),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: DarkTheme.normal.withOpacity(0.7),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: DarkTheme.lighter, width: 0),
+                              borderRadius: BorderRadius.circular(33)),
+                          child: TextField(
+                              controller: controller.loginPasswordController,
+                              // inputFormatters: [
+                              //   LengthLimitingTextInputFormatter(22),
+                              // ],
+                              focusNode: loginPasswordNode,
+                              obscureText:
+                                  controller.passwordInvisibleLogin.value,
+                              keyboardType: TextInputType.visiblePassword,
+                              cursorColor: AppColors.mainColor,
+                              style: kThemeData.textTheme.bodyLarge,
+                              onSubmitted: (_) {
+                                node.unfocus();
+                              },
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius: BorderRadius.circular(33),
                                   ),
-                                  borderRadius: BorderRadius.circular(33)),
-                              hintText: 'Password',
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  controller.changePasswordVisibilityLogin(
-                                      !controller
-                                          .passwordInvisibleLogin.value);
-                                },
-                                child: Icon(
-                                  controller.passwordInvisibleLogin.value
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                  color: DarkTheme.dark,
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 12),
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  color:
-                                  Color.fromRGBO(178, 187, 198, 1),
-                                  letterSpacing: 0.04))),
-                    )),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius: BorderRadius.circular(33),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color:
+                                            DarkTheme.normal.withOpacity(0.7),
+                                      ),
+                                      borderRadius: BorderRadius.circular(33)),
+                                  hintText: 'Password',
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      controller.changePasswordVisibilityLogin(
+                                          !controller
+                                              .passwordInvisibleLogin.value);
+                                    },
+                                    child: Icon(
+                                      controller.passwordInvisibleLogin.value
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                      color: DarkTheme.dark,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 24, vertical: 12),
+                                  hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      fontFamily: 'Poppins',
+                                      color: Color.fromRGBO(178, 187, 198, 1),
+                                      letterSpacing: 0.04))),
+                        )),
                     const SizedBox(
                       height: 30,
                     ),
                     ButtonsWidget(
                       name: 'Login',
-                      onPressed: controller.progressBarStatusLogin.value == false
+                      onPressed: controller.progressBarStatusLogin.value ==
+                              false
                           ? () async {
                               try {
                                 controller.progressBarStatusLogin.value = true;
                                 if (await controller.validateLogin()) {
-                                  final status =
-                                      await controller.login();
+                                  final status = await controller.login();
                                   if (!status) {
-                                    controller.progressBarStatusLogin.value = false;
+                                    controller.progressBarStatusLogin.value =
+                                        false;
                                     var snackBar = SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
@@ -181,11 +183,19 @@ class LoginView extends GetView<AuthController> {
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
+                                    print('Controller ${controller.authError}');
+                                    if (controller.authError
+                                        .contains('stage incomplete')) {
+                                      Get.to(BabyDetails());
+                                    }
                                   } else {
                                     if (kDebugMode) {
                                       print("success");
                                     }
-                                    controller.progressBarStatusLogin.value = false;
+                                    controller.progressBarStatusLogin.value =
+                                        false;
+                                    storage.writeData(
+                                        Constants.LOGGED_IN_STATUS, 'yes');
                                     Get.toNamed(Routes.HOME,
                                         arguments: controller.phoneController);
                                   }
@@ -199,7 +209,8 @@ class LoginView extends GetView<AuthController> {
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
-                                  controller.progressBarStatusLogin.value = false;
+                                  controller.progressBarStatusLogin.value =
+                                      false;
                                 }
                               } catch (e) {
                                 controller.progressBarStatusLogin.value = false;
@@ -213,16 +224,18 @@ class LoginView extends GetView<AuthController> {
                     Row(
                       children: [
                         Obx(() => Checkbox(
-                          checkColor: AppColors.mainColor,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
-                          onChanged: (bool? value) {
-                            controller.isChecked.value = value!;
-                          },
-                          value: controller.isChecked.value,
-                        )),
+                              checkColor: AppColors.mainColor,
+                              fillColor:
+                                  MaterialStateProperty.resolveWith(getColor),
+                              onChanged: (bool? value) {
+                                controller.isChecked.value = value!;
+                              },
+                              value: controller.isChecked.value,
+                            )),
                         Text(
                           "Remember Me",
-                          style: Get.textTheme.bodyMedium?.copyWith(color: DarkTheme.lighter),
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(color: DarkTheme.lighter),
                         ),
                         Expanded(
                           child: SizedBox(
@@ -230,8 +243,9 @@ class LoginView extends GetView<AuthController> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
-                            Get.to(ForgetPasswordView(), preventDuplicates: true);
+                          onTap: () {
+                            Get.to(ForgetPasswordView(),
+                                preventDuplicates: true);
                           },
                           child: Text(
                             "Forgot Password?",
@@ -253,7 +267,7 @@ class LoginView extends GetView<AuthController> {
                               ?.copyWith(color: Color.fromRGBO(78, 26, 61, 1)),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Get.to(PhoneView(), preventDuplicates: true);
                           },
                           child: Text(

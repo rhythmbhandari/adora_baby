@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:floating_frosted_bottom_bar/app/frosted_bottom_bar.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../app/config/app_colors.dart';
+import '../config/app_colors.dart';
+
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -80,10 +82,10 @@ class _MyHomePageState extends State<BottomNavBar>
                   Text("moments"),
                   ShopView(),
                   Text("cart"),
-                  Text("profile"),
+                  ProfileView()
                 ]),
         child: Container(
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,

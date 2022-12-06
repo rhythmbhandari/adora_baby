@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import '../../../../widgets/buttons.dart';
-import '../../../../widgets/custom_progress_bar.dart';
 import '../../../config/app_colors.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/buttons.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
 
 class PhoneView extends GetView<AuthController> {
@@ -19,10 +18,10 @@ class PhoneView extends GetView<AuthController> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Stack(
           children: [
-            SafeArea(
+            SingleChildScrollView(
               child: Column(
                 children: [
                   const Hero(
@@ -104,7 +103,7 @@ class PhoneView extends GetView<AuthController> {
                                     if (await controller
                                         .validatePhoneNumber()) {
                                       final status = await controller
-                                          .requestOtpController();
+                                          .requestOtpFromServer();
                                       if (!status) {
                                         controller.progressBarStatus.value =
                                             false;

@@ -2,7 +2,7 @@ import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../app/config/app_colors.dart';
+import '../config/app_colors.dart';
 
 class FilterChipWidget extends StatefulWidget {
   final String chipName;
@@ -23,11 +23,11 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.chipType == '1'){
-      boolList = authController.boolList;
-    }else{
-      boolList = authController.boolList1;
-    }
+    // if(widget.chipType == '1'){
+    //   boolList = authController.boolList;
+    // }else{
+    //   boolList = authController.boolList1;
+    // }
     return Obx(() => Stack(
       children: [
         Container(
