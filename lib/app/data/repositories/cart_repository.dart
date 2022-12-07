@@ -18,23 +18,26 @@ class CartRepository{
     print(await SecureStorage.returnHeaderWithToken());
     try {
 
+
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+
 
       if (response.statusCode == 200) {
         print('Response is $response');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        print(response.statusCode);
+
+        return Future.error(response.statusCode);
+
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      return Future.error(response.statusCode);
+      return Future.error("Exception");
     }
   }
 

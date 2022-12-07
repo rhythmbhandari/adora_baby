@@ -27,7 +27,7 @@ class ButtonsWidget extends StatelessWidget {
                 color: Colors.white,
 
                 fontFamily: "Poppins",
-                fontSize: 16,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
               )),
         ),

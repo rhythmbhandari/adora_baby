@@ -4,16 +4,19 @@ import 'package:get/get.dart';
 
 
 class CartController extends GetxController {
+
   //TODO: Implement ProfileController
-  TextEditingController productController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
+  var quantity=5;
   TextEditingController idController = TextEditingController();
 
   final authError = ''.obs;
   final progressBarStatus = false.obs;
 
+  Future<bool> requestAddToCart(String name) async {
+    TextEditingController productController = TextEditingController(text: name);
 
-  Future<bool> requestAddToCart() async {
+    TextEditingController quantityController = TextEditingController(text: quantity.toString());
+
     try {
       final status =
       await CartRepository.addToCart(productController.text.trim(),quantityController.text.trim())
@@ -34,6 +37,8 @@ class CartController extends GetxController {
 
 
   Future<bool> requestUpdateToCart() async {
+    TextEditingController quantityController = TextEditingController(text: quantity.toString());
+
     try {
       final status =
       await CartRepository.updateCart(idController.text.trim(),quantityController.text.trim())

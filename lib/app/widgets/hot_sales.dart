@@ -54,7 +54,8 @@ class HotSale extends StatelessWidget {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty&& snapshot.data!.length > index) {
                         return GestureDetector(
                           onTap: (){
-                            Get.toNamed(Routes.PRODUCT_DETAILS,arguments: snapshot.data![index].name);
+                            Get.toNamed(Routes.PRODUCT_DETAILS,arguments: [snapshot.data![index].name, snapshot.data![index].productImages[index].name,
+                              snapshot.data![index].reviews[index].grade]);
                           },
                           child: GridView.count(
                               mainAxisSpacing: 10,
