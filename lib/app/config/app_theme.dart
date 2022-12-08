@@ -65,7 +65,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
           color: Colors.black,
           fontFamily: "Poppins",
           fontSize: 24,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w700,
           fontStyle: FontStyle.normal,
           letterSpacing: 0.04),
 

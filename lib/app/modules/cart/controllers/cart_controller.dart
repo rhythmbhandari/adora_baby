@@ -11,11 +11,23 @@ class CartController extends GetxController {
 
   final authError = ''.obs;
   final progressBarStatus = false.obs;
+  final counter =0.obs;
+  void incrementCounter() {
+      counter.value++;
+
+  }
+  void decrementCounter() {
+    if(counter.value>0){
+      counter.value--;
+    }
+
+
+  }
 
   Future<bool> requestAddToCart(String name) async {
     TextEditingController productController = TextEditingController(text: name);
 
-    TextEditingController quantityController = TextEditingController(text: quantity.toString());
+    TextEditingController quantityController = TextEditingController(text: counter.value.toString());
 
     try {
       final status =
