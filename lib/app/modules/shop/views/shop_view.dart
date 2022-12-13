@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../widgets/all_products.dart';
 import '../../../widgets/hot_sales.dart';
 import '../../../config/app_colors.dart';
 import '../../../enums/progress_status.dart';
@@ -220,6 +221,7 @@ class ShopView extends GetView<ShopController> {
                   },
                 ),
                 HotSale(),
+                AllProducts(),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()
                     : Container()),

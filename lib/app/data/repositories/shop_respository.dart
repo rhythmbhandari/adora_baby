@@ -39,6 +39,26 @@ class ShopRepository {
     }
   }
 
+  static Future<List<HotSales>> allProducts() async {
+    const url = '$BASE_URL/shops/';
+
+    final response = await NetworkHelper().getRequest(url);
+
+    final data = response.data;
+
+    if (response.statusCode == 200) {
+      print("Response : ${response.data}");
+
+      List<HotSales> datas = (response.data["data"] as List)
+          .map((i) => HotSales.fromJson(i))
+          .toList();
+      return datas;
+    } else {
+      print(response.statusMessage);
+      return Future.error(data['message']);
+    }
+  }
+
   static Future<List<a.Datum>> brands() async {
     var url = '$BASE_URL/shop-categories?is_product_category=true';
 
