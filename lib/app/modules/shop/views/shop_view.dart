@@ -208,21 +208,19 @@ class ShopView extends GetView<ShopController> {
                         child: Text("Sorry,not found!"),
                       );
                     }
-                    return const CircleListItem();
-// =======
-//                     return Container(
-//                       padding: EdgeInsets.symmetric(horizontal: 18),
-//                       child: Shimmer.fromColors(
-//                           baseColor: Colors.white,
-//                           highlightColor: LightTheme.lightActive,
-//                           child: Container(
-//                             height: Get.height * 0.22,
-//                             decoration: BoxDecoration(
-//                                 borderRadius: BorderRadius.circular(20),
-//                                 color: Colors.white),
-//                           )),
-//                     );
-// >>>>>>> rhythm
+                    // return const CircleListItem();
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
+                      child: Shimmer.fromColors(
+                          baseColor: Colors.white,
+                          highlightColor: LightTheme.lightActive,
+                          child: Container(
+                            height: Get.height * 0.22,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white),
+                          )),
+                    );
                   },
                 ),
                 HotSale(),
