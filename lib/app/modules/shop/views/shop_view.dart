@@ -13,6 +13,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../widgets/hot_sales.dart';
 import '../../../config/app_colors.dart';
 import '../../../enums/progress_status.dart';
+import '../../../widgets/shimmer_widget.dart';
 import '../controllers/shop_controller.dart';
 
 class ShopView extends GetView<ShopController> {
@@ -190,22 +191,7 @@ class ShopView extends GetView<ShopController> {
                         child: Text("Sorry,not found!"),
                       );
                     }
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.red,
-                        highlightColor: Colors.yellow,
-                        child: const Text(
-                          'Shimmer',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
+                    return const CircleListItem();
                   },
                 ),
                 const HotSale(),

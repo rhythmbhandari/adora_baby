@@ -28,7 +28,6 @@ class ProductDetails extends GetView<CartController> {
       backgroundColor: const Color.fromRGBO(250, 245, 252, 1),
       body: SafeArea(
         child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -296,17 +295,23 @@ class ProductDetails extends GetView<CartController> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: double.infinity,
-                            color: Colors.white,
-                            child: TabBars(),
-                          )
+
                         ],
                       ),
-                    )
+                    ),
+
+
                   ],
                 ),
               ),
+              const SizedBox(height: 10,),
+              Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30.0,right: 30),
+                  child: TabBars(overView: 'Overview', details: data[7], reviews: data[8],),
+                ),
+              )
             ],
           ),
         ),

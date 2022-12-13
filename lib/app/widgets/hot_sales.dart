@@ -59,6 +59,8 @@ class HotSale extends StatelessWidget {
                               snapshot.data![index].regularPrice,
                               snapshot.data![index].weightInGrams,
                               snapshot.data![index].bestBy,
+                              snapshot.data![index].longDescription,
+                              snapshot.data![index].reviews[index].review
                             ]);
                           },
                           child: GridView.count(
