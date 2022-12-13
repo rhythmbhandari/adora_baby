@@ -23,6 +23,9 @@ dependencies:
   intl: ^0.17.0
   cached_network_image: ^3.2.2
   chips_choice: ^3.0.0
+  carousel_slider: ^4.1.1
+  shimmer: ^2.0.0
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies: 

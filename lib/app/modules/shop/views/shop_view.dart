@@ -2,10 +2,13 @@ import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/widgets/all_brands.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../widgets/hot_sales.dart';
 import '../../../config/app_colors.dart';
@@ -23,8 +26,6 @@ class ShopView extends GetView<ShopController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-
-
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
                   child: Container(
@@ -35,9 +36,14 @@ class ShopView extends GetView<ShopController> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
-                          "Shop",
-                          style: kThemeData.textTheme.displaySmall,
+                        GestureDetector(
+                          onTap: () {
+                            controller.getTrendingImages();
+                          },
+                          child: Text(
+                            "Shop",
+                            style: kThemeData.textTheme.displaySmall,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -47,8 +53,9 @@ class ShopView extends GetView<ShopController> {
                             // focusNode: searchNode,
                             autofocus: false,
                             decoration: InputDecoration(
-                              hintText: 'Search',
-                              hintStyle: kThemeData.textTheme.bodyLarge,
+                              hintText: 'Search for Items',
+                              hintStyle: kThemeData.textTheme.bodyLarge
+                                  ?.copyWith(color: Color(0xffAF98A8)),
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
                               suffixIcon: Image.asset(
@@ -108,7 +115,8 @@ class ShopView extends GetView<ShopController> {
                                   controller.isSelected.value = true;
                                   ShopRepository.brands();
                                 },
-                                child: Row(
+                                child:
+                                Row(
                                   children: [
                                     SvgPicture.asset("assets/images/tag.svg"),
                                     const Text(
@@ -122,7 +130,7 @@ class ShopView extends GetView<ShopController> {
                                       ),
                                     ),
                                   ],
-                                ),
+                                )
                               )
                             ],
                           ),
@@ -131,14 +139,82 @@ class ShopView extends GetView<ShopController> {
                     ),
                   ),
                 ),
+                FutureBuilder<List>(
+                  future: controller.getTrendingImages(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                        return CarouselSlider(
+                          options: CarouselOptions(
+                            height: 200.0,
+                            autoPlay: false,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.9,
+                            aspectRatio: 2.0,
+                            // clipBehavior: Clip.antiAlias,
+                            // onPageChanged: callbackFunction,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                          items: controller.trendingImagesList.map((i) {
+                            return CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl:
+                                  '${i.name}',
+                              placeholder: (context, url) =>
+                                  const Center(child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            );
+                          }).toList(),
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            "No Medical Categories Available",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Graphik',
+                                color: Colors.red.withOpacity(0.67),
+                                letterSpacing: 1.25,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Text("Sorry,not found!"),
+                      );
+                    }
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.red,
+                        highlightColor: Colors.yellow,
+                        child: const Text(
+                          'Shimmer',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 const HotSale(),
-                Obx(()=>    controller.isSelected.value ? const AllBrands() : Container())
-
-
+                Obx(() => controller.isSelected.value
+                    ? const AllBrands()
+                    : Container())
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

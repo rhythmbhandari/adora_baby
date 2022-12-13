@@ -1,5 +1,8 @@
+import 'package:adora_baby/app/modules/cart/views/product_details.dart';
 import 'package:get/get.dart';
 
+import '../modules/cart/bindings/cart_binding.dart';
+import '../modules/cart/views/cart_view.dart';
 import '../modules/shop/bindings/shop_binding.dart';
 import '../modules/shop/views/shop_view.dart';
 import '../modules/auth/bindings/auth_bindings.dart';
@@ -56,6 +59,16 @@ class AppPages {
       name: _Paths.SHOP,
       page: () => const ShopView(),
       binding: ShopBinding(),
+    ),
+    GetPage(
+      name: _Paths.CART,
+      page: () => const CartView(),
+      binding: CartBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_DETAILS,
+      page: () => const ProductDetails(),
+      binding: CartBinding(),
     ),
   ];
 }

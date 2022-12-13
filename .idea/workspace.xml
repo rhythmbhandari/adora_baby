@@ -10,7 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1c67eb5-74f9-4c7e-a704-e3134be55641" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/app/data/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/data/repositories/auth_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/app/data/models/trending_images.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/shop_respository.dart" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/adora_baby.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adora_baby.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/data/repositories/shop_respository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/data/repositories/shop_respository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/controllers/shop_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/controllers/shop_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/shop/views/shop_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+>>>>>>> a3b437f288dad8f2fa266f50666e598ec1fb685e
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +32,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Class" />
         <option value="Dart File" />
       </list>
     </option>
