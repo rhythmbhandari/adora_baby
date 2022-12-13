@@ -19,7 +19,7 @@ import 'package:http/http.dart' as http;
 
 
 class ShopRepository {
-  static Future<List<Datum>> hotSales() async {
+  static Future<List<HotSales>> hotSales() async {
     const url = '$BASE_URL/shops/hot_sale';
 
     final response = await NetworkHelper().getRequest(url);
@@ -29,8 +29,28 @@ class ShopRepository {
     if (response.statusCode == 200) {
       print("Response : ${response.data}");
 
-      List<Datum> datas = (response.data["data"] as List)
-          .map((i) => Datum.fromJson(i))
+      List<HotSales> datas = (response.data["data"] as List)
+          .map((i) => HotSales.fromJson(i))
+          .toList();
+      return datas;
+    } else {
+      print(response.statusMessage);
+      return Future.error(data['message']);
+    }
+  }
+
+  static Future<List<HotSales>> allProducts() async {
+    const url = '$BASE_URL/shops/';
+
+    final response = await NetworkHelper().getRequest(url);
+
+    final data = response.data;
+
+    if (response.statusCode == 200) {
+      print("Response : ${response.data}");
+
+      List<HotSales> datas = (response.data["data"] as List)
+          .map((i) => HotSales.fromJson(i))
           .toList();
       return datas;
     } else {
