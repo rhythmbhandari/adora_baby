@@ -52,7 +52,7 @@ class OtpView extends GetView<AuthController> {
                   children: [
                     controller.resetPassword.value
                         ? Container()
-                        : Hero(
+                        : const Hero(
                             tag: 'progress',
                             child: LinearProgressIndicator(
                               backgroundColor: Colors.transparent,
@@ -81,7 +81,7 @@ class OtpView extends GetView<AuthController> {
                             child: SvgPicture.asset(
                                 "assets/images/arrow-left.svg",
                                 height: 22,
-                                color: Color(0xff667080)),
+                                color: const Color(0xff667080)),
                           ),
                           SizedBox(
                             height: 350,

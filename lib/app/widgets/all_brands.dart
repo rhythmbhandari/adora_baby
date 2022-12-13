@@ -32,13 +32,14 @@ class AllBrands extends StatelessWidget {
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
                        return GridView.count(
+                         mainAxisSpacing: 10,
+                         crossAxisSpacing: 10,
                          childAspectRatio: 0.7,
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
                                 children: List.generate(
                                   snapshot.data!.length,
                                   (index) => Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                                     padding: const EdgeInsets.only(top: 10),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(

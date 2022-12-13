@@ -111,26 +111,26 @@ class ShopView extends GetView<ShopController> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  controller.isSelected.value = true;
-                                  ShopRepository.brands();
-                                },
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset("assets/images/tag.svg"),
-                                    const Text(
-                                      "All Brands",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(241, 149, 157, 1),
-                                        //styleName: Button Text;
-                                        fontFamily: "Poppins",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                  onTap: () {
+                                    controller.isSelected.value = true;
+                                    ShopRepository.brands();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset("assets/images/tag.svg"),
+                                      const Text(
+                                        "All Brands",
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(241, 149, 157, 1),
+                                          //styleName: Button Text;
+                                          fontFamily: "Poppins",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
+                                    ],
+                                  ))
                             ],
                           ),
                         )
@@ -146,26 +146,26 @@ class ShopView extends GetView<ShopController> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: 18),
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                              height: Get.height * 0.22,
-                              autoPlay: false,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              viewportFraction: 1,
-                              aspectRatio: 2.0,
-                              padEnds: false,
-                              // clipBehavior: Clip.antiAlias,
-                              // onPageChanged: callbackFunction,
-                              scrollDirection: Axis.horizontal,
-                            ),
-                            items: controller.trendingImagesList.map((i) {
-                              return ClipRRect(
+                        return CarouselSlider(
+                          options: CarouselOptions(
+                            height: Get.height * 0.22,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            viewportFraction: 1,
+                            aspectRatio: 2.0,
+                            padEnds: false,
+                            // clipBehavior: Clip.antiAlias,
+                            // onPageChanged: callbackFunction,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                          items: controller.trendingImagesList.map((i) {
+                            return Container(
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
@@ -175,21 +175,28 @@ class ShopView extends GetView<ShopController> {
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
                                 ),
-                              );
-                            }).toList(),
-                          ),
+                              ),
+                            );
+                          }).toList(),
                         );
                       } else {
-                        return Center(
-                          child: Text(
-                            "No Trending Images Available",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Graphik',
-                                color: Colors.red.withOpacity(0.67),
-                                letterSpacing: 1.25,
-                                fontWeight: FontWeight.w300),
+                        return Container(
+                          height: Get.height * 0.22,
+                          margin: EdgeInsets.symmetric(horizontal: 18),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white),
+                          child: Center(
+                            child: Text(
+                              "No Trending Images Available",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Graphik',
+                                  color: Colors.red.withOpacity(0.67),
+                                  letterSpacing: 1.25,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           ),
                         );
                       }
@@ -198,14 +205,17 @@ class ShopView extends GetView<ShopController> {
                         child: Text("Sorry,not found!"),
                       );
                     }
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.white,
-                        highlightColor: Colors.grey,
-                        enabled: true,
-                        child: Container()),
+                          baseColor: Colors.white,
+                          highlightColor: LightTheme.lightActive,
+                          child: Container(
+                            height: Get.height * 0.22,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white),
+                          )),
                     );
                   },
                 ),

@@ -26,19 +26,20 @@ class HotSalesData {
   };
 }
 
+
 class HotSales {
   HotSales({
     required this.id,
     required this.name,
     required this.shortName,
     required this.regularPrice,
+    required this.slug,
     required this.salePrice,
     required this.stockAvailable,
     required this.shortDescription,
     required this.longDescription,
     this.weightInGrams,
     required this.bestBy,
-    required this.rating,
     required this.reviews,
     required this.productImages,
   });
@@ -46,21 +47,23 @@ class HotSales {
   String id;
   String name;
   String shortName;
-  double regularPrice;
-  double salePrice;
+  String slug;
+  int regularPrice;
+  int salePrice;
   bool stockAvailable;
   String shortDescription;
   String longDescription;
   dynamic weightInGrams;
   DateTime bestBy;
-  Rating rating;
   List<Review> reviews;
   List<ProductImage> productImages;
 
+
   factory HotSales.fromJson(Map<String, dynamic> json) => HotSales(
-    id: json["id"] ?? '',
-    name: json["name"]?? '',
-    shortName: json["short_name"]?? '',
+    id: json["id"],
+    name: json["name"] ,
+    shortName: json["short_name"],
+    slug: json["slug"],
     regularPrice: json["regular_price"],
     salePrice: json["sale_price"],
     stockAvailable: json["stock_available"],
@@ -68,7 +71,6 @@ class HotSales {
     longDescription: json["long_description"],
     weightInGrams: json["weight_in_grams"],
     bestBy: DateTime.parse(json["Best_BY"]),
-    rating: Rating.fromJson(json["rating"]),
     reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
     productImages: List<ProductImage>.from(json["product_images"].map((x) => ProductImage.fromJson(x))),
   );
@@ -84,7 +86,6 @@ class HotSales {
     "long_description": longDescription,
     "weight_in_grams": weightInGrams,
     "Best_BY": bestBy.toIso8601String(),
-    "rating": rating.toJson(),
     "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
     "product_images": List<dynamic>.from(productImages.map((x) => x.toJson())),
   };
@@ -110,21 +111,17 @@ class ProductImage {
   };
 }
 
-class Rating {
-  Rating({
-    required this.gradeAvg,
-  });
 
-  double gradeAvg;
-
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-    gradeAvg: json["grade__avg"] ?? 0.0,
-  );
-
-  Map<String, dynamic> toJson() => {
-    "grade__avg": gradeAvg,
-  };
-}
+//   double gradeAvg;
+//
+//   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
+//     gradeAvg: json["grade__avg"] ?? 0.0,
+//   );
+//
+//   Map<String, dynamic> toJson() => {
+//     "grade__avg": gradeAvg,
+//   };
+// }
 
 class Review {
   Review({
