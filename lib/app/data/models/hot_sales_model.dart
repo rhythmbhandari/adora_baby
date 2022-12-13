@@ -1,15 +1,5 @@
-// To parse this JSON data, do
-//
-//     final hot = hotFromJson(jsonString);
-
-import 'dart:convert';
-
-Hot hotFromJson(String str) => Hot.fromJson(json.decode(str));
-
-String hotToJson(Hot data) => json.encode(data.toJson());
-
-class Hot {
-  Hot({
+class HotSalesData {
+  HotSalesData({
     this.next,
     this.previous,
     required this.count,
@@ -19,13 +9,13 @@ class Hot {
   dynamic next;
   dynamic previous;
   num count;
-  List<Datum> data;
+  List<HotSales> data;
 
-  factory Hot.fromJson(Map<String, dynamic> json) => Hot(
+  factory HotSalesData.fromJson(Map<String, dynamic> json) => HotSalesData(
     next: json["next"],
     previous: json["previous"],
     count: json["count"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: List<HotSales>.from(json["data"].map((x) => HotSales.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -36,17 +26,14 @@ class Hot {
   };
 }
 
-class Datum {
-  Datum({
+class HotSales {
+  HotSales({
     required this.id,
     required this.name,
     required this.shortName,
-    required this.slug,
     required this.regularPrice,
     required this.salePrice,
     required this.stockAvailable,
-    required this.permalink,
-    required this.cp,
     required this.shortDescription,
     required this.longDescription,
     this.weightInGrams,
@@ -59,12 +46,9 @@ class Datum {
   String id;
   String name;
   String shortName;
-  String slug;
-  num regularPrice;
-  num salePrice;
+  double regularPrice;
+  double salePrice;
   bool stockAvailable;
-  String permalink;
-  String cp;
   String shortDescription;
   String longDescription;
   dynamic weightInGrams;
@@ -73,16 +57,13 @@ class Datum {
   List<Review> reviews;
   List<ProductImage> productImages;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory HotSales.fromJson(Map<String, dynamic> json) => HotSales(
     id: json["id"] ?? '',
     name: json["name"]?? '',
     shortName: json["short_name"]?? '',
-    slug: json["slug"],
     regularPrice: json["regular_price"],
     salePrice: json["sale_price"],
     stockAvailable: json["stock_available"],
-    permalink: json["permalink"],
-    cp: json["cp"],
     shortDescription: json["short_description"],
     longDescription: json["long_description"],
     weightInGrams: json["weight_in_grams"],
@@ -96,12 +77,9 @@ class Datum {
     "id": id,
     "name": name,
     "short_name": shortName,
-    "slug": slug,
     "regular_price": regularPrice,
     "sale_price": salePrice,
     "stock_available": stockAvailable,
-    "permalink": permalink,
-    "cp": cp,
     "short_description": shortDescription,
     "long_description": longDescription,
     "weight_in_grams": weightInGrams,
@@ -114,28 +92,20 @@ class Datum {
 
 class ProductImage {
   ProductImage({
-    required this.id,
     required this.name,
-    required this.product,
     required this.isFeaturedImage,
   });
 
-  String id;
   String name;
-  String product;
   bool isFeaturedImage;
 
   factory ProductImage.fromJson(Map<String, dynamic> json) => ProductImage(
-    id: json["id"],
     name: json["name"],
-    product: json["product"],
     isFeaturedImage: json["is_featured_image"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "name": name,
-    "product": product,
     "is_featured_image": isFeaturedImage,
   };
 }
@@ -145,10 +115,10 @@ class Rating {
     required this.gradeAvg,
   });
 
-  num gradeAvg;
+  double gradeAvg;
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-    gradeAvg: json["grade__avg"],
+    gradeAvg: json["grade__avg"] ?? 0.0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -163,7 +133,6 @@ class Review {
     required this.review,
     required this.product,
     required this.createdBy,
-    required this.createdAt,
     required this.updatedAt,
   });
 
@@ -172,7 +141,6 @@ class Review {
   String review;
   String product;
   CreatedBy createdBy;
-  DateTime createdAt;
   DateTime updatedAt;
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
@@ -181,7 +149,6 @@ class Review {
     review: json["review"],
     product: json["product"],
     createdBy: CreatedBy.fromJson(json["created_by"]),
-    createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
 
@@ -191,7 +158,6 @@ class Review {
     "review": review,
     "product": product,
     "created_by": createdBy.toJson(),
-    "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
 }

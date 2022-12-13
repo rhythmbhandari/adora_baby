@@ -138,42 +138,51 @@ class ShopView extends GetView<ShopController> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 23,
+                ),
                 FutureBuilder<List>(
                   future: controller.getTrendingImages(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                        return CarouselSlider(
-                          options: CarouselOptions(
-                            height: 200.0,
-                            autoPlay: false,
-                            autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            viewportFraction: 0.9,
-                            aspectRatio: 2.0,
-                            // clipBehavior: Clip.antiAlias,
-                            // onPageChanged: callbackFunction,
-                            scrollDirection: Axis.horizontal,
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: 18),
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                              height: Get.height * 0.22,
+                              autoPlay: false,
+                              autoPlayInterval: Duration(seconds: 3),
+                              autoPlayAnimationDuration:
+                                  Duration(milliseconds: 800),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enlargeCenterPage: true,
+                              viewportFraction: 1,
+                              aspectRatio: 2.0,
+                              padEnds: false,
+                              // clipBehavior: Clip.antiAlias,
+                              // onPageChanged: callbackFunction,
+                              scrollDirection: Axis.horizontal,
+                            ),
+                            items: controller.trendingImagesList.map((i) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: '${i.name}',
+                                  placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              );
+                            }).toList(),
                           ),
-                          items: controller.trendingImagesList.map((i) {
-                            return CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl:
-                                  '${i.name}',
-                              placeholder: (context, url) =>
-                                  Center(child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            );
-                          }).toList(),
                         );
                       } else {
                         return Center(
                           child: Text(
-                            "No Medical Categories Available",
+                            "No Trending Images Available",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 16,
@@ -193,21 +202,14 @@ class ShopView extends GetView<ShopController> {
                       width: 200.0,
                       height: 100.0,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.red,
-                        highlightColor: Colors.yellow,
-                        child: Text(
-                          'Shimmer',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                        baseColor: Colors.white,
+                        highlightColor: Colors.grey,
+                        enabled: true,
+                        child: Container()),
                     );
                   },
                 ),
-                // const HotSale(),
+                const HotSale(),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()
                     : Container())
