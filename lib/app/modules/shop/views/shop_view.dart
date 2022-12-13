@@ -219,10 +219,13 @@ class ShopView extends GetView<ShopController> {
                     );
                   },
                 ),
-                const HotSale(),
+                HotSale(),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()
-                    : Container())
+                    : Container()),
+                Container(
+                  height: Get.height * 0.1,
+                )
               ],
             ),
           ),

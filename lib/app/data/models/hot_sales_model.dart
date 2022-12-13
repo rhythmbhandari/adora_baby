@@ -40,6 +40,7 @@ class HotSales {
     required this.longDescription,
     this.weightInGrams,
     required this.bestBy,
+    required this.rating,
     required this.reviews,
     required this.productImages,
   });
@@ -55,6 +56,7 @@ class HotSales {
   String longDescription;
   dynamic weightInGrams;
   DateTime bestBy;
+  Rating rating;
   List<Review> reviews;
   List<ProductImage> productImages;
 
@@ -69,6 +71,7 @@ class HotSales {
     stockAvailable: json["stock_available"],
     shortDescription: json["short_description"],
     longDescription: json["long_description"],
+    rating: Rating.fromJson(json["rating"]),
     weightInGrams: json["weight_in_grams"],
     bestBy: DateTime.parse(json["Best_BY"]),
     reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
@@ -85,6 +88,7 @@ class HotSales {
     "short_description": shortDescription,
     "long_description": longDescription,
     "weight_in_grams": weightInGrams,
+    "rating": rating.toJson(),
     "Best_BY": bestBy.toIso8601String(),
     "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
     "product_images": List<dynamic>.from(productImages.map((x) => x.toJson())),
@@ -111,6 +115,21 @@ class ProductImage {
   };
 }
 
+class Rating {
+  Rating({
+    required this.gradeAvg,
+  });
+
+  double gradeAvg;
+
+  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
+    gradeAvg: json["grade__avg"] ?? 0.0,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "grade__avg": gradeAvg ?? 0.0,
+  };
+}
 
 //   double gradeAvg;
 //

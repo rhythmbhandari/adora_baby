@@ -4,6 +4,8 @@ import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -11,9 +13,12 @@ import '../config/app_colors.dart';
 import '../config/app_theme.dart';
 import '../data/models/hot_sales_model.dart';
 import 'custom_progress_bar.dart';
+import 'gradient_icon.dart';
 
 class HotSale extends StatelessWidget {
-  const HotSale({super.key});
+  HotSale({super.key});
+
+  late final lotsOfData = Future.wait([ShopRepository.hotSales()]);
 
   @override
   Widget build(BuildContext context) {
@@ -43,34 +48,37 @@ class HotSale extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(30.0),
-              child: FutureBuilder<List<HotSales>>(
-                  future: ShopRepository.hotSales(),
+              child: FutureBuilder<List<List<HotSales>>>(
+                  future: lotsOfData,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null &&
                           snapshot.data!.isNotEmpty &&
                           snapshot.data!.length > index) {
                         return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                              snapshot.data![index].name,
-                              snapshot.data![index].productImages[index].name,
-                              snapshot.data![index].reviews[index].grade,
-                              snapshot.data![index].stockAvailable,
-                              snapshot.data![index].regularPrice,
-                              snapshot.data![index].weightInGrams,
-                              snapshot.data![index].bestBy,
-                            ]);
-                          },
-                          child: GridView.count(
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 0.6,
-                              shrinkWrap: true,
+                            onTap: () {
+                              // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
+                              //   snapshot.data![index][index].name,
+                              //   snapshot
+                              //       .data![0][index].productImages[index].name,
+                              //   snapshot.data![0][index].reviews[index].grade,
+                              //   snapshot.data![0][index].stockAvailable,
+                              //   snapshot.data![0][index].regularPrice,
+                              //   snapshot.data![0][index].weightInGrams,
+                              //   snapshot.data![0][index].bestBy,
+                              // ]);
+                            },
+                            child: AlignedGridView.count(
                               crossAxisCount: 2,
-                              children: List.generate(
-                                snapshot.data!.length,
-                                (index) => Container(
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data![0].length >= 4
+                                  ? 4
+                                  : snapshot.data![0].length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
                                   padding: const EdgeInsets.only(top: 10),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
@@ -78,83 +86,185 @@ class HotSale extends StatelessWidget {
                                       border: Border.all(
                                           color: const Color.fromRGBO(
                                               192, 144, 254, 0.25)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: Offset(0,
+                                              2), // changes position of shadow
+                                        ),
+                                      ],
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Column(
                                     children: [
-
                                       Stack(
                                         children: [
-                                          Image.network(
-                                            snapshot.data![index]
-                                                .productImages[0].name,
-                                            height: 100,
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 12, bottom: 8),
+                                            child: Center(
+                                              child: Image.network(
+                                                snapshot.data![0][index]
+                                                    .productImages[0].name,
+                                                height: Get.height * 0.16,
+                                              ),
+                                            ),
                                           ),
-                                          snapshot.data![index].productImages[0]
-                                                      .isFeaturedImage ==
-                                                  true
-                                              ? Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 2,
-                                                          bottom: 2,
-                                                          left: 6,
-                                                          right: 6),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    gradient:
-                                                        const LinearGradient(
-                                                      begin: Alignment.topRight,
-                                                      end: Alignment.bottomLeft,
-                                                      colors: [
-                                                        AppColors.linear2,
-                                                        AppColors.linear1,
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  child: const Text(
-                                                    "Sale!",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontFamily: "Poppins",
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        letterSpacing: 0.04),
-                                                  ),
-                                                )
-                                              : const SizedBox()
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                top: 2,
+                                                bottom: 2,
+                                                left: 6,
+                                                right: 6),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              gradient: const LinearGradient(
+                                                begin: Alignment.topRight,
+                                                end: Alignment.bottomLeft,
+                                                colors: [
+                                                  AppColors.linear2,
+                                                  AppColors.linear1,
+                                                ],
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              "Sale!",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontStyle: FontStyle.normal,
+                                                  letterSpacing: 0.04),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 5, right: 5),
-                                            decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    243, 234, 249, 1),
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(15),
-                                                    bottomLeft:
-                                                        Radius.circular(15))),
-                                            child: Text(
-                                              snapshot.data![0].name,
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 13, right: 13),
+                                        width: Get.width,
+                                        decoration: const BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                243, 234, 249, 1),
+                                            borderRadius: BorderRadius.only(
+                                                bottomRight:
+                                                    Radius.circular(15),
+                                                bottomLeft:
+                                                    Radius.circular(15))),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              snapshot
+                                                  .data![0][index].shortName,
+                                              maxLines: 1,
                                               style: kThemeData
-                                                  .textTheme.bodyMedium,
-                                            )),
-                                      ),
+                                                  .textTheme.labelSmall
+                                                  ?.copyWith(
+                                                      color: AppColors
+                                                          .secondary700,
+                                                      fontSize: 12),
+                                            ),
+                                            SizedBox(
+                                              height: 4,
+                                            ),
+                                            Text(
+                                              snapshot.data![0][index].name,
+                                              maxLines: 2,
+                                              style: kThemeData
+                                                  .textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                      color:
+                                                          AppColors.primary700,
+                                                      fontSize: 14),
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            RatingBar.builder(
+                                              initialRating: snapshot
+                                                  .data![0][index]
+                                                  .rating
+                                                  .gradeAvg,
+                                              ignoreGestures: true,
+                                              itemSize: 12,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              glow: false,
+                                              itemCount: 5,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
+                                              itemBuilder: (context, _) =>
+                                                  GradientIcon(
+                                                Icons.star,
+                                                10.0,
+                                                LinearGradient(
+                                                  colors: <Color>[
+                                                    Color.fromRGBO(
+                                                        127, 0, 255, 1),
+                                                    Color.fromRGBO(
+                                                        255, 0, 255, 1)
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                print(rating);
+                                              },
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Rs. ${snapshot.data![0][index].regularPrice}",
+                                                  maxLines: 2,
+                                                  style: kThemeData
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lightActive,
+                                                          decoration: TextDecoration
+                                                              .lineThrough),
+                                                ),
+                                                Text(
+                                                  "Rs. ${snapshot.data![0][index].salePrice}",
+                                                  maxLines: 2,
+                                                  style: kThemeData
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                      color:
+                                                      DarkTheme.normal,
+                                                      decoration: TextDecoration
+                                                          .lineThrough),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                          ],
+                                        ),
+                                      )
                                     ],
                                   ),
-                                ),
-                              )),
-                        );
+                                );
+                              },
+                            ));
                       }
                     } else if (snapshot.hasError) {
                       print(snapshot.error);
@@ -170,6 +280,20 @@ class HotSale extends StatelessWidget {
                         child: _buildImage());
                   }),
             ),
+            GestureDetector(
+              onTap: () {},
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: EdgeInsets.only(right: 18, bottom: 19),
+                  child: Text(
+                    'See All',
+                    style: kThemeData.textTheme.labelMedium
+                        ?.copyWith(color: AppColors.primary700, fontSize: 16),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -209,50 +333,3 @@ Widget _buildImage() {
     ),
   );
 }
-
-// Widget _buildImage() {
-//   return Column(
-//     children: [
-//       Align(
-//         alignment: Alignment.centerLeft,
-//         child: Container(
-//           width: 100,
-//           decoration: BoxDecoration(
-//             color: Colors.white70,
-//             borderRadius: BorderRadius.circular(16),
-//           ),
-//           child: Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 16),
-//               child: Align(
-//                   alignment: Alignment.topLeft,
-//                   child: Text(
-//                     '',
-//                     style: Get.textTheme.titleSmall?.copyWith(
-//                         fontWeight: FontWeight.w600,
-//                         fontFamily: 'Roboto',
-//                         color: Colors.grey[900],
-//                         fontSize: 13),
-//                   ))),
-//         ),
-//       ),
-//       SizedBox(height: 4),
-//       Container(
-//         margin: EdgeInsets.only(top: 16),
-//         width: Get.width,
-//         height: Get.height * 0.235,
-//         decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(15),
-//             color: Colors.white70,
-//             border: Border.all(color: Colors.white70.withOpacity(0.2)),
-//             boxShadow: [
-//               BoxShadow(
-//                 offset: const Offset(3.0, 3.0),
-//                 blurRadius: 2.0,
-//                 color: Colors.white70.withOpacity(0.5),
-//                 spreadRadius: 0.8,
-//               ),
-//             ]),
-//       ),
-//     ],
-//   );
-// }
