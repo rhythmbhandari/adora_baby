@@ -14,6 +14,7 @@ import '../../../widgets/all_products.dart';
 import '../../../widgets/hot_sales.dart';
 import '../../../config/app_colors.dart';
 import '../../../enums/progress_status.dart';
+import '../../../widgets/recently_viewed.dart';
 import '../controllers/shop_controller.dart';
 
 class ShopView extends GetView<ShopController> {
@@ -221,6 +222,7 @@ class ShopView extends GetView<ShopController> {
                   },
                 ),
                 HotSale(),
+                RecentlyViewed(),
                 AllProducts(),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()

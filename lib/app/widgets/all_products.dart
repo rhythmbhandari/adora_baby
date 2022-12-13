@@ -47,7 +47,7 @@ class AllProducts extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(19.0),
               child: FutureBuilder<List<List<HotSales>>>(
                   future: lotsOfData,
                   builder: (context, snapshot) {
