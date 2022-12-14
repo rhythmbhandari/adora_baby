@@ -6,6 +6,7 @@ import 'package:floating_frosted_bottom_bar/app/frosted_bottom_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../config/app_colors.dart';
 
@@ -67,7 +68,8 @@ class _MyHomePageState extends State<BottomNavBar>
   Widget build(BuildContext context) {
     return FrostedBottomBar(
         opacity: 0.6,
-        width: 350,
+        width: Get.width,
+        // width: 350,
         sigmaX: 5,
         sigmaY: 5,
         borderRadius: BorderRadius.circular(500),

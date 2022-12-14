@@ -560,8 +560,9 @@ class _ProductDetailsState extends State<ProductDetails>
             ),
             Positioned(
               bottom: 0,
+              left: 0,
+              right: 0,
               child: Container(
-                width: Get.width,
                 color: const Color.fromRGBO(243, 234, 249, 1),
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Center(
