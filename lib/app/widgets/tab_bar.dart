@@ -68,36 +68,33 @@ class _TabBarsState extends State<TabBars> with SingleTickerProviderStateMixin {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: SizedBox(
-            height: 500,
-            child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _controller,
-                children: [
-                  Text(
-                    widget.overView,
-                    style: kThemeData.textTheme.bodyLarge,
-                  ),
-                  Text(
-                    widget.details,
-                    style: kThemeData.textTheme.bodyLarge,
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: widget.reviews.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xff000000),
-                          ),
-                        );
-                      })
-                ]),
-          ),
+          child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _controller,
+              children: [
+                Text(
+                  widget.overView,
+                  style: kThemeData.textTheme.bodyLarge,
+                ),
+                Text(
+                  widget.details,
+                  style: kThemeData.textTheme.bodyLarge,
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: widget.reviews.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xff000000),
+                        ),
+                      );
+                    })
+              ]),
         )
       ],
     );

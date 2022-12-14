@@ -27,9 +27,30 @@ class ProductDetails extends StatefulWidget {
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsState extends State<ProductDetails>
+    with SingleTickerProviderStateMixin {
   final CartController controller = Get.find();
   CarouselController carouselController = CarouselController();
+
+  TabController? _controller;
+  int _selectedTabbar = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 3, vsync: this);
+    _controller?.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,28 +250,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                         SizedBox(
                           height: 10,
                         ),
-                        product.salePrice == 0? Text(
-                          "Rs. ${product.regularPrice}",
-                          style: kThemeData.textTheme.titleLarge,
-                        ): Row(
-                          children: [
-                            Text(
-                              "Rs. ${product.regularPrice}",
-                              style: kThemeData
-                                  .textTheme.titleLarge
-                                  ?.copyWith(
-                                  color:
-                                  DarkTheme.lightActive,
-                                  decoration: TextDecoration
-                                      .lineThrough),
-                            ),
-                            SizedBox(width: 10,),
-                            Text(
-                              "Rs. ${product.salePrice}",
-                              style: kThemeData.textTheme.titleLarge,
-                            ),
-                          ],
-                        ),
+                        product.salePrice == 0
+                            ? Text(
+                                "Rs. ${product.regularPrice}",
+                                style: kThemeData.textTheme.titleLarge,
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    "Rs. ${product.regularPrice}",
+                                    style: kThemeData.textTheme.titleLarge
+                                        ?.copyWith(
+                                            color: DarkTheme.lightActive,
+                                            decoration:
+                                                TextDecoration.lineThrough),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Rs. ${product.salePrice}",
+                                    style: kThemeData.textTheme.titleLarge,
+                                  ),
+                                ],
+                              ),
                         SizedBox(
                           height: 14,
                         ),
@@ -378,15 +401,155 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   Container(
                     color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30.0, right: 30),
-                      child: TabBars(
-                        overView: product.shortDescription,
-                        details: product.longDescription,
-                        reviews: product.reviews,
+                    child: Column(children: [
+                      TabBar(
+                        onTap: (index) {
+                          print(index);
+                          setState(() {
+                            _selectedTabbar = index;
+                          });
+                        },
+                        indicatorColor: Colors.black,
+                        controller: _controller,
+                        unselectedLabelColor: Colors.black,
+                        labelColor: Colors.black,
+                        tabs: [
+                          Tab(
+                            text: "Overview",
+                          ),
+                          Tab(
+                            text: "Details",
+                          ),
+                          Tab(
+                            text: "Reviews",
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                      Builder(builder: (_) {
+                        if (_selectedTabbar == 0) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: Text(
+                              product.shortDescription,
+                              style: kThemeData.textTheme.bodyLarge,
+                            ),
+                          ); //1st custom tabBarView
+                        } else if (_selectedTabbar == 1) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: Text(
+                              product.longDescription,
+                              style: kThemeData.textTheme.bodyLarge,
+                            ),
+                          ); //1st/2nd tabView
+                        } else {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: product.reviews.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xff000000),
+                                            ),
+                                            // child: Image.network(
+                                            //   product.reviews[index].product,
+                                            //   height: 100,
+                                            // ),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  product.reviews[index]
+                                                      .createdBy.fullName,
+                                                  style: kThemeData
+                                                      .textTheme.titleMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.dark),
+                                                ),
+                                                RatingBar.builder(
+                                                  initialRating: double.parse(
+                                                      product.reviews[index]
+                                                          .grade),
+                                                  ignoreGestures: true,
+                                                  itemSize: 17,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  glow: false,
+                                                  itemCount: 5,
+                                                  itemPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 0.0),
+                                                  itemBuilder: (context, _) =>
+                                                      GradientIcon(
+                                                    Icons.star,
+                                                    10.0,
+                                                    LinearGradient(
+                                                      colors: <Color>[
+                                                        Color.fromRGBO(
+                                                            127, 0, 255, 1),
+                                                        Color.fromRGBO(
+                                                            255, 0, 255, 1)
+                                                      ],
+                                                      begin: Alignment.topLeft,
+                                                      end:
+                                                          Alignment.bottomRight,
+                                                    ),
+                                                  ),
+                                                  onRatingUpdate: (rating) {
+                                                    print(rating);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 11),
+                                      Text(
+                                        product.reviews[index].review,
+                                        style: kThemeData.textTheme.bodyLarge
+                                            ?.copyWith(color: DarkTheme.dark),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ); //3rd tabView
+                        }
+                      }),
+                      SizedBox(
+                        height: 100,
+                      )
+                    ]),
+                  )
                 ],
               ),
             ),
