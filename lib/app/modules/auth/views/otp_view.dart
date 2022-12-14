@@ -35,13 +35,18 @@ class OtpView extends GetView<AuthController> {
     TextEditingController otpController = TextEditingController();
     return WillPopScope(
       onWillPop: () async {
-        await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return ExitDialog();
-          },
-        );
-        return false;
+        if (controller.resetPassword.value) {
+          Get.back();
+          return true;
+        } else {
+          await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return ExitDialog();
+            },
+          );
+          return false;
+        }
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -71,12 +76,16 @@ class OtpView extends GetView<AuthController> {
                         children: [
                           GestureDetector(
                             onTap: () async {
-                              await showDialog<bool>(
-                              context: context,
-                              builder: (context) {
-                              return ExitDialog();
-                              },
-                              );
+                              if (controller.resetPassword.value) {
+                                Get.back();
+                              } else {
+                                await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) {
+                                    return ExitDialog();
+                                  },
+                                );
+                              }
                             },
                             child: SvgPicture.asset(
                                 "assets/images/arrow-left.svg",
@@ -205,7 +214,7 @@ class OtpView extends GetView<AuthController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     if (stopWatchTimer.isRunning) {
                                       var snackBar = SnackBar(
                                         elevation: 0,
@@ -215,11 +224,6 @@ class OtpView extends GetView<AuthController> {
                                             const Duration(milliseconds: 2000),
                                         content: const Text(
                                             'Please wait for 1 minute'),
-                                        margin: EdgeInsets.only(
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                180),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
@@ -228,7 +232,13 @@ class OtpView extends GetView<AuthController> {
                                           .add(StopWatchExecute.reset);
                                       stopWatchTimer.onExecute
                                           .add(StopWatchExecute.start);
-                                      controller.requestOtpFromServer();
+                                      if (controller.resetPassword.value) {
+                                        final status = await controller
+                                            .requestResetPassword();
+                                      } else {
+                                        final status = await controller
+                                            .requestOtpFromServer();
+                                      }
                                     }
                                   },
                                   child: Text(

@@ -77,10 +77,8 @@ class AuthRepository {
   static Future<bool> updateMedicalCondition(
       String description, List medicalConditions) async {
     const url = '$BASE_URL/medical/';
-    final body = jsonEncode({
-      "description": description,
-      "MedicalCondition": medicalConditions
-    });
+    final body = jsonEncode(
+        {"description": description, "MedicalCondition": medicalConditions});
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
@@ -131,16 +129,24 @@ class AuthRepository {
 
   static Future<bool> reset(String password) async {
     const url = '$BASE_URL/accounts/reset-password/';
-    final body = {
+    final body = jsonEncode({
       "password": password,
-      "refresh_token": storage.readRefreshToken()
-    };
+      "refresh_token": await storage.readRefreshToken()
+    });
+    print({
+      "password": password,
+      "refresh_token": await storage.readRefreshToken()
+    });
     try {
-      final response = await http.post(Uri.parse(url), body: body);
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
         print('Response is $response');
         return true;
+      } else if (response.statusCode == 429 || response.statusCode == 401) {
+        print('Response is $decodedResponse');
+        return Future.error('${decodedResponse["data"]}');
       } else {
         return Future.error('${decodedResponse["error"]}');
       }
@@ -178,17 +184,17 @@ class AuthRepository {
 
   static Future<bool> verifyReset(String phoneNumber, String code) async {
     try {
-      print('hereee');
       const url = '$BASE_URL/accounts/verify-reset-password/';
       final body = {"code": code, "phone_number": phoneNumber};
-      print(body);
 
       final response = await http.post(Uri.parse(url), body: body);
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      print('Response is $decodedResponse');
+      print('Status code is ${response.statusCode}');
       if (response.statusCode == 200) {
-        storage.saveAccessToken(decodedResponse["token"]["access"]);
-        storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
-        print(decodedResponse["token"]["access"]);
+        storage.saveAccessToken(decodedResponse["data"]["token"]["access"]);
+        storage.saveRefreshToken(decodedResponse["data"]["token"]["refresh"]);
+        print(response.body);
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');

@@ -414,7 +414,7 @@ class AuthController extends GetxController {
         authError.value = error;
         return false;
       });
-
+      print('Reset status is $status');
       if (status) {
         return true;
       } else {
