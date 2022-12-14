@@ -229,9 +229,27 @@ class _ProductDetailsState extends State<ProductDetails> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
+                        product.salePrice == 0? Text(
                           "Rs. ${product.regularPrice}",
                           style: kThemeData.textTheme.titleLarge,
+                        ): Row(
+                          children: [
+                            Text(
+                              "Rs. ${product.regularPrice}",
+                              style: kThemeData
+                                  .textTheme.titleLarge
+                                  ?.copyWith(
+                                  color:
+                                  DarkTheme.lightActive,
+                                  decoration: TextDecoration
+                                      .lineThrough),
+                            ),
+                            SizedBox(width: 10,),
+                            Text(
+                              "Rs. ${product.salePrice}",
+                              style: kThemeData.textTheme.titleLarge,
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 14,
