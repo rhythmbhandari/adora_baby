@@ -10,6 +10,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../main.dart';
 import '../../../config/app_theme.dart';
@@ -244,7 +245,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                            SvgPicture.asset("assets/images/send.svg")
+                            GestureDetector(
+                                onTap: (){
+                                  Share.share('Check out Adora Baby ${product.permalink}', subject: 'Look at this product!');
+                                },
+                                child: SvgPicture.asset("assets/images/send.svg"))
                           ],
                         ),
                         SizedBox(

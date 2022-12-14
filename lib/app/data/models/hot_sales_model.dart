@@ -38,6 +38,7 @@ class HotSales {
     required this.stockAvailable,
     required this.shortDescription,
     required this.longDescription,
+    required this.permalink,
     this.weightInGrams,
     required this.bestBy,
     required this.rating,
@@ -49,6 +50,7 @@ class HotSales {
   String name;
   String shortName;
   String slug;
+  String permalink;
   int regularPrice;
   int salePrice;
   bool stockAvailable;
@@ -66,6 +68,7 @@ class HotSales {
     name: json["name"] ,
     shortName: json["short_name"],
     slug: json["slug"],
+    permalink: json["permalink"],
     regularPrice: json["regular_price"],
     salePrice: json["sale_price"] ?? 0,
     stockAvailable: json["stock_available"],
@@ -83,6 +86,7 @@ class HotSales {
     "name": name,
     "short_name": shortName,
     "regular_price": regularPrice,
+    "permalink": permalink,
     "sale_price": salePrice ?? 0,
     "stock_available": stockAvailable,
     "short_description": shortDescription,
@@ -161,7 +165,7 @@ class Review {
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
     id: json["id"],
-    grade: json["grade"],
+    grade: json["grade"] ?? "0",
     review: json["review"],
     product: json["product"],
     createdBy: CreatedBy.fromJson(json["created_by"]),
