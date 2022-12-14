@@ -46,8 +46,7 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Server Error');
+      return Future.error('Server Error');
     }
   }
 
@@ -75,16 +74,18 @@ class AuthRepository {
     }
   }
 
-  static Future<bool> updateMedicalCondition(List medicalConditions) async {
-    const url = '$BASE_URL/accounts/signup/';
-    final body =
-        jsonEncode({"medical_conditions": medicalConditions.toString()});
+  static Future<bool> updateMedicalCondition(
+      String description, List medicalConditions) async {
+    const url = '$BASE_URL/medical/';
+    final body = jsonEncode({
+      "description": description,
+      "MedicalCondition": medicalConditions
+    });
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        print('Response is $response');
+      if (response.statusCode == 201) {
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');
@@ -211,7 +212,7 @@ class AuthRepository {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
         print(decodedResponse["token"]["access"]);
-        if(!decodedResponse["baby_stage"]){
+        if (!decodedResponse["baby_stage"]) {
           return Future.error('Baby stage incomplete');
         }
         return true;

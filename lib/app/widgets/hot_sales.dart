@@ -56,18 +56,8 @@ class HotSale extends StatelessWidget {
                           snapshot.data!.isNotEmpty &&
                           snapshot.data!.length > index) {
                         return GestureDetector(
-
                             onTap: () {
-                              // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                              //   snapshot.data![index][index].name,
-                              //   snapshot
-                              //       .data![0][index].productImages[index].name,
-                              //   snapshot.data![0][index].reviews[index].grade,
-                              //   snapshot.data![0][index].stockAvailable,
-                              //   snapshot.data![0][index].regularPrice,
-                              //   snapshot.data![0][index].weightInGrams,
-                              //   snapshot.data![0][index].bestBy,
-                              // ]);
+                              Get.toNamed(Routes.PRODUCT_DETAILS, arguments: snapshot.data![0][index]);
                             },
                             child: AlignedGridView.count(
                               crossAxisCount: 2,

@@ -6,23 +6,14 @@ import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
 
-class CartRepository{
-
-  static Future<bool> addToCart(
-      String product, String quantity) async {
-
+class CartRepository {
+  static Future<bool> addToCart(String product, String quantity) async {
     const url = '$BASE_URL/cart/add_to_cart/';
-    final body = jsonEncode(
-        {"product": product,
-          "quantity": quantity});
+    final body = jsonEncode({"product_id": product, "quantity": quantity});
     print(await SecureStorage.returnHeaderWithToken());
     try {
-
-
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
-
-
 
       if (response.statusCode == 200) {
         print('Response is $response');
@@ -31,7 +22,6 @@ class CartRepository{
         print(response.statusCode);
 
         return Future.error(response.statusCode);
-
       }
     } on SocketException {
       return Future.error(
@@ -41,12 +31,9 @@ class CartRepository{
     }
   }
 
-  static Future<bool> updateCart(
-      String id, String quantity) async {
+  static Future<bool> updateCart(String id, String quantity) async {
     const url = '$BASE_URL/cart/update_to_cart/';
-    final body = jsonEncode(
-        { "cart_id": id,
-          "quantity": quantity});
+    final body = jsonEncode({"cart_id": id, "quantity": quantity});
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
@@ -66,13 +53,11 @@ class CartRepository{
     }
   }
 
-
-  static Future<bool> deleteCart(
-      String id) async {
+  static Future<bool> deleteCart(String id) async {
     const url = '$BASE_URL/cart/delete/';
-    final body = jsonEncode(
-        { "cart_id": id,
-          });
+    final body = jsonEncode({
+      "cart_id": id,
+    });
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
@@ -91,5 +76,4 @@ class CartRepository{
           'Please check your internet connection and try again.');
     }
   }
-
 }

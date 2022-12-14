@@ -23,13 +23,7 @@ class ButtonsWidget extends StatelessWidget {
         ),
         child: Center(
           child: Text(name,
-              style: const TextStyle(
-                color: Colors.white,
-
-                fontFamily: "Poppins",
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-              )),
+              style:  kThemeData.textTheme.labelMedium),
         ),
       ),
     );

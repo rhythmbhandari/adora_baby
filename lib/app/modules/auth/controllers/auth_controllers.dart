@@ -51,6 +51,9 @@ class AuthController extends GetxController {
   final resetPassw = ''.obs;
   final confirmPass = ''.obs;
 
+  final specialNote = ''.obs;
+  final selectedConditions = [].obs;
+
   final loginPhone = ''.obs;
   final loginPassword = ''.obs;
 
@@ -82,6 +85,8 @@ class AuthController extends GetxController {
   final progressBarCompleteProfile = false.obs;
   final isChecked = false.obs;
   final progressBarStatusUsername = false.obs;
+
+  final progressBarStatusCompleteProfile = false.obs;
 
   void changePasswordVisibility(bool status) =>
       passwordInvisible.value = status;
@@ -129,6 +134,33 @@ class AuthController extends GetxController {
     } else if (confirmPass.value != resetPassw.value) {
       isValid = false;
       authError.value = 'Password and Confirm Password do not match.'.tr;
+    }
+    return isValid;
+  }
+
+  bool validateMedicalCondition() {
+    specialNote.value = specialNoteController.value.text.trim();
+
+    // selectedConditions.addAll(selectedTags);
+
+    // selectedConditions.value = "";
+    //
+    // if (selectedTags.length == 1) {
+    //   selectedConditions.value = '"${selectedTags[0]}"';
+    // } else {
+    //   for (var i = 0; i < selectedTags.length; i++) {
+    //     if (i == selectedTags.length - 1) {
+    //       selectedConditions.value += '"${selectedTags[i]}"';
+    //     } else {
+    //       selectedConditions.value += '"${selectedTags[i]}",';
+    //     }
+    //   }
+    // }
+
+    bool isValid = true;
+    print('Selected Tags is ${selectedTags.isEmpty}');
+    if (selectedTags.isEmpty && specialNote.value == "") {
+      isValid = false;
     }
     return isValid;
   }
@@ -276,6 +308,29 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> registerMedicalCondition() async {
+    try {
+      final status = await AuthRepository.registerBabyName(
+              fullNameController.text.trim(),
+              userNameController.text.trim(),
+              passwordController.text.trim(),
+              babyNameController.text.trim(),
+              '${dobController.text.trim()}T00:00')
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> resetPasswordStarted() async {
     try {
       final status =
@@ -316,13 +371,12 @@ class AuthController extends GetxController {
 
   Future<bool> addMedicalCondition() async {
     try {
-      final status =
-      await AuthRepository.updateMedicalCondition(selectedTags)
+      final status = await AuthRepository.updateMedicalCondition(
+              specialNote.value, selectedTags)
           .catchError((error) {
         authError.value = error;
         return false;
       });
-
       if (status) {
         return true;
       } else {
