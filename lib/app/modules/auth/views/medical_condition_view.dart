@@ -285,7 +285,9 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                         controller
                                             .progressBarStatusCompleteProfile
                                             .value = false;
-                                        debugPrint('API Hit returns TRUE');
+                                        storage.writeData(
+                                            Constants.LOGGED_IN_STATUS, 'yes');
+                                        Get.to(const HomeView());
                                       } else {
                                         var snackBar = SnackBar(
                                           elevation: 0,
@@ -307,10 +309,11 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                       controller
                                           .progressBarStatusCompleteProfile
                                           .value = false;
+                                      storage.writeData(
+                                          Constants.LOGGED_IN_STATUS, 'yes');
+                                      Get.to(const HomeView());
                                     }
-                                    // storage.writeData(
-                                    //     Constants.LOGGED_IN_STATUS, 'yes');
-                                    // Get.to(const HomeView());
+
                                     // controller.progressBarStatusUsername.value =
                                     //     false;
                                   }

@@ -23,7 +23,7 @@ class _MyHomePageState extends State<BottomNavBar>
   late TabController tabController;
 
   final List<Widget> text = [
-    Text("Home",style: kThemeData.textTheme.labelMedium,),
+    Text("Home",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
     const Text("Moment",style:  TextStyle(
         color: Colors.white,
         fontFamily: "Poppins",
@@ -31,9 +31,9 @@ class _MyHomePageState extends State<BottomNavBar>
         fontWeight: FontWeight.w600,
         fontStyle: FontStyle.normal,
         letterSpacing: 0),),
-    Text("Shop",style: kThemeData.textTheme.labelMedium,),
-    Text("Cart",style: kThemeData.textTheme.labelMedium,),
-    Text("Profile",style: kThemeData.textTheme.labelMedium,),
+    Text("Shop",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
+    Text("Cart",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
+    Text("Profile",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
   ];
 
   @override
