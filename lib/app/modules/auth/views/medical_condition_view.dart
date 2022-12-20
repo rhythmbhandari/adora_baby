@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../main.dart';
 import '../../../config/app_colors.dart';
@@ -41,7 +42,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
           },
         );
         return false;
-      }, child: Scaffold(
+      },
+      child: Scaffold(
         body: SingleChildScrollView(
           child: Stack(
             children: [
@@ -52,7 +54,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                       tag: 'progress',
                       child: LinearProgressIndicator(
                         backgroundColor: Colors.transparent,
-                        valueColor: AlwaysStoppedAnimation(AppColors.primary300),
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primary300),
                         value: 1,
                         minHeight: 7,
                       ),
@@ -112,8 +115,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          controller.babyMedicalCondition.length,
+                                      itemCount: controller
+                                          .babyMedicalCondition.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return Column(
@@ -160,7 +163,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                                 foregroundStyle: kThemeData
                                                     .textTheme.bodyLarge
                                                     ?.copyWith(
-                                                        color: DarkTheme.lighter),
+                                                        color:
+                                                            DarkTheme.lighter),
                                                 borderColor: DarkTheme.lighter,
                                                 backgroundColor: Colors.white,
                                                 selectedStyle: C2ChipStyle.filled(
@@ -168,7 +172,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                                     foregroundStyle: kThemeData
                                                         .textTheme.bodyLarge
                                                         ?.copyWith(
-                                                            color: Colors.white)),
+                                                            color:
+                                                                Colors.white)),
                                               ),
                                               choiceCheckmark: false,
                                               textDirection: TextDirection.ltr,
@@ -186,7 +191,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'Graphik',
-                                          color: Colors.white.withOpacity(0.67),
+                                          color: Colors.red.withOpacity(0.67),
                                           letterSpacing: 1.25,
                                           fontWeight: FontWeight.w300),
                                     ),
@@ -197,12 +202,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                   child: Text("Sorry,not found!"),
                                 );
                               }
-                              return Center(
-                                  child: SizedBox(
-                                      height: 0.2 * Get.height,
-                                      width: 0.2 * Get.height,
-                                      child: Lottie.asset(
-                                          'assets/animations/loader.json')));
+                              return _buildImage();
                             },
                           ),
                           const SizedBox(
@@ -249,7 +249,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         width: 1,
-                                        color: DarkTheme.normal.withOpacity(0.7),
+                                        color:
+                                            DarkTheme.normal.withOpacity(0.7),
                                       ),
                                       borderRadius: BorderRadius.circular(33)),
                                   hintText:
@@ -268,33 +269,53 @@ class _MedicalConditionState extends State<MedicalCondition> {
                           ButtonsWidget(
                             name: 'Complete Profile',
                             onPressed: controller
-                                        .progressBarStatusUsername.value ==
+                                        .progressBarStatusCompleteProfile
+                                        .value ==
                                     false
                                 ? () async {
-                                    controller.progressBarStatusUsername.value =
-                                        true;
+                                    controller.progressBarStatusCompleteProfile
+                                        .value = true;
                                     final status =
-                                        await controller.validateUsernamePage();
-                                    if (!status) {
-                                      var snackBar = SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.red,
-                                        duration:
-                                            const Duration(milliseconds: 2000),
-                                        content: Text("${controller.authError}"),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                      controller.progressBarStatusUsername.value =
-                                          false;
+                                        controller.validateMedicalCondition();
+                                    if (status) {
+                                      debugPrint('API Hit');
+                                      final response = await controller
+                                          .addMedicalCondition();
+                                      if (response) {
+                                        controller
+                                            .progressBarStatusCompleteProfile
+                                            .value = false;
+                                        storage.writeData(
+                                            Constants.LOGGED_IN_STATUS, 'yes');
+                                        Get.to(const HomeView());
+                                      } else {
+                                        var snackBar = SnackBar(
+                                          elevation: 0,
+                                          behavior: SnackBarBehavior.floating,
+                                          backgroundColor: Colors.red,
+                                          duration: const Duration(
+                                              milliseconds: 2000),
+                                          content:
+                                              Text("${controller.authError}"),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        controller
+                                            .progressBarStatusCompleteProfile
+                                            .value = false;
+                                      }
                                     } else {
+                                      debugPrint('Moving On');
+                                      controller
+                                          .progressBarStatusCompleteProfile
+                                          .value = false;
                                       storage.writeData(
                                           Constants.LOGGED_IN_STATUS, 'yes');
                                       Get.to(const HomeView());
-                                      controller.progressBarStatusUsername.value =
-                                          false;
                                     }
+
+                                    // controller.progressBarStatusUsername.value =
+                                    //     false;
                                   }
                                 : () {},
                           ),
@@ -304,8 +325,13 @@ class _MedicalConditionState extends State<MedicalCondition> {
                   ],
                 ),
               ),
-              Obx(() => controller.progressBarStatusUsername.value
-                  ? CustomProgressBar()
+              Obx(() => controller.progressBarStatusCompleteProfile.value
+                  ? GestureDetector(
+                      onTap: () {
+                        controller.progressBarStatusCompleteProfile.value =
+                            false;
+                      },
+                      child: CustomProgressBar())
                   : Container())
             ],
           ),
@@ -313,4 +339,121 @@ class _MedicalConditionState extends State<MedicalCondition> {
       ),
     );
   }
+}
+
+Widget _buildImage() {
+  return Shimmer.fromColors(
+    baseColor: Colors.white,
+    highlightColor: LightTheme.lightActive,
+    enabled: true,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 20,
+          width: 100,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(33)),
+        ),
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                height: 30,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Container(
+                height: 30,
+                width: 120,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Container(
+                height: 30,
+                width: 150,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            Expanded(
+                child: const SizedBox(
+              width: 10,
+            )),
+          ],
+        ),
+        SizedBox(height: 16),
+        Container(
+          height: 20,
+          width: 150,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(33)),
+        ),
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                height: 30,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: 30,
+                width: 120,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: 30,
+                width: 150,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(33)),
+              ),
+            ),
+            Expanded(
+                child: const SizedBox(
+              width: 10,
+            )),
+          ],
+        ),
+      ],
+    ),
+  );
 }

@@ -145,148 +145,152 @@ class RecentlyViewedProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10),
-      margin: const EdgeInsets.only(right: 0, bottom: 10, left: 19),
-      width: Get.width * 0.35,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, 2), // changes position of shadow
-            ),
-          ],
-          borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 12, bottom: 8),
-                child: Center(
-                  child: Image.network(
-                    snapshot.data![0][index].productImages[0].name,
-                    height: Get.height * 0.16,
-                  ),
-                ),
+    return GestureDetector(
+      onTap: (){
+        print("Data is ${snapshot.data![0][index].name}");
+        Get.toNamed(Routes.PRODUCT_DETAILS, arguments: snapshot.data![0][index]);
+      },
+      child: Container(
+        padding: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(right: 0, bottom: 10, left: 19),
+        width: Get.width * 0.35,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 2), // changes position of shadow
               ),
-              snapshot.data![0][index].salePrice == 0
-                  ? Container()
-                  : Container(
-                      padding: const EdgeInsets.only(
-                          top: 2, bottom: 2, left: 6, right: 6),
-                    )
             ],
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 13, right: 13),
-            width: Get.width,
-            decoration: const BoxDecoration(
-                color: Color.fromRGBO(243, 234, 249, 1),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(15),
-                    bottomLeft: Radius.circular(15))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            borderRadius: BorderRadius.circular(15)),
+        child: Column(
+          children: [
+            Stack(
               children: [
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  snapshot.data![0][index].shortName,
-                  maxLines: 1,
-                  style: kThemeData.textTheme.labelSmall
-                      ?.copyWith(color: AppColors.secondary700, fontSize: 12),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  snapshot.data![0][index].name,
-                  maxLines: 2,
-                  style: kThemeData.textTheme.bodyMedium
-                      ?.copyWith(color: AppColors.primary700, fontSize: 14),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                RatingBar.builder(
-                  initialRating: snapshot.data![0][index].rating.gradeAvg,
-                  ignoreGestures: true,
-                  itemSize: 12,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  glow: false,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                  itemBuilder: (context, _) => GradientIcon(
-                    Icons.star,
-                    10.0,
-                    LinearGradient(
-                      colors: <Color>[
-                        Color.fromRGBO(127, 0, 255, 1),
-                        Color.fromRGBO(255, 0, 255, 1)
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                Container(
+                  margin: EdgeInsets.only(top: 12, bottom: 8),
+                  child: Center(
+                    child: Image.network(
+                      snapshot.data![0][index].productImages[0].name,
+                      height: Get.height * 0.16,
                     ),
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                snapshot.data![0][index]
-                    .salePrice != 0?  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Rs. ${snapshot.data![0][index].regularPrice}",
-                      maxLines: 2,
-                      style: kThemeData
-                          .textTheme.bodyMedium
-                          ?.copyWith(
-                          color:
-                          DarkTheme.lightActive,
-                          decoration: TextDecoration
-                              .lineThrough),
-                    ),
-                    Text(
-                      "Rs. ${snapshot.data![0][index].salePrice}",
-                      maxLines: 2,
-                      style: kThemeData
-                          .textTheme.bodyMedium
-                          ?.copyWith(
-                          color:
-                          DarkTheme.normal,
-                          decoration: TextDecoration
-                              .lineThrough),
-                    ),
-                  ],
-                ): Text(
-                  "Rs. ${snapshot.data![0][index].regularPrice}",
-                  maxLines: 2,
-                  style: kThemeData
-                      .textTheme.bodyMedium
-                      ?.copyWith(
-                      color:
-                      DarkTheme.normal),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
+                snapshot.data![0][index].salePrice == 0
+                    ? Container()
+                    : Container(
+                        padding: const EdgeInsets.only(
+                            top: 2, bottom: 2, left: 6, right: 6),
+                      )
               ],
             ),
-          )
-        ],
+            Container(
+              padding: const EdgeInsets.only(left: 13, right: 13),
+              width: Get.width,
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(243, 234, 249, 1),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    snapshot.data![0][index].shortName,
+                    maxLines: 1,
+                    style: kThemeData.textTheme.labelSmall
+                        ?.copyWith(color: AppColors.secondary700, fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    snapshot.data![0][index].name,
+                    maxLines: 2,
+                    style: kThemeData.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.primary700, fontSize: 14),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  RatingBar.builder(
+                    initialRating: snapshot.data![0][index].rating.gradeAvg,
+                    ignoreGestures: true,
+                    itemSize: 12,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    glow: false,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                    itemBuilder: (context, _) => GradientIcon(
+                      Icons.star,
+                      10.0,
+                      LinearGradient(
+                        colors: <Color>[
+                          Color.fromRGBO(127, 0, 255, 1),
+                          Color.fromRGBO(255, 0, 255, 1)
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  snapshot.data![0][index]
+                      .salePrice != 0?  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Rs. ${snapshot.data![0][index].regularPrice}",
+                        maxLines: 2,
+                        style: kThemeData
+                            .textTheme.bodyMedium
+                            ?.copyWith(
+                            color:
+                            DarkTheme.lightActive,
+                            decoration: TextDecoration
+                                .lineThrough),
+                      ),
+                      Text(
+                        "Rs. ${snapshot.data![0][index].salePrice}",
+                        maxLines: 2,
+                        style: kThemeData
+                            .textTheme.bodyMedium
+                            ?.copyWith(
+                            color:
+                            DarkTheme.normal),
+                      ),
+                    ],
+                  ): Text(
+                    "Rs. ${snapshot.data![0][index].regularPrice}",
+                    maxLines: 2,
+                    style: kThemeData
+                        .textTheme.bodyMedium
+                        ?.copyWith(
+                        color:
+                        DarkTheme.normal),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

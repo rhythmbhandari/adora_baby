@@ -24,7 +24,7 @@ class ShopView extends GetView<ShopController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(250, 245, 252, 1),
+        backgroundColor: LightTheme.whiteActive,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(

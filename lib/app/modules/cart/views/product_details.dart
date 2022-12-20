@@ -1,12 +1,16 @@
 import 'package:adora_baby/app/config/app_colors.dart';
+import 'package:adora_baby/app/data/models/hot_sales_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../main.dart';
 import '../../../config/app_theme.dart';
@@ -17,327 +21,607 @@ import '../../../widgets/gradient_icon.dart';
 import '../../../widgets/tab_bar.dart';
 import '../controllers/cart_controller.dart';
 
-class ProductDetails extends GetView<CartController> {
+class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
 
   @override
+  State<ProductDetails> createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails>
+    with SingleTickerProviderStateMixin {
+  final CartController controller = Get.find();
+  CarouselController carouselController = CarouselController();
+
+  TabController? _controller;
+  int _selectedTabbar = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 3, vsync: this);
+    _controller?.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List data = Get.arguments;
+    HotSales product = Get.arguments;
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(250, 245, 252, 1),
+      backgroundColor: LightTheme.whiteActive,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 88,
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: GestureDetector(
-                          onTap: () {
-                            Get.back();
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 88,
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.black,
+                              )),
+                        ),
+                        const SizedBox(
+                          width: 60,
+                        ),
+                        Center(
+                          child: Text(
+                            "Product Detail",
+                            style: kThemeData.textTheme.displaySmall,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.shortName,
+                          maxLines: 1,
+                          style: kThemeData.textTheme.labelSmall?.copyWith(
+                              color: AppColors.secondary700, fontSize: 12),
+                        ),
+                        Text(
+                          product.name,
+                          style: kThemeData.textTheme.displaySmall
+                              ?.copyWith(color: AppColors.primary700),
+                        ),
+                        const SizedBox(
+                          height: 17.39,
+                        ),
+                        RatingBar.builder(
+                          initialRating: product.rating.gradeAvg,
+                          ignoreGestures: true,
+                          itemSize: 17,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          glow: false,
+                          itemCount: 5,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          itemBuilder: (context, _) => GradientIcon(
+                            Icons.star,
+                            10.0,
+                            const LinearGradient(
+                              colors: <Color>[
+                                Color.fromRGBO(127, 0, 255, 1),
+                                Color.fromRGBO(255, 0, 255, 1)
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
                           },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.black,
-                          )),
-                    ),
-                    const SizedBox(
-                      width: 60,
-                    ),
-                    Center(
-                      child: Text(
-                        "Product Detail",
-                        style: kThemeData.textTheme.displaySmall,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 1,
-                  itemBuilder: (context, int index) {
-                    return Container(
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 30.0, right: 30),
-                            child: Text(
-                              data[0],
-                              style: const TextStyle(
-                                  color: AppColors.mainColor,
-                                  fontFamily: "Playfair",
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FontStyle.normal,
-                                  letterSpacing: 0.01),
-                            ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color:
+                                  const Color.fromRGBO(229, 159, 164, 1))),
+                          child: const Text(
+                            "Supported Sitter",
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(151, 121, 142, 1)),
                           ),
-                          const SizedBox(
-                            height: 20,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CarouselSlider(
+                          options: CarouselOptions(
+                            height: Get.height * 0.32,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            viewportFraction: 1,
+                            aspectRatio: 2.0,
+                            enableInfiniteScroll: false,
+                            padEnds: false,
+                            onPageChanged: (val, _) {
+                              setState(() {
+                                print("new index $val");
+                                carouselController.jumpToPage(val);
+                              });
+                            },
+                            // clipBehavior: Clip.antiAlias,
+                            // onPageChanged: callbackFunction,
+                            scrollDirection: Axis.horizontal,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30.0),
-                            child: SizedBox(
-                              height: 30,
-                              child: ListView.builder(
-                                  itemCount: int.parse(data[2]),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return GradientIcon(
-                                      Icons.star,
-                                      23.0,
-                                      const LinearGradient(
-                                        colors: <Color>[
-                                          AppColors.linear2,
-                                          AppColors.linear1,
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 30.0, right: 30),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color: const Color.fromRGBO(
-                                          229, 159, 164, 1))),
-                              child: const Text(
-                                "Supported Sitter",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 16,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromRGBO(151, 121, 142, 1)),
+                          items: product.productImages.map((i) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 18),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: '${i.name}',
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     carouselController.nextPage(
+                        //         duration: const Duration(milliseconds: 300), curve:   Curves.linear);
+                        //   },
+                        //   child: Container(
+                        //     height: 40,
+                        //     width: 40,
+                        //     decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       color: Color(0xff000000),
+                        //     ),
+                        //   ),
+                        // ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            product.stockAvailable == true
+                                ? Text(
+                              "In Stock",
+                              style: kThemeData.textTheme.titleMedium
+                                  ?.copyWith(color: AppColors.success800, fontSize: 16),
+                            )
+                                : const Text(
+                              "Out of Stock",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: "Poppins",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                              child: Image.network(
-                            data[1],
-                            width: 250,
-                          )),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 30.0, right: 30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                data[3] == true
-                                    ? const Text(
-                                        "In Stock",
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontFamily: "Poppins",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    : const Text(
-                                        "Out of Stock",
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontFamily: "Poppins",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                SvgPicture.asset("assets/images/send.svg")
-                              ],
+                            GestureDetector(
+                                onTap: () {
+                                  Share.share(
+                                      'Check out Adora Baby ${product.permalink}',
+                                      subject: 'Look at this product!');
+                                },
+                                child:
+                                SvgPicture.asset("assets/images/send.svg"))
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        product.salePrice == 0
+                            ? Text(
+                          "Rs. ${product.regularPrice}",
+                          style: kThemeData.textTheme.titleLarge,
+                        )
+                            : Row(
+                          children: [
+                            Text(
+                              "Rs. ${product.regularPrice}",
+                              style: kThemeData.textTheme.titleLarge
+                                  ?.copyWith(
+                                  color: DarkTheme.lightActive,
+                                  decoration:
+                                  TextDecoration.lineThrough),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30.0, right: 30, top: 15, bottom: 15),
-                            child: Text(
-                              "Rs. ${data[4].toString()}",
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Rs. ${product.salePrice}",
                               style: kThemeData.textTheme.titleLarge,
                             ),
-                          ),
-                          Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 30.0, right: 30),
-                              child: data[5] != null
-                                  ? Text(data[5].toString(),
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ))
-                                  : const Text("Weight N/A",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ))),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30.0, right: 30, top: 8),
-                            child: Text("Best by: ${data[6]}",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ),
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(left: 30.0, right: 30, top: 8),
-                            child: Text("Delivered within: 22 October",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: "Poppins",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Quantity",
-                      style: kThemeData.textTheme.titleLarge,
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        product.weightInGrams != null
+                            ? Text(product.weightInGrams.toString(),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontFamily: "Poppins",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ))
+                            : const Text("Weight N/A",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: "Poppins",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            )),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text("Best by: ${product.bestBy}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            )),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        const Text("Delivered within: 2-3 business days.",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: "Poppins",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ))
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, right: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              controller.decrementCounter();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.black)),
-                              child: const Icon(
-                                Icons.remove,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  left: 40, right: 40, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.black)),
-                              child: Obx(
-                                () => Text(
-                                  controller.counter.value.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Quantity",
+                          style: kThemeData.textTheme.titleLarge
+                              ?.copyWith(color: DarkTheme.normal, fontSize: 28),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.decrementCounter();
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                    Border.all(color: DarkTheme.normal)),
+                                child: const Icon(
+                                  Icons.remove,
+                                  color: DarkTheme.normal,
                                 ),
-                              )),
-                          GestureDetector(
-                            onTap: () {
-                              controller.incrementCounter();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.black)),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.black,
                               ),
                             ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border:
+                                      Border.all(color: DarkTheme.normal)),
+                                  child: Center(
+                                    child: Obx(
+                                          () => Text(
+                                        controller.counter.value.toString(),
+                                        style: const TextStyle(
+                                            color: DarkTheme.dark,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 28),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                controller.incrementCounter();
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                    Border.all(color: DarkTheme.normal)),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: DarkTheme.normal,
+                                ),
+                              ),
+                            ),
+                            const Expanded(
+                              flex: 4,
+                              child: SizedBox(),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Column(children: [
+                      TabBar(
+                        onTap: (index) {
+                          print(index);
+                          setState(() {
+                            _selectedTabbar = index;
+                          });
+                        },
+                        indicatorColor: Colors.black,
+                        controller: _controller,
+                        unselectedLabelColor: Colors.black,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        labelColor: Colors.black,
+                        labelStyle: kThemeData.textTheme.labelMedium
+                            ?.copyWith(color: DarkTheme.normal),
+                        tabs: [
+                          const Tab(
+                            text: "Overview",
                           ),
-
+                          const Tab(
+                            text: "Details",
+                          ),
+                          const Tab(
+                            text: "Reviews",
+                          ),
                         ],
                       ),
-                    ),
-
-
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10,),
-              Container(
-                color: Colors.white,
-                child: const Padding(
-                  padding: EdgeInsets.only(left: 30.0,right: 30),
-                  child: TabBars(overView: 'Overview', details: 'details', reviews: 'reviews',),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: 70,
-        color: const Color.fromRGBO(243, 234, 249, 1),
-        child: Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 10, bottom: 7),
-              child: ButtonsWidget(
-                name: "ADD TO CART",
-                onPressed: () {
-                  controller.requestAddToCart(data[0]);
-                },
+                      Builder(builder: (_) {
+                        if (_selectedTabbar == 0) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: Text(
+                              product.shortDescription,
+                              style: kThemeData.textTheme.bodyLarge,
+                            ),
+                          ); //1st custom tabBarView
+                        } else if (_selectedTabbar == 1) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: Text(
+                              product.longDescription,
+                              style: kThemeData.textTheme.bodyLarge,
+                            ),
+                          ); //1st/2nd tabView
+                        } else {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 46, vertical: 20),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: product.reviews.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xff000000),
+                                            ),
+                                            // child: Image.network(
+                                            //   product.reviews[index].product,
+                                            //   height: 100,
+                                            // ),
+                                          ),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  product.reviews[index]
+                                                      .createdBy.fullName,
+                                                  style: kThemeData
+                                                      .textTheme.titleMedium
+                                                      ?.copyWith(
+                                                      color:
+                                                      DarkTheme.dark),
+                                                ),
+                                                RatingBar.builder(
+                                                  initialRating: double.parse(
+                                                      product.reviews[index]
+                                                          .grade),
+                                                  ignoreGestures: true,
+                                                  itemSize: 17,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  glow: false,
+                                                  itemCount: 5,
+                                                  itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                                  itemBuilder: (context, _) =>
+                                                      GradientIcon(
+                                                        Icons.star,
+                                                        10.0,
+                                                        const LinearGradient(
+                                                          colors: <Color>[
+                                                            Color.fromRGBO(
+                                                                127, 0, 255, 1),
+                                                            Color.fromRGBO(
+                                                                255, 0, 255, 1)
+                                                          ],
+                                                          begin: Alignment.topLeft,
+                                                          end:
+                                                          Alignment.bottomRight,
+                                                        ),
+                                                      ),
+                                                  onRatingUpdate: (rating) {
+                                                    print(rating);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 11),
+                                      Text(
+                                        product.reviews[index].review,
+                                        style: kThemeData.textTheme.bodyLarge
+                                            ?.copyWith(color: DarkTheme.dark),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ); //3rd tabView
+                        }
+                      }),
+                      const SizedBox(
+                        height: 100,
+                      )
+                    ]),
+                  )
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30),
-              child: SvgPicture.asset('assets/images/like.svg'),
-            )
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: const Color.fromRGBO(243, 234, 249, 1),
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 30.0, top: 10, bottom: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  controller.requestAddToCart(product.id);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 20, bottom: 20, left: 90, right: 90),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary500,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Center(
+                                    child: Text("Add to Cart",
+                                        style: kThemeData.textTheme.labelMedium),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 30),
+                          child: SvgPicture.asset(
+                            'assets/images/like.svg',
+                            height: 40,
+                          ),
+                        )
+                      ],
+                    )),
+              ),
+            ),
           ],
-        )),
+        ),
       ),
     );
   }
