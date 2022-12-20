@@ -16,7 +16,11 @@ class CartView extends GetView<CartController> {
         title: const Text('CartView'),
         centerTitle: true,
       ),
-      body: const Text("Cart View is working",)
+      body: GestureDetector(
+        onTap: (){
+          controller.cart();
+        },
+          child: const Text("Cart View is working",))
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/get_carts_model.dart';
+
 
 class CartController extends GetxController {
 
@@ -84,6 +86,23 @@ class CartController extends GetxController {
       }
     } catch (e) {
       return false;
+    }
+  }
+  Future<List<Datum>> cart() async {
+    try {
+      final response =
+      await CartRepository.getCart().catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (response.isNotEmpty) {
+        return response;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
     }
   }
 

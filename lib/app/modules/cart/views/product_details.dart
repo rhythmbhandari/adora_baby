@@ -591,6 +591,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               child: GestureDetector(
                                 onTap: () {
                                   controller.requestAddToCart(product.id);
+                                  Get.toNamed(Routes.CART);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.only(
