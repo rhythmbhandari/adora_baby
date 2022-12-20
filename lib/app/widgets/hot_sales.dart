@@ -81,7 +81,7 @@ class HotSale extends StatelessWidget {
                         baseColor: Colors.white,
                         highlightColor: LightTheme.lightActive,
                         enabled: true,
-                        child: _buildImage());
+                        child: buildImageHotSales());
                   }),
             ),
             GestureDetector(
@@ -265,7 +265,7 @@ class ProductCards extends StatelessWidget {
   }
 }
 
-Widget _buildImage() {
+Widget buildImageHotSales() {
   return GridView.count(
     childAspectRatio: 0.6,
     physics: NeverScrollableScrollPhysics(),

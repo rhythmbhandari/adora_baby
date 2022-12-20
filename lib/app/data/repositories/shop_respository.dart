@@ -120,6 +120,26 @@ class ShopRepository {
     }
   }
 
+  static Future<List<a.Datum>> getHomeData() async {
+    var url = '$BASE_URL/shops/home/';
+
+    final response = await NetworkHelper().getRequest(url);
+
+    final data = response.data;
+
+    if (response.statusCode == 200) {
+      print("Response : ${response.data}");
+
+      List<a.Datum> datas = (response.data["data"] as List)
+          .map((i) => a.Datum.fromJson(i))
+          .toList();
+      return datas;
+    } else {
+      print(response.statusMessage);
+      return Future.error(data['message']);
+    }
+  }
+
 
    static Future<List> fetchTrendingImages() async {
     final babyMedicalCondition = [];
