@@ -25,13 +25,12 @@ class CartController extends GetxController {
   }
 
   Future<bool> requestAddToCart(String name) async {
-    TextEditingController productController = TextEditingController(text: name);
 
     TextEditingController quantityController = TextEditingController(text: counter.value.toString());
 
     try {
       final status =
-      await CartRepository.addToCart(productController.text.trim(),quantityController.text.trim())
+      await CartRepository.addToCart(name.toString(),quantityController.text.trim())
           .catchError((error) {
         authError.value = error;
         return false;

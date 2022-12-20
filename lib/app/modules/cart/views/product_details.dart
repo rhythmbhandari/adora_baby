@@ -180,10 +180,10 @@ class _ProductDetailsState extends State<ProductDetails>
                             enableInfiniteScroll: false,
                             padEnds: false,
                             onPageChanged: (val, _) {
-                              setState(() {
-                                print("new index $val");
-                                carouselController.jumpToPage(val);
-                              });
+                              // setState(() {
+                              //   print("new index $val");
+                              //   carouselController.jumpToPage(val);
+                              // });
                             },
                             // clipBehavior: Clip.antiAlias,
                             // onPageChanged: callbackFunction,
