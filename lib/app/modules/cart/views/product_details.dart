@@ -307,9 +307,9 @@ class ProductDetails extends GetView<CartController> {
               const SizedBox(height: 10,),
               Container(
                 color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30.0,right: 30),
-                  child: TabBars(overView: 'Overview', details: data[7], reviews: data[8],),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 30.0,right: 30),
+                  child: TabBars(overView: 'Overview', details: 'details', reviews: 'reviews',),
                 ),
               )
             ],

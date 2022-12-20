@@ -25,7 +25,7 @@ class AllProducts extends StatelessWidget {
     var index = 0;
     return Padding(
       padding:
-      const EdgeInsets.only(left: 30.0, right: 30, top: 10, bottom: 15),
+          const EdgeInsets.only(left: 30.0, right: 30, top: 10, bottom: 15),
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(20)),
@@ -57,16 +57,17 @@ class AllProducts extends StatelessWidget {
                           snapshot.data!.length > index) {
                         return GestureDetector(
                             onTap: () {
-                              // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                              //   snapshot.data![index][index].name,
-                              //   snapshot
-                              //       .data![0][index].productImages[index].name,
-                              //   snapshot.data![0][index].reviews[index].grade,
-                              //   snapshot.data![0][index].stockAvailable,
-                              //   snapshot.data![0][index].regularPrice,
-                              //   snapshot.data![0][index].weightInGrams,
-                              //   snapshot.data![0][index].bestBy,
-                              // ]);
+                              print("hi");
+                              Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
+                                snapshot.data![index][index].name,
+                                snapshot
+                                    .data![0][index].productImages[index].name,
+                                snapshot.data![0][index].reviews[0].grade,
+                                snapshot.data![0][index].stockAvailable,
+                                snapshot.data![0][index].regularPrice,
+                                snapshot.data![0][index].weightInGrams,
+                                snapshot.data![0][index].bestBy,
+                              ]);
                             },
                             child: AlignedGridView.count(
                               crossAxisCount: 2,
@@ -74,7 +75,7 @@ class AllProducts extends StatelessWidget {
                               crossAxisSpacing: 20,
                               shrinkWrap: true,
                               itemCount: snapshot.data![0].length,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return Container(
                                   padding: const EdgeInsets.only(top: 10),
@@ -89,7 +90,7 @@ class AllProducts extends StatelessWidget {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 1,
                                           blurRadius: 2,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               2), // changes position of shadow
                                         ),
                                       ],
@@ -99,7 +100,7 @@ class AllProducts extends StatelessWidget {
                                       Stack(
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.only(
+                                            margin: const EdgeInsets.only(
                                                 top: 12, bottom: 8),
                                             child: Center(
                                               child: Image.network(
@@ -109,38 +110,45 @@ class AllProducts extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          snapshot.data![0][index]
-                                              .salePrice == 0? Container(): Container(
-                                            padding: const EdgeInsets.only(
-                                                top: 2,
-                                                bottom: 2,
-                                                left: 6,
-                                                right: 6),
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(20),
-                                              gradient: const LinearGradient(
-                                                begin: Alignment.topRight,
-                                                end: Alignment.bottomLeft,
-                                                colors: [
-                                                  AppColors.linear2,
-                                                  AppColors.linear1,
-                                                ],
-                                              ),
-                                            ),
-                                            child: const Text(
-                                              "Sale!",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontStyle: FontStyle.normal,
-                                                  letterSpacing: 0.04),
-                                            ),
-                                          ),
+                                          snapshot.data![0][index].salePrice ==
+                                                  0
+                                              ? Container()
+                                              : Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 2,
+                                                          bottom: 2,
+                                                          left: 6,
+                                                          right: 6),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    gradient:
+                                                        const LinearGradient(
+                                                      begin: Alignment.topRight,
+                                                      end: Alignment.bottomLeft,
+                                                      colors: [
+                                                        AppColors.linear2,
+                                                        AppColors.linear1,
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    "Sale!",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: "Poppins",
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        letterSpacing: 0.04),
+                                                  ),
+                                                ),
                                         ],
                                       ),
                                       Container(
@@ -152,16 +160,16 @@ class AllProducts extends StatelessWidget {
                                                 243, 234, 249, 1),
                                             borderRadius: BorderRadius.only(
                                                 bottomRight:
-                                                Radius.circular(15),
+                                                    Radius.circular(15),
                                                 bottomLeft:
-                                                Radius.circular(15))),
+                                                    Radius.circular(15))),
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                             Text(
@@ -171,11 +179,11 @@ class AllProducts extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.labelSmall
                                                   ?.copyWith(
-                                                  color: AppColors
-                                                      .secondary700,
-                                                  fontSize: 12),
+                                                      color: AppColors
+                                                          .secondary700,
+                                                      fontSize: 12),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 4,
                                             ),
                                             Text(
@@ -184,11 +192,11 @@ class AllProducts extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.bodyMedium
                                                   ?.copyWith(
-                                                  color:
-                                                  AppColors.primary700,
-                                                  fontSize: 14),
+                                                      color:
+                                                          AppColors.primary700,
+                                                      fontSize: 14),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                             RatingBar.builder(
@@ -202,67 +210,77 @@ class AllProducts extends StatelessWidget {
                                               allowHalfRating: true,
                                               glow: false,
                                               itemCount: 5,
-                                              itemPadding: EdgeInsets.symmetric(
-                                                  horizontal: 0.0),
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
                                               itemBuilder: (context, _) =>
                                                   GradientIcon(
-                                                    Icons.star,
-                                                    10.0,
-                                                    LinearGradient(
-                                                      colors: <Color>[
-                                                        Color.fromRGBO(
-                                                            127, 0, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 0, 255, 1)
-                                                      ],
-                                                      begin: Alignment.topLeft,
-                                                      end: Alignment.bottomRight,
-                                                    ),
-                                                  ),
+                                                Icons.star,
+                                                10.0,
+                                                const LinearGradient(
+                                                  colors: <Color>[
+                                                    Color.fromRGBO(
+                                                        127, 0, 255, 1),
+                                                    Color.fromRGBO(
+                                                        255, 0, 255, 1)
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                              ),
                                               onRatingUpdate: (rating) {
                                                 print(rating);
                                               },
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                             snapshot.data![0][index]
-                                                .salePrice != 0?  Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Rs. ${snapshot.data![0][index].regularPrice}",
-                                                  maxLines: 2,
-                                                  style: kThemeData
-                                                      .textTheme.bodyMedium
-                                                      ?.copyWith(
-                                                      color:
-                                                      DarkTheme.lightActive,
-                                                      decoration: TextDecoration
-                                                          .lineThrough),
-                                                ),
-                                                Text(
-                                                  "Rs. ${snapshot.data![0][index].salePrice}",
-                                                  maxLines: 2,
-                                                  style: kThemeData
-                                                      .textTheme.bodyMedium
-                                                      ?.copyWith(
-                                                      color:
-                                                      DarkTheme.normal,
-                                                      decoration: TextDecoration
-                                                          .lineThrough),
-                                                ),
-                                              ],
-                                            ): Text(
-                                              "Rs. ${snapshot.data![0][index].regularPrice}",
-                                              maxLines: 2,
-                                              style: kThemeData
-                                                  .textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                  color:
-                                                  DarkTheme.normal),
-                                            ),
-                                            SizedBox(
+                                                        .salePrice !=
+                                                    0
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Rs. ${snapshot.data![0][index].regularPrice}",
+                                                        maxLines: 2,
+                                                        style: kThemeData
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                color: DarkTheme
+                                                                    .lightActive,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough),
+                                                      ),
+                                                      Text(
+                                                        "Rs. ${snapshot.data![0][index].salePrice}",
+                                                        maxLines: 2,
+                                                        style: kThemeData
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                color: DarkTheme
+                                                                    .normal,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Text(
+                                                    "Rs. ${snapshot.data![0][index].regularPrice}",
+                                                    maxLines: 2,
+                                                    style: kThemeData
+                                                        .textTheme.bodyMedium
+                                                        ?.copyWith(
+                                                            color: DarkTheme
+                                                                .normal),
+                                                  ),
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                           ],
@@ -293,7 +311,7 @@ class AllProducts extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  padding: EdgeInsets.only(right: 18, bottom: 19),
+                  padding: const EdgeInsets.only(right: 18, bottom: 19),
                   child: Text(
                     'See All',
                     style: kThemeData.textTheme.labelMedium
@@ -317,14 +335,14 @@ Widget _buildImage() {
     crossAxisCount: 2,
     children: List.generate(
       4,
-          (index) => Container(
+      (index) => Container(
         padding: const EdgeInsets.only(top: 10),
         margin: EdgeInsets.all(10),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.white,
             border:
-            Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
+                Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
             borderRadius: BorderRadius.circular(15)),
         child: Container(
             padding: const EdgeInsets.only(left: 5, right: 5),
