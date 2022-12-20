@@ -109,8 +109,7 @@ class NewShopViewBody extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            SvgPicture.asset(
-                                "assets/images/filter-search.svg"),
+                            SvgPicture.asset("assets/images/filter-search.svg"),
                             const Text(
                               "All Stages",
                               style: TextStyle(
@@ -154,7 +153,6 @@ class NewShopViewBody extends StatelessWidget {
             color: LightTheme.lightActive,
             child: Column(
               children: [
-
                 SizedBox(
                   height: 23,
                 ),
@@ -168,7 +166,8 @@ class NewShopViewBody extends StatelessWidget {
                             height: Get.height * 0.22,
                             autoPlay: true,
                             autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration: Duration(milliseconds: 800),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             viewportFraction: 1,
@@ -186,8 +185,8 @@ class NewShopViewBody extends StatelessWidget {
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
                                   imageUrl: '${i.name}',
-                                  placeholder: (context, url) =>
-                                      Center(child: CircularProgressIndicator()),
+                                  placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator()),
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
                                 ),
@@ -239,14 +238,11 @@ class NewShopViewBody extends StatelessWidget {
                 Obx(() {
                   switch (controller.progressStatus.value) {
                     case ProgressStatus.LOADING:
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.white,
-                            highlightColor: LightTheme.lightActive,
-                            enabled: true,
-                            child: shimmerHomePage()),
-                      );
+                      return Shimmer.fromColors(
+                          baseColor: Colors.white,
+                          highlightColor: LightTheme.lightActive,
+                          enabled: true,
+                          child: shimmerHomePage());
 
                     case ProgressStatus.ERROR:
                       return Container();
@@ -493,29 +489,34 @@ Widget shimmerHomePage() {
   return Column(
     children: [
       Container(
-        margin:
-            const EdgeInsets.only(left: 23.0, right: 23, top: 20, bottom: 15),
+        margin: const EdgeInsets.only(top: 20, bottom: 15, left: 18, right: 18),
         decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(20)),
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             const SizedBox(
               height: 20,
             ),
-            const Center(
-              child: Text(
-                "Hot Sales",
-                style: TextStyle(
-                  color: AppColors.primary500,
-                  fontFamily: "PLayfair",
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.01,
-                ),
+            Center(
+              child: Container(
+                height: 21,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(40)),
+              ),
+            ),
+            Center(
+              child: Container(
+                height: 21,
+                width: 100,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(40)),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(19.0),
+              padding: const EdgeInsets.only(left: 18),
               child: GridView.count(
                 childAspectRatio: 0.6,
                 physics: NeverScrollableScrollPhysics(),
@@ -525,26 +526,45 @@ Widget shimmerHomePage() {
                   4,
                   (index) => Container(
                     padding: const EdgeInsets.only(top: 10),
-                    margin: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(right: 18, bottom: 20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.white.withOpacity(0.8),
                         border: Border.all(
                             color: const Color.fromRGBO(192, 144, 254, 0.25)),
                         borderRadius: BorderRadius.circular(15)),
-                    child: Container(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(243, 234, 249, 1),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(15),
-                                bottomLeft: Radius.circular(15))),
-                        child: Text(
-                          "snapshot.data![index].name",
-                          style: kThemeData.textTheme.bodyMedium,
-                        )),
                   ),
                 ),
+              ),
+            ),
+            Center(
+              child: Container(
+                height: 21,
+                width: 100,
+                decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(40)),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  alignment: Alignment.bottomRight,
+                  height: 21,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)),
+                ),
+                SizedBox(width: 20,),
+              ],
+            ),
+            Center(
+              child: Container(
+                height: 21,
+                width: 100,
+                decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(40)),
               ),
             ),
           ],
