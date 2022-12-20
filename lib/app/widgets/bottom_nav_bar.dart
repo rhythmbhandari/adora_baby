@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/cart/views/cart_view.dart';
 import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<BottomNavBar>
                   Text("home"),
                   Text("moments"),
                   ShopView(),
-                  Text("cart"),
+                  CartView(),
                   ProfileView()
                 ]),
         child: Container(

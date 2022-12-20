@@ -99,7 +99,8 @@ class _ProductDetailsState extends State<ProductDetails>
                     height: 10,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +127,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           allowHalfRating: true,
                           glow: false,
                           itemCount: 5,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 0.0),
                           itemBuilder: (context, _) => GradientIcon(
                             Icons.star,
                             10.0,
@@ -152,7 +154,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
                                   color:
-                                  const Color.fromRGBO(229, 159, 164, 1))),
+                                      const Color.fromRGBO(229, 159, 164, 1))),
                           child: const Text(
                             "Supported Sitter",
                             style: TextStyle(
@@ -172,7 +174,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
-                            const Duration(milliseconds: 800),
+                                const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             viewportFraction: 1,
@@ -191,7 +193,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           items: product.productImages.map((i) {
                             return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 18),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: CachedNetworkImage(
@@ -200,7 +203,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   placeholder: (context, url) => const Center(
                                       child: CircularProgressIndicator()),
                                   errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ),
                               ),
                             );
@@ -228,19 +231,21 @@ class _ProductDetailsState extends State<ProductDetails>
                           children: [
                             product.stockAvailable == true
                                 ? Text(
-                              "In Stock",
-                              style: kThemeData.textTheme.titleMedium
-                                  ?.copyWith(color: AppColors.success800, fontSize: 16),
-                            )
+                                    "In Stock",
+                                    style: kThemeData.textTheme.titleMedium
+                                        ?.copyWith(
+                                            color: AppColors.success800,
+                                            fontSize: 16),
+                                  )
                                 : const Text(
-                              "Out of Stock",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontFamily: "Poppins",
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                                    "Out of Stock",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontFamily: "Poppins",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                             GestureDetector(
                                 onTap: () {
                                   Share.share(
@@ -248,7 +253,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       subject: 'Look at this product!');
                                 },
                                 child:
-                                SvgPicture.asset("assets/images/send.svg"))
+                                    SvgPicture.asset("assets/images/send.svg"))
                           ],
                         ),
                         const SizedBox(
@@ -256,46 +261,46 @@ class _ProductDetailsState extends State<ProductDetails>
                         ),
                         product.salePrice == 0
                             ? Text(
-                          "Rs. ${product.regularPrice}",
-                          style: kThemeData.textTheme.titleLarge,
-                        )
+                                "Rs. ${product.regularPrice}",
+                                style: kThemeData.textTheme.titleLarge,
+                              )
                             : Row(
-                          children: [
-                            Text(
-                              "Rs. ${product.regularPrice}",
-                              style: kThemeData.textTheme.titleLarge
-                                  ?.copyWith(
-                                  color: DarkTheme.lightActive,
-                                  decoration:
-                                  TextDecoration.lineThrough),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Rs. ${product.salePrice}",
-                              style: kThemeData.textTheme.titleLarge,
-                            ),
-                          ],
-                        ),
+                                children: [
+                                  Text(
+                                    "Rs. ${product.regularPrice}",
+                                    style: kThemeData.textTheme.titleLarge
+                                        ?.copyWith(
+                                            color: DarkTheme.lightActive,
+                                            decoration:
+                                                TextDecoration.lineThrough),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Rs. ${product.salePrice}",
+                                    style: kThemeData.textTheme.titleLarge,
+                                  ),
+                                ],
+                              ),
                         const SizedBox(
                           height: 14,
                         ),
                         product.weightInGrams != null
                             ? Text(product.weightInGrams.toString(),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ))
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "Poppins",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ))
                             : const Text("Weight N/A",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontFamily: "Poppins",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            )),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "Poppins",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                )),
                         const SizedBox(
                           height: 8,
                         ),
@@ -324,7 +329,8 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Container(
                     color: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 43, vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +356,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border:
-                                    Border.all(color: DarkTheme.normal)),
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.remove,
                                   color: DarkTheme.normal,
@@ -368,10 +374,10 @@ class _ProductDetailsState extends State<ProductDetails>
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border:
-                                      Border.all(color: DarkTheme.normal)),
+                                          Border.all(color: DarkTheme.normal)),
                                   child: Center(
                                     child: Obx(
-                                          () => Text(
+                                      () => Text(
                                         controller.counter.value.toString(),
                                         style: const TextStyle(
                                             color: DarkTheme.dark,
@@ -394,7 +400,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border:
-                                    Border.all(color: DarkTheme.normal)),
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.add,
                                   color: DarkTheme.normal,
@@ -476,13 +482,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             height: 40,
@@ -502,9 +508,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                           Expanded(
                                             child: Column(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   product.reviews[index]
@@ -512,8 +518,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   style: kThemeData
                                                       .textTheme.titleMedium
                                                       ?.copyWith(
-                                                      color:
-                                                      DarkTheme.dark),
+                                                          color:
+                                                              DarkTheme.dark),
                                                 ),
                                                 RatingBar.builder(
                                                   initialRating: double.parse(
@@ -525,25 +531,25 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   allowHalfRating: true,
                                                   glow: false,
                                                   itemCount: 5,
-                                                  itemPadding:
-                                                  const EdgeInsets.symmetric(
+                                                  itemPadding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 0.0),
                                                   itemBuilder: (context, _) =>
                                                       GradientIcon(
-                                                        Icons.star,
-                                                        10.0,
-                                                        const LinearGradient(
-                                                          colors: <Color>[
-                                                            Color.fromRGBO(
-                                                                127, 0, 255, 1),
-                                                            Color.fromRGBO(
-                                                                255, 0, 255, 1)
-                                                          ],
-                                                          begin: Alignment.topLeft,
-                                                          end:
+                                                    Icons.star,
+                                                    10.0,
+                                                    const LinearGradient(
+                                                      colors: <Color>[
+                                                        Color.fromRGBO(
+                                                            127, 0, 255, 1),
+                                                        Color.fromRGBO(
+                                                            255, 0, 255, 1)
+                                                      ],
+                                                      begin: Alignment.topLeft,
+                                                      end:
                                                           Alignment.bottomRight,
-                                                        ),
-                                                      ),
+                                                    ),
+                                                  ),
                                                   onRatingUpdate: (rating) {
                                                     print(rating);
                                                   },
@@ -582,43 +588,72 @@ class _ProductDetailsState extends State<ProductDetails>
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Padding(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30.0, top: 10, bottom: 10),
+                          child: GestureDetector(
+                            onTap: () async {
+                              final status =
+                                  await controller.requestAddToCart(product.id);
+                              if (!status) {
+                                const snackBar = SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text(
+                                      'Added to the cart successfully!',style: TextStyle(
+                                    color: Colors.white
+                                  ),),
+                                );
+
+                                // Find the ScaffoldMessenger in the widget tree
+                                // and use it to show a SnackBar.
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                final snackBar = SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                      controller.authError.value,
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                );
+
+                                // Find the ScaffoldMessenger in the widget tree
+                                // and use it to show a SnackBar.
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            },
+                            child: Container(
                               padding: const EdgeInsets.only(
-                                  left: 30.0, top: 10, bottom: 10),
-                              child: GestureDetector(
-                                onTap: () {
-                                  controller.requestAddToCart(product.id);
-                                  Get.toNamed(Routes.CART);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      top: 20, bottom: 20, left: 90, right: 90),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary500,
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Center(
-                                    child: Text("Add to Cart",
-                                        style: kThemeData.textTheme.labelMedium),
-                                  ),
-                                ),
-                              )),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: SvgPicture.asset(
-                            'assets/images/like.svg',
-                            height: 40,
-                          ),
-                        )
-                      ],
-                    )),
+                                  top: 20, bottom: 20, left: 90, right: 90),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary500,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Text("Add to Cart",
+                                    style: kThemeData.textTheme.labelMedium),
+                              ),
+                            ),
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: SvgPicture.asset(
+                        'assets/images/like.svg',
+                        height: 40,
+                      ),
+                    )
+                  ],
+                )),
               ),
             ),
           ],
