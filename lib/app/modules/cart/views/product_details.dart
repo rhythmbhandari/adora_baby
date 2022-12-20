@@ -58,7 +58,7 @@ class _ProductDetailsState extends State<ProductDetails>
     HotSales product = Get.arguments;
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(250, 245, 252, 1),
+      backgroundColor: LightTheme.whiteActive,
       body: SafeArea(
         child: Stack(
           children: [
@@ -99,7 +99,7 @@ class _ProductDetailsState extends State<ProductDetails>
                     height: 10,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,11 +126,11 @@ class _ProductDetailsState extends State<ProductDetails>
                           allowHalfRating: true,
                           glow: false,
                           itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
                           itemBuilder: (context, _) => GradientIcon(
                             Icons.star,
                             10.0,
-                            LinearGradient(
+                            const LinearGradient(
                               colors: <Color>[
                                 Color.fromRGBO(127, 0, 255, 1),
                                 Color.fromRGBO(255, 0, 255, 1)
@@ -170,9 +170,9 @@ class _ProductDetailsState extends State<ProductDetails>
                           options: CarouselOptions(
                             height: Get.height * 0.32,
                             autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
+                                const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             viewportFraction: 1,
@@ -191,16 +191,16 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           items: product.productImages.map((i) {
                             return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              padding: const EdgeInsets.symmetric(horizontal: 18),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
                                   imageUrl: '${i.name}',
-                                  placeholder: (context, url) => Center(
+                                  placeholder: (context, url) => const Center(
                                       child: CircularProgressIndicator()),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ),
                               ),
                             );
@@ -227,14 +227,10 @@ class _ProductDetailsState extends State<ProductDetails>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             product.stockAvailable == true
-                                ? const Text(
+                                ? Text(
                                     "In Stock",
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontFamily: "Poppins",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                    style: kThemeData.textTheme.titleMedium
+                                        ?.copyWith(color: AppColors.success800, fontSize: 16),
                                   )
                                 : const Text(
                                     "Out of Stock",
@@ -246,13 +242,16 @@ class _ProductDetailsState extends State<ProductDetails>
                                     ),
                                   ),
                             GestureDetector(
-                                onTap: (){
-                                  Share.share('Check out Adora Baby ${product.permalink}', subject: 'Look at this product!');
+                                onTap: () {
+                                  Share.share(
+                                      'Check out Adora Baby ${product.permalink}',
+                                      subject: 'Look at this product!');
                                 },
-                                child: SvgPicture.asset("assets/images/send.svg"))
+                                child:
+                                    SvgPicture.asset("assets/images/send.svg"))
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         product.salePrice == 0
@@ -270,7 +269,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             decoration:
                                                 TextDecoration.lineThrough),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Text(
@@ -279,7 +278,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   ),
                                 ],
                               ),
-                        SizedBox(
+                        const SizedBox(
                           height: 14,
                         ),
                         product.weightInGrams != null
@@ -297,7 +296,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 )),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text("Best by: ${product.bestBy}",
@@ -307,10 +306,10 @@ class _ProductDetailsState extends State<ProductDetails>
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
-                        Text("Delivered within: 2-3 business days.",
+                        const Text("Delivered within: 2-3 business days.",
                             style: TextStyle(
                               color: Colors.grey,
                               fontFamily: "Poppins",
@@ -325,16 +324,17 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Container(
                     color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 43, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Quantity",
-                          style: kThemeData.textTheme.titleLarge,
+                          style: kThemeData.textTheme.titleLarge
+                              ?.copyWith(color: DarkTheme.normal, fontSize: 28),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Row(
@@ -346,36 +346,43 @@ class _ProductDetailsState extends State<ProductDetails>
                                 controller.decrementCounter();
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.black)),
+                                    border:
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.remove,
-                                  color: Colors.black,
+                                  color: DarkTheme.normal,
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 14,
                             ),
-                            Container(
-                                padding: const EdgeInsets.only(
-                                    left: 40, right: 40, top: 5, bottom: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Colors.black)),
-                                child: Obx(
-                                  () => Text(
-                                    controller.counter.value.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
-                                  ),
-                                )),
-                            SizedBox(
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border:
+                                          Border.all(color: DarkTheme.normal)),
+                                  child: Center(
+                                    child: Obx(
+                                      () => Text(
+                                        controller.counter.value.toString(),
+                                        style: const TextStyle(
+                                            color: DarkTheme.dark,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 28),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                            const SizedBox(
                               width: 14,
                             ),
                             GestureDetector(
@@ -383,19 +390,24 @@ class _ProductDetailsState extends State<ProductDetails>
                                 controller.incrementCounter();
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.black)),
+                                    border:
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.add,
-                                  color: Colors.black,
+                                  color: DarkTheme.normal,
                                 ),
                               ),
                             ),
+                            const Expanded(
+                              flex: 4,
+                              child: SizedBox(),
+                            )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                       ],
@@ -417,15 +429,18 @@ class _ProductDetailsState extends State<ProductDetails>
                         indicatorColor: Colors.black,
                         controller: _controller,
                         unselectedLabelColor: Colors.black,
+                        indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
+                        labelStyle: kThemeData.textTheme.labelMedium
+                            ?.copyWith(color: DarkTheme.normal),
                         tabs: [
-                          Tab(
+                          const Tab(
                             text: "Overview",
                           ),
-                          Tab(
+                          const Tab(
                             text: "Details",
                           ),
-                          Tab(
+                          const Tab(
                             text: "Reviews",
                           ),
                         ],
@@ -433,7 +448,7 @@ class _ProductDetailsState extends State<ProductDetails>
                       Builder(builder: (_) {
                         if (_selectedTabbar == 0) {
                           return Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 46, vertical: 20),
                             child: Text(
                               product.shortDescription,
@@ -442,7 +457,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           ); //1st custom tabBarView
                         } else if (_selectedTabbar == 1) {
                           return Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 46, vertical: 20),
                             child: Text(
                               product.longDescription,
@@ -451,11 +466,11 @@ class _ProductDetailsState extends State<ProductDetails>
                           ); //1st/2nd tabView
                         } else {
                           return Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 46, vertical: 20),
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: product.reviews.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Column(
@@ -472,7 +487,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           Container(
                                             height: 40,
                                             width: 40,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Color(0xff000000),
                                             ),
@@ -481,7 +496,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             //   height: 100,
                                             // ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 16,
                                           ),
                                           Expanded(
@@ -511,13 +526,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   glow: false,
                                                   itemCount: 5,
                                                   itemPadding:
-                                                      EdgeInsets.symmetric(
+                                                      const EdgeInsets.symmetric(
                                                           horizontal: 0.0),
                                                   itemBuilder: (context, _) =>
                                                       GradientIcon(
                                                     Icons.star,
                                                     10.0,
-                                                    LinearGradient(
+                                                    const LinearGradient(
                                                       colors: <Color>[
                                                         Color.fromRGBO(
                                                             127, 0, 255, 1),
@@ -538,7 +553,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 11),
+                                      const SizedBox(height: 11),
                                       Text(
                                         product.reviews[index].review,
                                         style: kThemeData.textTheme.bodyLarge
@@ -550,7 +565,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           ); //3rd tabView
                         }
                       }),
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       )
                     ]),
@@ -564,24 +579,42 @@ class _ProductDetailsState extends State<ProductDetails>
               right: 0,
               child: Container(
                 color: const Color.fromRGBO(243, 234, 249, 1),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 6),
                 child: Center(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 30.0, top: 10, bottom: 7),
-                      child: ButtonsWidget(
-                        name: "ADD TO CART",
-                        onPressed: () {
-                          controller.requestAddToCart(product.id);
-                        },
-                      ),
+                    Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30.0, top: 10, bottom: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.requestAddToCart(product.id);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 90, right: 90),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary500,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Text("Add to Cart",
+                                    style: kThemeData.textTheme.labelMedium),
+                              ),
+                            ),
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 30,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 30),
-                      child: SvgPicture.asset('assets/images/like.svg'),
+                      child: SvgPicture.asset(
+                        'assets/images/like.svg',
+                        height: 40,
+                      ),
                     )
                   ],
                 )),

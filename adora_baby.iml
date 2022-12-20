@@ -45,6 +45,36 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/share_plus_linux/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/share_plus_linux/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/share_plus_linux/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher_ios/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/share_plus_windows/build" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/share_plus_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/share_plus_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
