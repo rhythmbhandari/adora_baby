@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:adora_baby/app/data/models/stages_brands.dart';
+import 'package:adora_baby/app/data/models/get_carts_model.dart' as a;
+
 import '../../config/constants.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
+import '../network/network_helper.dart';
 
 class CartRepository {
   static Future<bool> addToCart(String product, String quantity) async {
@@ -74,6 +78,25 @@ class CartRepository {
     } catch (e) {
       return Future.error(
           'Please check your internet connection and try again.');
+    }
+  }
+  static Future<List<a.Datum>> getCart() async {
+    const url = '$BASE_URL/cart/';
+
+    final response = await NetworkHelper().getRequest(url, contentType: await SecureStorage.returnHeaderWithToken());
+
+    final data = response.data;
+
+    if (response.statusCode == 200) {
+      print("Response : ${response.data}");
+
+      List<a.Datum> datas = (response.data["data"] as List)
+          .map((i) => a.Datum.fromJson(i))
+          .toList();
+      return datas;
+    } else {
+      print(response.statusMessage);
+      return Future.error(data['message']);
     }
   }
 }

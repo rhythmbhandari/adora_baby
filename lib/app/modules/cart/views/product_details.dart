@@ -99,7 +99,8 @@ class _ProductDetailsState extends State<ProductDetails>
                     height: 10,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +127,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           allowHalfRating: true,
                           glow: false,
                           itemCount: 5,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 0.0),
                           itemBuilder: (context, _) => GradientIcon(
                             Icons.star,
                             10.0,
@@ -180,10 +182,10 @@ class _ProductDetailsState extends State<ProductDetails>
                             enableInfiniteScroll: false,
                             padEnds: false,
                             onPageChanged: (val, _) {
-                              setState(() {
-                                print("new index $val");
-                                carouselController.jumpToPage(val);
-                              });
+                              // setState(() {
+                              //   print("new index $val");
+                              //   carouselController.jumpToPage(val);
+                              // });
                             },
                             // clipBehavior: Clip.antiAlias,
                             // onPageChanged: callbackFunction,
@@ -191,7 +193,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           items: product.productImages.map((i) {
                             return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 18),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: CachedNetworkImage(
@@ -230,7 +233,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ? Text(
                                     "In Stock",
                                     style: kThemeData.textTheme.titleMedium
-                                        ?.copyWith(color: AppColors.success800, fontSize: 16),
+                                        ?.copyWith(
+                                            color: AppColors.success800,
+                                            fontSize: 16),
                                   )
                                 : const Text(
                                     "Out of Stock",
@@ -324,7 +329,8 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Container(
                     color: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 43, vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -525,9 +531,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   allowHalfRating: true,
                                                   glow: false,
                                                   itemCount: 5,
-                                                  itemPadding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 0.0),
+                                                  itemPadding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 0.0),
                                                   itemBuilder: (context, _) =>
                                                       GradientIcon(
                                                     Icons.star,
@@ -589,8 +595,38 @@ class _ProductDetailsState extends State<ProductDetails>
                           padding: const EdgeInsets.only(
                               left: 30.0, top: 10, bottom: 10),
                           child: GestureDetector(
-                            onTap: () {
-                              controller.requestAddToCart(product.id);
+                            onTap: () async {
+                              final status =
+                                  await controller.requestAddToCart(product.id);
+                              if (!status) {
+                                const snackBar = SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text(
+                                      'Added to the cart successfully!',style: TextStyle(
+                                    color: Colors.white
+                                  ),),
+                                );
+
+                                // Find the ScaffoldMessenger in the widget tree
+                                // and use it to show a SnackBar.
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                final snackBar = SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                      controller.authError.value,
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                );
+
+                                // Find the ScaffoldMessenger in the widget tree
+                                // and use it to show a SnackBar.
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.only(
