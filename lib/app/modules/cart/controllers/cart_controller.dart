@@ -14,6 +14,8 @@ class CartController extends GetxController {
   final authError = ''.obs;
   final progressBarStatus = false.obs;
   final counter =0.obs;
+  final valuefirst = false.obs;
+
   void incrementCounter() {
       counter.value++;
 
