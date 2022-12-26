@@ -55,20 +55,35 @@ class HotSale extends StatelessWidget {
                       if (snapshot.data != null &&
                           snapshot.data!.isNotEmpty &&
                           snapshot.data!.length > index) {
-                        return AlignedGridView.count(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data![0].length >= 4
-                              ? 4
-                              : snapshot.data![0].length,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return ProductCards(
-                                snapshot: snapshot, index: index);
-                          },
-                        );
+                        return GestureDetector(
+
+                            onTap: () {
+                              Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
+                                snapshot.data![index][index].name,
+                                snapshot
+                                    .data![0][index].productImages[index].name,
+                                snapshot.data![0][index].reviews[index].grade,
+                                snapshot.data![0][index].stockAvailable,
+                                snapshot.data![0][index].regularPrice,
+                                snapshot.data![0][index].weightInGrams,
+                                snapshot.data![0][index].bestBy,
+                              ]);
+                            },
+                            child: AlignedGridView.count(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data![0].length >= 4
+                                  ? 4
+                                  : snapshot.data![0].length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return ProductCards(
+                                    snapshot: snapshot, index: index);
+                              },
+                            ));
+
                       }
                     } else if (snapshot.hasError) {
                       print(snapshot.error);
