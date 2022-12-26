@@ -9,11 +9,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../config/app_colors.dart';
-import '../config/app_theme.dart';
-import '../data/models/hot_sales_model.dart';
-import 'custom_progress_bar.dart';
-import 'gradient_icon.dart';
+import '../../../config/app_colors.dart';
+import '../../../config/app_theme.dart';
+import '../../../data/models/hot_sales_model.dart';
+import '../../../widgets/custom_progress_bar.dart';
+import '../../../widgets/gradient_icon.dart';
 
 class HotSale extends StatelessWidget {
   final dynamic hotSales;

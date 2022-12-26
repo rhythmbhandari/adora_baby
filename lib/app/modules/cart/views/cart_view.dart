@@ -11,7 +11,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../data/models/get_carts_model.dart';
-import '../../../widgets/hot_sales.dart';
+import '../../shop/widgets/hot_sales.dart';
 import '../controllers/cart_controller.dart';
 
 class CartView extends GetView<CartController> {

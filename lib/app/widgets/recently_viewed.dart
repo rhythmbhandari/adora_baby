@@ -1,7 +1,7 @@
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:adora_baby/app/widgets/hot_sales.dart';
+import 'package:adora_baby/app/modules/shop/widgets/hot_sales.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:flutter/material.dart';
-import '../config/app_theme.dart';
-import '../data/models/stages_brands.dart';
-import 'custom_progress_bar.dart';
+import '../../../config/app_theme.dart';
+import '../../../data/models/stages_brands.dart';
+import '../../../widgets/custom_progress_bar.dart';
 
 class AllBrands extends StatelessWidget {
   const AllBrands({super.key});
