@@ -19,7 +19,14 @@ import '../../../widgets/recently_viewed.dart';
 import '../controllers/shop_controller.dart';
 
 class ShopView extends GetView<ShopController> {
-  const ShopView({Key? key}) : super(key: key);
+  ShopView({Key? key}) : super(key: key);
+  late final trendingImages = Future.wait([controller.getTrendingImages()]);
+
+  late final hotSales = Future.wait([ShopRepository.hotSales()]);
+
+  late final recentlyViewed = Future.wait([ShopRepository.allProducts()]);
+
+  late final allProducts = Future.wait([ShopRepository.allProducts()]);
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +152,7 @@ class ShopView extends GetView<ShopController> {
                   height: 23,
                 ),
                 FutureBuilder<List>(
-                  future: controller.getTrendingImages(),
+                  future: trendingImages,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
@@ -223,9 +230,9 @@ class ShopView extends GetView<ShopController> {
                     );
                   },
                 ),
-                HotSale(),
-                RecentlyViewed(),
-                AllProducts(),
+                HotSale(hotSales: hotSales),
+                RecentlyViewed(recentlyViewed: recentlyViewed),
+                AllProducts(allProducts: allProducts),
                 Obx(() => controller.isSelected.value
                     ? const AllBrands()
                     : Container()),

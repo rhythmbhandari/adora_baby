@@ -17,9 +17,9 @@ import 'custom_progress_bar.dart';
 import 'gradient_icon.dart';
 
 class RecentlyViewed extends StatelessWidget {
-  RecentlyViewed({super.key});
+  final dynamic recentlyViewed;
 
-  late final lotsOfData = Future.wait([ShopRepository.allProducts()]);
+  const RecentlyViewed({required this.recentlyViewed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class RecentlyViewed extends StatelessWidget {
               ),
             ),
             FutureBuilder<List<List<HotSales>>>(
-                future: lotsOfData,
+                future: recentlyViewed,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data != null &&
