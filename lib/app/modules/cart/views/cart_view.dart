@@ -135,7 +135,7 @@ class CartView extends GetView<CartController> {
                                                                 FontWeight.w600,
                                                             color: Colors.red),
                                                       ),
-                                                SizedBox(height: 20,),
+                                                const SizedBox(height: 20,),
                                                 Row(
                                                   children: [
                                                     Row(
@@ -193,6 +193,8 @@ class CartView extends GetView<CartController> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             controller.incrementCounter();
+                                                            print(snapshot.data![index].product.regularPrice*controller.counter.value);
+
                                                           },
                                                           child: Container(
                                                             padding: const EdgeInsets.all(2),
@@ -215,14 +217,14 @@ class CartView extends GetView<CartController> {
                                                                child: SvgPicture.asset("assets/images/like.svg",height: 25,),
                                                              ),
                                                              const SizedBox(height: 15,),
-                                                             Text("Rs. ${snapshot.data![index].product.regularPrice.toString()}",
+                                                             Obx(()=>Text("Rs. ${snapshot.data![index].product.regularPrice*controller.counter.value}",
                                                                style: const TextStyle(
                                                                    color: DarkTheme.dark,
                                                                    fontFamily: 'Poppins',
                                                                    fontWeight: FontWeight.w700,
                                                                    fontSize: 16),
 
-                                                             )
+                                                             ))
                                                            ],
                                                          )
                                                       ],

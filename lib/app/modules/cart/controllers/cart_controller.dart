@@ -8,7 +8,7 @@ import '../../../data/models/get_carts_model.dart';
 class CartController extends GetxController {
 
   //TODO: Implement ProfileController
-  var quantity=5;
+
   TextEditingController idController = TextEditingController();
 
   final authError = ''.obs;
@@ -52,7 +52,7 @@ class CartController extends GetxController {
 
 
   Future<bool> requestUpdateToCart() async {
-    TextEditingController quantityController = TextEditingController(text: quantity.toString());
+    TextEditingController quantityController = TextEditingController(text: counter.value.toString());
 
     try {
       final status =
