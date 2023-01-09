@@ -74,7 +74,7 @@ class HotSales {
         shortName: json["short_name"],
         slug: json["slug"],
         regularPrice: json["regular_price"],
-        salePrice: json["sale_price"],
+        salePrice: json["sale_price"] ?? 0,
         stockAvailable: json["stock_available"],
         permalink: json["permalink"],
         cp: json["cp"],
