@@ -23,6 +23,8 @@ class ShopController extends GetxController {
 
   final hotSales = [].obs;
 
+  final allProducts = [].obs;
+
   final progressStatus = ProgressStatus.IDLE.obs;
 
   @override
@@ -139,6 +141,7 @@ class ShopController extends GetxController {
     await Future.wait([
       getTrendingImages(),
       getHotSales(),
+      getAllProducts(),
     ]);
   }
 
@@ -165,6 +168,24 @@ class ShopController extends GetxController {
     await ShopRepository.fetchHotSales()
         .then(
           (value) => hotSales.value = value,
+        )
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 5)).then(
+          (value) => hideProgressBar(),
+        );
+      },
+    );
+  }
+
+  Future<void> getAllProducts() async {
+    showProgressBar();
+    await ShopRepository.fetchAllProducts()
+        .then(
+          (value) => allProducts.value = value,
         )
         .then((value) => hideProgressBar())
         .catchError(

@@ -61,25 +61,24 @@ class ShopRepository {
     }
   }
 
-
-  static Future<List<HotSales>> allProducts() async {
+  static Future<List<HotSales>> fetchAllProducts() async {
     const url = '$BASE_URL/shops/';
 
-    final response = await NetworkHelper().getRequest(url);
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
 
-    final data = response.data;
-
-    if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<HotSales> datas = (response.data["data"] as List)
+    if (status is Map<dynamic, dynamic>) {
+      List<HotSales> hotSales = (status['data'] as List)
           .map((i) => HotSales.fromJson(i))
           .toList();
-      return datas;
-    } else {
-      print(response.statusMessage);
-      return Future.error(data['message']);
+      log('Reached here');
+      return hotSales;
     }
+
+    return Future.error('Error $status');
   }
 
   static Future<List<a.Datum>> brands() async {

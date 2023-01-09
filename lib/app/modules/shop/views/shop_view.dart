@@ -168,8 +168,7 @@ class NewShopViewBody extends StatelessWidget {
                 HotSale(
                   controller: controller,
                 ),
-                // RecentlyViewed(recentlyViewed: recentlyViewed),
-                // AllProducts(allProducts: allProducts),
+                AllProducts(controller: controller),
                 // Obx(() => controller.isSelected.value
                 //     ? const AllBrands()
                 //     : Container()),

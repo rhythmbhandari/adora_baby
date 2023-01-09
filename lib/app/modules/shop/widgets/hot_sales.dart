@@ -1,10 +1,5 @@
 import 'dart:developer';
-
-import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
-import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -13,8 +8,6 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../data/models/hot_sales_model.dart';
-import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
 
@@ -62,24 +55,24 @@ class HotSale extends StatelessWidget {
                 child: Obx(() => controller.hotSales.isNotEmpty
                     ? GestureDetector(
                         onTap: () {
-                          // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                          //   snapshot.data![index][index].name,
-                          //   snapshot.data![0][index].productImages[index].name,
-                          //   snapshot.data![0][index].reviews[index].grade,
-                          //   snapshot.data![0][index].stockAvailable,
-                          //   snapshot.data![0][index].regularPrice,
-                          //   snapshot.data![0][index].weightInGrams,
-                          //   snapshot.data![0][index].bestBy,
-                          // ]);
+                          Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
+                           controller.allProducts[index].name,
+                            controller.allProducts[index].productImages[index].name,
+                            controller.allProducts[index].reviews[index].grade,
+                            controller.allProducts[index].stockAvailable,
+                            controller.allProducts[index].regularPrice,
+                            controller.allProducts[index].weightInGrams,
+                            controller.allProducts[index].bestBy,
+                          ]);
                         },
                         child: AlignedGridView.count(
                           crossAxisCount: 2,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 20,
                           shrinkWrap: true,
-                          itemCount: controller.hotSales[0].length >= 4
+                          itemCount: controller.hotSales.length >= 4
                               ? 4
-                              : controller.hotSales[0].length,
+                              : controller.hotSales.length,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ProductCards(
@@ -127,7 +120,7 @@ class ProductCards extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.PRODUCT_DETAILS,
-            arguments: controller.hotSales[0][index]);
+            arguments: controller.hotSales[index]);
       },
       child: Container(
         padding: const EdgeInsets.only(top: 10),
@@ -153,7 +146,7 @@ class ProductCards extends StatelessWidget {
                   margin: EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
                     child: Image.network(
-                      controller.hotSales[0][index].productImages[0].name,
+                      controller.hotSales[index].productImages[0].name,
                       height: Get.height * 0.16,
                     ),
                   ),
@@ -202,7 +195,7 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    controller.hotSales[0][index].shortName,
+                    controller.hotSales[index].shortName,
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),
@@ -211,7 +204,7 @@ class ProductCards extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    controller.hotSales[0][index].name,
+                    controller.hotSales[index].name,
                     maxLines: 2,
                     style: kThemeData.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.primary700, fontSize: 14),
@@ -221,7 +214,7 @@ class ProductCards extends StatelessWidget {
                   ),
                   RatingBar.builder(
                     initialRating:
-                        controller.hotSales[0][index].rating.gradeAvg,
+                        controller.hotSales[index].rating.gradeAvg,
                     ignoreGestures: true,
                     itemSize: 12,
                     direction: Axis.horizontal,
@@ -252,14 +245,14 @@ class ProductCards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Rs. ${controller.hotSales[0][index].regularPrice}",
+                        "Rs. ${controller.hotSales[index].regularPrice}",
                         maxLines: 2,
                         style: kThemeData.textTheme.bodyMedium?.copyWith(
                             color: DarkTheme.lightActive,
                             decoration: TextDecoration.lineThrough),
                       ),
                       Text(
-                        "Rs. ${controller.hotSales[0][index].salePrice}",
+                        "Rs. ${controller.hotSales[index].salePrice}",
                         maxLines: 2,
                         style: kThemeData.textTheme.bodyMedium
                             ?.copyWith(color: DarkTheme.normal),

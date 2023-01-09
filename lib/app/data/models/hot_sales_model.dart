@@ -260,25 +260,25 @@ class CreatedBy {
   String? id;
   String? fullName;
   String? username;
-  ProfilePhoto? profilePhoto;
+  dynamic profilePhoto;
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
-        id: json["id"],
-        fullName: json["full_name"],
-        username: json["username"],
-        profilePhoto: ProfilePhoto.fromJson(json["profile_photo"]),
-      );
+    id: json["id"],
+    fullName: json["full_name"],
+    username: json["username"],
+    profilePhoto: json["profile_photo"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "full_name": fullName,
-        "username": username,
-        "profile_photo": profilePhoto!.toJson(),
-      };
+    "id": id,
+    "full_name": fullName,
+    "username": username,
+    "profile_photo": profilePhoto,
+  };
 }
 
-class ProfilePhoto {
-  ProfilePhoto({
+class ProfilePhotoClass {
+  ProfilePhotoClass({
     this.id,
     this.name,
     this.pictureOff,
@@ -288,15 +288,15 @@ class ProfilePhoto {
   String? name;
   String? pictureOff;
 
-  factory ProfilePhoto.fromJson(Map<String, dynamic> json) => ProfilePhoto(
-        id: json["id"],
-        name: json["name"],
-        pictureOff: json["picture_off"],
-      );
+  factory ProfilePhotoClass.fromJson(Map<String, dynamic> json) => ProfilePhotoClass(
+    id: json["id"],
+    name: json["name"],
+    pictureOff: json["picture_off"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "picture_off": pictureOff,
-      };
+    "id": id,
+    "name": name,
+    "picture_off": pictureOff,
+  };
 }
