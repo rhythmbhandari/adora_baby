@@ -21,6 +21,16 @@ class ShopController extends GetxController {
   final authError = ''.obs;
   final trendingImagesList = [].obs;
 
+  final progressStatus = ProgressStatus.LOADING.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+
+
+
   showAlertDialog(BuildContext context) {
     // Create AlertDialog
     showGeneralDialog(
