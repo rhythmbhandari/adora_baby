@@ -80,7 +80,7 @@ class _MyHomePageState extends State<BottomNavBar>
                 controller: tabController,
                 dragStartBehavior: DragStartBehavior.down,
                 physics: const BouncingScrollPhysics(),
-                children: const [
+                children: [
                   Text("home"),
                   Text("moments"),
                   ShopView(),

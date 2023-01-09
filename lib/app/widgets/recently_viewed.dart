@@ -1,7 +1,7 @@
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:adora_baby/app/widgets/hot_sales.dart';
+import 'package:adora_baby/app/modules/shop/widgets/hot_sales.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +17,9 @@ import 'custom_progress_bar.dart';
 import 'gradient_icon.dart';
 
 class RecentlyViewed extends StatelessWidget {
-  RecentlyViewed({super.key});
+  final dynamic recentlyViewed;
 
-  late final lotsOfData = Future.wait([ShopRepository.allProducts()]);
+  const RecentlyViewed({required this.recentlyViewed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class RecentlyViewed extends StatelessWidget {
               ),
             ),
             FutureBuilder<List<List<HotSales>>>(
-                future: lotsOfData,
+                future: recentlyViewed,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data != null &&

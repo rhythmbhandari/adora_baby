@@ -57,7 +57,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SHOP,
-      page: () => const ShopView(),
+      page: () => ShopView(),
       binding: ShopBinding(),
     ),
     GetPage(

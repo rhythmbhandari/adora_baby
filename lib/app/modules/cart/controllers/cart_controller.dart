@@ -8,13 +8,14 @@ import '../../../data/models/get_carts_model.dart';
 class CartController extends GetxController {
 
   //TODO: Implement ProfileController
-  var quantity=5;
+
   TextEditingController idController = TextEditingController();
 
   final authError = ''.obs;
   final progressBarStatus = false.obs;
   final counter =0.obs;
-  final valuefirst = false.obs;
+  final value = false.obs;
+  final selectAll = false.obs;
 
   void incrementCounter() {
       counter.value++;
@@ -52,7 +53,7 @@ class CartController extends GetxController {
 
 
   Future<bool> requestUpdateToCart() async {
-    TextEditingController quantityController = TextEditingController(text: quantity.toString());
+    TextEditingController quantityController = TextEditingController(text: counter.value.toString());
 
     try {
       final status =
@@ -72,10 +73,10 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToDeleteCart() async {
+  Future<bool> requestToDeleteCart(String id) async {
     try {
       final status =
-      await CartRepository.deleteCart(idController.text.trim())
+      await CartRepository.deleteCart(id.trim())
           .catchError((error) {
         authError.value = error;
         return false;
