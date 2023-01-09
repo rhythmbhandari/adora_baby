@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
@@ -14,11 +16,15 @@ import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../controllers/shop_controller.dart';
 
 class HotSale extends StatelessWidget {
-  final dynamic hotSales;
+  const HotSale({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
-  const HotSale({required this.hotSales, super.key});
+  final ShopController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -34,71 +40,61 @@ class HotSale extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Center(
-              child: Text(
-                "Hot Sales",
-                style: TextStyle(
-                  color: AppColors.primary500,
-                  fontFamily: "PLayfair",
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.01,
+            GestureDetector(
+              onTap: (){
+                log('Hot Sales is ${controller.hotSales}');
+              },
+              child: const Center(
+                child: Text(
+                  "Hot Sales",
+                  style: TextStyle(
+                    color: AppColors.primary500,
+                    fontFamily: "PLayfair",
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.01,
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(19.0),
-              child: FutureBuilder<List<List<HotSales>>>(
-                  future: hotSales,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data != null &&
-                          snapshot.data!.isNotEmpty &&
-                          snapshot.data!.length > index) {
-                        return GestureDetector(
-
-                            onTap: () {
-                              Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                                snapshot.data![index][index].name,
-                                snapshot
-                                    .data![0][index].productImages[index].name,
-                                snapshot.data![0][index].reviews[index].grade,
-                                snapshot.data![0][index].stockAvailable,
-                                snapshot.data![0][index].regularPrice,
-                                snapshot.data![0][index].weightInGrams,
-                                snapshot.data![0][index].bestBy,
-                              ]);
-                            },
-                            child: AlignedGridView.count(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20,
-                              crossAxisSpacing: 20,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data![0].length >= 4
-                                  ? 4
-                                  : snapshot.data![0].length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return ProductCards(
-                                    snapshot: snapshot, index: index);
-                              },
-                            ));
-
-                      }
-                    } else if (snapshot.hasError) {
-                      print(snapshot.error);
-                      return const Center(
-                        child: Text("Sorry,not found!"),
-                      );
-                    }
-
-                    return Shimmer.fromColors(
-                        baseColor: Colors.white,
-                        highlightColor: LightTheme.lightActive,
-                        enabled: true,
-                        child: buildImageHotSales());
-                  }),
-            ),
+                padding: const EdgeInsets.all(19.0),
+                child: Obx(() => controller.hotSales.isNotEmpty
+                    ? GestureDetector(
+                        onTap: () {
+                          // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
+                          //   snapshot.data![index][index].name,
+                          //   snapshot.data![0][index].productImages[index].name,
+                          //   snapshot.data![0][index].reviews[index].grade,
+                          //   snapshot.data![0][index].stockAvailable,
+                          //   snapshot.data![0][index].regularPrice,
+                          //   snapshot.data![0][index].weightInGrams,
+                          //   snapshot.data![0][index].bestBy,
+                          // ]);
+                        },
+                        child: AlignedGridView.count(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20,
+                          shrinkWrap: true,
+                          itemCount: controller.hotSales[0].length >= 4
+                              ? 4
+                              : controller.hotSales[0].length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return ProductCards(
+                              controller: controller,
+                              index: index,
+                            );
+                          },
+                        ))
+                    : Container(
+                        padding: EdgeInsets.symmetric(horizontal: 18),
+                        child: Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: LightTheme.lightActive,
+                            enabled: true,
+                            child: buildImageHotSales())))),
             GestureDetector(
               onTap: () {},
               child: Align(
@@ -122,22 +118,24 @@ class HotSale extends StatelessWidget {
 
 class ProductCards extends StatelessWidget {
   int index;
-  AsyncSnapshot<List<List<HotSales>>> snapshot;
+  final ShopController controller;
 
-  ProductCards({super.key, required this.index, required this.snapshot});
+  ProductCards({super.key, required this.index, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Get.toNamed(Routes.PRODUCT_DETAILS, arguments: snapshot.data![0][index]);
+      onTap: () {
+        Get.toNamed(Routes.PRODUCT_DETAILS,
+            arguments: controller.hotSales[0][index]);
       },
       child: Container(
         padding: const EdgeInsets.only(top: 10),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
+            border:
+                Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -155,14 +153,14 @@ class ProductCards extends StatelessWidget {
                   margin: EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
                     child: Image.network(
-                      snapshot.data![0][index].productImages[0].name,
+                      controller.hotSales[0][index].productImages[0].name,
                       height: Get.height * 0.16,
                     ),
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.only(top: 2, bottom: 2, left: 6, right: 6),
+                  padding: const EdgeInsets.only(
+                      top: 2, bottom: 2, left: 6, right: 6),
                   margin: EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -204,7 +202,7 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    snapshot.data![0][index].shortName,
+                    controller.hotSales[0][index].shortName,
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),
@@ -213,7 +211,7 @@ class ProductCards extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    snapshot.data![0][index].name,
+                    controller.hotSales[0][index].name,
                     maxLines: 2,
                     style: kThemeData.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.primary700, fontSize: 14),
@@ -222,7 +220,8 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   RatingBar.builder(
-                    initialRating: snapshot.data![0][index].rating.gradeAvg,
+                    initialRating:
+                        controller.hotSales[0][index].rating.gradeAvg,
                     ignoreGestures: true,
                     itemSize: 12,
                     direction: Axis.horizontal,
@@ -253,17 +252,17 @@ class ProductCards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Rs. ${snapshot.data![0][index].regularPrice}",
+                        "Rs. ${controller.hotSales[0][index].regularPrice}",
                         maxLines: 2,
                         style: kThemeData.textTheme.bodyMedium?.copyWith(
                             color: DarkTheme.lightActive,
                             decoration: TextDecoration.lineThrough),
                       ),
                       Text(
-                        "Rs. ${snapshot.data![0][index].salePrice}",
+                        "Rs. ${controller.hotSales[0][index].salePrice}",
                         maxLines: 2,
-                        style: kThemeData.textTheme.bodyMedium?.copyWith(
-                            color: DarkTheme.normal),
+                        style: kThemeData.textTheme.bodyMedium
+                            ?.copyWith(color: DarkTheme.normal),
                       ),
                     ],
                   ),

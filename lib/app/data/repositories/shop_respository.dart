@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
@@ -8,6 +9,7 @@ import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/custom_progress_bar.dart';
+import '../network/dio_client.dart';
 import '../network/network_helper.dart';
 
 import '../models/hot_sales_model.dart';
@@ -19,24 +21,24 @@ import 'package:http/http.dart' as http;
 
 
 class ShopRepository {
-  static Future<List<HotSales>> hotSales() async {
+  static Future<List<HotSales>> fetchHotSales() async {
     const url = '$BASE_URL/shops/hot_sale';
 
-    final response = await NetworkHelper().getRequest(url);
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
 
-    final data = response.data;
-
-    if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<HotSales> datas = (response.data["data"] as List)
+    if (status is Map<dynamic, dynamic>) {
+      List<HotSales> hotSales = (status['data'] as List)
           .map((i) => HotSales.fromJson(i))
           .toList();
-      return datas;
-    } else {
-      print(response.statusMessage);
-      return Future.error(data['message']);
+      log('Reached here');
+      return hotSales;
     }
+
+    return Future.error('Error $status');
   }
 
   static Future<List<HotSales>> getIndividualProduct(String id) async {
@@ -141,20 +143,23 @@ class ShopRepository {
   }
 
 
-   static Future<List> fetchTrendingImages() async {
-    final babyMedicalCondition = [];
+  static Future<List<TrendingImages>> fetchTrendingImages() async {
+    const url =
+        '$baseUrl/trending-images/?is_active=true';
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
 
-    String url = '$BASE_URL/trending-images/?is_active=true';
-    final response = await http.get(Uri.parse(url));
-    print('Response is $response');
-    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    if (response.statusCode == 200) {
-      List<TrendingImages> trendingList =
-      (decodedResponse['data'] as List).map((i) => TrendingImages.fromJson(i)).toList();
-      return trendingList;
-    } else {
-      return [];
+    if (status is Map<dynamic, dynamic>) {
+      List<TrendingImages> trendingImages = (status['data'] as List)
+          .map((i) => TrendingImages.fromJson(i))
+          .toList();
+      return trendingImages;
     }
+
+    return Future.error('Error $status');
   }
 
 }

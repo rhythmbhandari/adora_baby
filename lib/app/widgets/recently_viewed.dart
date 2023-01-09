@@ -175,7 +175,7 @@ class RecentlyViewedProducts extends StatelessWidget {
                   margin: EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
                     child: Image.network(
-                      snapshot.data![0][index].productImages[0].name,
+                      '${snapshot.data![0][index].productImages![0]?.name}',
                       height: Get.height * 0.16,
                     ),
                   ),
@@ -204,7 +204,7 @@ class RecentlyViewedProducts extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    snapshot.data![0][index].shortName,
+                    '${snapshot.data![0][index].shortName}',
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),
@@ -213,7 +213,7 @@ class RecentlyViewedProducts extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    snapshot.data![0][index].name,
+                    '${snapshot.data![0][index].name}',
                     maxLines: 2,
                     style: kThemeData.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.primary700, fontSize: 14),
@@ -222,7 +222,7 @@ class RecentlyViewedProducts extends StatelessWidget {
                     height: 8,
                   ),
                   RatingBar.builder(
-                    initialRating: snapshot.data![0][index].rating.gradeAvg,
+                    initialRating: snapshot.data![0][index].rating == null ? 0.0: snapshot.data![0][index].rating!.gradeAvg,
                     ignoreGestures: true,
                     itemSize: 12,
                     direction: Axis.horizontal,

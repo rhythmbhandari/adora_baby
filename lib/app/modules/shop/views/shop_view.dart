@@ -2,6 +2,7 @@ import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/shop/widgets/all_brands.dart';
+import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +29,11 @@ class ShopView extends GetView<ShopController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: LightTheme.white,
-        body: NewShopViewBody(controller: controller));
+    return progressWrap(
+        Scaffold(
+            backgroundColor: LightTheme.white,
+            body: NewShopViewBody(controller: controller)),
+        controller.progressStatus);
   }
 }
 
@@ -41,14 +44,6 @@ class NewShopViewBody extends StatelessWidget {
   }) : super(key: key);
 
   final ShopController controller;
-
-  late final trendingImages = Future.wait([controller.getTrendingImages()]);
-
-  late final hotSales = Future.wait([ShopRepository.hotSales()]);
-
-  late final recentlyViewed = Future.wait([ShopRepository.allProducts()]);
-
-  late final allProducts = Future.wait([ShopRepository.allProducts()]);
 
   @override
   Widget build(BuildContext context) {
@@ -169,113 +164,15 @@ class NewShopViewBody extends StatelessWidget {
                 SizedBox(
                   height: 23,
                 ),
-                // FutureBuilder<List>(
-                //   future: controller.getTrendingImages(),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                //         return CarouselSlider(
-                //           options: CarouselOptions(
-                //             height: Get.height * 0.22,
-                //             autoPlay: true,
-                //             autoPlayInterval: Duration(seconds: 3),
-                //             autoPlayAnimationDuration:
-                //                 Duration(milliseconds: 800),
-                //             autoPlayCurve: Curves.fastOutSlowIn,
-                //             enlargeCenterPage: true,
-                //             viewportFraction: 1,
-                //             aspectRatio: 2.0,
-                //             padEnds: false,
-                //             // clipBehavior: Clip.antiAlias,
-                //             // onPageChanged: callbackFunction,
-                //             scrollDirection: Axis.horizontal,
-                //           ),
-                //           items: controller.trendingImagesList.map((i) {
-                //             return Container(
-                //               padding: EdgeInsets.symmetric(horizontal: 18),
-                //               child: ClipRRect(
-                //                 borderRadius: BorderRadius.circular(20.0),
-                //                 child: CachedNetworkImage(
-                //                   fit: BoxFit.cover,
-                //                   imageUrl: '${i.name}',
-                //                   placeholder: (context, url) => Center(
-                //                       child: CircularProgressIndicator()),
-                //                   errorWidget: (context, url, error) =>
-                //                       Icon(Icons.error),
-                //                 ),
-                //               ),
-                //             );
-                //           }).toList(),
-                //         );
-                //       } else {
-                //         return Container(
-                //           height: Get.height * 0.22,
-                //           margin: EdgeInsets.symmetric(horizontal: 18),
-                //           decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(20),
-                //               color: Colors.white),
-                //           child: Center(
-                //             child: Text(
-                //               "No Trending Images Available",
-                //               textAlign: TextAlign.center,
-                //               style: TextStyle(
-                //                   fontSize: 16,
-                //                   fontFamily: 'Graphik',
-                //                   color: Colors.red.withOpacity(0.67),
-                //                   letterSpacing: 1.25,
-                //                   fontWeight: FontWeight.w300),
-                //             ),
-                //           ),
-                //         );
-                //       }
-                //     } else if (snapshot.hasError) {
-                //       return const Center(
-                //         child: Text("Sorry,not found!"),
-                //       );
-                //     }
-                //     // return const CircleListItem();
-                //     return Container(
-                //       padding: EdgeInsets.symmetric(horizontal: 18),
-                //       child: Shimmer.fromColors(
-                //           baseColor: Colors.white,
-                //           highlightColor: LightTheme.lightActive,
-                //           child: Container(
-                //             height: Get.height * 0.22,
-                //             decoration: BoxDecoration(
-                //                 borderRadius: BorderRadius.circular(20),
-                //                 color: Colors.white),
-                //           )),
-                //     );
-                //   },
-                // ),
-                // Obx(() {
-                //   switch (controller.progressStatus.value) {
-                //     case ProgressStatus.LOADING:
-                //       return Shimmer.fromColors(
-                //           baseColor: Colors.white,
-                //           highlightColor: LightTheme.lightActive,
-                //           enabled: true,
-                //           child: shimmerHomePage());
-                //
-                //     case ProgressStatus.ERROR:
-                //       return Container();
-                //     case ProgressStatus.IDLE:
-                //       break;
-                //     case ProgressStatus.SUCCESS:
-                //       break;
-                //     case ProgressStatus.INTERNET_ERROR:
-                //       break;
-                //   }
-                //   return Container();
-                // })
-                TrendingImages(
-                    trendingImages: trendingImages, controller: controller),
-                HotSale(hotSales: hotSales),
-                RecentlyViewed(recentlyViewed: recentlyViewed),
-                AllProducts(allProducts: allProducts),
-                Obx(() => controller.isSelected.value
-                    ? const AllBrands()
-                    : Container()),
+                TrendingImages(controller: controller),
+                HotSale(
+                  controller: controller,
+                ),
+                // RecentlyViewed(recentlyViewed: recentlyViewed),
+                // AllProducts(allProducts: allProducts),
+                // Obx(() => controller.isSelected.value
+                //     ? const AllBrands()
+                //     : Container()),
                 Container(
                   height: Get.height * 0.1,
                 )

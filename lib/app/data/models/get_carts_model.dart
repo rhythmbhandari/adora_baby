@@ -176,7 +176,7 @@ class Review {
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
     id: json["id"],
-    grade: json["grade"],
+    grade: json["grade"] ?? '0',
     review: json["review"],
     product: json["product"],
     createdBy: CreatedBy.fromJson(json["created_by"]),

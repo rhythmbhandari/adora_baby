@@ -106,13 +106,13 @@ class _ProductDetailsState extends State<ProductDetails>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.shortName,
+                          '${product.shortName}',
                           maxLines: 1,
                           style: kThemeData.textTheme.labelSmall?.copyWith(
                               color: AppColors.secondary700, fontSize: 12),
                         ),
                         Text(
-                          product.name,
+                          '${product.name}',
                           style: kThemeData.textTheme.displaySmall
                               ?.copyWith(color: AppColors.primary700),
                         ),
@@ -120,7 +120,9 @@ class _ProductDetailsState extends State<ProductDetails>
                           height: 17.39,
                         ),
                         RatingBar.builder(
-                          initialRating: product.rating.gradeAvg,
+                          initialRating: product.rating == null
+                              ? 0.0
+                              : product.rating!.gradeAvg,
                           ignoreGestures: true,
                           itemSize: 17,
                           direction: Axis.horizontal,
@@ -191,7 +193,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             // onPageChanged: callbackFunction,
                             scrollDirection: Axis.horizontal,
                           ),
-                          items: product.productImages.map((i) {
+                          items: product.productImages?.map((i) {
                             return Container(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 18),
@@ -199,7 +201,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
-                                  imageUrl: '${i.name}',
+                                  imageUrl: '${i?.name}',
                                   placeholder: (context, url) => const Center(
                                       child: CircularProgressIndicator()),
                                   errorWidget: (context, url, error) =>
@@ -457,7 +459,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 46, vertical: 20),
                             child: Text(
-                              product.shortDescription,
+                              '${product.shortDescription}',
                               style: kThemeData.textTheme.bodyLarge,
                             ),
                           ); //1st custom tabBarView
@@ -466,7 +468,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 46, vertical: 20),
                             child: Text(
-                              product.longDescription,
+                              '${product.longDescription}',
                               style: kThemeData.textTheme.bodyLarge,
                             ),
                           ); //1st/2nd tabView
@@ -477,7 +479,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: product.reviews.length,
+                                itemCount: product.reviews?.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -513,8 +515,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  product.reviews[index]
-                                                      .createdBy.fullName,
+                                                  '${product.reviews?[index]
+                                                      ?.createdBy?.fullName}',
                                                   style: kThemeData
                                                       .textTheme.titleMedium
                                                       ?.copyWith(
@@ -523,8 +525,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                 ),
                                                 RatingBar.builder(
                                                   initialRating: double.parse(
-                                                      product.reviews[index]
-                                                          .grade),
+                                                      '${product.reviews![index]?.grade}'),
                                                   ignoreGestures: true,
                                                   itemSize: 17,
                                                   direction: Axis.horizontal,
@@ -561,7 +562,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                       const SizedBox(height: 11),
                                       Text(
-                                        product.reviews[index].review,
+                                        '${product.reviews![index]?.review}',
                                         style: kThemeData.textTheme.bodyLarge
                                             ?.copyWith(color: DarkTheme.dark),
                                       ),
@@ -596,15 +597,15 @@ class _ProductDetailsState extends State<ProductDetails>
                               left: 30.0, top: 10, bottom: 10),
                           child: GestureDetector(
                             onTap: () async {
-                              final status =
-                                  await controller.requestAddToCart(product.id);
+                              final status = await controller
+                                  .requestAddToCart('${product.id}');
                               if (!status) {
                                 const snackBar = SnackBar(
                                   backgroundColor: Colors.green,
                                   content: Text(
-                                      'Added to the cart successfully!',style: TextStyle(
-                                    color: Colors.white
-                                  ),),
+                                    'Added to the cart successfully!',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 );
 
                                 // Find the ScaffoldMessenger in the widget tree
@@ -615,10 +616,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                 final snackBar = SnackBar(
                                   backgroundColor: Colors.red,
                                   content: Text(
-                                      controller.authError.value,
-                                    style: TextStyle(
-                                        color: Colors.white
-                                    ),
+                                    controller.authError.value,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 );
 

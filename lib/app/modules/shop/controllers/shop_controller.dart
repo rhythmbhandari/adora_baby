@@ -14,22 +14,30 @@ import '../../../enums/progress_status.dart';
 class ShopController extends GetxController {
   var stagesValue = "true".obs;
   var allStages = "false";
-  var supportedSitter ="true";
+  var supportedSitter = "true";
   var crawler = "crawler";
-  var toddler ="toddler";
+  var toddler = "toddler";
   final isSelected = false.obs;
   final authError = ''.obs;
   final trendingImagesList = [].obs;
 
-  final progressStatus = ProgressStatus.LOADING.obs;
+  final hotSales = [].obs;
+
+  final progressStatus = ProgressStatus.IDLE.obs;
 
   @override
   void onInit() {
+    fetchData();
     super.onInit();
   }
 
+  showProgressBar() => progressStatus.value = ProgressStatus.LOADING;
 
+  hideProgressBar() => progressStatus.value = ProgressStatus.IDLE;
 
+  showErrorBar() => progressStatus.value = ProgressStatus.ERROR;
+
+  hideErrorBar() => progressStatus.value = ProgressStatus.IDLE;
 
   showAlertDialog(BuildContext context) {
     // Create AlertDialog
@@ -111,13 +119,14 @@ class ShopController extends GetxController {
                       })),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: ButtonsWidget(name: 'APPLY FILTER', onPressed: () {
-                      ShopRepository.stages();
-                    },),
+                    child: ButtonsWidget(
+                      name: 'APPLY FILTER',
+                      onPressed: () {
+                        ShopRepository.stages();
+                      },
+                    ),
                   )
                 ]),
-
-
               ),
             ),
           ),
@@ -126,23 +135,46 @@ class ShopController extends GetxController {
     ).then((value) => Get.back());
   }
 
+  Future<void> fetchData() async {
+    await Future.wait([
+      getTrendingImages(),
+      getHotSales(),
+    ]);
+  }
 
-  Future<List> getTrendingImages() async {
-    try {
-      final response =
-      await ShopRepository.fetchTrendingImages().catchError((error) {
-        authError.value = error;
-        return false;
-      });
+  Future<void> getTrendingImages() async {
+    showProgressBar();
+    await ShopRepository.fetchTrendingImages()
+        .then(
+          (value) => trendingImagesList.value = value,
+        )
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 5)).then(
+          (value) => hideProgressBar(),
+        );
+      },
+    );
+  }
 
-      if (response.isNotEmpty) {
-        trendingImagesList.value = response;
-        return response;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
+  Future<void> getHotSales() async {
+    showProgressBar();
+    await ShopRepository.fetchHotSales()
+        .then(
+          (value) => hotSales.value = value,
+        )
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 5)).then(
+          (value) => hideProgressBar(),
+        );
+      },
+    );
   }
 }

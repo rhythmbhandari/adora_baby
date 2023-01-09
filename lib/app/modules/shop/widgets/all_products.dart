@@ -95,8 +95,8 @@ class AllProducts extends StatelessWidget {
                                               top: 12, bottom: 8),
                                           child: Center(
                                             child: Image.network(
-                                              snapshot.data![0][index]
-                                                  .productImages[0].name,
+                                              '${snapshot.data![0][index]
+                                                  .productImages![0]!.name}',
                                               height: Get.height * 0.16,
                                             ),
                                           ),
@@ -159,7 +159,7 @@ class AllProducts extends StatelessWidget {
                                             height: 8,
                                           ),
                                           Text(
-                                            snapshot.data![0][index].shortName,
+                                            '${snapshot.data![0][index].shortName}',
                                             maxLines: 1,
                                             style: kThemeData
                                                 .textTheme.labelSmall
@@ -172,7 +172,7 @@ class AllProducts extends StatelessWidget {
                                             height: 4,
                                           ),
                                           Text(
-                                            snapshot.data![0][index].name,
+                                            '${snapshot.data![0][index].name}',
                                             maxLines: 2,
                                             style: kThemeData
                                                 .textTheme.bodyMedium
@@ -186,8 +186,9 @@ class AllProducts extends StatelessWidget {
                                           RatingBar.builder(
                                             initialRating: snapshot
                                                 .data![0][index]
-                                                .rating
-                                                .gradeAvg,
+                                                .rating == null ? 0.0 :snapshot
+                                                .data![0][index]
+                                                .rating!.gradeAvg,
                                             ignoreGestures: true,
                                             itemSize: 12,
                                             direction: Axis.horizontal,
