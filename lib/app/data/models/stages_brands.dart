@@ -36,8 +36,8 @@ import 'dart:convert';
 //   };
 // }
 
-class Datum {
-  Datum({
+class Filters {
+  Filters({
     required this.id,
     required this.name,
     required this.image,
@@ -57,7 +57,7 @@ class Datum {
   DateTime updatedAt;
   bool isProductCategory;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Filters.fromJson(Map<String, dynamic> json) => Filters(
     id: json["id"],
     name: json["name"],
     image: json["image"],

@@ -9,6 +9,7 @@ import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/custom_progress_bar.dart';
+import '../models/stages_brands.dart';
 import '../network/dio_client.dart';
 import '../network/network_helper.dart';
 
@@ -77,65 +78,44 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
-  static Future<List<a.Datum>> brands() async {
-    var url = '$BASE_URL/shop-categories?is_product_category=true';
+  static Future<List<Filters>> brands() async {
+    const url = '$BASE_URL/shop-categories?is_product_category=true';
 
-    final response = await NetworkHelper().getRequest(url);
-
-    final data = response.data;
-    CustomProgressBar();
-    if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<a.Datum> datas = (response.data["data"] as List)
-          .map((i) => a.Datum.fromJson(i))
-          .toList();
-      return datas;
-    } else {
-      print(response.statusMessage);
-      return Future.error(data['message']);
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+    log('Status received is $status');
+    if (status is Map<dynamic, dynamic>) {
+      List<Filters> brands =
+          (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
+      log('Reached here $brands');
+      return brands;
     }
+
+    return Future.error('Error $status');
   }
 
-  static Future<List<a.Datum>> stages() async {
-    var url = '$BASE_URL/shop-categories?is_product_category=false';
+  static Future<List<Filters>> stages() async {
+    const url = '$BASE_URL/shop-categories?is_product_category=false';
 
-    final response = await NetworkHelper().getRequest(url);
-
-    final data = response.data;
-
-    if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<a.Datum> datas = (response.data["data"] as List)
-          .map((i) => a.Datum.fromJson(i))
-          .toList();
-      return datas;
-    } else {
-      print(response.statusMessage);
-      return Future.error(data['message']);
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+    log('Status received is $status');
+    if (status is Map<dynamic, dynamic>) {
+      List<Filters> stages =
+      (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
+      log('Reached here $stages');
+      return stages;
     }
+
+    return Future.error('Error $status');
   }
 
-  static Future<List<a.Datum>> getHomeData() async {
-    var url = '$BASE_URL/shops/home/';
-
-    final response = await NetworkHelper().getRequest(url);
-
-    final data = response.data;
-
-    if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<a.Datum> datas = (response.data["data"] as List)
-          .map((i) => a.Datum.fromJson(i))
-          .toList();
-      return datas;
-    } else {
-      print(response.statusMessage);
-      return Future.error(data['message']);
-    }
-  }
 
   static Future<List<TrendingImages>> fetchTrendingImages() async {
     const url = '$baseUrl/trending-images/?is_active=true';
