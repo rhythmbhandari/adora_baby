@@ -56,7 +56,7 @@ class NewShopViewBody extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -103,57 +103,6 @@ class NewShopViewBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 40.0, right: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // controller.showAlertDialog(context);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset("assets/images/filter-search.svg"),
-                            const Text(
-                              "All Stages",
-                              style: TextStyle(
-                                color: Color.fromRGBO(241, 149, 157, 1),
-                                //styleName: Button Text;
-                                fontFamily: "Poppins",
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            controller.isSelected.value = true;
-                            ShopRepository.brands();
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset("assets/images/tag.svg"),
-                              const Text(
-                                "All Brands",
-                                style: TextStyle(
-                                  color: Color.fromRGBO(241, 149, 157, 1),
-                                  //styleName: Button Text;
-                                  fontFamily: "Poppins",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ))
-                    ],
-                  ),
-                )
               ],
             ),
           ),

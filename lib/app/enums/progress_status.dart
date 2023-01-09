@@ -1,6 +1,7 @@
 enum ProgressStatus {
   IDLE,
   LOADING,
+  SEARCHING,
   ERROR,
   SUCCESS,
   INTERNET_ERROR

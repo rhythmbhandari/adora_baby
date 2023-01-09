@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
+import 'package:adora_baby/app/modules/shop/views/all_products_page.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -272,7 +273,9 @@ class AllProducts extends StatelessWidget {
                         enabled: true,
                         child: _buildImage()))),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => AllProductsView(), arguments: controller.allProducts);
+              },
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(

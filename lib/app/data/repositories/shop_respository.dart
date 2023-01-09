@@ -15,14 +15,12 @@ import '../network/network_helper.dart';
 import '../models/hot_sales_model.dart';
 import '../models/stages_brands.dart' as a;
 
-
 import '../../utils/secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-
 class ShopRepository {
-  static Future<List<HotSales>> fetchHotSales(int index) async {
-    final url = '$BASE_URL/shops/hot_sale/?page=$index';
+  static Future<List<HotSales>> fetchHotSales(String keyword) async {
+    final url = '$BASE_URL/shops/hot_sale/$keyword';
 
     final status = await DioHelper.getRequest(
       url,
@@ -31,9 +29,8 @@ class ShopRepository {
     );
 
     if (status is Map<dynamic, dynamic>) {
-      List<HotSales> hotSales = (status['data'] as List)
-          .map((i) => HotSales.fromJson(i))
-          .toList();
+      List<HotSales> hotSales =
+          (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       log('Reached here');
       return hotSales;
     }
@@ -61,20 +58,19 @@ class ShopRepository {
     }
   }
 
-  static Future<List<HotSales>> fetchAllProducts() async {
-    const url = '$BASE_URL/shops/';
+  static Future<List<HotSales>> fetchAllProducts(String keyword) async {
+    final url = '$BASE_URL/shops/$keyword';
 
     final status = await DioHelper.getRequest(
       url,
       true,
       await SecureStorage.returnHeader(),
     );
-
+    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<HotSales> hotSales = (status['data'] as List)
-          .map((i) => HotSales.fromJson(i))
-          .toList();
-      log('Reached here');
+      List<HotSales> hotSales =
+          (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      log('Reached here $hotSales');
       return hotSales;
     }
 
@@ -141,10 +137,8 @@ class ShopRepository {
     }
   }
 
-
   static Future<List<TrendingImages>> fetchTrendingImages() async {
-    const url =
-        '$baseUrl/trending-images/?is_active=true';
+    const url = '$baseUrl/trending-images/?is_active=true';
     final status = await DioHelper.getRequest(
       url,
       true,
@@ -160,5 +154,4 @@ class ShopRepository {
 
     return Future.error('Error $status');
   }
-
 }

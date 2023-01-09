@@ -92,7 +92,7 @@ class HotSale extends StatelessWidget {
                             child: buildImageHotSales())))),
             GestureDetector(
               onTap: () {
-                Get.to(() => HotSalesView());
+                Get.to(() => HotSalesView(), arguments: controller.hotSales);
               },
               child: Align(
                 alignment: Alignment.centerRight,
