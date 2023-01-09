@@ -25,14 +25,14 @@ class _MyHomePageState extends State<BottomNavBar>
   late TabController tabController;
 
   final List<Widget> text = [
-    Text("Home",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
-    const Text("Moment",style:  TextStyle(
-        color: Colors.white,
-        fontFamily: "Poppins",
-        fontSize: 8.8,
-        fontWeight: FontWeight.w600,
-        fontStyle: FontStyle.normal,
-        letterSpacing: 0),),
+    // Text("Home",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
+    // const Text("Moment",style:  TextStyle(
+    //     color: Colors.white,
+    //     fontFamily: "Poppins",
+    //     fontSize: 8.8,
+    //     fontWeight: FontWeight.w600,
+    //     fontStyle: FontStyle.normal,
+    //     letterSpacing: 0),),
     Text("Shop",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
     Text("Cart",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
     Text("Profile",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
@@ -41,7 +41,7 @@ class _MyHomePageState extends State<BottomNavBar>
   @override
   void initState() {
     currentPage = 0;
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
       () {
         final value = tabController.animation!.value.round();
@@ -81,8 +81,8 @@ class _MyHomePageState extends State<BottomNavBar>
                 dragStartBehavior: DragStartBehavior.down,
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  Text("home"),
-                  Text("moments"),
+                  // Text("home"),
+                  // Text("moments"),
                   ShopView(),
                   CartView(),
                   ProfileView()
@@ -106,28 +106,28 @@ class _MyHomePageState extends State<BottomNavBar>
 
             indicator: const DotIndicator(),
             tabs: [
+              // currentPage == 0
+              //     ? text[0]
+              //     : const TabsIcon(
+              //         images: "assets/images/home.svg",
+              //       ),
+              // currentPage == 1
+              //     ? text[1]
+              //     : const TabsIcon(
+              //         images: "assets/images/gallery.svg",
+              //       ),
               currentPage == 0
                   ? text[0]
                   : const TabsIcon(
-                      images: "assets/images/home.svg",
+                      images: "assets/images/shop.svg",
                     ),
               currentPage == 1
                   ? text[1]
                   : const TabsIcon(
-                      images: "assets/images/gallery.svg",
+                      images: "assets/images/shopping-cart.svg",
                     ),
               currentPage == 2
                   ? text[2]
-                  : const TabsIcon(
-                      images: "assets/images/shop.svg",
-                    ),
-              currentPage == 3
-                  ? text[3]
-                  : const TabsIcon(
-                      images: "assets/images/shopping-cart.svg",
-                    ),
-              currentPage == 4
-                  ? text[4]
                   : const TabsIcon(
                       images: "assets/images/profile.svg",
                     )
