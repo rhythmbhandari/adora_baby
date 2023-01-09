@@ -33,6 +33,8 @@ class ShopController extends GetxController {
     super.onInit();
   }
 
+  final hotSalesIndex = 1.obs;
+
   showProgressBar() => progressStatus.value = ProgressStatus.LOADING;
 
   hideProgressBar() => progressStatus.value = ProgressStatus.IDLE;
@@ -140,7 +142,7 @@ class ShopController extends GetxController {
   Future<void> fetchData() async {
     await Future.wait([
       getTrendingImages(),
-      getHotSales(),
+      getHotSales(true),
       getAllProducts(),
     ]);
   }
@@ -163,12 +165,15 @@ class ShopController extends GetxController {
     );
   }
 
-  Future<void> getHotSales() async {
+  Future<void> getHotSales(bool isRefresh) async {
     showProgressBar();
-    await ShopRepository.fetchHotSales()
-        .then(
-          (value) => hotSales.value = value,
-        )
+    await ShopRepository.fetchHotSales(isRefresh? 1 : hotSalesIndex.value)
+        .then((value) => {
+              if (isRefresh)
+                {hotSales.value = value, hotSalesIndex.value = 2}
+              else
+                {hotSales.addAll(value), hotSalesIndex.value++}
+            })
         .then((value) => hideProgressBar())
         .catchError(
       (error, stackTrace) {

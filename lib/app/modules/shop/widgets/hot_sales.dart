@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:adora_baby/app/modules/shop/views/hot_sales_page.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -34,7 +35,7 @@ class HotSale extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 log('Hot Sales is ${controller.hotSales}');
               },
               child: const Center(
@@ -56,8 +57,9 @@ class HotSale extends StatelessWidget {
                     ? GestureDetector(
                         onTap: () {
                           Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                           controller.allProducts[index].name,
-                            controller.allProducts[index].productImages[index].name,
+                            controller.allProducts[index].name,
+                            controller
+                                .allProducts[index].productImages[index].name,
                             controller.allProducts[index].reviews[index].grade,
                             controller.allProducts[index].stockAvailable,
                             controller.allProducts[index].regularPrice,
@@ -89,7 +91,9 @@ class HotSale extends StatelessWidget {
                             enabled: true,
                             child: buildImageHotSales())))),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => HotSalesView());
+              },
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
@@ -213,8 +217,7 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   RatingBar.builder(
-                    initialRating:
-                        controller.hotSales[index].rating.gradeAvg,
+                    initialRating: controller.hotSales[index].rating.gradeAvg,
                     ignoreGestures: true,
                     itemSize: 12,
                     direction: Axis.horizontal,

@@ -21,8 +21,8 @@ import 'package:http/http.dart' as http;
 
 
 class ShopRepository {
-  static Future<List<HotSales>> fetchHotSales() async {
-    const url = '$BASE_URL/shops/hot_sale';
+  static Future<List<HotSales>> fetchHotSales(int index) async {
+    final url = '$BASE_URL/shops/hot_sale/?page=$index';
 
     final status = await DioHelper.getRequest(
       url,
