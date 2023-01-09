@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import '../../../config/app_theme.dart';
 import '../../../data/repositories/shop_respository.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/buttons.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
 
@@ -252,6 +255,139 @@ class HotSalesView extends GetView<ShopController> {
                                       GestureDetector(
                                         onTap: () {
                                           // controller.showAlertDialog(context);
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .selectedStages
+                                                            .value = index;
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                        EdgeInsets.only(
+                                                          left: 32,
+                                                          right: 32,
+                                                          top: 24,
+                                                          bottom: 24,
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            if (index == 0) ...[
+                                                              Center(
+                                                                child: Text(
+                                                                  'Stages',
+                                                                  style: kThemeData
+                                                                      .textTheme
+                                                                      .displaySmall
+                                                                      ?.copyWith(
+                                                                      color:
+                                                                      DarkTheme.dark),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 32,
+                                                              ),
+                                                            ] else
+                                                              ...[],
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    '${controller.stagesList[index].name}',
+                                                                    style: kThemeData
+                                                                        .textTheme
+                                                                        .bodyLarge
+                                                                        ?.copyWith(
+                                                                        color:
+                                                                        DarkTheme.dark),
+                                                                  ),
+                                                                ),
+                                                                Stack(
+                                                                  children: [
+                                                                    Container(
+                                                                      height:
+                                                                      35,
+                                                                      width: 35,
+                                                                      decoration: BoxDecoration(
+                                                                          color: Color.fromRGBO(
+                                                                            243,
+                                                                            234,
+                                                                            249,
+                                                                            1,
+                                                                          ),
+                                                                          shape: BoxShape.circle),
+                                                                    ),
+                                                                    Obx(
+                                                                          () => controller.selectedStages.value ==
+                                                                          index
+                                                                          ? Positioned(
+                                                                        left: 0,
+                                                                        right: 0,
+                                                                        bottom: 0,
+                                                                        top: 0,
+                                                                        child: Center(
+                                                                          child: Container(
+                                                                            height: 20,
+                                                                            width: 20,
+                                                                            decoration: BoxDecoration(color: AppColors.primary500, shape: BoxShape.circle),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                          : Container(),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                            if (controller
+                                                                .stagesList
+                                                                .length ==
+                                                                index + 1) ...[
+                                                              SizedBox(
+                                                                height: 32,
+                                                              ),
+                                                              ButtonsWidget(
+                                                                  name:
+                                                                  'Apply Filter',
+                                                                  onPressed:
+                                                                      () {
+                                                                    log('Log is ${index}');
+                                                                    controller
+                                                                        .getAllProductsFiltered(
+                                                                      true,
+                                                                      isFilter:
+                                                                      true,
+                                                                      filterId: controller
+                                                                          .stagesList[controller
+                                                                          .selectedStages
+                                                                          .value]
+                                                                          .id,
+                                                                    );
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  })
+                                                            ]
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  itemCount: controller
+                                                      .stagesList.length,
+                                                );
+                                              });
                                         },
                                         child: Row(
                                           children: [
@@ -276,8 +412,142 @@ class HotSalesView extends GetView<ShopController> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
-                                            controller.isSelected.value = true;
-                                            ShopRepository.brands();
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) {
+                                                  return ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          controller
+                                                              .selectedFilter
+                                                              .value = index;
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                          EdgeInsets.only(
+                                                            left: 32,
+                                                            right: 32,
+                                                            top: 24,
+                                                            bottom: 24,
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              if (index ==
+                                                                  0) ...[
+                                                                Center(
+                                                                  child: Text(
+                                                                    'Filters',
+                                                                    style: kThemeData
+                                                                        .textTheme
+                                                                        .displaySmall
+                                                                        ?.copyWith(
+                                                                        color:
+                                                                        DarkTheme.dark),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 32,
+                                                                ),
+                                                              ] else
+                                                                ...[],
+                                                              Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      controller
+                                                                          .filtersList[
+                                                                      index],
+                                                                      style: kThemeData
+                                                                          .textTheme
+                                                                          .bodyLarge
+                                                                          ?.copyWith(
+                                                                          color: DarkTheme.dark),
+                                                                    ),
+                                                                  ),
+                                                                  Stack(
+                                                                    children: [
+                                                                      Container(
+                                                                        height:
+                                                                        35,
+                                                                        width:
+                                                                        35,
+                                                                        decoration: BoxDecoration(
+                                                                            color: Color.fromRGBO(
+                                                                              243,
+                                                                              234,
+                                                                              249,
+                                                                              1,
+                                                                            ),
+                                                                            shape: BoxShape.circle),
+                                                                      ),
+                                                                      Obx(
+                                                                            () => controller.selectedFilter.value ==
+                                                                            index
+                                                                            ? Positioned(
+                                                                          left: 0,
+                                                                          right: 0,
+                                                                          bottom: 0,
+                                                                          top: 0,
+                                                                          child: Center(
+                                                                            child: Container(
+                                                                              height: 20,
+                                                                              width: 20,
+                                                                              decoration: BoxDecoration(color: AppColors.primary500, shape: BoxShape.circle),
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                            : Container(),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              if (controller
+                                                                  .filtersList
+                                                                  .length ==
+                                                                  index +
+                                                                      1) ...[
+                                                                SizedBox(
+                                                                  height: 32,
+                                                                ),
+                                                                ButtonsWidget(
+                                                                    name:
+                                                                    'Apply Filter',
+                                                                    onPressed:
+                                                                        () {
+                                                                      log('Log is ${controller.selectedFilter.value}');
+                                                                      controller
+                                                                          .getAllProductsFiltered(
+                                                                        true,
+                                                                        isOrdered:
+                                                                        true,
+                                                                        ordering: controller.selectedFilter.value ==
+                                                                            2
+                                                                            ? 'regular_price'
+                                                                            : '-regular_price',
+                                                                      );
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    })
+                                                              ]
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    itemCount: controller
+                                                        .filtersList.length,
+                                                  );
+                                                });
                                           },
                                           child: Row(
                                             children: [
@@ -538,34 +808,45 @@ class HotSalesView extends GetView<ShopController> {
                                                           SizedBox(
                                                             height: 8,
                                                           ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                          controller.hotSalesFiltered[index]
+                                                              .salePrice !=
+                                                              0
+                                                              ? Row(
                                                             children: [
-                                                              Text(
-                                                                "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
-                                                                maxLines: 2,
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .bodyMedium
-                                                                    ?.copyWith(
-                                                                        color: DarkTheme
-                                                                            .lightActive,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
+                                                                  maxLines: 2,
+                                                                  style: kThemeData
+                                                                      .textTheme.bodyMedium
+                                                                      ?.copyWith(
+                                                                      color: DarkTheme
+                                                                          .lightActive,
+                                                                      decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough),
+                                                                ),
                                                               ),
                                                               Text(
                                                                 "Rs. ${controller.hotSalesFiltered[index].salePrice}",
                                                                 maxLines: 2,
                                                                 style: kThemeData
-                                                                    .textTheme
-                                                                    .bodyMedium
+                                                                    .textTheme.bodyMedium
                                                                     ?.copyWith(
-                                                                        color: DarkTheme
-                                                                            .normal),
+                                                                    color: DarkTheme
+                                                                        .normal),
                                                               ),
+                                                              SizedBox(width: 20,)
                                                             ],
+                                                          )
+                                                              : Text(
+                                                            "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
+                                                            maxLines: 2,
+                                                            style: kThemeData
+                                                                .textTheme.bodyMedium
+                                                                ?.copyWith(
+                                                                color:
+                                                                DarkTheme.normal),
                                                           ),
                                                           SizedBox(
                                                             height: 8,

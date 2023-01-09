@@ -21,6 +21,8 @@ class ShopController extends GetxController {
   final authError = ''.obs;
   final trendingImagesList = [].obs;
 
+  final stagesList = [].obs;
+
   final hotSales = [].obs;
 
   final allProducts = [].obs;
@@ -41,6 +43,16 @@ class ShopController extends GetxController {
   final hotSalesIndex = 1.obs;
   final allProductsIndex = 1.obs;
 
+  final selectedStages = 10.obs;
+  final selectedFilter = 0.obs;
+
+  final filtersList = [
+    // 'Recently Added',
+    // 'Sort by Popularity',
+    ' Sort by Price: High to Low',
+    'Sort by Price: Low to High'
+  ].obs;
+
   showProgressBar() => progressStatus.value = ProgressStatus.LOADING;
 
   hideProgressBar() => progressStatus.value = ProgressStatus.IDLE;
@@ -49,107 +61,12 @@ class ShopController extends GetxController {
 
   hideErrorBar() => progressStatus.value = ProgressStatus.IDLE;
 
-  showAlertDialog(BuildContext context) {
-    // Create AlertDialog
-    showGeneralDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.5),
-      pageBuilder: (_, __, ___) {
-        return Material(
-          color: Colors.transparent,
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              width: double.infinity,
-              // Dialog background
-              // Dialog height
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  Obx(() => RadioButtonWidget<String>(
-                      value: allStages,
-                      groupValue: stagesValue.value,
-                      leading: '',
-                      title: Text('All Stages',
-                          style: kThemeData.textTheme.bodyLarge),
-                      onChanged: (value) {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-
-                        stagesValue.value = value.toString();
-                        print(value);
-                      })),
-                  Obx(() => RadioButtonWidget<String>(
-                      value: supportedSitter,
-                      groupValue: stagesValue.value,
-                      leading: '',
-                      title: Text('Supported Sitter',
-                          style: kThemeData.textTheme.bodyLarge),
-                      onChanged: (value) {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        print(value);
-
-                        stagesValue.value = value.toString();
-                      })),
-                  Obx(() => RadioButtonWidget<String>(
-                      value: crawler,
-                      groupValue: stagesValue.value,
-                      leading: '',
-                      title: Text('Crawler',
-                          style: kThemeData.textTheme.bodyLarge),
-                      onChanged: (value) {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        print(value);
-
-                        stagesValue.value = value.toString();
-                      })),
-                  Obx(() => RadioButtonWidget<String>(
-                      value: toddler,
-                      groupValue: stagesValue.value,
-                      leading: '',
-                      title: Text('Toddler',
-                          style: kThemeData.textTheme.bodyLarge),
-                      onChanged: (value) {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        print(value);
-
-                        stagesValue.value = value.toString();
-                      })),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ButtonsWidget(
-                      name: 'APPLY FILTER',
-                      onPressed: () {
-                        ShopRepository.stages();
-                      },
-                    ),
-                  )
-                ]),
-              ),
-            ),
-          ),
-        );
-      },
-    ).then((value) => Get.back());
-  }
-
   Future<void> fetchData() async {
     await Future.wait([
       getTrendingImages(),
       getHotSales(true),
       getAllProducts(true),
+      getStages(),
     ]);
   }
 
@@ -164,7 +81,25 @@ class ShopController extends GetxController {
       (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
-        Future.delayed(const Duration(seconds: 5)).then(
+        Future.delayed(const Duration(seconds: 2)).then(
+          (value) => hideProgressBar(),
+        );
+      },
+    );
+  }
+
+  Future<void> getStages() async {
+    showProgressBar();
+    await ShopRepository.fetchStages()
+        .then(
+          (value) => stagesList.value = value,
+        )
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
         );
       },
@@ -192,7 +127,7 @@ class ShopController extends GetxController {
       (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
-        Future.delayed(const Duration(seconds: 5)).then(
+        Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
         );
       },
@@ -233,7 +168,7 @@ class ShopController extends GetxController {
       (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
-        Future.delayed(const Duration(seconds: 5)).then(
+        Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
         );
       },
@@ -261,7 +196,7 @@ class ShopController extends GetxController {
       (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
-        Future.delayed(const Duration(seconds: 5)).then(
+        Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
         );
       },
@@ -308,7 +243,7 @@ class ShopController extends GetxController {
       (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
-        Future.delayed(const Duration(seconds: 5)).then(
+        Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
         );
       },

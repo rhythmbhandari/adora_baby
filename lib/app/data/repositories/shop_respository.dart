@@ -78,7 +78,7 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
-  static Future<List<Filters>> brands() async {
+  static Future<List<Filters>> fetchBrands() async {
     const url = '$BASE_URL/shop-categories?is_product_category=true';
 
     final status = await DioHelper.getRequest(
@@ -97,7 +97,7 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
-  static Future<List<Filters>> stages() async {
+  static Future<List<Filters>> fetchStages() async {
     const url = '$BASE_URL/shop-categories?is_product_category=false';
 
     final status = await DioHelper.getRequest(
