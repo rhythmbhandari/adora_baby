@@ -157,8 +157,8 @@ class _ProductDetailsState extends State<ProductDetails>
                               border: Border.all(
                                   color:
                                       const Color.fromRGBO(229, 159, 164, 1))),
-                          child: const Text(
-                            "Supported Sitter",
+                          child: Text(
+                            "${product.categories![0]?.name}",
                             style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 16,
@@ -306,7 +306,7 @@ class _ProductDetailsState extends State<ProductDetails>
                         const SizedBox(
                           height: 8,
                         ),
-                        Text("Best by: ${product.bestBy}",
+                        Text("Best by: ${product.bestBy?.year}/${product.bestBy?.month}/${product.bestBy?.day}",
                             style: const TextStyle(
                               color: Colors.black,
                               fontFamily: "Poppins",
