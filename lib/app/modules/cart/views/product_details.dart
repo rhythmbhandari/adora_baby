@@ -499,10 +499,18 @@ class _ProductDetailsState extends State<ProductDetails>
                                               shape: BoxShape.circle,
                                               color: Color(0xff000000),
                                             ),
-                                            // child: Image.network(
-                                            //   product.reviews[index].product,
-                                            //   height: 100,
-                                            // ),
+                                            child: product.reviews != null &&
+                                                    product
+                                                                .reviews![index]
+                                                                ?.createdBy
+                                                                ?.profilePhoto[
+                                                            "name"] !=
+                                                        null
+                                                ? Image.network(
+                                                    '${product.reviews?[index]?.createdBy!.profilePhoto["name"]}',
+                                                    height: 100,
+                                                  )
+                                                : Container(),
                                           ),
                                           const SizedBox(
                                             width: 16,
@@ -515,8 +523,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${product.reviews?[index]
-                                                      ?.createdBy?.fullName}',
+                                                  '${product.reviews?[index]?.createdBy?.fullName}',
                                                   style: kThemeData
                                                       .textTheme.titleMedium
                                                       ?.copyWith(
