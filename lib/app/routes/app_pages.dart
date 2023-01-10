@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
+import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
 import '../modules/shop/bindings/shop_binding.dart';
 import '../modules/shop/views/shop_view.dart';
 import '../modules/auth/bindings/auth_bindings.dart';
@@ -44,6 +46,11 @@ class AppPages {
       name: _Paths.PHONE,
       page: () => const PhoneView(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => SearchView(),
+      binding: SearchBinding(),
     ),
     GetPage(
       name: _Paths.SPLASH,

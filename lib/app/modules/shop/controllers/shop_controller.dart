@@ -28,6 +28,7 @@ class ShopController extends GetxController {
   final allProducts = [].obs;
 
   final allProductsFiltered = [].obs;
+  final allProductsSearched = [].obs;
   final hotSalesFiltered = [].obs;
 
   final progressStatus = ProgressStatus.IDLE.obs;
@@ -42,6 +43,8 @@ class ShopController extends GetxController {
 
   final hotSalesIndex = 1.obs;
   final allProductsIndex = 1.obs;
+
+  final allProductsSearchedIndex = 1.obs;
 
   final selectedStages = 10.obs;
   final selectedFilter = 0.obs;
@@ -170,6 +173,47 @@ class ShopController extends GetxController {
         showErrorBar();
         Future.delayed(const Duration(seconds: 2)).then(
           (value) => hideProgressBar(),
+        );
+      },
+    );
+  }
+
+  Future<void> searchProducts(bool isRefresh,
+      {bool isFilter = false,
+        bool isSearch = false,
+        String searchKeyword = '',
+        String filterId = '',
+        bool isOrdered = false,
+        String ordering = 'regular_price'}) async {
+    showProgressBar();
+    if (isSearch || isOrdered || isFilter) {
+      progressStatus.value = ProgressStatus.SEARCHING;
+    }
+
+    String keyword = '?page=${isRefresh ? 1 : allProductsSearchedIndex.value}';
+    keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
+    keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
+    keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
+
+    await ShopRepository.fetchHotSales(keyword)
+        .then((value) => {
+      if (isRefresh & (isSearch || isOrdered || isFilter))
+        {
+          if (value.isEmpty)
+            {allProductsSearched.value = [].obs, allProductsSearchedIndex.value = 2}
+          else
+            {allProductsSearched.value = value, allProductsSearchedIndex.value = 2}
+        }
+      else
+        {allProductsSearched.addAll(value), allProductsSearchedIndex.value++}
+    })
+        .then((value) => hideProgressBar())
+        .catchError(
+          (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 2)).then(
+              (value) => hideProgressBar(),
         );
       },
     );

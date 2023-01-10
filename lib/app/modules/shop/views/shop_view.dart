@@ -14,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../widgets/gradient_icon.dart';
 
+import '../../search/views/search_view.dart';
 import '../widgets/all_products.dart';
 import '../widgets/hot_sales.dart';
 
@@ -67,39 +68,55 @@ class NewShopViewBody extends StatelessWidget {
                     style: kThemeData.textTheme.displaySmall,
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20.0, right: 20, top: 20),
-                  child: TextField(
-                    cursorColor: AppColors.mainColor,
-                    // focusNode: searchNode,
-                    autofocus: false,
-                    decoration: InputDecoration(
-                      hintText: 'Search for Items',
-                      hintStyle: kThemeData.textTheme.bodyLarge
-                          ?.copyWith(color: Color(0xffAF98A8)),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      suffixIcon: Image.asset(
-                        'assets/images/search-normal.png',
-                        color: const Color.fromRGBO(84, 104, 129, 1),
+                GestureDetector(
+                  onTap: (){
+                    Get.to(() => SearchView(), arguments: controller.allProducts);
+                  },
+                  child: Hero(
+                    tag: 'search',
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 20.0, right: 20, top: 20),
+                        child: TextField(
+                          cursorColor: AppColors.mainColor,
+                          // focusNode: searchNode,
+                          autofocus: false,
+                          enabled: false,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'Search for Items',
+                            hintStyle: kThemeData.textTheme.bodyLarge
+                                ?.copyWith(color: Color(0xffAF98A8)),
+                            contentPadding:
+                            const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 18),
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, right: 23, bottom: 8),
+                              child: SvgPicture.asset(
+                                  "assets/images/search-normal.svg"),
+                            ),
+                            fillColor: Colors.white,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(33),
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromRGBO(175, 152, 168, 1))),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(33),
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromRGBO(175, 152, 168, 1))),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(33),
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromRGBO(175, 152, 168, 1))),
+                          ),
+                        ),
                       ),
-                      fillColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(175, 152, 168, 1))),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(175, 152, 168, 1))),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(175, 152, 168, 1))),
                     ),
                   ),
                 ),
@@ -133,226 +150,6 @@ class NewShopViewBody extends StatelessWidget {
   }
 }
 
-// class OldShopViewBody extends StatelessWidget {
-//   const OldShopViewBody({
-//     Key? key,
-//     required this.controller,
-//   }) : super(key: key);
-//
-//   final ShopController controller;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.only(top: 30.0),
-//               child: Container(
-//                 padding: const EdgeInsets.only(bottom: 20),
-//                 color: Colors.white,
-//                 child: Column(
-//                   children: [
-//                     const SizedBox(
-//                       height: 20,
-//                     ),
-//                     GestureDetector(
-//                       onTap: () {
-//                         controller.getTrendingImages();
-//                       },
-//                       child: Text(
-//                         "Shop",
-//                         style: kThemeData.textTheme.displaySmall,
-//                       ),
-//                     ),
-//                     Padding(
-//                       padding:
-//                           const EdgeInsets.only(left: 20.0, right: 20, top: 20),
-//                       child: TextField(
-//                         cursorColor: AppColors.mainColor,
-//                         // focusNode: searchNode,
-//                         autofocus: false,
-//                         decoration: InputDecoration(
-//                           hintText: 'Search for Items',
-//                           hintStyle: kThemeData.textTheme.bodyLarge
-//                               ?.copyWith(color: Color(0xffAF98A8)),
-//                           contentPadding: const EdgeInsets.symmetric(
-//                               horizontal: 16, vertical: 12),
-//                           suffixIcon: Image.asset(
-//                             'assets/images/search-normal.png',
-//                             color: const Color.fromRGBO(84, 104, 129, 1),
-//                           ),
-//                           fillColor: Colors.white,
-//                           focusedBorder: OutlineInputBorder(
-//                               borderRadius: BorderRadius.circular(20),
-//                               borderSide: const BorderSide(
-//                                   width: 1,
-//                                   color: Color.fromRGBO(175, 152, 168, 1))),
-//                           border: OutlineInputBorder(
-//                               borderRadius: BorderRadius.circular(20),
-//                               borderSide: const BorderSide(
-//                                   width: 1,
-//                                   color: Color.fromRGBO(175, 152, 168, 1))),
-//                           enabledBorder: OutlineInputBorder(
-//                               borderRadius: BorderRadius.circular(20),
-//                               borderSide: const BorderSide(
-//                                   width: 1,
-//                                   color: Color.fromRGBO(175, 152, 168, 1))),
-//                         ),
-//                       ),
-//                     ),
-//                     const SizedBox(
-//                       height: 20,
-//                     ),
-//                     Padding(
-//                       padding: const EdgeInsets.only(left: 40.0, right: 40),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           GestureDetector(
-//                             onTap: () {
-//                               controller.showAlertDialog(context);
-//                             },
-//                             child: Row(
-//                               children: [
-//                                 SvgPicture.asset(
-//                                     "assets/images/filter-search.svg"),
-//                                 const Text(
-//                                   "All Stages",
-//                                   style: TextStyle(
-//                                     color: Color.fromRGBO(241, 149, 157, 1),
-//                                     //styleName: Button Text;
-//                                     fontFamily: "Poppins",
-//                                     fontSize: 16,
-//                                     fontWeight: FontWeight.w600,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                           GestureDetector(
-//                               onTap: () {
-//                                 controller.isSelected.value = true;
-//                                 ShopRepository.brands();
-//                               },
-//                               child: Row(
-//                                 children: [
-//                                   SvgPicture.asset("assets/images/tag.svg"),
-//                                   const Text(
-//                                     "All Brands",
-//                                     style: TextStyle(
-//                                       color: Color.fromRGBO(241, 149, 157, 1),
-//                                       //styleName: Button Text;
-//                                       fontFamily: "Poppins",
-//                                       fontSize: 16,
-//                                       fontWeight: FontWeight.w600,
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ))
-//                         ],
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             SizedBox(
-//               height: 23,
-//             ),
-//             FutureBuilder<List>(
-//               future: controller.getTrendingImages(),
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasData) {
-//                   if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-//                     return CarouselSlider(
-//                       options: CarouselOptions(
-//                         height: Get.height * 0.22,
-//                         autoPlay: true,
-//                         autoPlayInterval: Duration(seconds: 3),
-//                         autoPlayAnimationDuration: Duration(milliseconds: 800),
-//                         autoPlayCurve: Curves.fastOutSlowIn,
-//                         enlargeCenterPage: true,
-//                         viewportFraction: 1,
-//                         aspectRatio: 2.0,
-//                         padEnds: false,
-//                         // clipBehavior: Clip.antiAlias,
-//                         // onPageChanged: callbackFunction,
-//                         scrollDirection: Axis.horizontal,
-//                       ),
-//                       items: controller.trendingImagesList.map((i) {
-//                         return Container(
-//                           padding: EdgeInsets.symmetric(horizontal: 18),
-//                           child: ClipRRect(
-//                             borderRadius: BorderRadius.circular(20.0),
-//                             child: CachedNetworkImage(
-//                               fit: BoxFit.cover,
-//                               imageUrl: '${i.name}',
-//                               placeholder: (context, url) =>
-//                                   Center(child: CircularProgressIndicator()),
-//                               errorWidget: (context, url, error) =>
-//                                   Icon(Icons.error),
-//                             ),
-//                           ),
-//                         );
-//                       }).toList(),
-//                     );
-//                   } else {
-//                     return Container(
-//                       height: Get.height * 0.22,
-//                       margin: EdgeInsets.symmetric(horizontal: 18),
-//                       decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(20),
-//                           color: Colors.white),
-//                       child: Center(
-//                         child: Text(
-//                           "No Trending Images Available",
-//                           textAlign: TextAlign.center,
-//                           style: TextStyle(
-//                               fontSize: 16,
-//                               fontFamily: 'Graphik',
-//                               color: Colors.red.withOpacity(0.67),
-//                               letterSpacing: 1.25,
-//                               fontWeight: FontWeight.w300),
-//                         ),
-//                       ),
-//                     );
-//                   }
-//                 } else if (snapshot.hasError) {
-//                   return const Center(
-//                     child: Text("Sorry,not found!"),
-//                   );
-//                 }
-//                 // return const CircleListItem();
-//                 return Container(
-//                   padding: EdgeInsets.symmetric(horizontal: 18),
-//                   child: Shimmer.fromColors(
-//                       baseColor: Colors.white,
-//                       highlightColor: LightTheme.lightActive,
-//                       child: Container(
-//                         height: Get.height * 0.22,
-//                         decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(20),
-//                             color: Colors.white),
-//                       )),
-//                 );
-//               },
-//             ),
-//             HotSale(hotSales: ,),
-//             RecentlyViewed(),
-//             AllProducts(),
-//             Obx(() =>
-//                 controller.isSelected.value ? const AllBrands() : Container()),
-//             Container(
-//               height: Get.height * 0.1,
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 Widget shimmerHomePage() {
   return Column(
