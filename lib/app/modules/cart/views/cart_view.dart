@@ -218,7 +218,7 @@ class CartView extends GetView<CartController> {
                                                                     .green,
                                                               ))
                                                           : const Text(
-                                                              "OUt of stock",
+                                                              "Out of stock",
                                                               style: TextStyle(
                                                                   fontStyle:
                                                                       FontStyle

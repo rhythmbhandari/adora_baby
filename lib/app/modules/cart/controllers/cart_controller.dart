@@ -17,6 +17,8 @@ class CartController extends GetxController {
   final value = false.obs;
   final selectAll = false.obs;
 
+
+
   void incrementCounter() {
       counter.value++;
 
