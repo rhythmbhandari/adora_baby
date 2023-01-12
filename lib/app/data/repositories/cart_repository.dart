@@ -81,6 +81,7 @@ class CartRepository {
     }
   }
   static Future<List<a.Datum>> getCart() async {
+    print(await SecureStorage.returnHeaderWithToken());
     const url = '$BASE_URL/cart/';
 
     final response = await NetworkHelper().getRequest(url, contentType: await SecureStorage.returnHeaderWithToken());

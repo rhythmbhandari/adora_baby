@@ -78,7 +78,7 @@ class CartView extends GetView<CartController> {
                                     GestureDetector(
                                       onTap: () {
                                         controller.requestToDeleteCart(
-                                            snapshot.data![0].id);
+                                            snapshot.data![0].id!);
                                       },
                                       child: const Text(
                                         "Remove Selected",
@@ -155,9 +155,9 @@ class CartView extends GetView<CartController> {
                                                       child: Image.network(
                                                           snapshot
                                                               .data![index]
-                                                              .product
-                                                              .productImages[0]
-                                                              .name)),
+                                                              .product!
+                                                              .productImages![0]
+                                                              !.name!)),
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -167,7 +167,7 @@ class CartView extends GetView<CartController> {
                                                         width:150,
                                                         child: Text(
                                                           snapshot.data![index]
-                                                              .product.shortName,
+                                                              .product!.shortName!,
                                                           style: const TextStyle(
                                                               fontFamily:
                                                                   "Poppins",
@@ -186,7 +186,7 @@ class CartView extends GetView<CartController> {
                                                         width: 200,
                                                         child: Text(
                                                           snapshot.data![index]
-                                                              .product.name,
+                                                              .product!.name!,
                                                           style: const TextStyle(
                                                               fontFamily:
                                                                   "Poppins",
@@ -200,8 +200,8 @@ class CartView extends GetView<CartController> {
                                                       ),
                                                       snapshot
                                                               .data![index]
-                                                              .product
-                                                              .stockAvailable
+                                                              .product!
+                                                              .stockAvailable!
                                                           ? const Text(
                                                               "In-Stock",
                                                               style: TextStyle(
@@ -318,8 +318,8 @@ class CartView extends GetView<CartController> {
                                                                   print(snapshot
                                                                           .data![
                                                                               index]
-                                                                          .product
-                                                                          .regularPrice *
+                                                                          .product!
+                                                                          .regularPrice! *
                                                                       controller
                                                                           .counter
                                                                           .value);
@@ -366,7 +366,7 @@ class CartView extends GetView<CartController> {
                                                                   Obx(
                                                                       () =>
                                                                           Text(
-                                                                            "Rs. ${snapshot.data![index].product.regularPrice * controller.counter.value}",
+                                                                            "Rs. ${snapshot.data![index].product!.regularPrice! * controller.counter.value}",
                                                                             style: const TextStyle(
                                                                                 color: DarkTheme.dark,
                                                                                 fontFamily: 'Poppins',

@@ -279,10 +279,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                   const SizedBox(
                                     width: 10,
                                   ),
+                                  product.salePrice != null?
                                   Text(
                                     "Rs. ${product.salePrice}",
                                     style: kThemeData.textTheme.titleLarge,
-                                  ),
+                                  ): const Text("N/A")
                                 ],
                               ),
                         const SizedBox(
