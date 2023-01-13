@@ -54,7 +54,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
       //Heading3
       displaySmall:  const TextStyle(
           color: Colors.black,
-          fontFamily: "Playfair",
+          fontFamily: "Poppins",
           fontSize: 24,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
@@ -121,7 +121,6 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
           fontFamily: "Poppins",
           fontSize: 24,
           fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.italic,
           letterSpacing: -0.01),
 
       //Button Text
