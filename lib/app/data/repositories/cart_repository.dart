@@ -3,7 +3,12 @@ import 'dart:io';
 
 import 'package:adora_baby/app/data/models/stages_brands.dart';
 import 'package:adora_baby/app/data/models/get_carts_model.dart' as a;
+import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
+import 'package:adora_baby/app/widgets/shimmer_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../config/app_colors.dart';
 import '../../config/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,8 +71,11 @@ class CartRepository {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
       if (response.statusCode == 200) {
-        print('Response is $response');
+        getCart();
+        print('Response is ${response.statusCode}');
+
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');
@@ -80,12 +88,17 @@ class CartRepository {
           'Please check your internet connection and try again.');
     }
   }
+
   static Future<List<a.Datum>> getCart() async {
+
+    print(await SecureStorage.returnHeaderWithToken());
     const url = '$BASE_URL/cart/';
 
-    final response = await NetworkHelper().getRequest(url, contentType: await SecureStorage.returnHeaderWithToken());
+    final response = await NetworkHelper().getRequest(url,
+        contentType: await SecureStorage.returnHeaderWithToken());
 
     final data = response.data;
+    CustomProgressBar();
 
     if (response.statusCode == 200) {
       print("Response : ${response.data}");

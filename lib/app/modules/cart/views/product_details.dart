@@ -18,7 +18,6 @@ import '../../../config/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/gradient_icon.dart';
-import '../../../widgets/tab_bar.dart';
 import '../controllers/cart_controller.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -279,10 +278,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                   const SizedBox(
                                     width: 10,
                                   ),
+                                  product.salePrice != null?
                                   Text(
                                     "Rs. ${product.salePrice}",
                                     style: kThemeData.textTheme.titleLarge,
-                                  ),
+                                  ): const Text("N/A")
                                 ],
                               ),
                         const SizedBox(
@@ -351,7 +351,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           children: [
                             GestureDetector(
                               onTap: () {
-                                controller.decrementCounter();
+                                controller.decrementCounter(0);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(12),
@@ -380,7 +380,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   child: Center(
                                     child: Obx(
                                       () => Text(
-                                        controller.counter.value.toString(),
+                                        controller.counter[0].toString(),
                                         style: const TextStyle(
                                             color: DarkTheme.dark,
                                             fontFamily: 'Poppins',
@@ -395,7 +395,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             ),
                             GestureDetector(
                               onTap: () {
-                                controller.incrementCounter();
+                                controller.incrementCounter(0);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(12),

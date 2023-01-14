@@ -1,4 +1,6 @@
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
+import 'package:adora_baby/app/widgets/buttons.dart';
+import 'package:adora_baby/app/widgets/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +13,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../data/models/get_carts_model.dart';
+import '../../../widgets/tab_bar.dart';
 import '../../shop/widgets/hot_sales.dart';
 import '../controllers/cart_controller.dart';
 
@@ -19,7 +22,6 @@ class CartView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
     return Scaffold(
       backgroundColor: LightTheme.whiteActive,
       body: SafeArea(
@@ -49,7 +51,17 @@ class CartView extends GetView<CartController> {
                         if (snapshot.data != null &&
                             snapshot.data!.isNotEmpty) {
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 30.0, top: 20),
+                                child: Text(
+                                  "${snapshot.data!.length} items in your cart",
+                                  style: kThemeData.textTheme.labelLarge,
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 30.0, right: 38, top: 40),
@@ -59,15 +71,9 @@ class CartView extends GetView<CartController> {
                                   children: [
                                     Row(
                                       children: [
-                                        Obx(
-                                          () => Checkbox(
-                                            value: controller.selectAll.value,
-                                            onChanged: (bool? values) {
-                                              print(values);
-                                              controller.selectAll.value =
-                                                  values!;
-                                            },
-                                          ),
+                                        Checkbox(
+                                          value: false,
+                                          onChanged: (bool? value) {},
                                         ),
                                         Text(
                                           "Select All",
@@ -75,21 +81,21 @@ class CartView extends GetView<CartController> {
                                         ),
                                       ],
                                     ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        controller.requestToDeleteCart(
-                                            snapshot.data![0].id);
-                                      },
-                                      child: const Text(
-                                        "Remove Selected",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Poppins",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    )
+                                     GestureDetector(
+                                        onTap: () {
+                                          controller.requestToDeleteCart(
+                                              snapshot.data![0].id!);
+                                        },
+                                        child: const Text(
+                                                "Remove Selected",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                          )
                                   ],
                                 ),
                               ),
@@ -103,7 +109,7 @@ class CartView extends GetView<CartController> {
                                       itemCount: snapshot.data!.length,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
+                                      itemBuilder: (context, int index) {
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               left: 30.0, right: 30, top: 10),
@@ -139,13 +145,11 @@ class CartView extends GetView<CartController> {
                                                         child: Obx(
                                                           () => Checkbox(
                                                             value: controller
-                                                                .value.value,
+                                                                .value[index],
                                                             onChanged:
-                                                                (bool? values) {
-                                                              print(values);
-                                                              controller.value
-                                                                      .value =
-                                                                  values!;
+                                                                (bool? val) {
+                                                              controller.value[
+                                                                  index] = val!;
                                                             },
                                                           ),
                                                         )),
@@ -155,38 +159,43 @@ class CartView extends GetView<CartController> {
                                                       child: Image.network(
                                                           snapshot
                                                               .data![index]
-                                                              .product
-                                                              .productImages[0]
-                                                              .name)),
+                                                              .product!
+                                                              .productImages![
+                                                                  0]!
+                                                              .name!)),
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
                                                       SizedBox(
-                                                        width:150,
+                                                        width: 150,
                                                         child: Text(
-                                                          snapshot.data![index]
-                                                              .product.shortName,
-                                                          style: const TextStyle(
-                                                              fontFamily:
-                                                                  "Poppins",
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight.w600,
-                                                              color:
-                                                                  Color.fromRGBO(
-                                                                      151,
-                                                                      121,
-                                                                      142,
-                                                                      1)),
+                                                          snapshot
+                                                              .data![index]
+                                                              .product!
+                                                              .shortName!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontFamily:
+                                                                      "Poppins",
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          151,
+                                                                          121,
+                                                                          142,
+                                                                          1)),
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         width: 200,
                                                         child: Text(
                                                           snapshot.data![index]
-                                                              .product.name,
+                                                              .product!.name!,
                                                           style: const TextStyle(
                                                               fontFamily:
                                                                   "Poppins",
@@ -200,8 +209,8 @@ class CartView extends GetView<CartController> {
                                                       ),
                                                       snapshot
                                                               .data![index]
-                                                              .product
-                                                              .stockAvailable
+                                                              .product!
+                                                              .stockAvailable!
                                                           ? const Text(
                                                               "In-Stock",
                                                               style: TextStyle(
@@ -218,7 +227,7 @@ class CartView extends GetView<CartController> {
                                                                     .green,
                                                               ))
                                                           : const Text(
-                                                              "OUt of stock",
+                                                              "Out of stock",
                                                               style: TextStyle(
                                                                   fontStyle:
                                                                       FontStyle
@@ -251,7 +260,8 @@ class CartView extends GetView<CartController> {
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   controller
-                                                                      .decrementCounter();
+                                                                      .decrementCounter(
+                                                                          index);
                                                                 },
                                                                 child:
                                                                     Container(
@@ -301,7 +311,7 @@ class CartView extends GetView<CartController> {
                                                                             child:
                                                                                 Obx(
                                                                               () => Text(
-                                                                                controller.counter.value.toString(),
+                                                                                controller.counter[index].toString(),
                                                                                 style: const TextStyle(color: DarkTheme.dark, fontFamily: 'Poppins', fontWeight: FontWeight.w900, fontSize: 10),
                                                                               ),
                                                                             ),
@@ -314,15 +324,8 @@ class CartView extends GetView<CartController> {
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   controller
-                                                                      .incrementCounter();
-                                                                  print(snapshot
-                                                                          .data![
-                                                                              index]
-                                                                          .product
-                                                                          .regularPrice *
-                                                                      controller
-                                                                          .counter
-                                                                          .value);
+                                                                      .incrementCounter(
+                                                                          index);
                                                                 },
                                                                 child:
                                                                     Container(
@@ -366,7 +369,7 @@ class CartView extends GetView<CartController> {
                                                                   Obx(
                                                                       () =>
                                                                           Text(
-                                                                            "Rs. ${snapshot.data![index].product.regularPrice * controller.counter.value}",
+                                                                            "Rs. ${snapshot.data![index].product!.regularPrice! * controller.counter[index]}",
                                                                             style: const TextStyle(
                                                                                 color: DarkTheme.dark,
                                                                                 fontFamily: 'Poppins',
@@ -387,6 +390,96 @@ class CartView extends GetView<CartController> {
                                           ),
                                         );
                                       })),
+                              Container(
+                                color: LightTheme.whiteActive,
+                                child: const Text(
+                                  "abc",
+                                  style:
+                                      TextStyle(color: LightTheme.whiteActive),
+                                ),
+                              ),
+                              Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 70.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Subtotal:",
+                                                style: kThemeData
+                                                    .textTheme.bodyLarge,
+                                              ),
+                                            ),
+                                            Obx(() => Expanded(
+                                                child: Text(
+                                                  "Rs. ${snapshot.data![0].product!.regularPrice! * controller.counter[0]}",
+                                                  style: kThemeData
+                                                      .textTheme.displaySmall,
+                                                ))),
+
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Diamond off:",
+                                                style: kThemeData
+                                                    .textTheme.bodyLarge,
+                                              ),
+                                            ),
+                                         Expanded(
+                                                child: Text(
+                                                  "0",
+                                                  style: kThemeData
+                                                      .textTheme.displaySmall,
+                                                )),
+
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Discount:",
+                                                style: kThemeData
+                                                    .textTheme.bodyLarge,
+                                              ),
+                                            ),
+                                            Expanded(
+                                                child: Text(
+                                                  "Rs. 100",
+                                                  style: kThemeData
+                                                      .textTheme.displaySmall,
+                                                )),
+
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  )),
+                              const SizedBox(
+                                height: 30,
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(left:30.0,right: 30),
+                                child: ButtonsWidget(name: "Proceed", onPressed: (){
+                                  print("hi");
+                                }),
+                              ),
+                              const SizedBox(
+                                height: 100,
+                              ),
                             ],
                           );
                         }
