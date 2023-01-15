@@ -195,7 +195,7 @@ class ShopController extends GetxController {
     keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
     keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
 
-    await ShopRepository.fetchHotSales(keyword)
+    await ShopRepository.fetchAllProducts(keyword)
         .then((value) => {
       if (isRefresh & (isSearch || isOrdered || isFilter))
         {
