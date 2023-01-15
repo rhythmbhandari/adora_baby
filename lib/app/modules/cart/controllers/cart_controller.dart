@@ -37,12 +37,15 @@ class CartController extends GetxController {
   final selected = false.obs;
   var sum = 0.obs;
   final progress = CustomProgressBar().obs;
+  Timer? timer;
 
   @override
   void onInit() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer(const Duration(seconds: 1), () {
       progress;
-    timer.cancel();
+      cart().whenComplete(() => timer?.cancel());
+
+
     });
 
     super.onInit();

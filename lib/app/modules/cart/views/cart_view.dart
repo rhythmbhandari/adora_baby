@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/data/models/get_orders_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
@@ -13,7 +14,7 @@ import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
-import '../../../data/models/get_carts_model.dart';
+import '../../../data/models/get_carts_model.dart' as c;
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/tab_bar.dart';
 import '../../shop/widgets/hot_sales.dart';
@@ -44,11 +45,9 @@ class CartView extends GetView<CartController> {
               const SizedBox(
                 height: 20,
               ),
-              Obx(() => controller.progressBarStatusDeleteCart.value
-                  ? controller.progress.value
-                  : Container(
+           Container(
                       color: Colors.white,
-                      child: FutureBuilder<List<Datum>>(
+                      child: FutureBuilder<List<c.Datum>>(
                           future: CartRepository.getCart(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
@@ -57,7 +56,14 @@ class CartView extends GetView<CartController> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
+                                    Obx(() => controller.progressBarStatusDeleteCart.value
+                                    ? Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: LightTheme.lightActive,
+                                    enabled: true,
+                                    child: _buildImage())
+                                    :Container()),
+                                Padding(
                                       padding: const EdgeInsets.only(
                                           left: 30.0, top: 20),
                                       child: Text(
@@ -107,6 +113,7 @@ class CartView extends GetView<CartController> {
                                         ],
                                       ),
                                     ),
+
                                     GestureDetector(
                                         onTap: () {},
                                         child: AlignedGridView.count(
@@ -533,7 +540,7 @@ class CartView extends GetView<CartController> {
                                 enabled: true,
                                 child: _buildImage());
                           }),
-                    ))
+                    )
             ],
           ),
         ),
