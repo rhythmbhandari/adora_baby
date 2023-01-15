@@ -73,7 +73,9 @@ class CartRepository {
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
       if (response.statusCode == 200) {
+
         print('Response is ${response.statusCode}');
+
 
         return true;
       } else {
@@ -97,7 +99,7 @@ class CartRepository {
         contentType: await SecureStorage.returnHeaderWithToken());
 
     final data = response.data;
-    CustomProgressBar();
+
 
     if (response.statusCode == 200) {
       print("Response : ${response.data}");
