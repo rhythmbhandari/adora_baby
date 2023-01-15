@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
@@ -18,7 +20,7 @@ class CartController extends GetxController {
 
   final authError = ''.obs;
   final progressBarStatus = false.obs;
-  final counter = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].obs;
+  final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
     false,
     false,
@@ -34,6 +36,17 @@ class CartController extends GetxController {
   final tappedIndex = 0.obs;
   final selected = false.obs;
   var sum = 0.obs;
+  final progress = CustomProgressBar().obs;
+
+  @override
+  void onInit() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      progress;
+    timer.cancel();
+    });
+
+    super.onInit();
+  }
 
 
   int index = 0;
@@ -54,11 +67,11 @@ class CartController extends GetxController {
 
   Future<bool> requestAddToCart(String name) async {
     TextEditingController quantityController =
-    TextEditingController(text: counter[index].toString());
+        TextEditingController(text: counter[index].toString());
 
     try {
       final status = await CartRepository.addToCart(
-          name.toString(), quantityController.text.trim())
+              name.toString(), quantityController.text.trim())
           .catchError((error) {
         authError.value = error;
         return false;
@@ -76,11 +89,11 @@ class CartController extends GetxController {
 
   Future<bool> requestUpdateToCart() async {
     TextEditingController quantityController =
-    TextEditingController(text: counter.value.toString());
+        TextEditingController(text: counter.value.toString());
 
     try {
       final status = await CartRepository.updateCart(
-          idController.text.trim(), quantityController.text.trim())
+              idController.text.trim(), quantityController.text.trim())
           .catchError((error) {
         authError.value = error;
         return false;
@@ -95,13 +108,13 @@ class CartController extends GetxController {
       return false;
     }
   }
-  final progressBarStatusDeleteCart= true.obs;
+
+  final progressBarStatusDeleteCart = false.obs;
 
   Future<bool> requestToDeleteCart(String id) async {
-
     try {
       final status =
-      await CartRepository.deleteCart(id.trim()).catchError((error) {
+          await CartRepository.deleteCart(id.trim()).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -135,8 +148,8 @@ class CartController extends GetxController {
 
   Future<List<c.Datum>> requestGetAllCities() async {
     try {
-      final response = await CheckOutRepository.getAllCities().catchError((
-          error) {
+      final response =
+          await CheckOutRepository.getAllCities().catchError((error) {
         authError.value = error;
         return false;
       });
@@ -151,14 +164,17 @@ class CartController extends GetxController {
     }
   }
 
-
   Future<bool> requestToCheckOut(String id, String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     try {
-      final status =
-      await CheckOutRepository.checkout(
-          id.trim(), fullName.trim(), phoneNumber.trim(), altPhone.trim(),
-          address.trim(), notes.trim()).catchError((error) {
+      final status = await CheckOutRepository.checkout(
+              id.trim(),
+              fullName.trim(),
+              phoneNumber.trim(),
+              altPhone.trim(),
+              address.trim(),
+              notes.trim())
+          .catchError((error) {
         authError.value = error;
         return false;
       });
@@ -175,8 +191,8 @@ class CartController extends GetxController {
 
   Future<List<GetAddress>> requestGetAddress() async {
     try {
-      final response = await CheckOutRepository.getAddress().catchError((
-          error) {
+      final response =
+          await CheckOutRepository.getAddress().catchError((error) {
         authError.value = error;
         return false;
       });
@@ -191,12 +207,15 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToUpdateAddress(String city, String landmark,
-      String type,) async {
+  Future<bool> requestToUpdateAddress(
+    String city,
+    String landmark,
+    String type,
+  ) async {
     try {
-      final status =
-      await CheckOutRepository.updateAddress(
-          city.trim(), landmark.trim(), type.trim()).catchError((error) {
+      final status = await CheckOutRepository.updateAddress(
+              city.trim(), landmark.trim(), type.trim())
+          .catchError((error) {
         authError.value = error;
         return false;
       });
@@ -214,7 +233,7 @@ class CartController extends GetxController {
   Future<bool> requestToDeleteAddress(String id) async {
     try {
       final status =
-      await CheckOutRepository.deleteAddress(id.trim()).catchError((error) {
+          await CheckOutRepository.deleteAddress(id.trim()).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -231,8 +250,8 @@ class CartController extends GetxController {
 
   Future<bool> requestToRemoveCheckOut(String id) async {
     try {
-      final status =
-      await CheckOutRepository.removeCheckout(id.trim()).catchError((error) {
+      final status = await CheckOutRepository.removeCheckout(id.trim())
+          .catchError((error) {
         authError.value = error;
         return false;
       });
@@ -250,7 +269,7 @@ class CartController extends GetxController {
   Future<bool> requestToPlaceOrder(String id) async {
     try {
       final status =
-      await CheckOutRepository.placeOrder(id.trim()).catchError((error) {
+          await CheckOutRepository.placeOrder(id.trim()).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -284,8 +303,8 @@ class CartController extends GetxController {
 
   Future<List<s.GetSingleOrder>> requestGetSingleOrder(String id) async {
     try {
-      final response = await CheckOutRepository.getSingleOrder(id).catchError((
-          error) {
+      final response =
+          await CheckOutRepository.getSingleOrder(id).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -302,8 +321,8 @@ class CartController extends GetxController {
 
   Future<bool> requestUpdateCheckOut(bool a) async {
     try {
-      final response = await CheckOutRepository.updateCheckOut(a).catchError((
-          error) {
+      final response =
+          await CheckOutRepository.updateCheckOut(a).catchError((error) {
         authError.value = error;
         return false;
       });
