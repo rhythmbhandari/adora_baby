@@ -5,6 +5,7 @@ import 'package:adora_baby/app/data/models/stages_brands.dart';
 import 'package:adora_baby/app/data/models/get_carts_model.dart' as a;
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:adora_baby/app/widgets/shimmer_widget.dart';
+import 'package:adora_baby/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -73,9 +74,7 @@ class CartRepository {
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
       if (response.statusCode == 200) {
-
         print('Response is ${response.statusCode}');
-
 
         return true;
       } else {
@@ -91,7 +90,6 @@ class CartRepository {
   }
 
   static Future<List<a.Datum>> getCart() async {
-
     print(await SecureStorage.returnHeaderWithToken());
     const url = '$BASE_URL/cart/';
 
@@ -100,13 +98,15 @@ class CartRepository {
 
     final data = response.data;
 
-
     if (response.statusCode == 200) {
       print("Response : ${response.data}");
 
       List<a.Datum> datas = (response.data["data"] as List)
           .map((i) => a.Datum.fromJson(i))
           .toList();
+      storage.saveCartId(datas[0].id);
+      print(datas[0].id);
+
       return datas;
     } else {
       print(response.statusMessage);

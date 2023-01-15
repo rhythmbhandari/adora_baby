@@ -10,4 +10,5 @@ class Constants {
   static const LOGGED_IN_STATUS ="logged_in_status";
   static const WALK_THROUGH_STATE= "walk_through_state";
   static const OTP_STATUS = "otp_status";
+  static const CART_ID = "cart_id";
 }

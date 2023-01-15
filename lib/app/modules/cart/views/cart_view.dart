@@ -15,6 +15,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../data/models/get_carts_model.dart' as c;
+import '../../../routes/app_pages.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/tab_bar.dart';
 import '../../shop/widgets/hot_sales.dart';
@@ -518,7 +519,7 @@ class CartView extends GetView<CartController> {
                                       child: ButtonsWidget(
                                           name: "Proceed",
                                           onPressed: () {
-                                            print("hi");
+                                            Get.toNamed(Routes.PERSONAL_INFORMATION,arguments: snapshot.data![0].id);
                                           }),
                                     ),
                                     const SizedBox(

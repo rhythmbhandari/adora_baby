@@ -40,6 +40,18 @@ class StorageManager {
       key: Constants.REFRESH_TOKEN,
     );
   }
+  void saveCartId(cartId) {
+    flutterSecureStorage.write(
+      key: Constants.CART_ID,
+      value: cartId,
+    );
+  }
+
+  Future<String?> readCartId() async {
+    return await flutterSecureStorage.read(
+      key: Constants.CART_ID,
+    );
+  }
 
 
 }

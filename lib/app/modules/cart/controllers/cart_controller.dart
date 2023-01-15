@@ -17,6 +17,11 @@ class CartController extends GetxController {
   //TODO: Implement ProfileController
 
   TextEditingController idController = TextEditingController();
+  TextEditingController fNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController altPhoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
 
   final authError = ''.obs;
   final progressBarStatus = false.obs;
@@ -44,13 +49,10 @@ class CartController extends GetxController {
     timer = Timer(const Duration(seconds: 1), () {
       progress;
       cart().whenComplete(() => timer?.cancel());
-
-
     });
 
     super.onInit();
   }
-
 
   int index = 0;
 
@@ -167,16 +169,11 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToCheckOut(String id, String fullName, String phoneNumber,
+  Future<bool> requestToCheckOut(String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     try {
-      final status = await CheckOutRepository.checkout(
-              id.trim(),
-              fullName.trim(),
-              phoneNumber.trim(),
-              altPhone.trim(),
-              address.trim(),
-              notes.trim())
+      final status = await CheckOutRepository.checkout(fullName.trim(),
+              phoneNumber.trim(), altPhone.trim(), address.trim(), notes.trim())
           .catchError((error) {
         authError.value = error;
         return false;

@@ -16,27 +16,32 @@ import '../network/dio_client.dart';
 import '../models/get_orders_model.dart' as o;
 
 class CheckOutRepository {
-  static Future<bool> checkout(String id, String fullName, String phoneNumber,
+  //personal info
+  static Future<bool> checkout( String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     const url = '$BASE_URL/checkout/';
+    print("this is id ${await storage.readCartId()}");
+
     final body = {
-      {
-        "cart": [id],
+
+        "cart": [await storage.readCartId()],
         "full_name": fullName,
         "phone_number": phoneNumber,
         "alt_phone_number": altPhone,
         "address": address,
         "special_notes": notes
-      }
+
     };
     try {
       final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
+          body: body, headers: await SecureStorage.returnHeader());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
         print('Response is ${response.statusCode}.');
         return true;
       } else {
+        print('Response is ${response.statusCode}.');
+
         return Future.error('${decodedResponse["error"]}');
       }
     } on SocketException {
@@ -44,7 +49,7 @@ class CheckOutRepository {
           'Please check your internet connection and try again.');
     } catch (e) {
       return Future.error(
-          'Please check your internet connection and try again.');
+          e);
     }
   }
 
@@ -83,6 +88,8 @@ class CheckOutRepository {
 
     return Future.error('Error $status');
   }
+
+  //add address
 
   static Future<bool> updateAddress(String city, String landmark, String type,
       ) async {
@@ -159,6 +166,7 @@ class CheckOutRepository {
     }
   }
 
+  //checkout
   static Future<bool> placeOrder(String id) async {
     var url = '$BASE_URL/Order/$id';
 
@@ -182,7 +190,6 @@ class CheckOutRepository {
           'Please check your internet connection and try again.');
     }
   }
-
 
   static Future<List<o.Datum>> getOrders() async {
     const url = '$BASE_URL/Order/';
