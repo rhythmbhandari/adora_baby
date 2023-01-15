@@ -7,8 +7,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
-import '../../../../main.dart';
-import '../../../config/constants.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {

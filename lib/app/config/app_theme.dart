@@ -54,7 +54,7 @@ final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
       //Heading3
       displaySmall:  const TextStyle(
           color: Colors.black,
-          fontFamily: "Poppins",
+          fontFamily: "PLayfair",
           fontSize: 24,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.normal,
