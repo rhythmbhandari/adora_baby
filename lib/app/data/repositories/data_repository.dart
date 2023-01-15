@@ -13,7 +13,7 @@ class DataRepository {
     final status = await DioHelper.getRequest(
       url,
       true,
-      await SecureStorage.returnHeader(),
+      await SecureStorage.returnHeaderWithToken(),
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {

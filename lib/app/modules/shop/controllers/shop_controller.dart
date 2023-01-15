@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/data/repositories/data_repository.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import '../../../data/models/stages_brands.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/radio_buttons.dart';
 import '../../../enums/progress_status.dart';
+import '../../profile/controllers/profile_controller.dart';
 
 class ShopController extends GetxController {
   var stagesValue = "true".obs;
@@ -65,12 +67,20 @@ class ShopController extends GetxController {
   hideErrorBar() => progressStatus.value = ProgressStatus.IDLE;
 
   Future<void> fetchData() async {
-    await Future.wait([
-      getTrendingImages(),
-      getHotSales(true),
-      getAllProducts(true),
-      getStages(),
-    ]);
+    await Future.wait(
+      [
+        getTrendingImages(),
+        getHotSales(true),
+        getAllProducts(true),
+        getStages(),
+        DataRepository.fetchProfileDetail(),
+      ],
+    );
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
   }
 
   Future<void> getTrendingImages() async {
@@ -180,11 +190,11 @@ class ShopController extends GetxController {
 
   Future<void> searchProducts(bool isRefresh,
       {bool isFilter = false,
-        bool isSearch = false,
-        String searchKeyword = '',
-        String filterId = '',
-        bool isOrdered = false,
-        String ordering = 'regular_price'}) async {
+      bool isSearch = false,
+      String searchKeyword = '',
+      String filterId = '',
+      bool isOrdered = false,
+      String ordering = 'regular_price'}) async {
     showProgressBar();
     if (isSearch || isOrdered || isFilter) {
       progressStatus.value = ProgressStatus.SEARCHING;
@@ -197,23 +207,32 @@ class ShopController extends GetxController {
 
     await ShopRepository.fetchAllProducts(keyword)
         .then((value) => {
-      if (isRefresh & (isSearch || isOrdered || isFilter))
-        {
-          if (value.isEmpty)
-            {allProductsSearched.value = [].obs, allProductsSearchedIndex.value = 2}
-          else
-            {allProductsSearched.value = value, allProductsSearchedIndex.value = 2}
-        }
-      else
-        {allProductsSearched.addAll(value), allProductsSearchedIndex.value++}
-    })
+              if (isRefresh & (isSearch || isOrdered || isFilter))
+                {
+                  if (value.isEmpty)
+                    {
+                      allProductsSearched.value = [].obs,
+                      allProductsSearchedIndex.value = 2
+                    }
+                  else
+                    {
+                      allProductsSearched.value = value,
+                      allProductsSearchedIndex.value = 2
+                    }
+                }
+              else
+                {
+                  allProductsSearched.addAll(value),
+                  allProductsSearchedIndex.value++
+                }
+            })
         .then((value) => hideProgressBar())
         .catchError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         authError.value = error.toString();
         showErrorBar();
         Future.delayed(const Duration(seconds: 2)).then(
-              (value) => hideProgressBar(),
+          (value) => hideProgressBar(),
         );
       },
     );

@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/repositories/data_repository.dart';
@@ -13,6 +14,12 @@ class ProfileController extends GetxController {
   final fullName = ''.obs;
   final phoneNumber = ''.obs;
 
+  final Rx<Users> user = Users(
+    fullName: '',
+    babyName: '',
+    phoneNumber: '',
+  ).obs;
+
   final progressBarStatus = false.obs;
 
   showProgressBar() => progressBarStatus.value = true;
@@ -21,6 +28,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    getUserDetails();
     super.onInit();
   }
 
@@ -36,22 +44,20 @@ class ProfileController extends GetxController {
 
   setUserData() async {
     hideProgressBar();
-    fullName.value = '${SessionManager.instance.user?.fullName}';
-    phoneNumber.value = '${SessionManager.instance.user?.phoneNumber}';
+    if (SessionManager.instance.user != null) {
+      user.value = SessionManager.instance.user ?? Users();
+    }
   }
 
   Future<void> getUserDetails() async {
     showProgressBar();
     // final firebaseMessaging = FirebaseMessaging.instance;
     // String? deviceToken = await firebaseMessaging.getToken();
-    await DataRepository.fetchProfileDetail()
-        .catchError((error) {
+    await DataRepository.fetchProfileDetail().catchError((error) {
       authError.value = error;
       hideProgressBar();
     }).then(
-          (value) => setUserData(),
+      (value) => setUserData(),
     );
   }
-
-  
 }

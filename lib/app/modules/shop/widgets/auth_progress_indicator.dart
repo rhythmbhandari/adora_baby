@@ -6,17 +6,15 @@ import '../../../enums/progress_status.dart';
 import '../../../widgets/custom_progress_bar.dart';
 
 Widget progressWrap(Scaffold scaffold, Rx<ProgressStatus> progressStatus) {
-  return Stack(
-    children: [
-      scaffold,
-      if (progressStatus.value == ProgressStatus.LOADING) ...[
-        CustomProgressBar()
-      ] else if (progressStatus.value == ProgressStatus.ERROR)
-        ...[
-          Container()
-        ]
-      else
-        ...[],
-    ],
-  );
+  return Obx(() => Stack(
+        children: [
+          scaffold,
+          if (progressStatus.value == ProgressStatus.LOADING) ...[
+            CustomProgressBar()
+          ] else if (progressStatus.value == ProgressStatus.ERROR) ...[
+            Container()
+          ] else
+            ...[],
+        ],
+      ));
 }
