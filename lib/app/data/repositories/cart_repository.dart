@@ -73,7 +73,6 @@ class CartRepository {
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
       if (response.statusCode == 200) {
-        getCart();
         print('Response is ${response.statusCode}');
 
         return true;

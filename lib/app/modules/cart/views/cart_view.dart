@@ -13,6 +13,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../data/models/get_carts_model.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/tab_bar.dart';
 import '../../shop/widgets/hot_sales.dart';
 import '../controllers/cart_controller.dart';
@@ -50,10 +51,11 @@ class CartView extends GetView<CartController> {
                       if (snapshot.hasData) {
                         if (snapshot.data != null &&
                             snapshot.data!.isNotEmpty) {
+
+
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 30.0, top: 20),
@@ -81,21 +83,28 @@ class CartView extends GetView<CartController> {
                                         ),
                                       ],
                                     ),
-                                     GestureDetector(
-                                        onTap: () {
-                                          controller.requestToDeleteCart(
-                                              snapshot.data![0].id!);
+                                    GestureDetector(
+                                        onTap: () async {
+                                          final status = await controller
+                                              .requestToDeleteCart(snapshot
+                                                  .data![0].id
+                                                  .toString());
+                                          if (status) {
+                                            controller
+                                                .progressBarStatusDeleteCart
+                                                .value = true;
+                                            controller.cart();
+                                          }
                                         },
                                         child: const Text(
-                                                "Remove Selected",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              )
-                                          )
+                                          "Remove Selected",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: "Poppins",
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )),
                                   ],
                                 ),
                               ),
@@ -401,81 +410,80 @@ class CartView extends GetView<CartController> {
                               Container(
                                   color: Colors.white,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 70.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                "Subtotal:",
-                                                style: kThemeData
-                                                    .textTheme.bodyLarge,
-                                              ),
-                                            ),
-                                            Obx(() => Expanded(
+                                      padding:
+                                          const EdgeInsets.only(left: 70.0),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
                                                 child: Text(
-                                                  "Rs. ${snapshot.data![0].product!.regularPrice! * controller.counter[0]}",
+                                                  "Subtotal:",
                                                   style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                ))),
-
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                "Diamond off:",
-                                                style: kThemeData
-                                                    .textTheme.bodyLarge,
+                                                      .textTheme.bodyLarge,
+                                                ),
                                               ),
-                                            ),
-                                         Expanded(
+                                              Obx(() => Expanded(
+                                                      child: Text(
+                                                    "Rs. ${snapshot.data![0].product!.regularPrice! * controller.counter[0]}",
+                                                    style: kThemeData
+                                                        .textTheme.displaySmall,
+                                                  ))),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
                                                 child: Text(
-                                                  "0",
+                                                  "Diamond off:",
                                                   style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                )),
-
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                "Discount:",
-                                                style: kThemeData
-                                                    .textTheme.bodyLarge,
+                                                      .textTheme.bodyLarge,
+                                                ),
                                               ),
-                                            ),
-                                            Expanded(
+                                              Expanded(
+                                                  child: Text(
+                                                "0",
+                                                style: kThemeData
+                                                    .textTheme.displaySmall,
+                                              )),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
                                                 child: Text(
-                                                  "Rs. 100",
+                                                  "Discount:",
                                                   style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                )),
-
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  )),
+                                                      .textTheme.bodyLarge,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                  child: Text(
+                                                "Rs. 100",
+                                                style: kThemeData
+                                                    .textTheme.displaySmall,
+                                              )),
+                                            ],
+                                          ),
+                                        ],
+                                      ))),
                               const SizedBox(
                                 height: 30,
                               ),
-
                               Padding(
-                                padding: const EdgeInsets.only(left:30.0,right: 30),
-                                child: ButtonsWidget(name: "Proceed", onPressed: (){
-                                  print("hi");
-                                }),
+                                padding: const EdgeInsets.only(
+                                    left: 30.0, right: 30),
+                                child: ButtonsWidget(
+                                    name: "Proceed",
+                                    onPressed: () {
+                                      print("hi");
+                                    }),
                               ),
                               const SizedBox(
                                 height: 100,
@@ -497,6 +505,9 @@ class CartView extends GetView<CartController> {
                           child: _buildImage());
                     }),
               ),
+              Obx(() => controller.progressBarStatusDeleteCart.value
+                  ? CustomProgressBar()
+                  : Container())
             ],
           ),
         ),
