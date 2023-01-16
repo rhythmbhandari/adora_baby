@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:get/get.dart';
@@ -17,24 +16,23 @@ import '../models/get_orders_model.dart' as o;
 
 class CheckOutRepository {
   //personal info
-  static Future<bool> checkout( String fullName, String phoneNumber,
+  static Future<bool> checkout(String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     const url = '$BASE_URL/checkout/';
     print("this is id ${await storage.readCartId()}");
 
-    final body = {
+    final body = jsonEncode({
+      "cart": [await storage.readCartId()],
+      "full_name": fullName,
+      "phone_number": phoneNumber,
+      "alt_phone_number": altPhone,
+      "address": "d4940891-9fba-47f3-b058-881e83774cca",
+      "special_notes": notes
+    });
 
-        "cart": [await storage.readCartId()],
-        "full_name": fullName,
-        "phone_number": phoneNumber,
-        "alt_phone_number": altPhone,
-        "address": address,
-        "special_notes": notes
-
-    };
     try {
       final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeader());
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
         print('Response is ${response.statusCode}.');
@@ -48,8 +46,7 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          e);
+      return Future.error(e);
     }
   }
 
@@ -91,8 +88,11 @@ class CheckOutRepository {
 
   //add address
 
-  static Future<bool> updateAddress(String city, String landmark, String type,
-      ) async {
+  static Future<bool> updateAddress(
+    String city,
+    String landmark,
+    String type,
+  ) async {
     const url = '$BASE_URL/address/';
     final body = {
       {
@@ -201,13 +201,14 @@ class CheckOutRepository {
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<o.Datum> orders =
-      (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
+          (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
 
       return orders;
     }
 
     return Future.error('Error $status');
   }
+
   static Future<List<GetSingleOrder>> getSingleOrder(String id) async {
     var url = '$BASE_URL/Order/$id';
     final status = await DioHelper.getRequest(
@@ -217,8 +218,9 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<GetSingleOrder> singleOrder =
-      (status['data'] as List).map((i) => GetSingleOrder.fromJson(i)).toList();
+      List<GetSingleOrder> singleOrder = (status['data'] as List)
+          .map((i) => GetSingleOrder.fromJson(i))
+          .toList();
 
       return singleOrder;
     }
