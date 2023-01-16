@@ -16,6 +16,10 @@ class StorageManager {
     return await flutterSecureStorage.read(key: key);
   }
 
+  Future delete(key) async {
+    return await flutterSecureStorage.delete(key: key);
+  }
+
   void saveAccessToken(accessToken) {
     flutterSecureStorage.write(
       key: Constants.ACCESS_TOKEN,

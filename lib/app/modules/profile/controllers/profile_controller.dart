@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/repositories/data_repository.dart';
 import '../../../data/repositories/session_manager.dart';
+import '../../../enums/progress_status.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
@@ -15,6 +18,12 @@ class ProfileController extends GetxController {
   final phoneNumber = ''.obs;
 
   final ordersList = [].obs;
+
+  final orderHistoryList = [].obs;
+
+  final orderHistoryIndex = 1.obs;
+
+  final progressStatus = ProgressStatus.IDLE.obs;
 
   final Rx<Users> user = Users(
     fullName: '',
@@ -38,7 +47,10 @@ class ProfileController extends GetxController {
     await Future.wait(
       [
         getUserDetails(),
-        getOrderList(),
+        getOrderList(
+          isRefresh: true,
+          isInitial: true,
+        ),
       ],
     );
   }
@@ -72,16 +84,59 @@ class ProfileController extends GetxController {
     );
   }
 
-  Future<void> getOrderList() async {
+  Future<void> getOrderList({
+    bool isRefresh = true,
+    bool isInitial = false,
+  }) async {
+    String keyword = '?page=${isRefresh ? 1 : orderHistoryIndex.value}';
+
     showProgressBar();
-    await DataRepository.fetchOrderList()
-        .then(
-          (value) => ordersList.value = value,
-        )
+    await DataRepository.fetchOrderList(keyword)
+        .then((value) => {
+              {
+                if (isRefresh && !isInitial)
+                  {
+                    if (value.isEmpty)
+                      {
+                        orderHistoryList.value = [].obs,
+                        orderHistoryIndex.value = 2,
+                      }
+                    else
+                      {
+                        orderHistoryList.value = value,
+                        orderHistoryIndex.value = 2,
+                        ordersList.value = value,
+                      }
+                  }
+                else if (isRefresh && isInitial)
+                  {
+                    if (value.isEmpty)
+                      {
+                        ordersList.value = [].obs,
+                        orderHistoryList.value = [].obs,
+                        orderHistoryIndex.value = 2,
+                      }
+                    else
+                      {
+                        ordersList.value = value,
+                        orderHistoryIndex.value = 2,
+                        orderHistoryList.value = value,
+                      }
+                  }
+                else
+                  {
+                    {
+                      orderHistoryList.addAll(value),
+                      orderHistoryIndex.value++,
+                    }
+                  }
+              }
+            })
         .then((value) => hideProgressBar())
         .catchError(
       (error) {
-        authError.value = error;
+        authError.value = error.toString();
+        log('Auth Error is ${authError}');
         hideProgressBar();
       },
     );

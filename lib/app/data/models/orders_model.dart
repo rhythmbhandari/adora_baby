@@ -299,7 +299,7 @@ class Rating {
     this.gradeAvg,
   });
 
-  int? gradeAvg;
+  double? gradeAvg;
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
     gradeAvg: json["grade__avg"],

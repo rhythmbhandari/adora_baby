@@ -30,8 +30,8 @@ class DataRepository {
     return false;
   }
 
-  static Future<List<Orders>> fetchOrderList() async {
-    const url = '$BASE_URL/Order/';
+  static Future<List<Orders>> fetchOrderList(String keyword) async {
+    final url = '$BASE_URL/Order/$keyword';
 
     final status = await DioHelper.getRequest(
       url,
