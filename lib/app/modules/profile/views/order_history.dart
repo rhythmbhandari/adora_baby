@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
+import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -197,7 +198,14 @@ class OrderHistoryView extends GetView<ProfileController> {
                                               (BuildContext context,
                                                       int index) =>
                                                   GestureDetector(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      controller.selectedOrders
+                                                          .value = controller
+                                                              .orderHistoryList[
+                                                          index];
+                                                      Get.to(
+                                                          OrderHistoryDetail());
+                                                    },
                                                     child: Container(
                                                       padding: const EdgeInsets
                                                           .symmetric(

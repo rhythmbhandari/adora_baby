@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/orders_model.dart';
 import '../../../data/repositories/data_repository.dart';
 import '../../../data/repositories/session_manager.dart';
 import '../../../enums/progress_status.dart';
@@ -24,6 +25,8 @@ class ProfileController extends GetxController {
   final orderHistoryIndex = 1.obs;
 
   final progressStatus = ProgressStatus.IDLE.obs;
+
+  final Rx<Orders> selectedOrders = Orders().obs;
 
   final Rx<Users> user = Users(
     fullName: '',

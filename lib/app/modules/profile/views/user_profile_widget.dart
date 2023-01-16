@@ -8,7 +8,7 @@ import '../../../config/app_theme.dart';
 import '../controllers/profile_controller.dart';
 
 Widget userProfile(ProfileController controller, BuildContext context) {
-  return Container(
+  return Obx(() => Container(
       decoration: BoxDecoration(
           color: LightTheme.white, borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -143,5 +143,5 @@ Widget userProfile(ProfileController controller, BuildContext context) {
             right: 0,
           )
         ],
-      ));
+      )));
 }

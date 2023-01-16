@@ -313,11 +313,11 @@ Widget _buildFeaturedCards(ProfileController controller) {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     for (var i in controller
-                        .ordersList[i].checkOut.cart[0].product.productImages)
+                        .ordersList[i].checkOut.cart)
                       CachedNetworkImage(
                         fit: BoxFit.contain,
                         height: Get.height * 0.1,
-                        imageUrl: '${i.name}',
+                        imageUrl: '${i.product.productImages[0].name}',
                         placeholder: (context, url) =>
                             const Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) =>
