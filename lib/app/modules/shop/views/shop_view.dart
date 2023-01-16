@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../main.dart';
 import '../../../widgets/gradient_icon.dart';
 
 import '../../search/views/search_view.dart';
@@ -60,8 +63,9 @@ class NewShopViewBody extends StatelessWidget {
                   height: 40,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    controller.getTrendingImages();
+                  onTap: () async {
+                    // controller.getTrendingImages();
+                    log('${await storage.readAccessToken()}');
                   },
                   child: Text(
                     "Shop",
@@ -69,16 +73,17 @@ class NewShopViewBody extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Get.to(() => SearchView(), arguments: controller.allProducts);
+                  onTap: () {
+                    Get.to(() => SearchView(),
+                        arguments: controller.allProducts);
                   },
                   child: Hero(
                     tag: 'search',
                     child: Material(
                       type: MaterialType.transparency,
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20.0, right: 20, top: 20),
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 20),
                         child: TextField(
                           cursorColor: AppColors.mainColor,
                           // focusNode: searchNode,
@@ -89,8 +94,7 @@ class NewShopViewBody extends StatelessWidget {
                             hintText: 'Search for Items',
                             hintStyle: kThemeData.textTheme.bodyLarge
                                 ?.copyWith(color: Color(0xffAF98A8)),
-                            contentPadding:
-                            const EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 24, vertical: 18),
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(
@@ -149,7 +153,6 @@ class NewShopViewBody extends StatelessWidget {
     ));
   }
 }
-
 
 Widget shimmerHomePage() {
   return Column(

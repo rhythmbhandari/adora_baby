@@ -19,10 +19,10 @@ class ForgetPasswordView extends GetView<AuthController> {
   Widget build(BuildContext context) {
     TextEditingController phoneController = TextEditingController();
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Stack(
           children: [
-            SafeArea(
+            SingleChildScrollView(
               child: Padding(
                 padding:
                 const EdgeInsets.only(left: 32.0, right: 32, top: 30),
@@ -148,8 +148,9 @@ class ForgetPasswordView extends GetView<AuthController> {
                 ),
               ),
             ),
+
             Obx(() => controller.progressBarStatus.value
-                ? CustomProgressBar()
+                ? Center(child: CustomProgressBar())
                 : Container())
           ],
         ),

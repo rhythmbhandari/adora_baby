@@ -32,10 +32,10 @@ class ResetPasswordView extends GetView<AuthController> {
         return false;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: Stack(
             children: [
-              SafeArea(
+              SingleChildScrollView(
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 32.0, right: 32, top: 30),

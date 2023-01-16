@@ -32,10 +32,10 @@ class BabyDetails extends GetView<AuthController> {
         return false;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
+        body: SafeArea(
+          child: Column(
             children: [
-              SafeArea(
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     Hero(

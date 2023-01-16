@@ -1,11 +1,14 @@
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/widgets/recently_viewed.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../main.dart';
+import '../../../config/constants.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -54,6 +57,22 @@ class ProfileView extends GetView<ProfileController> {
                 babyProfile(
                   controller,
                   context,
+                ),
+                // ordersWidget(
+                //   controller,
+                //   context,
+                // ),
+                RecentlyViewed(controller: controller),
+                Center(
+                  child: GestureDetector(
+                    onTap: (){
+                      storage.writeData(Constants.LOGGED_IN_STATUS, null);
+                    },
+                    child: Text(
+                      'Click to remove logged in',
+                      style: TextStyle(fontSize: 20, color: Colors.green),
+                    ),
+                  ),
                 ),
                 SizedBox(height: Get.height * 0.1)
               ],
@@ -159,14 +178,24 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                   SizedBox(
                     width: 16,
                   ),
-                  Expanded(
-                    child: Text(
-                      'KL Tower, Baneshwor, Kathmandu',
-                      maxLines: 2,
-                      style: kThemeData.textTheme.bodyLarge
-                          ?.copyWith(color: DarkTheme.normal),
-                    ),
-                  ),
+                  controller.user.value.accountAddress == null ||
+                          controller.user.value.accountAddress!.isEmpty
+                      ? Expanded(
+                          child: Text(
+                            'Set your Home Address.',
+                            maxLines: 2,
+                            style: kThemeData.textTheme.bodyLarge
+                                ?.copyWith(color: DarkTheme.normal),
+                          ),
+                        )
+                      : Expanded(
+                          child: Text(
+                            'KL Tower, Baneshwor, Kathmandu',
+                            maxLines: 2,
+                            style: kThemeData.textTheme.bodyLarge
+                                ?.copyWith(color: DarkTheme.normal),
+                          ),
+                        ),
                 ],
               ),
               SizedBox(
@@ -273,6 +302,54 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
             ),
             right: 0,
           )
+        ],
+      ));
+}
+
+Widget ordersWidget(ProfileController controller, BuildContext context) {
+  return Container(
+      decoration: BoxDecoration(
+          color: LightTheme.white, borderRadius: BorderRadius.circular(20)),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 33, vertical: 34),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'My Orders',
+            style: kThemeData.textTheme.displaySmall
+                ?.copyWith(color: DarkTheme.normal),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          ListView.builder(
+            itemCount: 2,
+            shrinkWrap: true,
+            // padding:
+            // EdgeInsets.only(top: 60, left: 32, bottom: 21),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 200,
+                padding: EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                    color: AppColors.secondary500,
+                    border:
+                    Border.all(color: Colors.transparent)),
+                child: Center(
+                  child: Text(
+                      'hshs',
+                      style: kThemeData.textTheme.bodyLarge
+                          ?.copyWith(color: Colors.red)),
+                ),
+              );
+            },
+          ),
+          SizedBox(
+            height: 12,
+          ),
         ],
       ));
 }

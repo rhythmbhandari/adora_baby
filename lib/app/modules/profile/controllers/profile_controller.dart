@@ -14,6 +14,8 @@ class ProfileController extends GetxController {
   final fullName = ''.obs;
   final phoneNumber = ''.obs;
 
+  final ordersList = [].obs;
+
   final Rx<Users> user = Users(
     fullName: '',
     babyName: '',
@@ -28,8 +30,17 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    getUserDetails();
+    fetchData();
     super.onInit();
+  }
+
+  Future<void> fetchData() async {
+    await Future.wait(
+      [
+        getUserDetails(),
+        getOrderList(),
+      ],
+    );
   }
 
   @override
@@ -58,6 +69,21 @@ class ProfileController extends GetxController {
       hideProgressBar();
     }).then(
       (value) => setUserData(),
+    );
+  }
+
+  Future<void> getOrderList() async {
+    showProgressBar();
+    await DataRepository.fetchOrderList()
+        .then(
+          (value) => ordersList.value = value,
+        )
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error) {
+        authError.value = error;
+        hideProgressBar();
+      },
     );
   }
 }

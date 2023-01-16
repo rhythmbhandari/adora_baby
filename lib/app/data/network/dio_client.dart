@@ -7,6 +7,7 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../../main.dart';
 import '../../config/constants.dart';
 import '../../utils/logging.dart';
 
@@ -44,6 +45,15 @@ class DioHelper {
     try {
       final url = urlInput;
       Dio dio = getDioClient();
+      dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
+        if (error.response?.statusCode == 403 ||
+            error.response?.statusCode == 401) {
+          await refreshToken();
+          // return _retry(error.request);
+        }
+        // return error.response;
+      }));
+
       dio.interceptors.add(
         RetryInterceptor(
           dio: dio,
@@ -302,6 +312,32 @@ class DioHelper {
     } catch (e) {
       print('Reched here === $e');
       return Future.error('Exception is $e');
+    }
+  }
+
+  // static Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
+  //   final options = new Options(
+  //     method: requestOptions.method,
+  //     headers: requestOptions.headers,
+  //   );
+  //   Dio dio = getDioClient();
+  //   return dio.request<dynamic>(requestOptions.path,
+  //       data: requestOptions.data,
+  //       queryParameters: requestOptions.queryParameters,
+  //       options: options);
+  // }
+
+  static Future<void> refreshToken() async {
+    final refreshToken = await storage.readRefreshToken();
+    Dio dio = getDioClient();
+    const url = '$baseUrl/refresh/';
+    final body = jsonEncode({'refresh': refreshToken});
+    final response = await dio.post(url, data: body);
+
+    if (response.statusCode == 200) {
+      // this.accessToken = response.data['accessToken'];
+      // storage.saveAccessToken(decodedResponse["token"]["access"]);
+      // storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
     }
   }
 }

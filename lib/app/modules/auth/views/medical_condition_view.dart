@@ -44,10 +44,10 @@ class _MedicalConditionState extends State<MedicalCondition> {
         return false;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: Stack(
             children: [
-              SafeArea(
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     const Hero(
@@ -327,11 +327,11 @@ class _MedicalConditionState extends State<MedicalCondition> {
               ),
               Obx(() => controller.progressBarStatusCompleteProfile.value
                   ? GestureDetector(
-                      onTap: () {
-                        controller.progressBarStatusCompleteProfile.value =
-                            false;
-                      },
-                      child: CustomProgressBar())
+                  onTap: () {
+                    controller.progressBarStatusCompleteProfile.value =
+                    false;
+                  },
+                  child: CustomProgressBar())
                   : Container())
             ],
           ),

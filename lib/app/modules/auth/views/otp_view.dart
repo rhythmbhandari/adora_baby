@@ -49,10 +49,10 @@ class OtpView extends GetView<AuthController> {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: Stack(
             children: [
-              SafeArea(
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     controller.resetPassword.value
@@ -274,6 +274,7 @@ class OtpView extends GetView<AuthController> {
                   ],
                 ),
               ),
+
               Obx(() => controller.progressBarStatusOtp.value
                   ? CustomProgressBar()
                   : Container())

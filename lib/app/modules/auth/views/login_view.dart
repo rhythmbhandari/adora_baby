@@ -38,10 +38,10 @@ class LoginView extends GetView<AuthController> {
 
     final node = FocusScope.of(context);
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Stack(
           children: [
-            SafeArea(
+            SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(left: 32.0, right: 32, top: 30),
                 child: Column(
@@ -282,7 +282,7 @@ class LoginView extends GetView<AuthController> {
               ),
             ),
             Obx(() => controller.progressBarStatusLogin.value
-                ? CustomProgressBar()
+                ? Center(child: CustomProgressBar())
                 : Container())
           ],
         ),
