@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:get/get.dart';
@@ -16,19 +15,21 @@ import '../network/dio_client.dart';
 import '../models/get_orders_model.dart' as o;
 
 class CheckOutRepository {
-  static Future<bool> checkout(String id, String fullName, String phoneNumber,
+  //personal info
+  static Future<bool> checkout(String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     const url = '$BASE_URL/checkout/';
-    final body = {
-      {
-        "cart": [id],
-        "full_name": fullName,
-        "phone_number": phoneNumber,
-        "alt_phone_number": altPhone,
-        "address": address,
-        "special_notes": notes
-      }
-    };
+    print("this is id ${await storage.readCartId()}");
+
+    final body = jsonEncode({
+      "cart": [await storage.readCartId()],
+      "full_name": fullName,
+      "phone_number": phoneNumber,
+      "alt_phone_number": altPhone,
+      "address": "d4940891-9fba-47f3-b058-881e83774cca",
+      "special_notes": notes
+    });
+
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
@@ -37,14 +38,15 @@ class CheckOutRepository {
         print('Response is ${response.statusCode}.');
         return true;
       } else {
+        print('Response is ${response.statusCode}.');
+
         return Future.error('${decodedResponse["error"]}');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return Future.error(e);
     }
   }
 
@@ -84,8 +86,13 @@ class CheckOutRepository {
     return Future.error('Error $status');
   }
 
-  static Future<bool> updateAddress(String city, String landmark, String type,
-      ) async {
+  //add address
+
+  static Future<bool> updateAddress(
+    String city,
+    String landmark,
+    String type,
+  ) async {
     const url = '$BASE_URL/address/';
     final body = {
       {
@@ -159,6 +166,7 @@ class CheckOutRepository {
     }
   }
 
+  //checkout
   static Future<bool> placeOrder(String id) async {
     var url = '$BASE_URL/Order/$id';
 
@@ -183,7 +191,6 @@ class CheckOutRepository {
     }
   }
 
-
   static Future<List<o.Datum>> getOrders() async {
     const url = '$BASE_URL/Order/';
     final status = await DioHelper.getRequest(
@@ -194,13 +201,14 @@ class CheckOutRepository {
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<o.Datum> orders =
-      (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
+          (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
 
       return orders;
     }
 
     return Future.error('Error $status');
   }
+
   static Future<List<GetSingleOrder>> getSingleOrder(String id) async {
     var url = '$BASE_URL/Order/$id';
     final status = await DioHelper.getRequest(
@@ -210,8 +218,9 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<GetSingleOrder> singleOrder =
-      (status['data'] as List).map((i) => GetSingleOrder.fromJson(i)).toList();
+      List<GetSingleOrder> singleOrder = (status['data'] as List)
+          .map((i) => GetSingleOrder.fromJson(i))
+          .toList();
 
       return singleOrder;
     }

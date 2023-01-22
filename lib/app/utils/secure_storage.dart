@@ -5,8 +5,10 @@ class SecureStorage{
   static Future<Map<String, String>> returnHeader() async{
     return {
       "Content-Type": "multipart/form-data",
-      "Accept": "application/json"
-    };
+      "Accept": "application/json",
+    "Authorization": "Bearer ${await storage.readAccessToken()}"
+
+  };
   }
 
   static Future<Map<String, String>> returnHeaderWithToken() async{

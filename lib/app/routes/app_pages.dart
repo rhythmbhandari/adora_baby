@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
 import 'package:adora_baby/app/modules/cart/views/product_details.dart';
 import 'package:get/get.dart';
 
@@ -75,6 +76,11 @@ class AppPages {
     GetPage(
       name: _Paths.PRODUCT_DETAILS,
       page: () => const ProductDetails(),
+      binding: CartBinding(),
+    ),
+    GetPage(
+      name: _Paths.PERSONAL_INFORMATION,
+      page: () => const PersonalInfoView(),
       binding: CartBinding(),
     ),
   ];
