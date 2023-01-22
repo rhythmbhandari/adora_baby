@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/cart/views/add_address_view.dart';
 import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
 import 'package:adora_baby/app/modules/cart/views/product_details.dart';
 import 'package:get/get.dart';
@@ -81,6 +82,11 @@ class AppPages {
     GetPage(
       name: _Paths.PERSONAL_INFORMATION,
       page: () => const PersonalInfoView(),
+      binding: CartBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_ADDRESS,
+      page: () => const AddAddressView(),
       binding: CartBinding(),
     ),
   ];
