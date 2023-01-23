@@ -11,4 +11,5 @@ class Constants {
   static const WALK_THROUGH_STATE= "walk_through_state";
   static const OTP_STATUS = "otp_status";
   static const CART_ID = "cart_id";
+  static const CITY_ID = "city_id";
 }

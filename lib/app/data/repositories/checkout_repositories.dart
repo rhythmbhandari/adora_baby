@@ -9,7 +9,7 @@ import '../../../main.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
-import '../models/get_city_model.dart';
+import '../models/get_city_model.dart' as c;
 import '../models/get_single_order_model.dart';
 import '../network/dio_client.dart';
 import '../models/get_orders_model.dart' as o;
@@ -26,7 +26,7 @@ class CheckOutRepository {
       "full_name": fullName,
       "phone_number": phoneNumber,
       "alt_phone_number": altPhone,
-      "address": "d4940891-9fba-47f3-b058-881e83774cca",
+      "address": address,
       "special_notes": notes
     });
 
@@ -68,7 +68,7 @@ class CheckOutRepository {
     return Future.error('Error $status');
   }
 
-  static Future<List<GetAddress>> getAddress() async {
+  static Future<List<Datum>> getAddress() async {
     const url = '$BASE_URL/address/';
     final status = await DioHelper.getRequest(
       url,
@@ -77,8 +77,9 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<GetAddress> address =
-          (status['data'] as List).map((i) => GetAddress.fromJson(i)).toList();
+      List<Datum> address =
+          (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
+      storage.saveCityId(address[0].city.id);
 
       return address;
     }
@@ -94,20 +95,17 @@ class CheckOutRepository {
     String type,
   ) async {
     const url = '$BASE_URL/address/';
-    final body = {
-      {
-        {
-          "city": city,
-          "nearest_landmark": landmark,
-          "address_type": type,
-        }
-      }
-    };
+    final body = jsonEncode({
+      "city": city,
+      "nearest_landmark": landmark,
+      "address_type": type,
+    });
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
+        print("working");
         print('Response is ${response.statusCode}.');
         return true;
       } else {
@@ -117,8 +115,7 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return Future.error(e);
     }
   }
 

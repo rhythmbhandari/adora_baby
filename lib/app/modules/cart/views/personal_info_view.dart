@@ -1,12 +1,14 @@
+import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/cart_controller.dart';
 
 class PersonalInfoView extends GetView<CartController> {
@@ -183,31 +185,134 @@ class PersonalInfoView extends GetView<CartController> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextField(
-                            controller: controller.addressController,
-                            cursorColor: AppColors.mainColor,
-                            style: kThemeData.textTheme.bodyLarge,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(33),
+                        Container(
+                          padding: EdgeInsets.only(top: 40, bottom: 40),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: DarkTheme.normal.withOpacity(0.7),
+                              )),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 30.0, right: 30),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Flexible(
+                                    //   fit: FlexFit.loose,
+                                    //   child: Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(top: 70.0),
+                                    //       child: Obx(
+                                    //         () => Checkbox(
+                                    //           value:
+                                    //               controller.addressValue.value,
+                                    //           onChanged: (bool? val) {
+                                    //             controller.addressValue.value =
+                                    //                 val!;
+                                    //           },
+                                    //         ),
+                                    //       )),
+                                    // ),
+                                    FutureBuilder<List<Datum>>(
+                                        future: CheckOutRepository.getAddress(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            if (snapshot.data != null &&
+                                                snapshot.data!.isNotEmpty) {
+                                              return SizedBox(
+                                                height: 100,
+                                                width: 200,
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: snapshot.data!
+                                                        .length,
+                                                    itemBuilder: (context,
+                                                        index) {
+                                                      return Row(
+                                                        children: [
+                                                          Obx(
+                                                                () =>
+                                                                Checkbox(
+                                                                  value: controller
+                                                                      .value[
+                                                                  index],
+                                                                  onChanged:
+                                                                      (bool?
+                                                                  val) {
+                                                                    controller
+                                                                        .value[
+                                                                    index] =
+                                                                    val!;
+                                                                  },
+                                                                ),
+                                                          ),
+                                                          Text(snapshot
+                                                              .data![index].city
+                                                              .city),
+                                                        ],
+                                                      );
+                                                    }
+                                                ),
+                                              );
+                                            }
+                                          } else if (snapshot.hasError) {
+                                            print(snapshot.error);
+                                            return const Center(
+                                              child: Text("Sorry,not found!"),
+                                            );
+                                          }
+
+                                          return CircularProgressIndicator();
+                                        }),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.ADD_ADDRESS);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 20,
+                                            bottom: 20),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                            BorderRadius.circular(20),
+                                            border: Border.all(
+                                              color: DarkTheme.normal
+                                                  .withOpacity(0.7),
+                                            )),
+                                        child: Column(
+                                          children: [
+                                            Text("Add\nNew\nAddress",
+                                                style: TextStyle(
+                                                  //styleName: Small Copy;
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: DarkTheme.normal
+                                                      .withOpacity(0.7),
+                                                )),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Image.asset(
+                                                "assets/images/location-add.png")
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1,
-                                      color: DarkTheme.normal.withOpacity(0.7),
-                                    ),
-                                    borderRadius: BorderRadius.circular(33)),
-                                hintText: 'Address',
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 18,
-                                ),
-                                hintStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    fontFamily: 'Poppins',
-                                    color: Color.fromRGBO(178, 187, 198, 1),
-                                    letterSpacing: 0.04))),
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -254,7 +359,7 @@ class PersonalInfoView extends GetView<CartController> {
                                     ),
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText:
-                                    'Type anything specific to your child',
+                                'Type anything specific to your child',
                                 hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -264,18 +369,39 @@ class PersonalInfoView extends GetView<CartController> {
                         const SizedBox(
                           height: 40,
                         ),
-                        ButtonsWidget(
-                            name: "Next",
-                            onPressed: () {
-                              print("hihihihi");
-                              CheckOutRepository.checkout(
-                                  controller.fNameController.text.trim(),
-                                  controller.phoneController.text.trim(),
-                                  controller.altPhoneController.text.trim(),
-                                  controller.addressController.text.trim(),
-                                  controller.notesController.text.trim());
-                              print("byebyebybeye");
-                            })
+                        FutureBuilder<List<Datum>>(
+                            future: CheckOutRepository.getAddress(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data != null &&
+                                    snapshot.data!.isNotEmpty) {
+                                  return ButtonsWidget(
+                                      name: "Next",
+                                      onPressed: () {
+                                        print("hihihihi");
+                                        CheckOutRepository.checkout(
+                                            controller.fNameController.text
+                                                .trim(),
+                                            controller.phoneController.text
+                                                .trim(),
+                                            controller.altPhoneController
+                                                .text.trim(),
+                                           snapshot.data![0].city.id,
+                                            controller.notesController.text
+                                                .trim());
+                                        print("byebyebybeye");
+                                      });
+                                }
+                              } else if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return const Center(
+                                  child: Text("Sorry,not found!"),
+                                );
+                              }
+
+                              return CircularProgressIndicator();
+                            }),
+
                       ],
                     ),
                   ),

@@ -1,37 +1,61 @@
-// To parse this JSON data, do
-//
-//     final getAddress = getAddressFromJson(jsonString);
 
-import 'dart:convert';
 
-GetAddress? getAddressFromJson(String str) => GetAddress.fromJson(json.decode(str));
-
-String getAddressToJson(GetAddress? data) => json.encode(data!.toJson());
-
-class GetAddress {
-  GetAddress({
-    this.next,
-    this.previous,
-    this.count,
-    this.data,
+class Datum {
+  Datum({
+    required this.id,
+    required this.city,
+    required this.nearestLandmark,
+    required this.createdBy,
+    required this.addressType,
   });
 
-  dynamic next;
-  dynamic previous;
-  int? count;
-  List<dynamic>? data;
+  String id;
+  City city;
+  String nearestLandmark;
+  String createdBy;
+  String addressType;
 
-  factory GetAddress.fromJson(Map<String, dynamic> json) => GetAddress(
-    next: json["next"],
-    previous: json["previous"],
-    count: json["count"],
-    data: json["data"] == null ? [] : List<dynamic>.from(json["data"]!.map((x) => x)),
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    id: json["id"],
+    city: City.fromJson(json["city"]),
+    nearestLandmark: json["nearest_landmark"],
+    createdBy: json["created_by"],
+    addressType: json["address_type"],
   );
 
   Map<String, dynamic> toJson() => {
-    "next": next,
-    "previous": previous,
-    "count": count,
-    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x)),
+    "id": id,
+    "city": city.toJson(),
+    "nearest_landmark": nearestLandmark,
+    "created_by": createdBy,
+    "address_type": addressType,
+  };
+}
+
+class City {
+  City({
+    required this.id,
+    required this.city,
+    // required this.rate,
+    required this.estimatedTime,
+  });
+
+  String id;
+  String city;
+  // int rate;
+  DateTime estimatedTime;
+
+  factory City.fromJson(Map<String, dynamic> json) => City(
+    id: json["id"],
+    city: json["city"],
+    // rate: json["rate"],
+    estimatedTime: DateTime.parse(json["estimated_time"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "city": city,
+    // "rate": rate,
+    "estimated_time": estimatedTime.toIso8601String(),
   };
 }

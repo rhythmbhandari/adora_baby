@@ -5,10 +5,11 @@ import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:adora_baby/app/widgets/shimmer_widget.dart';
+import 'package:adora_baby/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/models/get_carts_model.dart';
+import '../../../data/models/get_carts_model.dart' as g;
 import '../../../data/models/get_city_model.dart' as c;
 import '../../../data/models/get_orders_model.dart' as o;
 import '../../../data/models/get_single_order_model.dart' as s;
@@ -20,12 +21,21 @@ class CartController extends GetxController {
   TextEditingController fNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController altPhoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
   TextEditingController notesController = TextEditingController();
+  TextEditingController addNameController = TextEditingController();
+  TextEditingController landMarkController = TextEditingController();
+
+  String? cityName;
+
+  name() async {
+    cityName = (await storage.readCityId())!;
+  }
 
   final authError = ''.obs;
+  final status = false.obs;
+
   final progressBarStatus = false.obs;
-  final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
+  final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
     false,
     false,
@@ -43,9 +53,11 @@ class CartController extends GetxController {
   var sum = 0.obs;
   final progress = CustomProgressBar().obs;
   Timer? timer;
+  final addressValue = false.obs;
 
   @override
   void onInit() {
+    name();
     timer = Timer(const Duration(seconds: 1), () {
       progress;
       cart().whenComplete(() => timer?.cancel());
@@ -57,7 +69,9 @@ class CartController extends GetxController {
   int index = 0;
 
   void incrementCounter(int index) {
-    counter[index]++;
+    if (counter[index] < 15) {
+      counter[index]++;
+    }
   }
 
   void decrementCounter(int index) {
@@ -134,7 +148,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<Datum>> cart() async {
+  Future<List<g.Datum>> cart() async {
     try {
       final response = await CartRepository.getCart().catchError((error) {
         authError.value = error;
@@ -151,29 +165,33 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<c.Datum>> requestGetAllCities() async {
-    try {
-      final response =
-          await CheckOutRepository.getAllCities().catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
-      if (response.isNotEmpty) {
-        return response;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
+  // Future<c.Datum> requestGetAllCities() async {
+  //   try {
+  //     final response =
+  //         await CheckOutRepository.getAllCities().catchError((error) {
+  //       authError.value = error;
+  //       return false;
+  //     });
+  //
+  //     if (response.isNotEmpty) {
+  //       return response;
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
       String altPhone, String address, String notes) async {
     try {
-      final status = await CheckOutRepository.checkout(fullName.trim(),
-              phoneNumber.trim(), altPhone.trim(), address.trim(), notes.trim())
+      final status = await CheckOutRepository.checkout(
+              fullName.trim(),
+              phoneNumber.trim(),
+              altPhone.trim(),
+              addressValue.value.toString(),
+              notes.trim())
           .catchError((error) {
         authError.value = error;
         return false;
@@ -189,7 +207,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<GetAddress>> requestGetAddress() async {
+  Future<List<Datum>> requestGetAddress() async {
     try {
       final response =
           await CheckOutRepository.getAddress().catchError((error) {
