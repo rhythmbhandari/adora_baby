@@ -315,17 +315,6 @@ class DioHelper {
     }
   }
 
-  // static Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-  //   final options = new Options(
-  //     method: requestOptions.method,
-  //     headers: requestOptions.headers,
-  //   );
-  //   Dio dio = getDioClient();
-  //   return dio.request<dynamic>(requestOptions.path,
-  //       data: requestOptions.data,
-  //       queryParameters: requestOptions.queryParameters,
-  //       options: options);
-  // }
 
   static Future<void> refreshToken() async {
     final refreshToken = await storage.readRefreshToken();

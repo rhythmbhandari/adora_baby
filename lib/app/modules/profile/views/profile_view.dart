@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/data/network/dio_client.dart';
 import 'package:adora_baby/app/widgets/recently_viewed.dart';
 import 'package:flutter/material.dart';
 
@@ -38,22 +39,14 @@ class ProfileView extends GetView<ProfileController> {
                   padding: const EdgeInsets.only(bottom: 6.0),
                   child: Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 35,
                       ),
                       Expanded(flex: 5, child: SizedBox()),
-                      GestureDetector(
-                        onTap: () async{
-                          String? token = await storage.readRefreshToken();
-                          String? token1 = await storage.readAccessToken();
-                          log('${JwtDecoder.isExpired(token!)}');
-                          log('${JwtDecoder.isExpired(token1!)}');
-                        },
-                        child: Text(
-                          'Profile',
-                          style: kThemeData.textTheme.displaySmall
-                              ?.copyWith(color: DarkTheme.normal),
-                        ),
+                      Text(
+                        'Profile',
+                        style: kThemeData.textTheme.displaySmall
+                            ?.copyWith(color: DarkTheme.normal),
                       ),
                       Expanded(flex: 4, child: SizedBox()),
                       Icon(Icons.menu),
