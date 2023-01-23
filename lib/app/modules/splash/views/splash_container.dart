@@ -12,8 +12,8 @@ class SplashContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              "assets/images/midwife.svg",
+            Image.asset(
+              "assets/images/logo.png",
               height: 0.2 * Get.height,
             ),
           ],
