@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:adora_baby/app/data/models/user_model.dart';
+import 'package:adora_baby/app/enums/date_type.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../data/models/orders_model.dart';
 import '../../../data/repositories/data_repository.dart';
@@ -20,13 +23,19 @@ class ProfileController extends GetxController {
 
   final ordersList = [].obs;
 
-  final orderHistoryList = [].obs;
+  final orderHistoryListWeek = [].obs;
+  final orderHistoryListHalfMonth = [].obs;
+  final orderHistoryListMonth = [].obs;
 
   final orderHistoryIndex = 1.obs;
 
   final progressStatus = ProgressStatus.IDLE.obs;
 
   final Rx<Orders> selectedOrders = Orders().obs;
+
+  final dateType = DateType.WEEK.obs;
+
+  final currentPageOrder = 0.obs;
 
   final Rx<Users> user = Users(
     fullName: '',
@@ -50,10 +59,18 @@ class ProfileController extends GetxController {
     await Future.wait(
       [
         getUserDetails(),
+        getOrderList(isRefresh: true, isInitial: true, [].obs),
+      ],
+    );
+  }
+
+  Future<void> fetchOrders() async {
+    await Future.wait(
+      [
+        getOrderList(isRefresh: true, isInitial: true, orderHistoryListWeek),
         getOrderList(
-          isRefresh: true,
-          isInitial: true,
-        ),
+            isRefresh: true, isInitial: true, orderHistoryListHalfMonth),
+        getOrderList(isRefresh: true, isInitial: true, orderHistoryListMonth),
       ],
     );
   }
@@ -75,6 +92,48 @@ class ProfileController extends GetxController {
     }
   }
 
+  ScrollController scrollController = new ScrollController();
+
+  void scroll(double position) {
+    scrollController.jumpTo(position);
+  }
+
+  void animateTab(double position) {
+    if (position == 3.0) {
+      scrollController.animateTo(position + 55,
+          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+    } else {
+      scrollController.animateTo(position,
+          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+    }
+  }
+
+  void updateSelectedBookingPage(DateType _datetype) {
+    switch (_datetype) {
+      case DateType.WEEK:
+        dateType.value = DateType.WEEK;
+        currentPageOrder.value = 0;
+        break;
+      case DateType.HALFMONTH:
+        dateType.value = DateType.HALFMONTH;
+        currentPageOrder.value = 1;
+        break;
+
+      case DateType.MONTH:
+        dateType.value = DateType.MONTH;
+        currentPageOrder.value = 2;
+        break;
+    }
+    animatePage();
+  }
+
+  final pageController = PageController(initialPage: 0, keepPage: true).obs;
+
+  void animatePage() {
+    pageController.value.animateToPage(currentPageOrder.value,
+        duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+  }
+
   Future<void> getUserDetails() async {
     showProgressBar();
     // final firebaseMessaging = FirebaseMessaging.instance;
@@ -87,7 +146,8 @@ class ProfileController extends GetxController {
     );
   }
 
-  Future<void> getOrderList({
+  Future<void> getOrderList(
+    RxList list, {
     bool isRefresh = true,
     bool isInitial = false,
   }) async {
@@ -101,12 +161,12 @@ class ProfileController extends GetxController {
                   {
                     if (value.isEmpty)
                       {
-                        orderHistoryList.value = [].obs,
+                        list.value = [].obs,
                         orderHistoryIndex.value = 2,
                       }
                     else
                       {
-                        orderHistoryList.value = value,
+                        list.value = value,
                         orderHistoryIndex.value = 2,
                         ordersList.value = value,
                       }
@@ -116,20 +176,20 @@ class ProfileController extends GetxController {
                     if (value.isEmpty)
                       {
                         ordersList.value = [].obs,
-                        orderHistoryList.value = [].obs,
+                        list.value = [].obs,
                         orderHistoryIndex.value = 2,
                       }
                     else
                       {
                         ordersList.value = value,
                         orderHistoryIndex.value = 2,
-                        orderHistoryList.value = value,
+                        list.value = value,
                       }
                   }
                 else
                   {
                     {
-                      orderHistoryList.addAll(value),
+                      list.addAll(value),
                       orderHistoryIndex.value++,
                     }
                   }

@@ -335,9 +335,8 @@ class DioHelper {
     final response = await dio.post(url, data: body);
 
     if (response.statusCode == 200) {
-      // this.accessToken = response.data['accessToken'];
-      // storage.saveAccessToken(decodedResponse["token"]["access"]);
-      // storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
+      storage.saveAccessToken(response.data["access"]);
+      storage.saveRefreshToken(response.data["refresh"]);
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
+import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:adora_baby/app/modules/shop/widgets/hot_sales.dart';
 import 'package:adora_baby/app/utils/date_time_converter.dart';
@@ -26,7 +27,6 @@ class OrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var index = 0;
     return Padding(
       padding:
           const EdgeInsets.only(left: 18.0, right: 18, top: 10, bottom: 15),
@@ -40,7 +40,6 @@ class OrderWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                controller.getOrderList();
               },
               child: const Center(
                 child: Text(
@@ -152,14 +151,17 @@ Widget _buildFeaturedCards(ProfileController controller) {
     for (int i = 0; i < controller.ordersList.length; i++) {
       cards.add(GestureDetector(
         onTap: () {
-          Get.to(
-            OrderHistoryView(),
-          );
+          Get.to(OrderHistoryDetail());
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10),
-          margin: const EdgeInsets.only(right: 0, bottom: 10, left: 19),
-          width: Get.width * 0.7,
+          margin: EdgeInsets.only(
+              right: (controller.ordersList.length - 1 == i) ? 19 : 0,
+              bottom: 10,
+              left: 19),
+          width: controller.ordersList.length == 1
+              ? Get.width * 0.9
+              : Get.width * 0.7,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -312,8 +314,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    for (var i in controller
-                        .ordersList[i].checkOut.cart)
+                    for (var i in controller.ordersList[i].checkOut.cart)
                       CachedNetworkImage(
                         fit: BoxFit.contain,
                         height: Get.height * 0.1,
@@ -361,7 +362,9 @@ Widget _buildFeaturedCards(ProfileController controller) {
             height: 10,
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
+
+              controller.fetchOrders();
               Get.to(
                 OrderHistoryView(),
               );
