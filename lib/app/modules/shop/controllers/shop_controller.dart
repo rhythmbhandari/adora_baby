@@ -274,9 +274,10 @@ class ShopController extends GetxController {
 
   Future<void> getTips(bool isRefresh, bool isInitial) async {
     showProgressBar();
-    String keyword = '?page=1';
 
-    await ShopRepository.fetchTips(keyword)
+    String keyword = '?page=$tipsIndex';
+
+    await ShopRepository.fetchTips(isRefresh ? '?page=1' : '?page=$tipsIndex')
         .then((value) => {
               if (isRefresh)
                 {

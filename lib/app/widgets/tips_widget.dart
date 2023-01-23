@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
+import 'package:adora_baby/app/modules/shop/views/all_tips_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -63,6 +64,7 @@ Widget tips(ShopController controller, BuildContext context) {
                           borderRadius: BorderRadius.circular(30.0),
                           child: Container(
                             height: Get.height * 0.4,
+                            width: Get.width,
                             child: CachedNetworkImage(
                               fit: BoxFit.fill,
                               imageUrl: '${controller.tipsList[0].picture}',
@@ -84,8 +86,8 @@ Widget tips(ShopController controller, BuildContext context) {
                       child: _buildImage()))),
           GestureDetector(
             onTap: () {
-              Get.to(() => AllProductsView(),
-                  arguments: controller.allProducts);
+              Get.to(() => MoreTips(),
+                  arguments: controller.tipsList);
             },
             child: Align(
               alignment: Alignment.centerRight,
