@@ -207,4 +207,66 @@ class ProfileController extends GetxController {
       },
     );
   }
+
+  Future<void> getOrderList(RxList list,
+      {bool isRefresh = true, bool isInitial = false, int index = 0}) async {
+    int time = index == 0
+        ? 7
+        : index == 1
+        ? 14
+        : 30;
+    String keyword =
+        '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderHistoryIndex.value}';
+
+    showProgressBar();
+    await DataRepository.fetchOrderList(keyword)
+        .then((value) => {
+      {
+        if (isRefresh && !isInitial)
+          {
+            if (value.isEmpty)
+              {
+                list.value = [].obs,
+                orderHistoryIndex.value = 2,
+              }
+            else
+              {
+                list.value = value,
+                orderHistoryIndex.value = 2,
+                ordersList.value = value,
+              }
+          }
+        else if (isRefresh && isInitial)
+          {
+            if (value.isEmpty)
+              {
+                ordersList.value = [].obs,
+                list.value = [].obs,
+                orderHistoryIndex.value = 2,
+              }
+            else
+              {
+                ordersList.value = value,
+                orderHistoryIndex.value = 2,
+                list.value = value,
+              }
+          }
+        else
+          {
+            {
+              list.addAll(value),
+              orderHistoryIndex.value++,
+            }
+          }
+      }
+    })
+        .then((value) => hideProgressBar())
+        .catchError(
+          (error) {
+        authError.value = error.toString();
+        log('Auth Error is ${authError}');
+        hideProgressBar();
+      },
+    );
+  }
 }
