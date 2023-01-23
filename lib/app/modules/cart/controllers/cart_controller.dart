@@ -24,6 +24,8 @@ class CartController extends GetxController {
   TextEditingController notesController = TextEditingController();
   TextEditingController addNameController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
+  final progressBarStatusOtp = false.obs;
+
 
   String? cityName;
 
@@ -105,6 +107,34 @@ class CartController extends GetxController {
       return false;
     }
   }
+  final fName = ''.obs;
+  final pNum = ''.obs;
+  final aNum = ''.obs;
+  final note = ''.obs;
+  Future<bool> validatePersonalInfo() async {
+    fName.value = fNameController.text.trim();
+    pNum.value = phoneController.text.trim();
+    aNum.value = altPhoneController.text.trim();
+    note.value = notesController.text.trim();
+
+
+    bool isValid = true;
+    if (fName.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Name cannot be empty.'.tr;
+    } else if (pNum.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Number cannot be empty.'.tr;
+    } else if (aNum.value.isEmpty) {
+      isValid = false;
+      authError.value = 'ALternate Number cannot be empty.'.tr;
+    }
+    else if (note.value.isEmpty) {
+      isValid = false;
+      authError.value = 'Notes cannot be empty.'.tr;
+    }
+    return isValid;
+  }
 
   Future<bool> requestUpdateToCart() async {
     TextEditingController quantityController =
@@ -184,13 +214,13 @@ class CartController extends GetxController {
   // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
-      String altPhone, String address, String notes) async {
+      String altPhone, String address,String notes) async {
     try {
       final status = await CheckOutRepository.checkout(
               fullName.trim(),
               phoneNumber.trim(),
               altPhone.trim(),
-              addressValue.value.toString(),
+              address.trim(),
               notes.trim())
           .catchError((error) {
         authError.value = error;

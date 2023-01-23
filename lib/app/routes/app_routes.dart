@@ -15,6 +15,7 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const PERSONAL_INFORMATION =_Paths.PERSONAL_INFORMATION;
   static const ADD_ADDRESS = _Paths.ADD_ADDRESS;
+  static const CHECKOUT = _Paths.CHECKOUT;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const PRODUCT_DETAILS = '/product_details';
   static const PERSONAL_INFORMATION = '/check_out';
   static const ADD_ADDRESS='/add_address';
+  static const CHECKOUT = '/checkout';
 }

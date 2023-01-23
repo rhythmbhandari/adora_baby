@@ -186,7 +186,7 @@ class PersonalInfoView extends GetView<CartController> {
                           height: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.only(top: 40, bottom: 40),
+                          padding: EdgeInsets.only(top: 40),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
@@ -200,24 +200,8 @@ class PersonalInfoView extends GetView<CartController> {
                                     left: 30.0, right: 30),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Flexible(
-                                    //   fit: FlexFit.loose,
-                                    //   child: Padding(
-                                    //       padding:
-                                    //           const EdgeInsets.only(top: 70.0),
-                                    //       child: Obx(
-                                    //         () => Checkbox(
-                                    //           value:
-                                    //               controller.addressValue.value,
-                                    //           onChanged: (bool? val) {
-                                    //             controller.addressValue.value =
-                                    //                 val!;
-                                    //           },
-                                    //         ),
-                                    //       )),
-                                    // ),
                                     FutureBuilder<List<Datum>>(
                                         future: CheckOutRepository.getAddress(),
                                         builder: (context, snapshot) {
@@ -225,39 +209,51 @@ class PersonalInfoView extends GetView<CartController> {
                                             if (snapshot.data != null &&
                                                 snapshot.data!.isNotEmpty) {
                                               return SizedBox(
-                                                height: 100,
+                                                height: 250,
                                                 width: 200,
                                                 child: ListView.builder(
                                                     shrinkWrap: true,
-                                                    itemCount: snapshot.data!
-                                                        .length,
-                                                    itemBuilder: (context,
-                                                        index) {
+                                                    itemCount:
+                                                        snapshot.data!.length,
+                                                    itemBuilder:
+                                                        (context, index) {
                                                       return Row(
                                                         children: [
                                                           Obx(
-                                                                () =>
-                                                                Checkbox(
-                                                                  value: controller
-                                                                      .value[
-                                                                  index],
-                                                                  onChanged:
-                                                                      (bool?
-                                                                  val) {
-                                                                    controller
-                                                                        .value[
-                                                                    index] =
+                                                            () => Checkbox(
+                                                              shape:
+                                                                  const CircleBorder(),
+                                                              value: controller
+                                                                  .value[index],
+                                                              onChanged:
+                                                                  (bool? val) {
+                                                                controller.value[
+                                                                        index] =
                                                                     val!;
-                                                                  },
-                                                                ),
+                                                              },
+                                                            ),
                                                           ),
-                                                          Text(snapshot
-                                                              .data![index].city
-                                                              .city),
+                                                          Text(
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .city
+                                                                  .city,
+                                                              style: TextStyle(
+                                                                //styleName: Small Copy;
+                                                                fontFamily:
+                                                                    "Poppins",
+                                                                color: Colors
+                                                                    .black
+                                                                    .withOpacity(
+                                                                        0.8),
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              )),
                                                         ],
                                                       );
-                                                    }
-                                                ),
+                                                    }),
                                               );
                                             }
                                           } else if (snapshot.hasError) {
@@ -282,7 +278,7 @@ class PersonalInfoView extends GetView<CartController> {
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            BorderRadius.circular(20),
+                                                BorderRadius.circular(20),
                                             border: Border.all(
                                               color: DarkTheme.normal
                                                   .withOpacity(0.7),
@@ -359,7 +355,7 @@ class PersonalInfoView extends GetView<CartController> {
                                     ),
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText:
-                                'Type anything specific to your child',
+                                    'Type anything specific to your child',
                                 hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -377,19 +373,49 @@ class PersonalInfoView extends GetView<CartController> {
                                     snapshot.data!.isNotEmpty) {
                                   return ButtonsWidget(
                                       name: "Next",
-                                      onPressed: () {
-                                        print("hihihihi");
-                                        CheckOutRepository.checkout(
-                                            controller.fNameController.text
-                                                .trim(),
-                                            controller.phoneController.text
-                                                .trim(),
-                                            controller.altPhoneController
-                                                .text.trim(),
-                                           snapshot.data![0].city.id,
-                                            controller.notesController.text
-                                                .trim());
-                                        print("byebyebybeye");
+                                      onPressed: () async {
+                                        final status =
+                                            await controller.requestToCheckOut(
+                                                controller.fNameController.text
+                                                    .trim(),
+                                                controller.phoneController.text
+                                                    .trim(),
+                                                controller
+                                                    .altPhoneController.text
+                                                    .trim(),
+                                                snapshot.data![0].city.id,
+                                                controller.notesController.text
+                                                    .trim());
+                                        if (!status) {
+                                          var snackBar = SnackBar(
+                                            elevation: 0,
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.red,
+                                            duration: const Duration(
+                                                milliseconds: 2000),
+                                            content: Text(controller.authError
+                                                .toUpperCase()),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          controller.progressBarStatusOtp
+                                              .value = false;
+                                        } else {
+                                          var snackBar = SnackBar(
+                                            elevation: 0,
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.green,
+                                            duration: const Duration(
+                                                milliseconds: 2000),
+                                            content:
+                                                Text("Success!".toUpperCase()),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          Get.offNamed(Routes.CHECKOUT);
+                                          controller.progressBarStatusOtp
+                                              .value = false;
+                                        }
                                       });
                                 }
                               } else if (snapshot.hasError) {
@@ -401,7 +427,6 @@ class PersonalInfoView extends GetView<CartController> {
 
                               return CircularProgressIndicator();
                             }),
-
                       ],
                     ),
                   ),
