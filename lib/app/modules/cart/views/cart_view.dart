@@ -411,6 +411,7 @@ class CartView extends GetView<CartController> {
                                       ),
                                     ),
                                     Container(
+                                      padding: EdgeInsets.only(right: 45),
                                         color: Colors.white,
                                         child: Padding(
                                             padding: const EdgeInsets.only(
@@ -422,21 +423,18 @@ class CartView extends GetView<CartController> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        "Subtotal",
-                                                        style: kThemeData
-                                                            .textTheme
-                                                            .bodyLarge,
-                                                      ),
+                                                    Text(
+                                                      "Subtotal",
+                                                      style: kThemeData
+                                                          .textTheme
+                                                          .bodyLarge,
                                                     ),
-                                                    Obx(() => Expanded(
-                                                            child: Text(
+                                                    Obx(() => Text(
                                                           "Rs. ${snapshot.data![0].product!.regularPrice! * controller.counter[0]}",
                                                           style: kThemeData
-                                                              .textTheme
-                                                              .displaySmall,
-                                                        ))),
+                                                      .textTheme
+                                                      .displaySmall,
+                                                        )),
                                                   ],
                                                 ),
                                                 Row(
@@ -444,21 +442,18 @@ class CartView extends GetView<CartController> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        "Diamond off",
-                                                        style: kThemeData
-                                                            .textTheme
-                                                            .bodyLarge,
-                                                      ),
+                                                    Text(
+                                                      "Diamond off",
+                                                      style: kThemeData
+                                                          .textTheme
+                                                          .bodyLarge,
                                                     ),
-                                                    Expanded(
-                                                        child: Text(
+                                                    Text(
                                                       "0",
                                                       style: kThemeData
-                                                          .textTheme
-                                                          .displaySmall,
-                                                    )),
+                                                      .textTheme
+                                                      .displaySmall,
+                                                    ),
                                                   ],
                                                 ),
                                                 Row(
@@ -466,21 +461,18 @@ class CartView extends GetView<CartController> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        "Discount",
-                                                        style: kThemeData
-                                                            .textTheme
-                                                            .bodyLarge,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                        child: Text(
-                                                      "Rs. 100",
+                                                    Text(
+                                                      "Discount",
                                                       style: kThemeData
                                                           .textTheme
-                                                          .displaySmall,
-                                                    )),
+                                                          .bodyLarge,
+                                                    ),
+                                                    Text(
+                                                      "Rs. 100",
+                                                      style: kThemeData
+                                                      .textTheme
+                                                      .displaySmall,
+                                                    ),
                                                   ],
                                                 ),
                                                 const SizedBox(
@@ -491,21 +483,18 @@ class CartView extends GetView<CartController> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        "Subtotal",
-                                                        style: kThemeData
-                                                            .textTheme
-                                                            .bodyLarge,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                        child: Text(
-                                                      "Rs. 1600",
+                                                    Text(
+                                                      "Subtotal",
                                                       style: kThemeData
                                                           .textTheme
-                                                          .displaySmall,
-                                                    )),
+                                                          .bodyLarge,
+                                                    ),
+                                                    Text(
+                                                      "Rs. 1600",
+                                                      style: kThemeData
+                                                      .textTheme
+                                                      .displaySmall,
+                                                    ),
                                                   ],
                                                 ),
                                               ],
