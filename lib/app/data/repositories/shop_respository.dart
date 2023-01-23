@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 
 import '../../widgets/custom_progress_bar.dart';
 import '../models/stages_brands.dart';
+import '../models/tips_model.dart';
 import '../network/dio_client.dart';
 import '../network/network_helper.dart';
 
@@ -73,6 +74,25 @@ class ShopRepository {
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       log('Reached here $hotSales');
       return hotSales;
+    }
+
+    return Future.error('Error $status');
+  }
+
+  static Future<List<Tips>> fetchTips(String keyword) async {
+    final url = '$BASE_URL/tips/$keyword';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+    log('Status received is $status');
+    if (status is Map<dynamic, dynamic>) {
+      List<Tips> tips =
+      (status['data'] as List).map((i) => Tips.fromJson(i)).toList();
+      log('Reached here $tips');
+      return tips;
     }
 
     return Future.error('Error $status');

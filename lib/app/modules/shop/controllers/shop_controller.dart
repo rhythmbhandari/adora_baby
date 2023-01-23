@@ -29,6 +29,9 @@ class ShopController extends GetxController {
 
   final allProducts = [].obs;
 
+  final tipsList = [].obs;
+  final tipsListFiltered = [].obs;
+
   final allProductsFiltered = [].obs;
   final allProductsSearched = [].obs;
   final hotSalesFiltered = [].obs;
@@ -45,6 +48,8 @@ class ShopController extends GetxController {
 
   final hotSalesIndex = 1.obs;
   final allProductsIndex = 1.obs;
+
+  final tipsIndex = 1.obs;
 
   final allProductsSearchedIndex = 1.obs;
 
@@ -74,6 +79,7 @@ class ShopController extends GetxController {
         getAllProducts(true),
         getStages(),
         DataRepository.fetchProfileDetail(),
+        getTips(true, true),
       ],
     );
   }
@@ -253,6 +259,45 @@ class ShopController extends GetxController {
                 }
               else
                 {allProducts.addAll(value), allProductsIndex.value++}
+            })
+        .then((value) => hideProgressBar())
+        .catchError(
+      (error, stackTrace) {
+        authError.value = error.toString();
+        showErrorBar();
+        Future.delayed(const Duration(seconds: 2)).then(
+          (value) => hideProgressBar(),
+        );
+      },
+    );
+  }
+
+  Future<void> getTips(bool isRefresh, bool isInitial) async {
+    showProgressBar();
+    String keyword = '?page=1';
+
+    await ShopRepository.fetchTips(keyword)
+        .then((value) => {
+              if (isRefresh)
+                {
+                  if (value.isEmpty)
+                    {
+                      tipsListFiltered.value = [].obs,
+                      tipsIndex.value = 2,
+                      tipsList.value = [].obs,
+                    }
+                  else
+                    {
+                      tipsListFiltered.value = value,
+                      tipsIndex.value = 2,
+                      tipsList.value = value,
+                    }
+                }
+              else
+                {
+                  tipsListFiltered.addAll(value),
+                  tipsIndex.value++,
+                }
             })
         .then((value) => hideProgressBar())
         .catchError(

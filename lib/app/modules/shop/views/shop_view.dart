@@ -5,6 +5,7 @@ import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/shop/widgets/all_brands.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
+import 'package:adora_baby/app/widgets/tips_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -138,10 +139,8 @@ class NewShopViewBody extends StatelessWidget {
                 HotSale(
                   controller: controller,
                 ),
+                tips(controller, context),
                 AllProducts(controller: controller),
-                // Obx(() => controller.isSelected.value
-                //     ? const AllBrands()
-                //     : Container()),
                 Container(
                   height: Get.height * 0.1,
                 )
