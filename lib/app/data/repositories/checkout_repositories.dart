@@ -34,7 +34,7 @@ class CheckOutRepository {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Response is ${response.statusCode}.');
         return true;
       } else {

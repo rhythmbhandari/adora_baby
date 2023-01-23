@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
+import '../modules/cart/views/checkout_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/shop/bindings/shop_binding.dart';
@@ -87,6 +88,11 @@ class AppPages {
     GetPage(
       name: _Paths.ADD_ADDRESS,
       page: () => const AddAddressView(),
+      binding: CartBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => const CheckOutView(),
       binding: CartBinding(),
     ),
   ];
