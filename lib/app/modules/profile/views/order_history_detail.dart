@@ -121,7 +121,6 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                             expandedHeight: 0,
                             pinned: true,
                             elevation: 0.5,
-
                             forceElevated: innerBoxIsScrolled,
                           ),
                           SliverToBoxAdapter(
@@ -139,165 +138,526 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                         // The content of each tab
                         body: TabBarView(
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                for (int i = 0;
-                                    i <
-                                        controller
-                                            .selectedOrders
-                                            .value
-                                            .checkOut!
-                                            .cart!.length;
-                                    i++)
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 23,
-                                      vertical: 24,
-                                    ),
-                                    margin: EdgeInsets.symmetric(horizontal: 23, vertical: 16),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: Colors.black.withOpacity(0.05)),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        const BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                                          blurRadius: 0.5,
-                                          spreadRadius: 0.5,
-                                          offset: Offset(-0, 0.5), // Shadow position
-                                        ),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        CachedNetworkImage(
-                                          fit: BoxFit.contain,
-                                          height: Get.height * 0.18,
-                                          width: Get.height * 0.18,
-                                          imageUrl:
-                                              '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.productImages?[0]?.name}',
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.shortName}',
-                                                maxLines: 1,
-                                                style: kThemeData
-                                                    .textTheme.bodyMedium
-                                                    ?.copyWith(
-                                                  color: AppColors.secondary700,
-                                                ),
-                                              ),
-                                              Text(
-                                                '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.name}',
-                                                maxLines: 4,
-                                                style: kThemeData
-                                                    .textTheme.titleMedium
-                                                    ?.copyWith(
-                                                  color: AppColors.primary700,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 15,
-                                                        vertical: 3),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color:
-                                                            DarkTheme.normal)),
-                                                child: Text(
-                                                  '${controller.selectedOrders.value.checkOut?.cart?[i]?.quantity}',
+                            SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (int i = 0;
+                                      i <
+                                          controller.selectedOrders.value
+                                              .checkOut!.cart!.length;
+                                      i++)
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 23,
+                                        vertical: 24,
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 23, vertical: 16),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color:
+                                                Colors.black.withOpacity(0.05)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          const BoxShadow(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.25),
+                                            blurRadius: 0.5,
+                                            spreadRadius: 0.5,
+                                            offset: Offset(
+                                                -0, 0.5), // Shadow position
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          CachedNetworkImage(
+                                            fit: BoxFit.contain,
+                                            height: Get.height * 0.18,
+                                            width: Get.height * 0.18,
+                                            imageUrl:
+                                                '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.productImages?[0]?.name}',
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.shortName}',
                                                   maxLines: 1,
+                                                  style: kThemeData
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                    color:
+                                                        AppColors.secondary700,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.name}',
+                                                  maxLines: 4,
                                                   style: kThemeData
                                                       .textTheme.titleMedium
                                                       ?.copyWith(
                                                     color: AppColors.primary700,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.rectangle,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color: DarkTheme
+                                                              .normal)),
+                                                  child: Text(
+                                                    '${controller.selectedOrders.value.checkOut?.cart?[i]?.quantity}',
+                                                    maxLines: 1,
+                                                    style: kThemeData
+                                                        .textTheme.titleMedium
+                                                        ?.copyWith(
+                                                      color:
+                                                          AppColors.primary700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 32),
+                                    child: Text(
+                                      'Payment Method',
+                                      maxLines: 1,
+                                      style: kThemeData.textTheme.titleMedium
+                                          ?.copyWith(
+                                        color: DarkTheme.dark,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 23,
+                                        vertical: 24,
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 32, vertical: 16),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color:
+                                                Colors.black.withOpacity(0.05)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          const BoxShadow(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.06),
+                                            blurRadius: 0.2,
+                                            spreadRadius: 0.5,
+                                            offset:
+                                                Offset(0, 2), // Shadow position
                                           ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 33,
+                                          ),
+                                          SvgPicture.asset(
+                                            "assets/images/wallet-money.svg",
+                                            // height: 22,
+                                            // color: Color(0xff667080)
+                                          ),
+                                          SizedBox(
+                                            width: 33,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Cash on Delivery',
+                                                  style: kThemeData
+                                                      .textTheme.titleMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.dark),
+                                                ),
+                                                Text(
+                                                  'Pay Cash upon delivery',
+                                                  style: kThemeData
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.dark),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 23,
+                                        vertical: 24,
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 32, vertical: 0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color:
+                                                Colors.black.withOpacity(0.05)),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          const BoxShadow(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.06),
+                                            blurRadius: 0.2,
+                                            spreadRadius: 0.5,
+                                            offset:
+                                                Offset(0, 2), // Shadow position
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 33,
+                                          ),
+                                          SvgPicture.asset(
+                                              "assets/images/profile_diamonds.svg",
+                                              height: 35,
+                                              color: DarkTheme.dark),
+                                          SizedBox(
+                                            width: 33,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${controller.selectedOrders.value.checkOut?.dimondOff} Diamonds used',
+                                                  style: kThemeData
+                                                      .textTheme.titleMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.dark),
+                                                ),
+                                                Text(
+                                                  'Rs. ${controller.selectedOrders.value.checkOut?.discount} off',
+                                                  style: kThemeData
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.dark),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 32),
+                                    child: Text(
+                                      'Applied Coupon',
+                                      maxLines: 1,
+                                      style: kThemeData.textTheme.titleMedium
+                                          ?.copyWith(
+                                        color: DarkTheme.dark,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 20.0,
+                                        left: 32,
+                                        right: 32,
+                                        bottom: 10),
+                                    color: Colors.white,
+                                    child: TextField(
+                                      readOnly: true,
+                                      enabled: false,
+                                      cursorColor: AppColors.primary300,
+                                      decoration: InputDecoration(
+                                        label: Text(
+                                          '${controller.selectedOrders.value.checkOut?.couponCode ?? 'N/A'}',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        hintStyle:
+                                            kThemeData.textTheme.bodyLarge,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 30, vertical: 8),
+                                        suffixIcon: Padding(
+                                          padding: EdgeInsets.all(12),
+                                          child: SvgPicture.asset(
+                                              "assets/images/tag.svg",
+                                              color: DarkTheme.dark),
+                                        ),
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 1,
+                                                color: AppColors.secondary500),
+                                            borderRadius: BorderRadius.circular(
+                                              33,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 56,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Sub Total',
+                                          style: kThemeData.textTheme.bodyLarge
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        ),
+                                        Text(
+                                          '${controller.selectedOrders.value.checkOut?.subTotal}',
+                                          style: kThemeData
+                                              .textTheme.titleMedium
+                                              ?.copyWith(color: DarkTheme.dark),
                                         )
                                       ],
                                     ),
                                   ),
-                                Container(
-                                  height: Get.height * 0.02,
-                                ),
-                                Container(
-                                  height: Get.height * 0.02,
-                                  color: Color.fromRGBO(
-                                    250,
-                                    245,
-                                    252,
-                                    1,
-                                  ),
-                                ),
-                                Container(
-                                  height: Get.height * 0.02,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 32),
-                                  child: Text(
-                                    'Payment Method',
-                                    maxLines: 1,
-                                    style: kThemeData
-                                        .textTheme.titleMedium
-                                        ?.copyWith(
-                                      color: DarkTheme.dark,
-                                    ),
-                                  ),
-                                ),
-                                for (int i = 0;
-                                i <
-                                    controller
-                                        .selectedOrders
-                                        .value
-                                        .checkOut!
-                                        .cart!.length;
-                                i++)
                                   Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 23,
-                                      vertical: 24,
-                                    ),
-                                    margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(color: Colors.black.withOpacity(0.05)),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        const BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.06),
-                                          blurRadius: 0.2,
-                                          spreadRadius: 0.5,
-                                          offset: Offset(0, 2), // Shadow position
+                                        horizontal: 56, vertical: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Diamond Off',
+                                          style: kThemeData.textTheme.bodyLarge
+                                              ?.copyWith(color: DarkTheme.dark),
                                         ),
+                                        Text(
+                                          '${controller.selectedOrders.value.checkOut?.dimondOff}',
+                                          style: kThemeData
+                                              .textTheme.titleMedium
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        )
                                       ],
                                     ),
-                                    child: Container())
-                                    ],
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: 56, right: 56, bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Discount',
+                                          style: kThemeData.textTheme.bodyLarge
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        ),
+                                        Text(
+                                          '${controller.selectedOrders.value.checkOut?.discount}',
+                                          style: kThemeData
+                                              .textTheme.titleMedium
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: 56,
+                                        right: 56,
+                                        bottom: 5,
+                                        top: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Grand Total',
+                                          style: kThemeData.textTheme.bodyLarge
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        ),
+                                        Text(
+                                          '${controller.selectedOrders.value.checkOut?.grandTotal}',
+                                          style: kThemeData
+                                              .textTheme.titleMedium
+                                              ?.copyWith(color: DarkTheme.dark),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.04,
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                      left: 32,
+                                      right: 32,
+                                    ),
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                          top: 20,
+                                          bottom: 20,
+                                          left: 40,
+                                          right: 40,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary500,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Need Help with this Order?',
+                                                style: kThemeData
+                                                    .textTheme.labelMedium
+                                                    ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                )),
+                                            SvgPicture.asset(
+                                              "assets/images/messenger.svg",
+                                              // height: 22,
+                                              // color: Color(0xff667080)
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.03,
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                  ),
+                                  Container(
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                    child: Center(
+                                      child: Text('Cancel My Order',
+                                          style: kThemeData
+                                              .textTheme.labelMedium
+                                              ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: DarkTheme.lightActive
+                                          )),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: Get.height * 0.06,
+                                    color: Color.fromRGBO(
+                                      250,
+                                      245,
+                                      252,
+                                      1,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             ListView.builder(
                               itemBuilder: (context, index) => ListTile(
