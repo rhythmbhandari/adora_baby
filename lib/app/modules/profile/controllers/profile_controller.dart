@@ -7,9 +7,11 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../data/models/orders_model.dart';
+import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/data_repository.dart';
 import '../../../data/repositories/session_manager.dart';
 import '../../../enums/progress_status.dart';
+import '../../../utils/date_time_converter.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
@@ -17,6 +19,10 @@ class ProfileController extends GetxController {
   final count = 0.obs;
 
   final authError = ''.obs;
+
+  final babyMedicalCondition = [].obs;
+
+  final selectedTags = [].obs;
 
   final fullName = ''.obs;
   final phoneNumber = ''.obs;
@@ -53,11 +59,33 @@ class ProfileController extends GetxController {
   final currentPageStatement = 0.obs;
   final currentPageOverview = 0.obs;
 
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController contactInformationController = TextEditingController();
+
+  TextEditingController babyNameController = TextEditingController();
+  TextEditingController babyDobController = TextEditingController();
+  TextEditingController specialNoteController = TextEditingController();
+
   final Rx<Users> user = Users(
     fullName: '',
     babyName: '',
     phoneNumber: '',
   ).obs;
+
+  setUserData() {
+    hideProgressBar();
+    if (SessionManager.instance.user != null) {
+      user.value = SessionManager.instance.user ?? Users();
+    }
+    fullNameController.text = user.value.fullName ?? '';
+    contactInformationController.text = user.value.phoneNumber ?? '';
+    babyNameController.text = user.value.babyName ?? '';
+    babyDobController.text =
+        DateTimeConverter.bookingDetailsDate(user.value.babyDob ?? DateTime.now()) ??
+            '';
+  }
+
+  setChildData() {}
 
   final progressBarStatus = false.obs;
 
@@ -200,13 +228,6 @@ class ProfileController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-  }
-
-  setUserData() async {
-    hideProgressBar();
-    if (SessionManager.instance.user != null) {
-      user.value = SessionManager.instance.user ?? Users();
-    }
   }
 
   ScrollController scrollController = new ScrollController();
@@ -431,6 +452,25 @@ class ProfileController extends GetxController {
       log('Auth Error is ${authError}');
       hideProgressBar();
       return false;
+    }
+  }
+
+  Future<List> getMedicalCategories() async {
+    try {
+      final response =
+      await AuthRepository.fetchMedicalCategories().catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (response.isNotEmpty) {
+        babyMedicalCondition.value = response;
+        return response;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
     }
   }
 }

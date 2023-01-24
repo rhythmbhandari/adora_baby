@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/profile/views/edit_child_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -70,9 +71,14 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
             ],
           ),
           Positioned(
-            child: SvgPicture.asset(
-              "assets/images/profile_edit.svg",
-              height: 0.027 * Get.height,
+            child: GestureDetector(
+              onTap: (){
+                Get.to(EditChildProfile());
+              },
+              child: SvgPicture.asset(
+                "assets/images/profile_edit.svg",
+                height: 0.027 * Get.height,
+              ),
             ),
             right: 0,
           )

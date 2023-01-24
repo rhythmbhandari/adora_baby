@@ -35,6 +35,10 @@ class ProfileView extends GetView<ProfileController> {
             child: Column(
               children: [
                 Container(
+                  height: Get.height * 0.02,
+                  color: Colors.white,
+                ),
+                Container(
                   color: LightTheme.white,
                   padding: const EdgeInsets.only(bottom: 6.0),
                   child: Row(

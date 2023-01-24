@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/modules/profile/views/diamonds_view.dart';
+import 'package:adora_baby/app/modules/profile/views/edit_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,7 +46,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                 height: 16,
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   controller.fetchDiamonds();
                   Get.to(
                     const DiamondsView(),
@@ -154,11 +155,16 @@ Widget userProfile(ProfileController controller, BuildContext context) {
             ],
           ),
           Positioned(
-            child: SvgPicture.asset(
-              "assets/images/profile_edit.svg",
-              height: 0.027 * Get.height,
-            ),
             right: 0,
+            child: GestureDetector(
+              onTap: () {
+                Get.to(EditProfile());
+              },
+              child: SvgPicture.asset(
+                "assets/images/profile_edit.svg",
+                height: 0.027 * Get.height,
+              ),
+            ),
           )
         ],
       )));
