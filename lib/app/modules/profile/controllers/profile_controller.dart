@@ -88,6 +88,12 @@ class ProfileController extends GetxController {
     babyDobController.text =
         DateFormat('yyyy-MM-dd').format(user.value.babyDob ?? DateTime.now()) ??
             '';
+    selectedTags.value = [].obs;
+    for (var i in user.value.accountMedicalConditiob == null
+        ? []
+        : user.value.accountMedicalConditiob!) {
+      selectedTags.addAll(i.medicalCondition);
+    }
   }
 
   setChildData() {}
@@ -487,5 +493,22 @@ class ProfileController extends GetxController {
       return false;
     }).then((value) async => await getUserDetails());
     return true;
+  }
+
+  Future<bool> addMedicalCondition() async {
+    try {
+      await AuthRepository.updateMedicalCondition(
+              specialNoteController.text.trim().length < 2
+                  ? 'empty'
+                  : specialNoteController.text.trim(),
+              selectedTags)
+          .catchError((error) {
+        authError.value = error;
+        return false;
+      }).then((value) async => await getUserDetails());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

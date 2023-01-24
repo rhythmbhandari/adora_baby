@@ -12,6 +12,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../controllers/profile_controller.dart';
 import 'edit_profile.dart';
+import 'edit_profile_individual/edit_medical_condition.dart';
 
 class EditChildProfile extends StatefulWidget {
   const EditChildProfile({Key? key}) : super(key: key);
@@ -118,9 +119,11 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                     focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: DarkTheme.normal.withOpacity(0.7),
+                                          color:
+                                              DarkTheme.normal.withOpacity(0.7),
                                         ),
-                                        borderRadius: BorderRadius.circular(33)),
+                                        borderRadius:
+                                            BorderRadius.circular(33)),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 24),
                                     hintStyle: TextStyle(
@@ -170,12 +173,20 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(33),
                                     ),
+                                    suffixIcon: Padding(
+                                      padding: EdgeInsets.all(14),
+                                      child: SvgPicture.asset(
+                                          "assets/images/calendar.svg",
+                                          color: Color(0xff667080)),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: DarkTheme.normal.withOpacity(0.7),
+                                          color:
+                                              DarkTheme.normal.withOpacity(0.7),
                                         ),
-                                        borderRadius: BorderRadius.circular(33)),
+                                        borderRadius:
+                                            BorderRadius.circular(33)),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 24),
                                     hintStyle: TextStyle(
@@ -197,8 +208,8 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
-                                        itemCount:
-                                            controller.babyMedicalCondition.length,
+                                        itemCount: controller
+                                            .babyMedicalCondition.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Column(
@@ -208,73 +219,92 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     controller
-                                                            .babyMedicalCondition[index]
-                                                        [0][0],
+                                                            .babyMedicalCondition[
+                                                        index][0][0],
                                                     style: kThemeData
                                                         .textTheme.titleMedium
                                                         ?.copyWith(
                                                       color: DarkTheme.dark,
                                                     ),
                                                   ),
-
                                                   GestureDetector(
                                                     onTap: () {
-                                                      Get.to(EditProfile());
+                                                      Get.to(EditMedicalCondition())
+                                                          ?.then((value) =>
+                                                              setState(() {}));
                                                     },
                                                     child: SvgPicture.asset(
                                                       "assets/images/profile_edit.svg",
-                                                      height: 0.027 * Get.height,
+                                                      height:
+                                                          0.027 * Get.height,
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              ChipsChoice<dynamic>.multiple(
-                                                value: controller.selectedTags,
-                                                onChanged: (val) {
-                                                  setState(() {});
-                                                  controller.selectedTags.value =
-                                                      val;
-                                                },
-                                                choiceItems: C2Choice.listFrom<
-                                                    String, dynamic>(
-                                                  source: controller
-                                                          .babyMedicalCondition[
-                                                      index][2],
-                                                  value: (i, v) => v,
-                                                  label: (i, optionsId) =>
-                                                      controller
-                                                              .babyMedicalCondition[
-                                                          index][1][i],
-                                                  tooltip: (i, v) => v,
-                                                ),
-                                                choiceStyle: C2ChipStyle.toned(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                    Radius.circular(20),
+                                              IgnorePointer(
+                                                child: ChipsChoice<
+                                                    dynamic>.multiple(
+                                                  value:
+                                                      controller.selectedTags,
+                                                  onChanged: (val) {
+                                                    setState(() {});
+                                                    controller.selectedTags
+                                                        .value = val;
+                                                  },
+                                                  choiceItems:
+                                                      C2Choice.listFrom<String,
+                                                          dynamic>(
+                                                    source: controller
+                                                            .babyMedicalCondition[
+                                                        index][2],
+                                                    value: (i, v) => v,
+                                                    label: (i, optionsId) =>
+                                                        controller
+                                                                .babyMedicalCondition[
+                                                            index][1][i],
+                                                    tooltip: (i, v) => v,
                                                   ),
-                                                  borderStyle: BorderStyle.solid,
-                                                  borderWidth: 0.8,
-                                                  foregroundColor: Colors.green,
-                                                  foregroundStyle: kThemeData
-                                                      .textTheme.bodyLarge
-                                                      ?.copyWith(
-                                                          color: DarkTheme.lighter),
-                                                  borderColor: DarkTheme.lighter,
-                                                  backgroundColor: Colors.white,
-                                                  selectedStyle: C2ChipStyle.filled(
-                                                      color: AppColors.primary500,
-                                                      foregroundStyle: kThemeData
-                                                          .textTheme.bodyLarge
-                                                          ?.copyWith(
-                                                              color: Colors.white)),
+                                                  choiceStyle:
+                                                      C2ChipStyle.toned(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(20),
+                                                    ),
+                                                    borderStyle:
+                                                        BorderStyle.solid,
+                                                    borderWidth: 0.8,
+                                                    foregroundColor:
+                                                        Colors.green,
+                                                    foregroundStyle: kThemeData
+                                                        .textTheme.bodyLarge
+                                                        ?.copyWith(
+                                                            color: DarkTheme
+                                                                .lighter),
+                                                    borderColor:
+                                                        DarkTheme.lighter,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    selectedStyle: C2ChipStyle.filled(
+                                                        color: AppColors
+                                                            .primary500,
+                                                        foregroundStyle:
+                                                            kThemeData.textTheme
+                                                                .bodyLarge
+                                                                ?.copyWith(
+                                                                    color: Colors
+                                                                        .white)),
+                                                  ),
+                                                  choiceCheckmark: false,
+                                                  textDirection:
+                                                      TextDirection.ltr,
+                                                  wrapped: true,
                                                 ),
-                                                choiceCheckmark: false,
-                                                textDirection: TextDirection.ltr,
-                                                wrapped: true,
                                               ),
                                               SizedBox(height: 10),
                                             ],
@@ -299,7 +329,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                     child: Text("Sorry,not found!"),
                                   );
                                 }
-                                return _buildImage();
+                                return buildShimmerEdit();
                               },
                             ),
                             SizedBox(
@@ -357,9 +387,11 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                     focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
-                                          color: DarkTheme.normal.withOpacity(0.7),
+                                          color:
+                                              DarkTheme.normal.withOpacity(0.7),
                                         ),
-                                        borderRadius: BorderRadius.circular(33)),
+                                        borderRadius:
+                                            BorderRadius.circular(33)),
                                     hintText:
                                         'Type anything specific to your child...',
                                     contentPadding: const EdgeInsets.symmetric(
@@ -394,7 +426,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
   }
 }
 
-Widget _buildImage() {
+Widget buildShimmerEdit() {
   return Shimmer.fromColors(
     baseColor: Colors.white,
     highlightColor: LightTheme.lightActive,
