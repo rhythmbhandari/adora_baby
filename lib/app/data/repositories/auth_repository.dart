@@ -3,10 +3,14 @@ import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:get/get.dart';
+import 'package:http_parser/http_parser.dart';
 import '../../../main.dart';
+import 'package:dio/dio.dart' as d;
+
 import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
+import '../network/dio_client.dart';
 
 class AuthRepository {
   static Future<bool> requestOtp(String phoneNumber) async {
@@ -87,6 +91,42 @@ class AuthRepository {
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
+  static Future<bool> updatePhoto(File image, String pictureOf) async {
+    const url = '$BASE_URL/profile/profile/';
+    String? fileName;
+
+    if (image != null) {
+      fileName = image.path.split('/').last;
+    }
+
+    final body = d.FormData.fromMap({
+      'picture_off': pictureOf,
+      'name': image == null
+          ? null
+          : await d.MultipartFile.fromFile(image.path,
+              contentType: MediaType('image', 'jpg'), filename: fileName),
+    });
+    try {
+      final status = await DioHelper.postRequest(
+        url,
+        body,
+        true,
+        await SecureStorage.returnHeaderWithMultipartToken(),
+      );
+      if (status) {
+        return true;
+      } else {
+        return false;
       }
     } on SocketException {
       return Future.error(

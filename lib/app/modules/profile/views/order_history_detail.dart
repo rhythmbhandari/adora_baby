@@ -672,7 +672,14 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               1,
                                             ),
                                           ),
-                                          Container(
+                                          controller
+                                              .selectedOrders
+                                              .value
+                                              .status
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains(
+                                              'order') ? Container(
                                             padding: EdgeInsets.only(
                                               left: 32,
                                               right: 32,
@@ -720,8 +727,15 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Container(
+                                          ): Container(),
+                                          controller
+                                              .selectedOrders
+                                              .value
+                                              .status
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains(
+                                              'order') ? Container(
                                             height: Get.height * 0.03,
                                             color: Color.fromRGBO(
                                               250,
@@ -729,8 +743,15 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               252,
                                               1,
                                             ),
-                                          ),
-                                          GestureDetector(
+                                          ): Container(),
+                                          controller
+                                              .selectedOrders
+                                              .value
+                                              .status
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains(
+                                              'order') ? GestureDetector(
                                             onTap: () async {
                                               final status = await controller
                                                   .cancelBooking();
@@ -749,6 +770,23 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                 );
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
+                                              }else{
+                                                controller.progressBarStatus
+                                                    .value = false;
+                                                var snackBar = SnackBar(
+                                                  elevation: 0,
+                                                  behavior:
+                                                  SnackBarBehavior.floating,
+                                                  backgroundColor: AppColors.success500,
+                                                  duration: Duration(
+                                                      milliseconds: 2000),
+                                                  content: Text(
+                                                      "${controller.authError.toUpperCase()}"),
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                                Get.back();
+                                                controller.getOrderList(isRefresh: true, isInitial: true, [].obs, index: 0);
                                               }
                                             },
                                             child: Container(
@@ -769,7 +807,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                                 .lightActive)),
                                               ),
                                             ),
-                                          ),
+                                          ): Container(),
                                           Container(
                                             height: Get.height * 0.06,
                                             color: Color.fromRGBO(

@@ -144,7 +144,7 @@ class DioHelper {
 
   static Future<dynamic> postRequest(
     String urlInput,
-    String decodedBody,
+    dynamic decodedBody,
     bool returnResponse,
     Map<String, String> headers, {
     bool isLogout = false,
@@ -197,7 +197,7 @@ class DioHelper {
       });
       debugPrint('Response is $response');
       debugPrint('Status code is ${response.statusCode}');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (returnResponse) {
           return response.data;
         }
@@ -343,7 +343,7 @@ class DioHelper {
         ),
       );
       Options options =
-      Options(headers: headers, responseType: ResponseType.json);
+          Options(headers: headers, responseType: ResponseType.json);
 
       final response = await dio
           .put(
@@ -392,8 +392,6 @@ class DioHelper {
       return Future.error('Exception is $e');
     }
   }
-
-
 
   static Future<void> refreshToken() async {
     final refreshToken = await storage.readRefreshToken();

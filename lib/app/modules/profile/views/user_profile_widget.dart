@@ -4,10 +4,59 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../controllers/profile_controller.dart';
+
+void _showPicker(context, controller) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading: const Icon(
+                    Icons.photo_library,
+                    color: AppColors.primary500,
+                  ),
+                  title: Text('Photo Library'.tr,
+                      style: kThemeData.textTheme.bodyMedium),
+                  onTap: () async {
+                    final status = await Permission.storage.request();
+                    if (status.isGranted) {
+                      controller.getImage(ImageSource.gallery);
+                      Navigator.of(context).pop();
+                    } else if (status.isPermanentlyDenied) {
+                      openAppSettings();
+                    } else {}
+                  }),
+              ListTile(
+                leading: const Icon(
+                  Icons.photo_camera,
+                  color: AppColors.primary500,
+                ),
+                title:
+                    Text('Camera'.tr, style: kThemeData.textTheme.bodyMedium),
+                onTap: () async {
+                  final status = await Permission.camera.request();
+                  debugPrint('Status is $status');
+                  if (status.isGranted) {
+                    controller.getImage(ImageSource.camera);
+                    Navigator.of(context).pop();
+                  } else if (status.isPermanentlyDenied) {
+                    openAppSettings();
+                  } else {}
+                },
+              ),
+            ],
+          ),
+        );
+      });
+}
 
 Widget userProfile(ProfileController controller, BuildContext context) {
   return Obx(() => Container(
@@ -24,112 +73,42 @@ Widget userProfile(ProfileController controller, BuildContext context) {
               GetBuilder<ProfileController>(
                   builder: (value) => value.imageBoolMain.value
                       ? GestureDetector(
-                    onTap: () {
-                      controller.getImage();
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            width: 0.14 * Get.height,
-                            height: 0.12 * Get.height,
-                            child: Image.file(
-                              controller.images!,
-                              fit: BoxFit.fill,
-                            )),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 12),
-                          child: Container(
-                            color: Colors.white.withOpacity(0.2),
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(12)),
-                              child: SizedBox(
-                                height: 0.07 * Get.height,
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Reupload",
-                                      style: TextStyle(
-                                          color: Colors.white
-                                              .withOpacity(0.67),
-                                          fontFamily: 'Graphik',
-                                          height: 1.4,
-                                          letterSpacing: 1.2,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    SizedBox(width: 10),
-                                    const Icon(
-                                      Icons.cloud_upload_outlined,
-                                      color: Colors.white,
-                                    )
-                                  ],
-                                ),
+                          onTap: () {
+                            _showPicker(context, controller);
+                          },
+                          child: Center(
+                            child: ClipOval(
+                              child: Image.file(
+                                height: Get.height * 0.3,
+                                controller.images!,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
+                        )
                       : GestureDetector(
-                    onTap: () {
-                      controller.getImage();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      child: Container(
-                        color: Colors.white.withOpacity(0.2),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ClipRRect(
-                          borderRadius:
-                          const BorderRadius.all(Radius.circular(12)),
-                          child: SizedBox(
-                              height: 0.07 * Get.height,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Tap to upload your photo",
-                                    style: TextStyle(
-                                        color:
-                                        Colors.white.withOpacity(0.67),
-                                        fontFamily: 'Graphik',
-                                        height: 1.4,
-                                        letterSpacing: 1.7,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  const Icon(
-                                    Icons.cloud_upload_outlined,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              )),
-                        ),
-                      ),
-                    ),
-                  )),
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    height: Get.height * 0.14,
-                    width: Get.height * 0.14,
-                    imageUrl:
-                        'https://expertphotography.b-cdn.net/wp-content/uploads/2018/10/cool-profile-pictures-aperture.jpg',
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ),
+                          onTap: () {
+                            // controller.getImage();
+                            _showPicker(context, controller);
+                          },
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                height: Get.height * 0.14,
+                                width: Get.height * 0.14,
+                                imageUrl:
+                                'https://expertphotography.b-cdn.net/wp-content/uploads/2018/10/cool-profile-pictures-aperture.jpg',
+                                placeholder: (context, url) =>
+                                const Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                        )),
+
               Obx(() => Text(
                     '${controller.user.value.fullName}',
                     style: kThemeData.textTheme.displaySmall

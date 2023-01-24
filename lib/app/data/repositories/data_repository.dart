@@ -96,7 +96,7 @@ class DataRepository {
   }
 
   static Future<bool> cancel(String? id) async {
-    final url = '$BASE_URL/Order/$id';
+    final url = '$BASE_URL/Order/$id/';
 
     final status = await DioHelper.putRequest(
       url,

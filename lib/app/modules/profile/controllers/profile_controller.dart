@@ -5,6 +5,7 @@ import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:adora_baby/app/enums/date_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -104,15 +105,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future getImage() async {
-    try {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      images = File(image!.path);
-      images == null ? imageBoolMain.value = false : imageBoolMain.value = true;
-      update();
-    } catch (e) {}
-  }
-
   setChildData() {}
 
   final progressBarStatus = false.obs;
@@ -120,6 +112,32 @@ class ProfileController extends GetxController {
   showProgressBar() => progressBarStatus.value = true;
 
   hideProgressBar() => progressBarStatus.value = false;
+
+  Future getImage(ImageSource imageSource) async {
+    try {
+      final image = await imagePicker.pickImage(source: imageSource);
+      cropPickedImage(image!.path);
+    } catch (e) {
+      debugPrint('Exception caught $e');
+    }
+  }
+
+  cropPickedImage(filePath) async {
+    final croppedImage = await ImageCropper().cropImage(
+        sourcePath: filePath,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
+    if (croppedImage != null) {
+      images = File(croppedImage.path);
+      images == null ? imageBoolMain.value = false : imageBoolMain.value = true;
+      updatePhoto(
+        images!,
+        'PARENTS',
+      );
+      update();
+    }
+  }
 
   @override
   void onInit() {
@@ -520,6 +538,22 @@ class ProfileController extends GetxController {
                   : specialNoteController.text.trim(),
               selectedTags)
           .catchError((error) {
+        authError.value = error;
+        return false;
+      }).then((value) async => await getUserDetails());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updatePhoto(File image, String pictureOf) async {
+    try {
+      await AuthRepository.updatePhoto(
+        image,
+        pictureOf,
+      ).catchError((error) {
+        log('Error is $error');
         authError.value = error;
         return false;
       }).then((value) async => await getUserDetails());
