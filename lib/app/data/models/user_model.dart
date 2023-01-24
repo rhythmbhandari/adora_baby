@@ -9,6 +9,7 @@ class Users {
     this.babyStage,
     this.accountMedicalConditiob,
     this.accountAddress,
+    this.photos,
     this.diamond,
   });
 
@@ -21,6 +22,7 @@ class Users {
   bool? babyStage;
   List<AccountMedicalConditiob?>? accountMedicalConditiob;
   List<dynamic>? accountAddress;
+  List<dynamic>? photos;
   int? diamond;
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
@@ -41,6 +43,9 @@ class Users {
         accountAddress: json["account_address"] == null
             ? []
             : List<dynamic>.from(json["account_address"]!.map((x) => x)),
+        photos: json["photos"].isNotEmpty
+            ? List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x)))
+            : [],
         diamond: json["dimond"],
       );
 
@@ -60,6 +65,9 @@ class Users {
         "account_address": accountAddress == null
             ? []
             : List<dynamic>.from(accountAddress!.map((x) => x)),
+        "photos": photos!.isNotEmpty
+            ? List<dynamic>.from(photos!.map((x) => x.toJson()))
+            : [],
         "dimond": diamond
       };
 }
@@ -90,5 +98,29 @@ class AccountMedicalConditiob {
         "MedicalCondition": medicalCondition == null
             ? []
             : List<dynamic>.from(medicalCondition!.map((x) => x)),
+      };
+}
+
+class Photo {
+  Photo({
+    required this.id,
+    required this.name,
+    required this.pictureOff,
+  });
+
+  String id;
+  String name;
+  String pictureOff;
+
+  factory Photo.fromJson(Map<String, dynamic> json) => Photo(
+        id: json["id"],
+        name: json["name"],
+        pictureOff: json["picture_off"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "picture_off": pictureOff,
       };
 }

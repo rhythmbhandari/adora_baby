@@ -40,7 +40,9 @@ class ProfileController extends GetxController {
   final orderHistoryListHalfMonth = [].obs;
   final orderHistoryListMonth = [].obs;
 
-  File? images;
+  File? imagesMain;
+  File? imagesChild;
+
   final imagePicker = ImagePicker();
 
   final orderHistoryIndex = 1.obs;
@@ -129,11 +131,37 @@ class ProfileController extends GetxController {
         maxHeight: 1080,
         aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
     if (croppedImage != null) {
-      images = File(croppedImage.path);
-      images == null ? imageBoolMain.value = false : imageBoolMain.value = true;
+      imagesMain = File(croppedImage.path);
+      imagesMain == null ? imageBoolMain.value = false : imageBoolMain.value = true;
       updatePhoto(
-        images!,
+        imagesMain!,
         'PARENTS',
+      );
+      update();
+    }
+  }
+
+  Future getImageChild(ImageSource imageSource) async {
+    try {
+      final imageChilds = await imagePicker.pickImage(source: imageSource);
+      cropPickedImageChild(imageChilds!.path);
+    } catch (e) {
+      debugPrint('Exception caught $e');
+    }
+  }
+
+  cropPickedImageChild(filePath) async {
+    final croppedImage = await ImageCropper().cropImage(
+        sourcePath: filePath,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
+    if (croppedImage != null) {
+      imagesChild = File(croppedImage.path);
+      imagesChild == null ? imageBoolChild.value = false : imageBoolChild.value = true;
+      updatePhoto(
+        imagesChild!,
+        'CHILD',
       );
       update();
     }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
@@ -19,6 +20,7 @@ class AuthRepository {
     try {
       final response = await http.post(Uri.parse(url), body: body);
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      log('Message is received $decodedResponse');
       if (response.statusCode == 200) {
         print('Response is $response');
         return true;

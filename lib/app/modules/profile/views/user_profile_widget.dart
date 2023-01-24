@@ -79,9 +79,10 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                           child: Center(
                             child: ClipOval(
                               child: Image.file(
-                                height: Get.height * 0.3,
-                                controller.images!,
                                 fit: BoxFit.cover,
+                                height: Get.height * 0.14,
+                                width: Get.height * 0.14,
+                                controller.imagesMain!,
                               ),
                             ),
                           ),
@@ -98,17 +99,19 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                                 fit: BoxFit.cover,
                                 height: Get.height * 0.14,
                                 width: Get.height * 0.14,
-                                imageUrl:
-                                'https://expertphotography.b-cdn.net/wp-content/uploads/2018/10/cool-profile-pictures-aperture.jpg',
-                                placeholder: (context, url) =>
-                                const Center(child: CircularProgressIndicator()),
+                                imageUrl: controller
+                                        .user.value.photos!= null && controller
+                                    .user.value.photos!.isNotEmpty
+                                    ? '${controller.user.value.photos?[0]?.name}'
+                                    : '',
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
                                 errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                                    const Icon(Icons.error),
                               ),
                             ),
                           ),
                         )),
-
               Obx(() => Text(
                     '${controller.user.value.fullName}',
                     style: kThemeData.textTheme.displaySmall
