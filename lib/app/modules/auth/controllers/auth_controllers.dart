@@ -32,12 +32,12 @@ class AuthController extends GetxController {
 
   final confirmPasswordInvisibleLogin = true.obs;
   String? _dob;
-
+  setDate(String date) => _dob = date;
   final babyMedicalCondition = [].obs;
 
   final selectedTags = [].obs;
 
-  setDate(String date) => _dob = date;
+
 
   final phone = ''.obs;
   final otp = ''.obs;

@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/profile_controller.dart';
+import 'edit_profile_individual/edit_identification.dart';
 
 class EditProfile extends GetView<ProfileController> {
   const EditProfile({Key? key}) : super(key: key);
@@ -72,7 +74,7 @@ class EditProfile extends GetView<ProfileController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditProfile());
+                                Get.to(EditIdentification());
                               },
                               child: SvgPicture.asset(
                                 "assets/images/profile_edit.svg",

@@ -4,6 +4,7 @@ import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:adora_baby/app/enums/date_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../data/models/orders_model.dart';
@@ -66,6 +67,10 @@ class ProfileController extends GetxController {
   TextEditingController babyDobController = TextEditingController();
   TextEditingController specialNoteController = TextEditingController();
 
+  String? _dob;
+
+  setDate(String date) => _dob = date;
+
   final Rx<Users> user = Users(
     fullName: '',
     babyName: '',
@@ -81,7 +86,7 @@ class ProfileController extends GetxController {
     contactInformationController.text = user.value.phoneNumber ?? '';
     babyNameController.text = user.value.babyName ?? '';
     babyDobController.text =
-        DateTimeConverter.bookingDetailsDate(user.value.babyDob ?? DateTime.now()) ??
+        DateFormat('yyyy-MM-dd').format(user.value.babyDob ?? DateTime.now()) ??
             '';
   }
 
@@ -458,7 +463,7 @@ class ProfileController extends GetxController {
   Future<List> getMedicalCategories() async {
     try {
       final response =
-      await AuthRepository.fetchMedicalCategories().catchError((error) {
+          await AuthRepository.fetchMedicalCategories().catchError((error) {
         authError.value = error;
         return false;
       });
@@ -472,5 +477,15 @@ class ProfileController extends GetxController {
     } catch (e) {
       return [];
     }
+  }
+
+  Future<bool> editProfile(String body) async {
+    showProgressBar();
+    await DataRepository.updateProfile(body).catchError((error) {
+      authError.value = error;
+      hideProgressBar();
+      return false;
+    }).then((value) async => await getUserDetails());
+    return true;
   }
 }

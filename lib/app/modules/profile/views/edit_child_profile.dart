@@ -1,3 +1,6 @@
+import 'package:adora_baby/app/modules/profile/views/edit_profile_individual/edit_baby_dob.dart';
+import 'package:adora_baby/app/modules/profile/views/edit_profile_individual/edit_baby_name.dart';
+import 'package:adora_baby/app/modules/profile/views/edit_profile_individual/edit_special_note.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +87,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditProfile());
+                                    Get.to(EditBabyName());
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",
@@ -139,7 +142,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditProfile());
+                                    Get.to(EditBabyDob());
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",
@@ -163,7 +166,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 cursorColor: AppColors.mainColor,
                                 style: kThemeData.textTheme.bodyLarge,
                                 decoration: InputDecoration(
-                                    hintText: "Primary Phone Number",
+                                    hintText: "Date of Birth",
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(33),
                                     ),
@@ -312,7 +315,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditProfile());
+                                    Get.to(EditSpecialNotes());
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",
@@ -330,6 +333,8 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 //   LengthLimitingTextInputFormatter(6),
                                 //   FilteringTextInputFormatter.digitsOnly
                                 // ],
+                                enabled: true,
+                                readOnly: true,
                                 keyboardType: TextInputType.name,
                                 cursorColor: AppColors.mainColor,
                                 maxLines: 7,

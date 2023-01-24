@@ -33,6 +33,22 @@ class DataRepository {
     return false;
   }
 
+  static Future<bool> updateProfile(String body) async {
+    const url = '$BASE_URL/accounts/me/';
+
+    final status = await DioHelper.postRequest(
+      url,
+      body,
+      false,
+      await SecureStorage.returnHeaderWithToken(),
+    );
+    log('Status received is $status');
+    if (status) {
+      return true;
+    }
+    return false;
+  }
+
   static Future<List<Orders>> fetchOrderList(String keyword) async {
     final url = '$BASE_URL/Order/$keyword';
 
