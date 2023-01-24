@@ -39,8 +39,7 @@ class OrderWidget extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: const Center(
                 child: Text(
                   "My Orders",
@@ -151,6 +150,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
     for (int i = 0; i < controller.ordersList.length; i++) {
       cards.add(GestureDetector(
         onTap: () {
+          controller.selectedOrders.value = controller.ordersList[i];
           Get.to(OrderHistoryDetail());
         },
         child: Container(
@@ -363,7 +363,6 @@ Widget _buildFeaturedCards(ProfileController controller) {
           ),
           GestureDetector(
             onTap: () {
-
               controller.fetchOrders();
               Get.to(
                 OrderHistoryView(),

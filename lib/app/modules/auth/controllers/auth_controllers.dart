@@ -63,22 +63,6 @@ class AuthController extends GetxController {
 
   final progressBarStatusLogin = false.obs;
 
-  final chipList = ['Peanut', 'Milk', 'Soy'].obs;
-  final chipIdList = [
-    'a75e0c55-d518-4dc3-86dc-3d5569a6f1f9',
-    'd9360b4f-ecb7-4eef-a85d-bdcee7810fc9',
-    '9b5a9f8a-1f5d-433a-98c3-9713bb263de8'
-  ].obs;
-  final boolList = [false, false, false, false, false, false].obs;
-
-  final chipList1 = ['Cold', 'Vomit', 'Insomnia'].obs;
-  final chipIdList1 = [
-    'a3db1ce6-4cda-464b-8d0f-3bb6afa0a783',
-    '1840a1cc-9fb3-47c3-8dc8-c4392677d4e6',
-    'a1352eb9-6a78-45ce-9a9c-9f9774e41233'
-  ].obs;
-  final boolList1 = [false, false, false, false, false, false].obs;
-
   final progressBarStatusOtp = false.obs;
 
   final progressBarBabyDetail = false.obs;

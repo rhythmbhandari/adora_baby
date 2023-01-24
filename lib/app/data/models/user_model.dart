@@ -9,6 +9,7 @@ class Users {
     this.babyStage,
     this.accountMedicalConditiob,
     this.accountAddress,
+    this.diamond,
   });
 
   String? id;
@@ -20,6 +21,7 @@ class Users {
   bool? babyStage;
   List<AccountMedicalConditiob?>? accountMedicalConditiob;
   List<dynamic>? accountAddress;
+  int? diamond;
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
         id: json["id"],
@@ -39,6 +41,7 @@ class Users {
         accountAddress: json["account_address"] == null
             ? []
             : List<dynamic>.from(json["account_address"]!.map((x) => x)),
+        diamond: json["dimond"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,6 +60,7 @@ class Users {
         "account_address": accountAddress == null
             ? []
             : List<dynamic>.from(accountAddress!.map((x) => x)),
+        "dimond": diamond
       };
 }
 

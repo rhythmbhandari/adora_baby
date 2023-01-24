@@ -315,6 +315,85 @@ class DioHelper {
     }
   }
 
+  static Future<dynamic> putRequest(String urlInput, dynamic decodedBody,
+      bool returnResponse, Map<String, String> headers) async {
+    try {
+      final url = urlInput;
+      Dio dio = getDioClient();
+      dio.interceptors.add(
+        RetryInterceptor(
+          dio: dio,
+          logPrint: print, // specify log function (optional)
+          retries: 4, // retry count (optional)
+          retryDelays: const [
+            // set delays between retries (optional)
+            Duration(
+              seconds: 1,
+            ), // wait 1 sec before the first retry
+            Duration(
+              seconds: 2,
+            ), // wait 2 sec before the second retry
+            Duration(
+              seconds: 3,
+            ), // wait 3 sec before the third retry
+            Duration(
+              seconds: 4,
+            ), // wait 4 sec before the fourth retry
+          ],
+        ),
+      );
+      Options options =
+      Options(headers: headers, responseType: ResponseType.json);
+
+      final response = await dio
+          .put(
+        url,
+        data: decodedBody,
+        options: options,
+      )
+          .timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          return Response(
+            data: {'status': '405', 'message': '405 Error'},
+            statusCode: 405,
+            requestOptions: RequestOptions(
+              path: url,
+            ),
+          );
+        },
+      );
+      debugPrint('Response is $response');
+      debugPrint('Status code is ${response.statusCode}');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return Future.error('Server error.');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } on TimeoutException {
+      return Future.error('Connection timed');
+    } on DioError catch (e) {
+      if (e.response?.data != null) {
+        if (e.response!.data.entries.toString().contains('{')) {
+          return Future.error(
+              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
+        } else {
+          return Future.error(
+              '${e.response!.data[e.response!.data.keys.first]}');
+        }
+      } else {
+        return Future.error('Server error. Please try again later!');
+      }
+    } catch (e) {
+      print('Reched here === $e');
+      return Future.error('Exception is $e');
+    }
+  }
+
+
 
   static Future<void> refreshToken() async {
     final refreshToken = await storage.readRefreshToken();
