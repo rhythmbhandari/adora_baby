@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/profile/views/diamonds_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,49 +44,57 @@ Widget userProfile(ProfileController controller, BuildContext context) {
               SizedBox(
                 height: 16,
               ),
-              Container(
-                padding:
-                    EdgeInsets.only(top: 10, bottom: 10, left: 6, right: 6),
-                margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
-                // width: Get.width * 0.23,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color.fromRGBO(127, 0, 255, 1),
-                          Color.fromRGBO(255, 0, 255, 0.5),
-                        ]),
-                    borderRadius: BorderRadius.circular(25)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images/profile_diamonds.svg",
-                              // height: 0.022 * Get.height,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              '${controller.user.value.diamond}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: kThemeData.textTheme.labelSmall
-                                  ?.copyWith(color: LightTheme.white),
-                            ),
-                          ],
+              GestureDetector(
+                onTap: (){
+                  controller.fetchDiamonds();
+                  Get.to(
+                    const DiamondsView(),
+                  );
+                },
+                child: Container(
+                  padding:
+                      EdgeInsets.only(top: 10, bottom: 10, left: 6, right: 6),
+                  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
+                  // width: Get.width * 0.23,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color.fromRGBO(127, 0, 255, 1),
+                            Color.fromRGBO(255, 0, 255, 0.5),
+                          ]),
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/profile_diamonds.svg",
+                                // height: 0.022 * Get.height,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                '${controller.user.value.diamond}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: kThemeData.textTheme.labelSmall
+                                    ?.copyWith(color: LightTheme.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

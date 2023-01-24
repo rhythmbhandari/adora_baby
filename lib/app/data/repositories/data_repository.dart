@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
+
+import 'package:adora_baby/app/data/models/diamonds.dart';
 
 import '../../config/constants.dart';
 import '../../utils/secure_storage.dart';
@@ -51,5 +54,43 @@ class DataRepository {
       return orders;
     }
     return Future.error('Server error.');
+  }
+
+  static Future<List<Diamonds>> fetchDiamonds(String keyword) async {
+    final url = '$BASE_URL/dimond/$keyword';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeaderWithToken(),
+    );
+    log('Status received is $status');
+    if (status is Map<dynamic, dynamic>) {
+      List<Diamonds> orders = (status['data'] as List)
+          .map(
+            (i) => Diamonds.fromJson(
+          i,
+        ),
+      )
+          .toList();
+      log('Reached here $orders');
+      return orders;
+    }
+    return Future.error('Server error.');
+  }
+
+  static Future<bool> cancel(String? id) async {
+    final url = '$BASE_URL/Order/$id';
+
+    final status = await DioHelper.putRequest(
+      url,
+      json.encode({"status": "CANCELED"}),
+      false,
+      await SecureStorage.returnHeaderWithToken(),
+    );
+    if (status) {
+      return true;
+    }
+    return false;
   }
 }

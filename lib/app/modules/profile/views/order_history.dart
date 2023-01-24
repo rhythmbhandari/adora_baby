@@ -25,6 +25,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
     RefreshController(),
   ];
 
+
   late TabController tabController;
 
   @override
@@ -109,9 +110,16 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                         children: [
                           GestureDetector(
                             onTap: () {
-                              controller
-                                  .updateSelectedBookingPage(DateType.WEEK);
-                              controller.animateTab(0);
+                              controller.updateSelectedBookingPage(
+                                DateType.WEEK,
+                                controller.pageController,
+                                controller.dateTypeOrder,
+                                controller.currentPageOrder,
+                              );
+                              controller.animateTab(
+                                0,
+                                controller.scrollController,
+                              );
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -120,14 +128,17 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color:
-                                    controller.dateType.value == DateType.WEEK
-                                        ? DarkTheme.lightActive
-                                        : Colors.white,
+                                color: controller.dateTypeOrder.value ==
+                                        DateType.WEEK
+                                    ? DarkTheme.lightActive
+                                    : Colors.white,
+                                border: Border.all(
+                                    color: DarkTheme.lightActive,
+                                    width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 7 Days',
-                                    style: controller.dateType.value ==
+                                    style: controller.dateTypeOrder.value ==
                                             DateType.WEEK
                                         ? kThemeData.textTheme.bodyLarge
                                             ?.copyWith(
@@ -144,8 +155,13 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                           GestureDetector(
                             onTap: () {
                               controller.updateSelectedBookingPage(
-                                  DateType.HALFMONTH);
-                              controller.animateTab(1);
+                                DateType.HALFMONTH,
+                                controller.pageController,
+                                controller.dateTypeOrder,
+                                controller.currentPageOrder,
+                              );
+                              controller.animateTab(
+                                  1, controller.scrollController);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -154,14 +170,17 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: controller.dateType.value ==
+                                color: controller.dateTypeOrder.value ==
                                         DateType.HALFMONTH
                                     ? DarkTheme.lightActive
                                     : Colors.white,
+                                border: Border.all(
+                                    color: DarkTheme.lightActive,
+                                    width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 14 Days',
-                                    style: controller.dateType.value ==
+                                    style: controller.dateTypeOrder.value ==
                                             DateType.HALFMONTH
                                         ? kThemeData.textTheme.bodyLarge
                                             ?.copyWith(
@@ -177,9 +196,14 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                           SizedBox(width: 11),
                           GestureDetector(
                             onTap: () {
-                              controller
-                                  .updateSelectedBookingPage(DateType.MONTH);
-                              controller.animateTab(2);
+                              controller.updateSelectedBookingPage(
+                                DateType.MONTH,
+                                controller.pageController,
+                                controller.dateTypeOrder,
+                                controller.currentPageOrder,
+                              );
+                              controller.animateTab(
+                                  2, controller.scrollController);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -188,14 +212,17 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color:
-                                    controller.dateType.value == DateType.MONTH
-                                        ? DarkTheme.lightActive
-                                        : Colors.white,
+                                color: controller.dateTypeOrder.value ==
+                                        DateType.MONTH
+                                    ? DarkTheme.lightActive
+                                    : Colors.white,
+                                border: Border.all(
+                                    color: DarkTheme.lightActive,
+                                    width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 30 Days',
-                                    style: controller.dateType.value ==
+                                    style: controller.dateTypeOrder.value ==
                                             DateType.MONTH
                                         ? kThemeData.textTheme.bodyLarge
                                             ?.copyWith(

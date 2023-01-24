@@ -41,6 +41,8 @@ class AppColors {
 
   static const Color error500 = Color.fromRGBO(231, 51, 51, 1);
 
+  static const Color error700 = Color.fromRGBO(164, 36, 36, 1);
+
   static const Color warning500 = Color.fromRGBO(231, 125, 54, 1);
 
 

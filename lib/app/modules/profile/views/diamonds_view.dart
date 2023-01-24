@@ -6,6 +6,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import 'diamonds_overview_widget.dart';
+import 'diamonds_statement_widget.dart';
 import 'order_history_widget.dart';
 
 class DiamondsView extends StatefulWidget {
@@ -19,7 +21,13 @@ class _DiamondsViewState extends State<DiamondsView>
     with TickerProviderStateMixin {
   final ProfileController controller = Get.find();
 
-  List<RefreshController> _refreshController = [
+  List<RefreshController> _refreshControllerStatement = [
+    RefreshController(),
+    RefreshController(),
+    RefreshController(),
+  ];
+
+  List<RefreshController> _refreshControllerOverview = [
     RefreshController(),
     RefreshController(),
     RefreshController(),
@@ -27,11 +35,18 @@ class _DiamondsViewState extends State<DiamondsView>
 
   late TabController tabController;
 
+  late TabController tabControllerMain;
+
   @override
   void initState() {
     tabController = TabController(
       initialIndex: 0,
       length: 3,
+      vsync: this,
+    );
+    tabControllerMain = TabController(
+      initialIndex: 0,
+      length: 2,
       vsync: this,
     );
   }
@@ -78,7 +93,7 @@ class _DiamondsViewState extends State<DiamondsView>
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "Order History",
+                        "Diamonds",
                         style: kThemeData.textTheme.displaySmall
                             ?.copyWith(color: DarkTheme.dark),
                       ),
@@ -99,141 +114,446 @@ class _DiamondsViewState extends State<DiamondsView>
               Container(
                 height: Get.height * 0.015,
               ),
-              Obx(() => SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                controller: controller.scrollController,
-                child: Container(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 27, vertical: 20),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          controller
-                              .updateSelectedBookingPage(DateType.WEEK);
-                          controller.animateTab(0);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 22,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color:
-                            controller.dateType.value == DateType.WEEK
-                                ? DarkTheme.lightActive
-                                : Colors.white,
-                          ),
-                          child: Center(
-                            child: Text('Last 7 Days',
-                                style: controller.dateType.value ==
-                                    DateType.WEEK
-                                    ? kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 17)
-                                    : kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: DarkTheme.lighter,
-                                    fontSize: 17)),
-                          ),
-                        ),
+              Row(
+                children: [
+                  TabBar(
+                    labelStyle: kThemeData.textTheme.labelMedium?.copyWith(
+                      fontSize: 18,
+                    ),
+                    isScrollable: true,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelPadding: EdgeInsets.symmetric(horizontal: 30),
+                    unselectedLabelColor: Color.fromRGBO(175, 152, 168, 1),
+                    unselectedLabelStyle:
+                        kThemeData.textTheme.labelMedium?.copyWith(
+                      fontSize: 18,
+                    ),
+                    labelColor: DarkTheme.dark,
+                    indicatorColor: DarkTheme.dark,
+                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    controller: tabControllerMain,
+                    indicatorWeight: 2.5,
+                    tabs: [
+                      Tab(
+                        text: 'Overview',
                       ),
-                      SizedBox(width: 11),
-                      GestureDetector(
-                        onTap: () {
-                          controller.updateSelectedBookingPage(
-                              DateType.HALFMONTH);
-                          controller.animateTab(1);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 22,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: controller.dateType.value ==
-                                DateType.HALFMONTH
-                                ? DarkTheme.lightActive
-                                : Colors.white,
-                          ),
-                          child: Center(
-                            child: Text('Last 14 Days',
-                                style: controller.dateType.value ==
-                                    DateType.HALFMONTH
-                                    ? kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 17)
-                                    : kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: DarkTheme.lighter,
-                                    fontSize: 17)),
-                          ),
-                        ),
+                      Tab(
+                        text: 'Statement',
                       ),
-                      SizedBox(width: 11),
-                      GestureDetector(
-                        onTap: () {
-                          controller
-                              .updateSelectedBookingPage(DateType.MONTH);
-                          controller.animateTab(2);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 22,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color:
-                            controller.dateType.value == DateType.MONTH
-                                ? DarkTheme.lightActive
-                                : Colors.white,
-                          ),
-                          child: Center(
-                            child: Text('Last 30 Days',
-                                style: controller.dateType.value ==
-                                    DateType.MONTH
-                                    ? kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 17)
-                                    : kThemeData.textTheme.bodyLarge
-                                    ?.copyWith(
-                                    color: DarkTheme.lighter,
-                                    fontSize: 17)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
                     ],
                   ),
+                ],
+              ),
+              Divider(
+                height: 0,
+                color: Color(
+                  0xffAF98A8,
                 ),
-              )),
+                thickness: 0.2,
+              ),
               Container(
-                height: Get.height * 0.007,
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 27,
+                  vertical: 16,
+                ),
+                child: Text(
+                  '${controller.user.value.diamond} Diamonds',
+                  style: kThemeData.textTheme.titleMedium
+                      ?.copyWith(color: DarkTheme.dark),
+                ),
               ),
               Expanded(
-                child: Obx(
-                      () => PageView.builder(
-                    controller: controller.pageController.value,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 3,
-                    itemBuilder: (context, pageViewIndex) {
-                      return OrderHistoryWidgets(
-                        refreshController: _refreshController[pageViewIndex],
-                        list: pageViewIndex == 0
-                            ? controller.orderHistoryListWeek
-                            : pageViewIndex == 1
-                            ? controller.orderHistoryListHalfMonth
-                            : controller.orderHistoryListMonth,
-                        indexAPI: pageViewIndex,
-                      );
-                    },
-                  ),
+                child: TabBarView(
+                  controller: tabControllerMain,
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Obx(() => SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              controller: controller.scrollControllerOverview,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 27, vertical: 0),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.WEEK,
+                                          controller.pageControllerOverview,
+                                          controller.dateTypeOverview,
+                                          controller.currentPageOverview,
+                                        );
+                                        controller.animateTab(
+                                            0,
+                                            controller
+                                                .scrollControllerOverview);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller
+                                                      .dateTypeOverview.value ==
+                                                  DateType.WEEK
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 7 Days',
+                                              style: controller.dateTypeOverview
+                                                          .value ==
+                                                      DateType.WEEK
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 11),
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.HALFMONTH,
+                                          controller.pageControllerOverview,
+                                          controller.dateTypeOverview,
+                                          controller.currentPageOverview,
+                                        );
+                                        controller.animateTab(
+                                            1,
+                                            controller
+                                                .scrollControllerOverview);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller
+                                                      .dateTypeOverview.value ==
+                                                  DateType.HALFMONTH
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 14 Days',
+                                              style: controller.dateTypeOverview
+                                                          .value ==
+                                                      DateType.HALFMONTH
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 11),
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.MONTH,
+                                          controller.pageControllerOverview,
+                                          controller.dateTypeOverview,
+                                          controller.currentPageOverview,
+                                        );
+                                        controller.animateTab(
+                                            2,
+                                            controller
+                                                .scrollControllerOverview);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller
+                                                      .dateTypeOverview.value ==
+                                                  DateType.MONTH
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 30 Days',
+                                              style: controller.dateTypeOverview
+                                                          .value ==
+                                                      DateType.MONTH
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                  ],
+                                ),
+                              ),
+                            )),
+                        Container(
+                          height: Get.height * 0.007,
+                        ),
+                        Expanded(
+                          child: Obx(
+                            () => PageView.builder(
+                              controller:
+                                  controller.pageControllerOverview.value,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 3,
+                              itemBuilder: (context, pageViewIndex) {
+                                return DiamondsOverviewWidget(
+                                  refreshController:
+                                      _refreshControllerOverview[pageViewIndex],
+                                  list: pageViewIndex == 0
+                                      ? controller.diamondListWeekOverview
+                                      : pageViewIndex == 1
+                                          ? controller.diamondHalfMonthOverview
+                                          : controller.diamondListMonthOverview,
+                                  indexAPI: pageViewIndex,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Obx(() => SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              controller: controller.scrollControllerStatement,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 27, vertical: 0),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.WEEK,
+                                          controller.pageControllerStatement,
+                                          controller.dateTypeStatement,
+                                          controller.currentPageStatement,
+                                        );
+                                        controller.animateTab(
+                                            0,
+                                            controller
+                                                .scrollControllerStatement);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller.dateTypeStatement
+                                                      .value ==
+                                                  DateType.WEEK
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 7 Days',
+                                              style: controller
+                                                          .dateTypeStatement
+                                                          .value ==
+                                                      DateType.WEEK
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 11),
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.HALFMONTH,
+                                          controller.pageControllerStatement,
+                                          controller.dateTypeStatement,
+                                          controller.currentPageStatement,
+                                        );
+                                        controller.animateTab(
+                                            1,
+                                            controller
+                                                .scrollControllerStatement);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller.dateTypeStatement
+                                                      .value ==
+                                                  DateType.HALFMONTH
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 14 Days',
+                                              style: controller
+                                                          .dateTypeStatement
+                                                          .value ==
+                                                      DateType.HALFMONTH
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 11),
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.updateSelectedBookingPage(
+                                          DateType.MONTH,
+                                          controller.pageControllerStatement,
+                                          controller.dateTypeStatement,
+                                          controller.currentPageStatement,
+                                        );
+                                        controller.animateTab(
+                                            2,
+                                            controller
+                                                .scrollControllerStatement);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 22,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: DarkTheme.lightActive,
+                                              width: 1),
+                                          color: controller.dateTypeStatement
+                                                      .value ==
+                                                  DateType.MONTH
+                                              ? DarkTheme.lightActive
+                                              : Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text('Last 30 Days',
+                                              style: controller
+                                                          .dateTypeStatement
+                                                          .value ==
+                                                      DateType.MONTH
+                                                  ? kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 17)
+                                                  : kThemeData
+                                                      .textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              DarkTheme.lighter,
+                                                          fontSize: 17)),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                  ],
+                                ),
+                              ),
+                            )),
+                        Container(
+                          height: Get.height * 0.007,
+                        ),
+                        Expanded(
+                          child: Obx(
+                            () => PageView.builder(
+                              controller:
+                                  controller.pageControllerStatement.value,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 3,
+                              itemBuilder: (context, pageViewIndex) {
+                                return DiamondsStatementWidget(
+                                  refreshController:
+                                      _refreshControllerStatement[
+                                          pageViewIndex],
+                                  list: pageViewIndex == 0
+                                      ? controller.diamondListWeek
+                                      : pageViewIndex == 1
+                                          ? controller.diamondHalfMonth
+                                          : controller.diamondListMonth,
+                                  indexAPI: pageViewIndex,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
