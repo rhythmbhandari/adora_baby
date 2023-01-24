@@ -53,18 +53,18 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 height: 4,
               ),
               Text(
-                '${DateTime.now().difference(controller.user.value.babyDob != null ? controller.user.value.babyDob! : DateTime.now()).inDays} Months',
+                '${(DateTime.now().difference(controller.user.value.babyDob != null ? controller.user.value.babyDob! : DateTime.now()).inDays/30).floor()} Months',
                 style: kThemeData.textTheme.bodyLarge
                     ?.copyWith(color: DarkTheme.dark),
               ),
               SizedBox(
                 height: 4,
               ),
-              Text(
+              controller.selectedTags.isNotEmpty? Text(
                 'No Allergies, No Difficulties',
                 style: kThemeData.textTheme.bodyLarge
                     ?.copyWith(color: DarkTheme.normal),
-              ),
+              ): Container(),
               SizedBox(
                 height: 12,
               ),

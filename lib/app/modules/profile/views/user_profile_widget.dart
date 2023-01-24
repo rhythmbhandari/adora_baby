@@ -84,7 +84,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                                 width: 4,
                               ),
                               Text(
-                                '${controller.user.value.diamond}',
+                                '${controller.user.value.diamond ?? 0}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: kThemeData.textTheme.labelSmall
