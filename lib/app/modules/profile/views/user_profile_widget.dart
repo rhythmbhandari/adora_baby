@@ -21,6 +21,99 @@ Widget userProfile(ProfileController controller, BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              GetBuilder<ProfileController>(
+                  builder: (value) => value.imageBoolMain.value
+                      ? GestureDetector(
+                    onTap: () {
+                      controller.getImage();
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            width: 0.14 * Get.height,
+                            height: 0.12 * Get.height,
+                            child: Image.file(
+                              controller.images!,
+                              fit: BoxFit.fill,
+                            )),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 12),
+                          child: Container(
+                            color: Colors.white.withOpacity(0.2),
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(12)),
+                              child: SizedBox(
+                                height: 0.07 * Get.height,
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Reupload",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                              .withOpacity(0.67),
+                                          fontFamily: 'Graphik',
+                                          height: 1.4,
+                                          letterSpacing: 1.2,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    SizedBox(width: 10),
+                                    const Icon(
+                                      Icons.cloud_upload_outlined,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                      : GestureDetector(
+                    onTap: () {
+                      controller.getImage();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 12),
+                      child: Container(
+                        color: Colors.white.withOpacity(0.2),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: ClipRRect(
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(12)),
+                          child: SizedBox(
+                              height: 0.07 * Get.height,
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Tap to upload your photo",
+                                    style: TextStyle(
+                                        color:
+                                        Colors.white.withOpacity(0.67),
+                                        fontFamily: 'Graphik',
+                                        height: 1.4,
+                                        letterSpacing: 1.7,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(
+                                    Icons.cloud_upload_outlined,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                    ),
+                  )),
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100.0),

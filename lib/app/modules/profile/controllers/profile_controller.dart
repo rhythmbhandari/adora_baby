@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:adora_baby/app/enums/date_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -23,6 +25,9 @@ class ProfileController extends GetxController {
 
   final babyMedicalCondition = [].obs;
 
+  final imageBoolMain = false.obs;
+  final imageBoolChild = false.obs;
+
   final selectedTags = [].obs;
 
   final fullName = ''.obs;
@@ -33,6 +38,9 @@ class ProfileController extends GetxController {
   final orderHistoryListWeek = [].obs;
   final orderHistoryListHalfMonth = [].obs;
   final orderHistoryListMonth = [].obs;
+
+  File? images;
+  final imagePicker = ImagePicker();
 
   final orderHistoryIndex = 1.obs;
 
@@ -94,6 +102,15 @@ class ProfileController extends GetxController {
         : user.value.accountMedicalConditiob!) {
       selectedTags.addAll(i.medicalCondition);
     }
+  }
+
+  Future getImage() async {
+    try {
+      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+      images = File(image!.path);
+      images == null ? imageBoolMain.value = false : imageBoolMain.value = true;
+      update();
+    } catch (e) {}
   }
 
   setChildData() {}
