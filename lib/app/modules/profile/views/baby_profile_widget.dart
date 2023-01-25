@@ -110,7 +110,7 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                                             null &&
                                         controller.user.value.photos!.isNotEmpty
                                     ? '${controller.user.value.photos?[1]?.name}'
-                                    : '',
+                                    : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
                                 placeholder: (context, url) => const Center(
                                     child: CircularProgressIndicator()),
                                 errorWidget: (context, url, error) =>

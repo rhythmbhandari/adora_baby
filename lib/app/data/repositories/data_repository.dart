@@ -21,14 +21,18 @@ class DataRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      Users user = Users.fromJson(
-        status['data'],
-      );
-      SessionManager.instance.setUser(
-        user,
-      );
-      log('Reached here $user');
-      return true;
+      try {
+        Users user = Users.fromJson(
+          status['data'],
+        );
+        SessionManager.instance.setUser(
+          user,
+        );
+        log('Reached here $user');
+        return true;
+      } catch (e) {
+        log('Error is $e');
+      }
     }
     return false;
   }
@@ -85,9 +89,9 @@ class DataRepository {
       List<Diamonds> orders = (status['data'] as List)
           .map(
             (i) => Diamonds.fromJson(
-          i,
-        ),
-      )
+              i,
+            ),
+          )
           .toList();
       log('Reached here $orders');
       return orders;

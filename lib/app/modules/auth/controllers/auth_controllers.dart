@@ -276,7 +276,7 @@ class AuthController extends GetxController {
               userNameController.text.trim(),
               passwordController.text.trim(),
               babyNameController.text.trim(),
-              '${dobController.text.trim()}T00:00')
+              '${dobController.text.trim()}')
           .catchError((error) {
         authError.value = error;
         return false;

@@ -13,6 +13,7 @@ import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/choice_leader.dart';
 import '../../../widgets/custom_progress_bar.dart';
@@ -287,7 +288,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                             .value = false;
                                         storage.writeData(
                                             Constants.LOGGED_IN_STATUS, 'yes');
-                                        Get.to(const HomeView());
+                                        Get.offNamed(Routes.HOME);
                                       } else {
                                         var snackBar = SnackBar(
                                           elevation: 0,
@@ -311,7 +312,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                           .value = false;
                                       storage.writeData(
                                           Constants.LOGGED_IN_STATUS, 'yes');
-                                      Get.to(const HomeView());
+
+                                      Get.offNamed(Routes.HOME);
                                     }
 
                                     // controller.progressBarStatusUsername.value =

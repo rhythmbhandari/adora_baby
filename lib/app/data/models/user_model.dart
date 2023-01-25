@@ -43,7 +43,7 @@ class Users {
         accountAddress: json["account_address"] == null
             ? []
             : List<dynamic>.from(json["account_address"]!.map((x) => x)),
-        photos: json["photos"].isNotEmpty
+        photos: json["photos"] != null
             ? List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x)))
             : [],
         diamond: json["dimond"],
@@ -65,7 +65,7 @@ class Users {
         "account_address": accountAddress == null
             ? []
             : List<dynamic>.from(accountAddress!.map((x) => x)),
-        "photos": photos!.isNotEmpty
+        "photos": photos != null
             ? List<dynamic>.from(photos!.map((x) => x.toJson()))
             : [],
         "dimond": diamond
