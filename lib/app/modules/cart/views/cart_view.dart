@@ -57,13 +57,8 @@ class CartView extends GetView<CartController> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Obx(() => controller.progressBarStatusDeleteCart.value
-                                    ? Shimmer.fromColors(
-                                    baseColor: Colors.white,
-                                    highlightColor: LightTheme.lightActive,
-                                    enabled: true,
-                                    child: _buildImage())
-                                    :Container()),
+
+
                                 Padding(
                                       padding: const EdgeInsets.only(
                                           left: 30.0, top: 20),
@@ -156,8 +151,7 @@ class CartView extends GetView<CartController> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Flexible(
-                                                          fit: FlexFit.loose,
+                                                        Expanded(
                                                           child: Padding(
                                                               padding:
                                                                   const EdgeInsets
