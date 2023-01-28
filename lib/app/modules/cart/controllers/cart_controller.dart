@@ -26,12 +26,13 @@ class CartController extends GetxController {
   TextEditingController landMarkController = TextEditingController();
   final progressBarStatusOtp = false.obs;
 
-
   String? cityName;
 
   name() async {
     cityName = (await storage.readCityId())!;
   }
+   final total = 0.obs;
+
 
   final authError = ''.obs;
   final status = false.obs;
@@ -52,7 +53,6 @@ class CartController extends GetxController {
   ].obs;
   final tappedIndex = 0.obs;
   final selected = false.obs;
-  var sum = 0.obs;
   final progress = CustomProgressBar().obs;
   Timer? timer;
   final addressValue = false.obs;
@@ -60,15 +60,13 @@ class CartController extends GetxController {
   @override
   void onInit() {
     name();
-    timer = Timer(const Duration(seconds: 1), () {
-      progress;
-      cart().whenComplete(() => timer?.cancel());
-    });
 
     super.onInit();
   }
 
   int index = 0;
+
+
 
   void incrementCounter(int index) {
     if (counter[index] < 15) {
@@ -107,16 +105,17 @@ class CartController extends GetxController {
       return false;
     }
   }
+
   final fName = ''.obs;
   final pNum = ''.obs;
   final aNum = ''.obs;
   final note = ''.obs;
+
   Future<bool> validatePersonalInfo() async {
     fName.value = fNameController.text.trim();
     pNum.value = phoneController.text.trim();
     aNum.value = altPhoneController.text.trim();
     note.value = notesController.text.trim();
-
 
     bool isValid = true;
     if (fName.value.isEmpty) {
@@ -128,8 +127,7 @@ class CartController extends GetxController {
     } else if (aNum.value.isEmpty) {
       isValid = false;
       authError.value = 'ALternate Number cannot be empty.'.tr;
-    }
-    else if (note.value.isEmpty) {
+    } else if (note.value.isEmpty) {
       isValid = false;
       authError.value = 'Notes cannot be empty.'.tr;
     }
@@ -214,14 +212,10 @@ class CartController extends GetxController {
   // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
-      String altPhone, String address,String notes) async {
+      String altPhone, String address, String notes) async {
     try {
-      final status = await CheckOutRepository.checkout(
-              fullName.trim(),
-              phoneNumber.trim(),
-              altPhone.trim(),
-              address.trim(),
-              notes.trim())
+      final status = await CheckOutRepository.checkout(fullName.trim(),
+              phoneNumber.trim(), altPhone.trim(), address.trim(), notes.trim())
           .catchError((error) {
         authError.value = error;
         return false;
