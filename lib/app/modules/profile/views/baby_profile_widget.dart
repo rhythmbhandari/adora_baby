@@ -10,7 +10,8 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../controllers/profile_controller.dart';
 
-void _showPicker(context, controller) {
+void _showPicker(context, c) {
+  final ProfileController controller = Get.find();
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {

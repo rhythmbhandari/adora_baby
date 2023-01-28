@@ -141,19 +141,15 @@ class AuthRepository {
 
   static Future<bool> registerBabyName(String fullName, String username,
       String password, String babyName, String dateOfBirth) async {
-    const url = '$BASE_URL/accounts/signup/';
+    const url = '$BASE_URL/accounts/me/';
     print('Date of Birth $dateOfBirth');
-    final body = jsonEncode({
-      "full_name": fullName,
-      "password": password,
-      "username": username,
-      "baby_name": babyName,
-      "baby_dob": dateOfBirth
-    });
+    final body = jsonEncode({"baby_name": babyName, "baby_dob": dateOfBirth});
+    print({"baby_name": babyName, "baby_dob": dateOfBirth});
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      print('Decoded response is $decodedResponse');
       if (response.statusCode == 200) {
         print('Response is $response');
         return true;

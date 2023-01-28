@@ -132,7 +132,9 @@ class ProfileController extends GetxController {
         aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
     if (croppedImage != null) {
       imagesMain = File(croppedImage.path);
-      imagesMain == null ? imageBoolMain.value = false : imageBoolMain.value = true;
+      imagesMain == null
+          ? imageBoolMain.value = false
+          : imageBoolMain.value = true;
       updatePhoto(
         imagesMain!,
         'PARENTS',
@@ -158,7 +160,9 @@ class ProfileController extends GetxController {
         aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0));
     if (croppedImage != null) {
       imagesChild = File(croppedImage.path);
-      imagesChild == null ? imageBoolChild.value = false : imageBoolChild.value = true;
+      imagesChild == null
+          ? imageBoolChild.value = false
+          : imageBoolChild.value = true;
       updatePhoto(
         imagesChild!,
         'CHILD',
