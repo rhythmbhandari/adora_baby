@@ -16,6 +16,7 @@ import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../data/models/get_carts_model.dart' as c;
 import '../../../routes/app_pages.dart';
+import '../../../widgets/checkBox.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/tab_bar.dart';
 import '../../shop/widgets/hot_sales.dart';
@@ -26,6 +27,8 @@ class CartView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
+    int? index;
+
     return Scaffold(
       backgroundColor: LightTheme.whiteActive,
       body: SafeArea(
@@ -67,29 +70,29 @@ class CartView extends GetView<CartController> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 30.0, right: 38, top: 40),
+                                    left: 20.0, right: 20, top: 40),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Checkbox(
-                                          value: false,
-                                          onChanged: (bool? value) {},
-                                        ),
-                                        Text(
-                                          "Select All",
-                                          style: kThemeData.textTheme.bodyLarge,
-                                        ),
-                                      ],
+                                    GetBuilder<CartController>(
+                                      builder: (controller) {
+                                        return Checkbox(
+                                          value: controller.selectAll,
+                                          onChanged: (value) {
+                                            controller.toggleAll();
+                                          },
+                                        );
+                                      },
                                     ),
+
                                     GestureDetector(
                                         onTap: () async {
-                                          controller.requestToDeleteCart(
-                                              snapshot.data![0].id.toString());
+                                          // controller.requestToDeleteCart(
+                                          //     snapshot.data![0].id
+                                          //         .toString());
 
-                                          controller.progressBarStatusDeleteCart
+                                          controller
+                                              .progressBarStatusDeleteCart
                                               .value = true;
                                         },
                                         child: const Text(
@@ -100,7 +103,7 @@ class CartView extends GetView<CartController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
-                                        )),
+                                        ))
                                   ],
                                 ),
                               ),
@@ -130,7 +133,6 @@ class CartView extends GetView<CartController> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 5,
-                                                  right: 5,
                                                   top: 40,
                                                   bottom: 40),
                                               child: Row(
@@ -140,26 +142,22 @@ class CartView extends GetView<CartController> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Expanded(
-                                                    child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 70.0),
-                                                        child: Obx(
-                                                          () => Checkbox(
-                                                            value: controller
-                                                                .value[index],
-                                                            onChanged:
-                                                                (bool? val) {
-                                                              controller.value[
-                                                                  index] = val!;
-                                                            },
-                                                          ),
-                                                        )),
-                                                  ),
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 70.0),
+                                                      child: Obx(
+                                                            () => Checkbox(
+                                                          value: controller
+                                                              .value[index],
+                                                          onChanged:
+                                                              (bool? val) {
+                                                            controller.toggleOne(index);
+                                                          },
+                                                        ),
+                                                      )),
                                                   SizedBox(
-                                                      height: 180,
+                                                      height: 140,
                                                       child: Image.network(
                                                           snapshot
                                                               .data![index]
@@ -408,11 +406,14 @@ class CartView extends GetView<CartController> {
                                       padding:
                                           const EdgeInsets.only(left: 70.0),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(right: 40.0),
+                                        padding:
+                                            const EdgeInsets.only(right: 40.0),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "Subtotal",
@@ -426,10 +427,10 @@ class CartView extends GetView<CartController> {
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-
                                                         List<int> prices = [];
                                                         for (var counter
-                                                            in controller.counter
+                                                            in controller
+                                                                .counter
                                                                 .asMap()
                                                                 .keys) {
                                                           if (snapshot.data !=
@@ -449,8 +450,8 @@ class CartView extends GetView<CartController> {
                                                                     controller
                                                                             .counter[
                                                                         counter];
-                                                            prices
-                                                                .add(totalPrice);
+                                                            prices.add(
+                                                                totalPrice);
                                                           }
                                                         }
                                                         int total = 0;
@@ -460,14 +461,19 @@ class CartView extends GetView<CartController> {
                                                           total += price;
                                                         }
 
-                                                        return Text(total.toString(), style: kThemeData.textTheme.displaySmall);
+                                                        return Text(
+                                                            total.toString(),
+                                                            style: kThemeData
+                                                                .textTheme
+                                                                .displaySmall);
                                                       }),
                                                 )
                                               ],
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "Diamond off",
@@ -483,7 +489,8 @@ class CartView extends GetView<CartController> {
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "Discount",
@@ -502,15 +509,16 @@ class CartView extends GetView<CartController> {
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "Subtotal",
                                                   style: kThemeData
                                                       .textTheme.bodyLarge,
                                                 ),
-                                                Text("0.0",
-
+                                                Text(
+                                                  "0.0",
                                                   style: kThemeData
                                                       .textTheme.displaySmall,
                                                 ),

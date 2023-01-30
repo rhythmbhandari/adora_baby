@@ -31,14 +31,48 @@ class CartController extends GetxController {
   name() async {
     cityName = (await storage.readCityId())!;
   }
-   final total = 0.obs;
 
+  final total = 0.obs;
 
   final authError = ''.obs;
   final status = false.obs;
 
   final progressBarStatus = false.obs;
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
+  bool selectAll = false;
+  final selectOne = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ].obs;
+
+  void toggleAll() {
+    selectAll = !selectAll;
+    for (int i = 0; i < value.length; i++) {
+      value[i] = selectAll;
+    }
+    update();
+  }
+
+
+  void toggleOne(int index) {
+    for (int i = 0; i < value.length; i++) {
+      if (i == index) {
+        value[i] = !value[i];
+      } else {
+        value[i] = false;
+      }
+    }
+    update();
+  }
+
   final value = [
     false,
     false,
@@ -65,8 +99,6 @@ class CartController extends GetxController {
   }
 
   int index = 0;
-
-
 
   void incrementCounter(int index) {
     if (counter[index] < 15) {
@@ -158,10 +190,10 @@ class CartController extends GetxController {
 
   final progressBarStatusDeleteCart = false.obs;
 
-  Future<bool> requestToDeleteCart(String id) async {
+  Future<bool> requestToDeleteCart(List<String> ids) async {
     try {
       final status =
-          await CartRepository.deleteCart(id.trim()).catchError((error) {
+          await CartRepository.deleteCart(ids).catchError((error) {
         authError.value = error;
         return false;
       });

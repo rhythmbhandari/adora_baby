@@ -63,10 +63,10 @@ class CartRepository {
     }
   }
 
-  static Future<bool> deleteCart(String id) async {
+  static Future<bool> deleteCart(List<String> ids) async {
     const url = '$BASE_URL/cart/delete/';
     final body = jsonEncode({
-      "cart_id": id,
+      "cart_id": ids,
     });
     try {
       final response = await http.post(Uri.parse(url),
