@@ -24,18 +24,28 @@ class CartController extends GetxController {
   TextEditingController notesController = TextEditingController();
   TextEditingController addNameController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
+  TextEditingController addressNameController = TextEditingController();
+
   final progressBarStatusOtp = false.obs;
 
+  String? cityId;
   String? cityName;
 
   name() async {
-    cityName = (await storage.readCityId())!;
+    cityId = await (storage.readCityId());
+    cityName = await (storage.readCityName());
   }
 
   final total = 0.obs;
 
   final authError = ''.obs;
   final status = false.obs;
+  final items = [""].obs;
+
+  void deleteItem(String item) {
+    items.remove(item);
+    progressBarStatusDeleteCart.value = true;
+  }
 
   final progressBarStatus = false.obs;
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
@@ -60,7 +70,6 @@ class CartController extends GetxController {
     }
     update();
   }
-
 
   void toggleOne(int index) {
     for (int i = 0; i < value.length; i++) {
@@ -93,6 +102,7 @@ class CartController extends GetxController {
 
   @override
   void onInit() {
+    CheckOutRepository.getAddress();
     name();
 
     super.onInit();
@@ -104,12 +114,14 @@ class CartController extends GetxController {
     if (counter[index] < 15) {
       counter[index]++;
     }
+    update();
   }
 
   void decrementCounter(int index) {
     if (counter[index] > 1) {
       counter[index]--;
     }
+    update();
   }
 
   listBool(String id) {
@@ -190,10 +202,11 @@ class CartController extends GetxController {
 
   final progressBarStatusDeleteCart = false.obs;
 
-  Future<bool> requestToDeleteCart(List<String> ids) async {
+  Future<bool> requestToDeleteCart(String ids) async {
+    update();
+
     try {
-      final status =
-          await CartRepository.deleteCart(ids).catchError((error) {
+      final status = await CartRepository.deleteCart(ids).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -304,10 +317,10 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToDeleteAddress(String id) async {
+  Future<bool> requestToDeleteAddress() async {
     try {
       final status =
-          await CheckOutRepository.deleteAddress(id.trim()).catchError((error) {
+          await CheckOutRepository.deleteAddress().catchError((error) {
         authError.value = error;
         return false;
       });

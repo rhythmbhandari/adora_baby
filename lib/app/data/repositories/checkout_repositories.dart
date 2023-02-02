@@ -36,6 +36,7 @@ class CheckOutRepository {
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 201) {
         print('Response is ${response.statusCode}.');
+        getAddress();
         return true;
       } else {
         print('Response is ${response.statusCode}.');
@@ -79,7 +80,10 @@ class CheckOutRepository {
     if (status is Map<dynamic, dynamic>) {
       List<Datum> address =
           (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
-      storage.saveCityId(address[0].city.id);
+      for (int i = 0; i < address.length; i++) {
+        storage.saveCityId(address[i].city.id);
+        storage.saveCityName(address[i].city.city);
+      }
 
       return address;
     }
@@ -119,18 +123,25 @@ class CheckOutRepository {
     }
   }
 
-  static Future<bool> deleteAddress(String id) async {
-    var url = '$BASE_URL/address/$id';
+  static Future<bool> deleteAddress() async {
+    var id = await (storage.readCityId());
+    var url = '$BASE_URL/address/$id/';
+    final body = jsonEncode({
+      "city": id,
+      "nearest_landmark": "abc",
+      "address_type": "PRIMARY"
+    });
+
 
     try {
-      final response = await http.post(Uri.parse(url),
+      final response = await http.delete(Uri.parse(url),body: body,
           headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}.');
+        print('Response  for delete is ${response.statusCode}.');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error(decodedResponse['error']);
       }
     } on SocketException {
       return Future.error(

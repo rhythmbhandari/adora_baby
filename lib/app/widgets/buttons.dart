@@ -8,7 +8,8 @@ class ButtonsWidget extends StatelessWidget {
   final String name;
   final void Function()? onPressed;
 
-  const ButtonsWidget({super.key, required this.name, required this.onPressed});
+  const ButtonsWidget(
+      {super.key, required this.name, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,7 @@ class ButtonsWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
-          child: Text(name,
-              style:  kThemeData.textTheme.labelMedium),
+          child: Text(name, style: kThemeData.textTheme.labelMedium),
         ),
       ),
     );

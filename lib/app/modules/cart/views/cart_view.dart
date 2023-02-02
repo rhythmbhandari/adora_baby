@@ -27,8 +27,6 @@ class CartView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    int? index;
-
     return Scaffold(
       backgroundColor: LightTheme.whiteActive,
       body: SafeArea(
@@ -49,517 +47,493 @@ class CartView extends GetView<CartController> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                color: Colors.white,
-                child: FutureBuilder<List<c.Datum>>(
-                    future: CartRepository.getCart(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data != null &&
-                            snapshot.data!.isNotEmpty) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 30.0, top: 20),
-                                child: Text(
-                                  "${snapshot.data!.length} items in your cart",
-                                  style: kThemeData.textTheme.labelLarge,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, right: 20, top: 40),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GetBuilder<CartController>(
-                                      builder: (controller) {
-                                        return Checkbox(
-                                          value: controller.selectAll,
-                                          onChanged: (value) {
-                                            controller.toggleAll();
-                                          },
-                                        );
-                                      },
-                                    ),
+              controller.progressBarStatusDeleteCart.value
+                  ? CustomProgressBar()
+                  : Container(
+                      color: Colors.white,
+                      child: FutureBuilder<List<c.Datum>>(
+                          future: CartRepository.getCart(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data != null &&
+                                  snapshot.data!.isNotEmpty) {
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30.0, top: 20),
+                                        child: Text(
+                                          "${snapshot.data!.length} items in your cart",
+                                          style:
+                                              kThemeData.textTheme.labelLarge,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 20, top: 40),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            GetBuilder<CartController>(
+                                              builder: (controller) {
+                                                return Checkbox(
+                                                  value: controller.selectAll,
+                                                  onChanged: (value) {
+                                                    controller.toggleAll();
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            GestureDetector(
+                                                onTap: () async {
+                                                  controller
+                                                      .progressBarStatusDeleteCart
+                                                      .value = true;
 
-                                    GestureDetector(
-                                        onTap: () async {
-                                          // controller.requestToDeleteCart(
-                                          //     snapshot.data![0].id
-                                          //         .toString());
+                                                  for (int i = 0;
+                                                      i <= 15;
+                                                      i++) {
+                                                    controller
+                                                        .requestToDeleteCart(
+                                                            snapshot
+                                                                .data![i].id!);
+                                                    snapshot.data!.removeAt(i);
 
-                                          controller
-                                              .progressBarStatusDeleteCart
-                                              .value = true;
-                                        },
-                                        child: const Text(
-                                          "Remove Selected",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                  onTap: () {},
-                                  child: AlignedGridView.count(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: 20,
-                                      crossAxisSpacing: 20,
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 30.0, right: 30, top: 10),
-                                          child: Card(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                                side: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                )),
-                                            elevation: 5,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5,
-                                                  top: 40,
-                                                  bottom: 40),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 70.0),
-                                                      child: Obx(
-                                                            () => Checkbox(
-                                                          value: controller
-                                                              .value[index],
-                                                          onChanged:
-                                                              (bool? val) {
-                                                            controller.toggleOne(index);
-                                                          },
-                                                        ),
-                                                      )),
-                                                  SizedBox(
-                                                      height: 140,
-                                                      child: Image.network(
-                                                          snapshot
-                                                              .data![index]
-                                                              .product!
-                                                              .productImages![
-                                                                  0]!
-                                                              .name!)),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 150,
-                                                        child: Text(
-                                                          snapshot
-                                                              .data![index]
-                                                              .product!
-                                                              .shortName!,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontFamily:
-                                                                      "Poppins",
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          151,
-                                                                          121,
-                                                                          142,
-                                                                          1)),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 200,
-                                                        child: Text(
-                                                          snapshot.data![index]
-                                                              .product!.name!,
-                                                          style: const TextStyle(
-                                                              fontFamily:
-                                                                  "Poppins",
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              color: AppColors
-                                                                  .mainColor),
-                                                        ),
-                                                      ),
-                                                      snapshot
-                                                              .data![index]
-                                                              .product!
-                                                              .stockAvailable!
-                                                          ? const Text(
-                                                              "In-Stock",
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    "Poppins",
-                                                                fontSize: 16,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .green,
-                                                              ))
-                                                          : const Text(
-                                                              "Out of stock",
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontFamily:
-                                                                      "Poppins",
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  controller
-                                                                      .decrementCounter(
-                                                                          index);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(2),
-                                                                  decoration: BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      border: Border.all(
-                                                                          color:
-                                                                              DarkTheme.normal)),
-                                                                  child:
-                                                                      const Icon(
-                                                                    Icons
-                                                                        .remove,
-                                                                    color: DarkTheme
-                                                                        .normal,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 14,
-                                                              ),
-                                                              Flexible(
-                                                                fit: FlexFit
-                                                                    .loose,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      top: 3.0),
-                                                                  child:
-                                                                      Container(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left:
-                                                                                  15,
-                                                                              right:
-                                                                                  15,
-                                                                              top:
-                                                                                  5,
-                                                                              bottom:
-                                                                                  5),
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                              border: Border.all(color: DarkTheme.normal)),
-                                                                          child: Center(
-                                                                            child:
-                                                                                Obx(
-                                                                              () => Text(
-                                                                                controller.counter[index].toString(),
-                                                                                style: const TextStyle(color: DarkTheme.dark, fontFamily: 'Poppins', fontWeight: FontWeight.w900, fontSize: 10),
-                                                                              ),
-                                                                            ),
-                                                                          )),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 14,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  controller
-                                                                      .incrementCounter(
-                                                                          index);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(2),
-                                                                  decoration: BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      border: Border.all(
-                                                                          color:
-                                                                              DarkTheme.normal)),
-                                                                  child:
-                                                                      const Icon(
-                                                                    Icons.add,
-                                                                    color: DarkTheme
-                                                                        .normal,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .end,
-                                                                children: [
-                                                                  Padding(
+
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2), () {
+                                                      controller
+                                                          .progressBarStatusDeleteCart
+                                                          .value = false;
+                                                    });
+                                                  }
+
+                                                },
+                                                child: const Text(
+                                                  "Remove Selected",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                      Obx(
+                                        () => GestureDetector(
+                                            onTap: () {},
+                                            child: controller
+                                                        .progressBarStatusDeleteCart
+                                                        .value ==false
+                                                ? AlignedGridView.count(
+                                                    crossAxisCount: 1,
+                                                    mainAxisSpacing: 20,
+                                                    crossAxisSpacing: 20,
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        snapshot.data!.length,
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    itemBuilder:
+                                                        (context, int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 30.0,
+                                                                right: 30,
+                                                                top: 10),
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20.0),
+                                                                  side:
+                                                                      BorderSide(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                                  )),
+                                                          elevation: 5,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 5,
+                                                                    top: 40,
+                                                                    bottom: 40),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Padding(
                                                                     padding: const EdgeInsets
                                                                             .only(
                                                                         top:
-                                                                            2.0),
-                                                                    child: SvgPicture
-                                                                        .asset(
-                                                                      "assets/images/like.svg",
-                                                                      height:
-                                                                          25,
-                                                                    ),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 15,
-                                                                  ),
-                                                                  Obx(
+                                                                            70.0),
+                                                                    child: Obx(
                                                                       () =>
+                                                                          Checkbox(
+                                                                        value: controller
+                                                                            .value[index],
+                                                                        onChanged:
+                                                                            (bool?
+                                                                                val) {
+                                                                          controller
+                                                                              .toggleOne(index);
+                                                                        },
+                                                                      ),
+                                                                    )),
+                                                                SizedBox(
+                                                                    height: 140,
+                                                                    child: Image.network(snapshot
+                                                                        .data![
+                                                                            index]
+                                                                        .product!
+                                                                        .productImages![
+                                                                            0]!
+                                                                        .name!)),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          150,
+                                                                      child:
                                                                           Text(
-                                                                            "Rs. ${snapshot.data![index].product!.regularPrice! * controller.counter[index]}",
-                                                                            style: const TextStyle(
-                                                                                color: DarkTheme.dark,
-                                                                                fontFamily: 'Poppins',
-                                                                                fontWeight: FontWeight.w700,
-                                                                                fontSize: 16),
-                                                                          ))
-                                                                ],
-                                                              )
-                                                            ],
+                                                                        snapshot
+                                                                            .data![index]
+                                                                            .product!
+                                                                            .shortName!,
+                                                                        style: const TextStyle(
+                                                                            fontFamily:
+                                                                                "Poppins",
+                                                                            fontSize:
+                                                                                16,
+                                                                            fontWeight: FontWeight
+                                                                                .w600,
+                                                                            color: Color.fromRGBO(
+                                                                                151,
+                                                                                121,
+                                                                                142,
+                                                                                1)),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          200,
+                                                                      child:
+                                                                          Text(
+                                                                        snapshot
+                                                                            .data![index]
+                                                                            .product!
+                                                                            .name!,
+                                                                        style: const TextStyle(
+                                                                            fontFamily:
+                                                                                "Poppins",
+                                                                            fontSize:
+                                                                                16,
+                                                                            fontWeight:
+                                                                                FontWeight.w700,
+                                                                            color: AppColors.mainColor),
+                                                                      ),
+                                                                    ),
+                                                                    snapshot
+                                                                            .data![
+                                                                                index]
+                                                                            .product!
+                                                                            .stockAvailable!
+                                                                        ? const Text(
+                                                                            "In-Stock",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: "Poppins",
+                                                                              fontSize: 16,
+                                                                              fontStyle: FontStyle.italic,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              color: Colors.green,
+                                                                            ))
+                                                                        : const Text(
+                                                                            "Out of stock",
+                                                                            style: TextStyle(
+                                                                                fontStyle: FontStyle.italic,
+                                                                                fontFamily: "Poppins",
+                                                                                fontSize: 16,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: Colors.red),
+                                                                          ),
+                                                                    const SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                controller.decrementCounter(index);
+                                                                              },
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(2),
+                                                                                decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: DarkTheme.normal)),
+                                                                                child: const Icon(
+                                                                                  Icons.remove,
+                                                                                  color: DarkTheme.normal,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              width: 14,
+                                                                            ),
+                                                                            Flexible(
+                                                                              fit: FlexFit.loose,
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 3.0),
+                                                                                child: Container(
+                                                                                    padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: DarkTheme.normal)),
+                                                                                    child: Center(
+                                                                                      child: Obx(
+                                                                                        () => Text(
+                                                                                          controller.counter[index].toString(),
+                                                                                          style: const TextStyle(color: DarkTheme.dark, fontFamily: 'Poppins', fontWeight: FontWeight.w900, fontSize: 10),
+                                                                                        ),
+                                                                                      ),
+                                                                                    )),
+                                                                              ),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              width: 14,
+                                                                            ),
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                controller.incrementCounter(index);
+                                                                              },
+                                                                              child: Container(
+                                                                                padding: const EdgeInsets.all(2),
+                                                                                decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: DarkTheme.normal)),
+                                                                                child: const Icon(
+                                                                                  Icons.add,
+                                                                                  color: DarkTheme.normal,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.0),
+                                                                                  child: SvgPicture.asset(
+                                                                                    "assets/images/like.svg",
+                                                                                    height: 25,
+                                                                                  ),
+                                                                                ),
+                                                                                const SizedBox(
+                                                                                  height: 15,
+                                                                                ),
+                                                                                Obx(() => Text(
+                                                                                      "Rs. ${snapshot.data![index].product!.regularPrice! * controller.counter[index]}",
+                                                                                      style: const TextStyle(color: DarkTheme.dark, fontFamily: 'Poppins', fontWeight: FontWeight.w700, fontSize: 16),
+                                                                                    ))
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      })),
-                              Container(
-                                color: LightTheme.whiteActive,
-                                child: const Text(
-                                  "abc",
-                                  style:
-                                      TextStyle(color: LightTheme.whiteActive),
-                                ),
-                              ),
-                              Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 70.0),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 40.0),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Subtotal",
-                                                  style: kThemeData
-                                                      .textTheme.bodyLarge,
-                                                ),
-                                                SizedBox(
-                                                  width: 80,
-                                                  child: ListView.builder(
-                                                      itemCount: 1,
-                                                      shrinkWrap: true,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        List<int> prices = [];
-                                                        for (var counter
-                                                            in controller
-                                                                .counter
-                                                                .asMap()
-                                                                .keys) {
-                                                          if (snapshot.data !=
-                                                                  null &&
-                                                              counter <
-                                                                  snapshot.data!
-                                                                      .length) {
-                                                            int regularPrice =
-                                                                int.parse(snapshot
-                                                                    .data![
-                                                                        counter]
-                                                                    .product!
-                                                                    .regularPrice
-                                                                    .toString());
-                                                            int totalPrice =
-                                                                regularPrice *
-                                                                    controller
-                                                                            .counter[
-                                                                        counter];
-                                                            prices.add(
-                                                                totalPrice);
-                                                          }
-                                                        }
-                                                        int total = 0;
-
-                                                        for (var price
-                                                            in prices) {
-                                                          total += price;
-                                                        }
-
-                                                        return Text(
-                                                            total.toString(),
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .displaySmall);
-                                                      }),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Diamond off",
-                                                  style: kThemeData
-                                                      .textTheme.bodyLarge,
-                                                ),
-                                                Text(
-                                                  "0",
-                                                  style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Discount",
-                                                  style: kThemeData
-                                                      .textTheme.bodyLarge,
-                                                ),
-                                                Text(
-                                                  "Rs. 100",
-                                                  style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 40,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Subtotal",
-                                                  style: kThemeData
-                                                      .textTheme.bodyLarge,
-                                                ),
-                                                Text(
-                                                  "0.0",
-                                                  style: kThemeData
-                                                      .textTheme.displaySmall,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
+                                                : CustomProgressBar()),
+                                      ),
+                                      Container(
+                                        color: LightTheme.whiteActive,
+                                        child: const Text(
+                                          "abc",
+                                          style: TextStyle(
+                                              color: LightTheme.whiteActive),
                                         ),
-                                      ))),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 30.0, right: 30),
-                                child: ButtonsWidget(
-                                    name: "Proceed",
-                                    onPressed: () {
-                                      Get.toNamed(Routes.PERSONAL_INFORMATION,
-                                          arguments: snapshot.data![0].id);
-                                    }),
-                              ),
-                              const SizedBox(
-                                height: 100,
-                              ),
-                            ],
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        print(snapshot.error);
-                        return const Center(
-                          child: Text("Sorry,not found!"),
-                        );
-                      }
+                                      ),
+                                      Container(
+                                          color: Colors.white,
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 70.0),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 40.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Subtotal",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .bodyLarge,
+                                                        ),
+                                                        GetBuilder<CartController>(
+                                                          builder: (_) {
+                                                            int total = 0;
+                                                            for (var i = 0; i < _.counter.length; i++) {
+                                                              if (snapshot.data != null && i < snapshot.data!.length) {
+                                                                int regularPrice = int.parse(
+                                                                    snapshot.data![i].product!.regularPrice.toString());
+                                                                int totalPrice = regularPrice * _.counter[i];
+                                                                total += totalPrice;
 
-                      return Shimmer.fromColors(
-                          baseColor: Colors.white,
-                          highlightColor: LightTheme.lightActive,
-                          enabled: true,
-                          child: _buildImage());
-                    }),
-              )
+                                                              }
+                                                            }
+                                                            return Text(
+                                                              "Rs. ${total.toString()}",
+                                                              style: kThemeData.textTheme.displaySmall,
+                                                            );
+                                                          },
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Diamond off",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .bodyLarge,
+                                                        ),
+                                                        Text(
+                                                          "0",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .displaySmall,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Discount",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .bodyLarge,
+                                                        ),
+                                                        Text(
+                                                          "Rs. 100",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .displaySmall,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 40,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Subtotal",
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .bodyLarge,
+                                                        ),
+                                                        GetBuilder<CartController>(
+                                                          builder: (_) {
+                                                            int total = 0;
+                                                            int subTotal = 0;
+                                                            for (var i = 0; i < _.counter.length; i++) {
+                                                              if (snapshot.data != null && i < snapshot.data!.length) {
+                                                                int regularPrice = int.parse(
+                                                                    snapshot.data![i].product!.regularPrice.toString());
+                                                                int totalPrice = regularPrice * _.counter[i];
+                                                                total += totalPrice;
+                                                                subTotal = total - 100;
+
+                                                              }
+                                                            }
+                                                            return Text(
+                                                              "Rs. ${subTotal.toString()}",
+                                                              style: kThemeData.textTheme.displaySmall,
+                                                            );
+                                                          },
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ))),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30.0, right: 30),
+                                        child: ButtonsWidget(
+                                            name: "Proceed",
+                                            onPressed: () {
+                                              print(controller.cityName);
+                                              Get.toNamed(
+                                                  Routes.PERSONAL_INFORMATION);
+
+                                              }),
+                                      ),
+                                      const SizedBox(
+                                        height: 100,
+                                      ),
+                                    ]);
+                              }
+                            } else if (snapshot.hasError) {
+                              print(snapshot.error);
+                              return const Center(
+                                child: Text("Sorry,not found!"),
+                              );
+                            }
+
+                            return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: LightTheme.lightActive,
+                                enabled: true,
+                                child: _buildImage());
+                          }),
+                    )
             ],
           ),
         ),
