@@ -509,7 +509,6 @@ class CartView extends GetView<CartController> {
                                         child: ButtonsWidget(
                                             name: "Proceed",
                                             onPressed: () {
-                                              print(controller.cityName);
                                               Get.toNamed(
                                                   Routes.PERSONAL_INFORMATION);
 

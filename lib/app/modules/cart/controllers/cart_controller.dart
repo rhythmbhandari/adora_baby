@@ -28,13 +28,29 @@ class CartController extends GetxController {
 
   final progressBarStatusOtp = false.obs;
 
-  String? cityId;
-  String? cityName;
 
-  name() async {
-    cityId = await (storage.readCityId());
-    cityName = await (storage.readCityName());
+  var cityId = "".obs;
+  var cityName = "".obs;
+
+
+
+  Future<void> loadCityId() async {
+    cityId.value = (await storage.readCityId())!;
   }
+
+
+Future<void> loadCityName() async {
+  cityName.value = (await storage.readCityName())!;
+}
+
+  @override
+  void onReady() {
+    super.onReady();
+    loadCityName();
+    loadCityId();
+  }
+
+
 
   final total = 0.obs;
 
@@ -100,13 +116,7 @@ class CartController extends GetxController {
   Timer? timer;
   final addressValue = false.obs;
 
-  @override
-  void onInit() {
-    CheckOutRepository.getAddress();
-    name();
 
-    super.onInit();
-  }
 
   int index = 0;
 

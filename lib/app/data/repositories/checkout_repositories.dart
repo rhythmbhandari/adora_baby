@@ -77,20 +77,32 @@ class CheckOutRepository {
       await SecureStorage.returnHeader(),
     );
     log('Status received is $status');
+
     if (status is Map<dynamic, dynamic>) {
       List<Datum> address =
-          (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
-      for (int i = 0; i < address.length; i++) {
-        storage.saveCityId(address[i].city.id);
-        storage.saveCityName(address[i].city.city);
+      (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
+
+      // Set selected to true for the desired address
+      address[0].selected = true;
+
+      final saveCityIdSuccess = await storage.saveCityId(address[0].city.id);
+      print(saveCityIdSuccess);
+      if (!saveCityIdSuccess) {
+        return Future.error('Failed to save city id');
       }
+
+      final saveCityNameSuccess = await storage.saveCityName(address[0].city.city);
+      if (!saveCityNameSuccess) {
+        return Future.error('Failed to save city name');
+      }
+      print(saveCityNameSuccess);
+
 
       return address;
     }
 
     return Future.error('Error $status');
   }
-
   //add address
 
   static Future<bool> updateAddress(
@@ -126,16 +138,12 @@ class CheckOutRepository {
   static Future<bool> deleteAddress() async {
     var id = await (storage.readCityId());
     var url = '$BASE_URL/address/$id/';
-    final body = jsonEncode({
-      "city": id,
-      "nearest_landmark": "abc",
-      "address_type": "PRIMARY"
-    });
-
+    final body = jsonEncode(
+        {"city": id, "nearest_landmark": "abc", "address_type": "PRIMARY"});
 
     try {
-      final response = await http.delete(Uri.parse(url),body: body,
-          headers: await SecureStorage.returnHeaderWithToken());
+      final response = await http.delete(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
         print('Response  for delete is ${response.statusCode}.');

@@ -12,12 +12,14 @@ import '../../../data/models/get_address_model.dart';
 import '../../../routes/app_pages.dart';
 
 class AddAddressView extends GetView<CartController> {
-  const AddAddressView({Key? key}) : super(key: key);
 
+  String cityId = Get.find<CartController>().cityId.value;
+  String cityName = Get.find<CartController>().cityName.value;
   @override
   Widget build(BuildContext context) {
-    TextEditingController cityController =
-        TextEditingController(text: controller.cityName);
+    TextEditingController cityController = TextEditingController(text: cityId.toString());
+
+
 
     return Scaffold(
       body: SafeArea(
@@ -79,6 +81,7 @@ class AddAddressView extends GetView<CartController> {
                 const SizedBox(
                   height: 20,
                 ),
+
                 TextField(
                   readOnly: true,
                     controller: cityController,
@@ -163,13 +166,14 @@ class AddAddressView extends GetView<CartController> {
                 ButtonsWidget(
                     name: "Save Address",
                     onPressed: () {
-                      print("done");
+                      print(cityId);
+                      print(cityName);
 
                       controller.requestToUpdateAddress(
-                          controller.cityId.toString(),
+                          cityId.toString(),
                           controller.landMarkController.text.trim(),
                           controller.status.value ? "PRIMARY" : "SECONDARY");
-                      Get.toNamed(Routes.PERSONAL_INFORMATION, arguments: controller.addressNameController.text.trim());
+                      Get.offNamed(Routes.PERSONAL_INFORMATION, arguments: controller.addressNameController.text.trim());
 
                     })
               ],
