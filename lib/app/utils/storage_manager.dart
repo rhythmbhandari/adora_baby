@@ -56,16 +56,37 @@ class StorageManager {
       key: Constants.CART_ID,
     );
   }
-  void saveCityId(cityId) {
-    flutterSecureStorage.write(
-      key: Constants.CITY_ID,
-      value: cityId,
-    );
-  }
 
   Future<String?> readCityId() async {
     return await flutterSecureStorage.read(
       key: Constants.CITY_ID,
+    );
+  }
+  Future<bool> saveCityId(String cityId) async {
+    try {
+      flutterSecureStorage.write(
+          key: Constants.CITY_ID,
+          value: cityId
+      );
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> saveCityName(String cityName) async {
+    try {
+      flutterSecureStorage.write(
+          key: Constants.CITY_NAME,
+          value: cityName);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  Future<String?> readCityName() async {
+    return await flutterSecureStorage.read(
+      key: Constants.CITY_NAME,
     );
   }
 

@@ -73,6 +73,7 @@ class ShopRepository {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       log('Reached here $hotSales');
+      print(await SecureStorage.returnHeader());
       return hotSales;
     }
 

@@ -27,6 +27,7 @@ class CartRepository {
 
       if (response.statusCode == 200) {
         print('Response is $response');
+
         return true;
       } else {
         print(response.statusCode);
@@ -63,10 +64,10 @@ class CartRepository {
     }
   }
 
-  static Future<bool> deleteCart(String id) async {
+  static Future<bool> deleteCart(String ids) async {
     const url = '$BASE_URL/cart/delete/';
     final body = jsonEncode({
-      "cart_id": id,
+      "cart_id": [ids],
     });
     try {
       final response = await http.post(Uri.parse(url),
@@ -75,7 +76,7 @@ class CartRepository {
 
       if (response.statusCode == 200) {
         print('Response is ${response.statusCode}');
-
+          getCart();
         return true;
       } else {
         return Future.error('${decodedResponse["error"]}');

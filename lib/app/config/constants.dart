@@ -12,4 +12,5 @@ class Constants {
   static const OTP_STATUS = "otp_status";
   static const CART_ID = "cart_id";
   static const CITY_ID = "city_id";
+  static const CITY_NAME ="city_name";
 }

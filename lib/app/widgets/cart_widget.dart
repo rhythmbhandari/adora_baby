@@ -60,8 +60,8 @@ class Carts extends StatelessWidget {
                          ),
                          GestureDetector(
                              onTap: () {
-                               controller.requestToDeleteCart(
-                                   snapshot.data![0].id!);
+                               // controller.requestToDeleteCart(
+                               //     snapshot.data![0].id!);
                              },
                              child: const Text(
                                "Remove Selected",

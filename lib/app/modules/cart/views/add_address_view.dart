@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
@@ -8,13 +9,17 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
+import '../../../routes/app_pages.dart';
 
 class AddAddressView extends GetView<CartController> {
-  const AddAddressView({Key? key}) : super(key: key);
 
+  String cityId = Get.find<CartController>().cityId.value;
+  String cityName = Get.find<CartController>().cityName.value;
   @override
   Widget build(BuildContext context) {
-    TextEditingController cityController = TextEditingController(text: controller.cityName);
+    TextEditingController cityController = TextEditingController(text: cityId.toString());
+
+
 
     return Scaffold(
       body: SafeArea(
@@ -34,10 +39,13 @@ class AddAddressView extends GetView<CartController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: (){
-                            Get.back();
-          },
-                            child: const Icon(Icons.arrow_back_ios,color: Colors.black,)),
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                            )),
                         Text(
                           "Address",
                           style: kThemeData.textTheme.displaySmall,
@@ -50,6 +58,32 @@ class AddAddressView extends GetView<CartController> {
                   height: 20,
                 ),
                 TextField(
+                    controller: controller.addressNameController,
+                    cursorColor: AppColors.mainColor,
+                    style: kThemeData.textTheme.bodyLarge,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(33),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: DarkTheme.normal.withOpacity(0.7),
+                            ),
+                            borderRadius: BorderRadius.circular(33)),
+                        hintText: 'Address Name',
+                        hintStyle: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            color: Color.fromRGBO(178, 187, 198, 1),
+                            letterSpacing: 0.04))),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                TextField(
+                  readOnly: true,
                     controller: cityController,
                     cursorColor: AppColors.mainColor,
                     style: kThemeData.textTheme.bodyLarge,
@@ -110,8 +144,7 @@ class AddAddressView extends GetView<CartController> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Obx(() =>
-                        FlutterSwitch(
+                    Obx(() => FlutterSwitch(
                           activeColor: Colors.deepOrangeAccent,
                           width: 125.0,
                           height: 55.0,
@@ -125,33 +158,24 @@ class AddAddressView extends GetView<CartController> {
                             controller.status.value = val;
                           },
                         )),
-
                   ],
                 ),
-                const SizedBox(height: 20,),
-                FutureBuilder<List<Datum>>(
-                    future: CheckOutRepository.getAddress(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data != null &&
-                            snapshot.data!.isNotEmpty) {
-                          return ButtonsWidget(name: "Save Address", onPressed: () {
-                            print("done");
-                            controller.requestToUpdateAddress(snapshot.data![0].city.id,
-                                controller.landMarkController.text.trim(),
-                                controller.status.value ? "PRIMARY" : "SECONDARY");
-                          });
-                        }
-                      } else if (snapshot.hasError) {
-                        print(snapshot.error);
-                        return const Center(
-                          child: Text("Sorry,not found!"),
-                        );
-                      }
+                const SizedBox(
+                  height: 20,
+                ),
+                ButtonsWidget(
+                    name: "Save Address",
+                    onPressed: () {
+                      print(cityId);
+                      print(cityName);
 
-                      return CircularProgressIndicator();
-                    }),
+                      controller.requestToUpdateAddress(
+                          cityId.toString(),
+                          controller.landMarkController.text.trim(),
+                          controller.status.value ? "PRIMARY" : "SECONDARY");
+                      Get.offNamed(Routes.PERSONAL_INFORMATION, arguments: controller.addressNameController.text.trim());
 
+                    })
               ],
             ),
           ),
