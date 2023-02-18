@@ -16,7 +16,7 @@ class ButtonsWidget extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding:
-            const EdgeInsets.only(top: 20, bottom: 20, left: 90, right: 90),
+            const EdgeInsets.only(top: 15, bottom: 15, left: 90, right: 90),
         decoration: BoxDecoration(
           color: AppColors.primary500,
           borderRadius: BorderRadius.circular(30),

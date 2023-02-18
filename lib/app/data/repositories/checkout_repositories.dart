@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
+import 'package:adora_baby/app/data/models/checkout_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ import '../models/get_orders_model.dart' as o;
 
 class CheckOutRepository {
   //personal info
-  static Future<bool> checkout(String fullName, String phoneNumber,
+  static Future<CheckoutModel> checkout(String fullName, String phoneNumber,
       String altPhone, String address, String notes, List cartList) async {
     const url = '$BASE_URL/checkout/';
 
@@ -31,22 +32,22 @@ class CheckOutRepository {
     });
 
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 201) {
-        print('Response is ${response.statusCode}.');
-        return true;
-      } else {
-        print('Response is ${response.statusCode}.');
+      final response = await DioHelper.postRequest(
+          url, body, true, await SecureStorage.returnHeaderWithToken());
+      if (response is Map<String, dynamic>) {
+        CheckoutModel checkoutModel = CheckoutModel.fromJson(
+          response,
+        );
 
-        return Future.error('${decodedResponse["error"]}');
+        return checkoutModel;
+      } else {
+        return Future.error('$response');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(e);
+      return Future.error(e.toString());
     }
   }
 
@@ -192,26 +193,23 @@ class CheckOutRepository {
 
   //checkout
   static Future<bool> placeOrder(String id) async {
-    var url = '$BASE_URL/Order/$id';
+    var url = '$BASE_URL/Order/';
 
     final body = {"check_out": id};
 
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}.');
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error('$response');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return Future.error('$e');
     }
   }
 
@@ -252,28 +250,31 @@ class CheckOutRepository {
     return Future.error('Error $status');
   }
 
-  static Future<bool> updateCheckOut(bool a) async {
-    String? id;
-    var url = '$BASE_URL/checkout/${id!}';
+  static Future<CheckoutModel> updateCheckOut(
+      String id, bool isDiamondUsed, String couponApplied) async {
+    var url = '$BASE_URL/checkout/$id/';
 
-    final body = {"is_diamond_use": a};
+    final body = {
+      "is_diamond_use": isDiamondUsed,
+      "coupon_code": couponApplied
+    };
 
     try {
-      final response = await http.put(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}.');
-        return true;
+      final response = await DioHelper.putRequest(
+          url, body, true, await SecureStorage.returnHeaderWithToken());
+      if (response is Map<String, dynamic>) {
+        CheckoutModel checkoutModel = CheckoutModel.fromJson(
+          response,
+        );
+        return checkoutModel;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error('$response');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return Future.error('$e');
     }
   }
 }

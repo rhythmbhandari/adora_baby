@@ -1,79 +1,514 @@
-import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
+import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
-import 'package:adora_baby/app/widgets/buttons.dart';
+import 'package:adora_baby/app/modules/cart/views/order_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../data/models/get_address_model.dart';
+import '../../../routes/app_pages.dart';
+import '../../../widgets/buttons.dart';
+import '../../shop/widgets/auth_progress_indicator.dart';
 
 class CheckOutView extends GetView<CartController> {
   const CheckOutView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: LightTheme.whiteActive,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 40.0, right: 40, top: 140),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 60, bottom: 40,right: 30,left: 30),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.withOpacity(0.5))),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset("assets/images/amico.svg"),
-                      Text(
-                        "WE ARE ON OUR WAY",
-                        style: kThemeData.textTheme.displaySmall,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Hang Back and Relax!",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                       Padding(
-                         padding: const EdgeInsets.only(left: 35.0),
-                         child: Text(
-                          "Your order will be delivered in 2-5 business days.",
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.black.withOpacity(0.5),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                      ),
-                       ),
-                      const SizedBox(height: 60,),
-                      ButtonsWidget(name: "Track My Order", onPressed: () {})
-                    ],
+    return progressWrap(
+        Scaffold(
+            backgroundColor: LightTheme.white,
+            body: SingleChildScrollView(
+                child: SafeArea(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                  Container(
+                    color: LightTheme.white,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 32,
+                    ),
+                    padding: EdgeInsets.only(
+                      bottom: Get.height * 0.02,
+                      top: Get.height * 0.02,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: const Icon(Icons.arrow_back_ios_new)),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Text(
+                          'Checkout',
+                          style: kThemeData.textTheme.displaySmall
+                              ?.copyWith(color: DarkTheme.normal),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  Container(
+                    height: Get.height * 0.04,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Text(
+                      'Payment Method',
+                      maxLines: 1,
+                      style: kThemeData.textTheme.titleMedium?.copyWith(
+                        color: DarkTheme.darkNormal,
+                      ),
+                    ),
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 23,
+                        vertical: 24,
+                      ),
+                      margin: EdgeInsets.only(
+                          left: 32, right: 32, top: 16, bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border:
+                            Border.all(color: Colors.black.withOpacity(0.05)),
+                        color: Colors.white,
+                        boxShadow: [
+                          const BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.1),
+                            blurRadius: 0.2,
+                            spreadRadius: 1,
+                            offset: Offset(0, 2), // Shadow position
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 25,
+                            width: 25,
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: DarkTheme.darkNormal, width: 1),
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Transform.scale(
+                              scale: 0.7,
+                              child: Checkbox(
+                                autofocus: true,
+                                checkColor: DarkTheme.darkNormal,
+                                activeColor: Colors.white,
+                                value: controller.cashOnDeliveryCheckBox.value,
+                                onChanged: (bool? val) {},
+                                // onChanged: (value) => onChanged,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 33,
+                          ),
+                          SvgPicture.asset(
+                            "assets/images/wallet-money.svg",
+                            // height: 22,
+                            // color: Color(0xff667080)
+                          ),
+                          SizedBox(
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Cash on Delivery',
+                                  style: kThemeData.textTheme.titleMedium
+                                      ?.copyWith(color: DarkTheme.darkNormal),
+                                ),
+                                Text(
+                                  'Pay Cash upon delivery',
+                                  style: kThemeData.textTheme.bodyMedium
+                                      ?.copyWith(color: DarkTheme.darkNormal),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 23,
+                        vertical: 24,
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border:
+                            Border.all(color: Colors.black.withOpacity(0.05)),
+                        color: Colors.white,
+                        boxShadow: [
+                          const BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.06),
+                            blurRadius: 0.2,
+                            spreadRadius: 0.5,
+                            offset: Offset(0, 2), // Shadow position
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          GetBuilder<CartController>(
+                            id: 'useDiamond',
+                            builder: (myController) => Container(
+                              height: 25,
+                              width: 25,
+                              padding: EdgeInsets.zero,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: DarkTheme.darkNormal, width: 1),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Transform.scale(
+                                scale: 0.7,
+                                child: Checkbox(
+                                  autofocus: false,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    side: const BorderSide(
+                                        width: 0, color: Colors.white),
+                                  ),
+                                  fillColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  focusColor: Colors.white,
+                                  side: const BorderSide(
+                                      width: 0, color: Colors.white),
+                                  checkColor: DarkTheme.darkNormal,
+                                  activeColor: Colors.white,
+                                  value: myController.useDiamondCheckBox.value,
+                                  onChanged: (bool? val) async {
+                                    myController.useDiamondCheckBox.value =
+                                        val ?? false;
+                                    // if (myController.useDiamondCheckBox.value) {
+                                    myController.showLoading(
+                                        myController.progressBarStatusCheckout);
+                                    final status = await myController
+                                        .requestToUpdateCheckOut(
+                                            myController.checkoutModel.value.id,
+                                            myController
+                                                .useDiamondCheckBox.value,
+                                            '');
+                                    myController.completeLoading(
+                                        myController.progressBarStatusCheckout,
+                                        status);
+                                    // }
+                                    myController.update(['useDiamond']);
+                                  },
+                                  // onChanged: (value) => onChanged,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 33,
+                          ),
+                          SvgPicture.asset("assets/images/profile_diamonds.svg",
+                              height: 35, color: DarkTheme.darkNormal),
+                          SizedBox(
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${SessionManager.instance.user?.diamond ?? 0} Diamonds used',
+                                  style: kThemeData.textTheme.titleMedium
+                                      ?.copyWith(color: DarkTheme.darkNormal),
+                                ),
+                                Text(
+                                  'Rs. ${controller.checkoutModel.value.dimondOff ?? 0} off',
+                                  style: kThemeData.textTheme.bodyMedium
+                                      ?.copyWith(color: DarkTheme.darkNormal),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                  Container(
+                    height: Get.height * 0.02,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Text(
+                      'Applied Coupon',
+                      maxLines: 1,
+                      style: kThemeData.textTheme.titleMedium?.copyWith(
+                        color: DarkTheme.darkNormal,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(
+                        top: 20.0, left: 32, right: 32, bottom: 10),
+                    color: Colors.white,
+                    child: TextField(
+                      readOnly: false,
+                      enabled: true,
+                      cursorColor: AppColors.primary300,
+                      controller: controller.couponController,
+                      style: kThemeData.textTheme.bodyLarge?.copyWith(
+                          color: DarkTheme.darkNormal
+                      ),
+                      decoration: InputDecoration(
+                        label: Text(
+                          '',
+                          style: kThemeData.textTheme.bodyLarge?.copyWith(
+                              color: DarkTheme.darkNormal
+                          ),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        hintText: 'Coupon Code',
+                        hintStyle: kThemeData.textTheme.bodyLarge?.copyWith(
+                          color: DarkTheme.darkLightActive
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 8),
+                        suffixIcon: GestureDetector(
+                          onTap: () async {
+                            if (controller.couponController.text
+                                .trim()
+                                .isNotEmpty) {
+                              controller.showLoading(
+                                  controller.progressBarStatusCheckout);
+                              final status =
+                                  await controller.requestToUpdateCheckOut(
+                                      controller.checkoutModel.value.id,
+                                      controller.useDiamondCheckBox.value,
+                                      controller.couponController.text.trim());
+                              if (status) {
+                                var snackBar = SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: AppColors.success500,
+                                  duration: Duration(milliseconds: 2000),
+                                  content:
+                                      Text("Coupon code applied succesfully."),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                var snackBar = SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.red,
+                                  duration: Duration(milliseconds: 2000),
+                                  content: Text("${controller.authError}"),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                              controller.completeLoading(
+                                  controller.progressBarStatusCheckout, status);
+                            }
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: DarkTheme.darkNormal,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1, color: AppColors.secondary500),
+                            borderRadius: BorderRadius.circular(
+                              33,
+                            )),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(33),
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromRGBO(175, 152, 168, 1))),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(33),
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromRGBO(175, 152, 168, 1))),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: Get.height * 0.02,
+                  ),
+                  Container(
+                    height: Get.height * 0.02,
+                    color: Color.fromRGBO(
+                      250,
+                      245,
+                      252,
+                      1,
+                    ),
+                  ),
+                  Container(
+                    height: Get.height * 0.04,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 56,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Sub Total',
+                          style: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: DarkTheme.darkNormal),
+                        ),
+                        Text(
+                          'Rs. ${controller.checkoutModel.value.subTotal}',
+                          style: kThemeData.textTheme.titleMedium
+                              ?.copyWith(color: DarkTheme.darkNormal),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 56, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Diamond Off',
+                          style: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: DarkTheme.darkNormal),
+                        ),
+                        Text(
+                          'Rs. ${controller.checkoutModel.value.dimondOff}',
+                          style: kThemeData.textTheme.titleMedium
+                              ?.copyWith(color: DarkTheme.dark),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Discount',
+                          style: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: DarkTheme.darkNormal),
+                        ),
+                        Text(
+                          'Rs. ${controller.checkoutModel.value.discount}',
+                          style: kThemeData.textTheme.titleMedium
+                              ?.copyWith(color: DarkTheme.dark),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Delivery Charge',
+                          style: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: DarkTheme.dark),
+                        ),
+                        Text(
+                          'Rs. ${controller.checkoutModel.value.deliveryCharge}',
+                          style: kThemeData.textTheme.titleMedium
+                              ?.copyWith(color: DarkTheme.dark),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        left: 56, right: 56, bottom: 5, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Grand Total',
+                          style: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: DarkTheme.dark),
+                        ),
+                        Text(
+                          'Rs. ${controller.checkoutModel.value.grandTotal}',
+                          style: kThemeData.textTheme.titleMedium
+                              ?.copyWith(color: DarkTheme.dark),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: Get.height * 0.02,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: ButtonsWidget(
+                        name: "Confirm",
+                        onPressed: () async {
+                          try {
+                            controller.showLoading(
+                                controller.progressBarStatusCheckout);
+                            final status =
+                                await controller.requestToPlaceOrder();
+                            if (!status) {
+                              controller.completeLoading(
+                                  controller.progressBarStatusCheckout, false);
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.red,
+                                duration: const Duration(milliseconds: 2000),
+                                content:
+                                    Text(controller.authError.toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              controller.completeLoading(
+                                  controller.progressBarStatusCheckout, false);
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.green,
+                                duration: const Duration(milliseconds: 2000),
+                                content: Text(
+                                    "Successfully placed order!".toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              controller.cart();
+                              Get.to(() => const OrderConfirmation());
+                            }
+                          } catch (e) {
+                            controller.completeLoading(
+                                controller.progressBarStatusCheckout, false);
+                          }
+                        }),
+                  )
+                ])))),
+        controller.progressBarStatusCheckout);
   }
 }

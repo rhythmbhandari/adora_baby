@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
+import '../../../routes/app_pages.dart';
 
 class OrderConfirmation extends GetView<CartController> {
   const OrderConfirmation({Key? key}) : super(key: key);
@@ -16,64 +17,85 @@ class OrderConfirmation extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         return false;
       },
       child: Scaffold(
         backgroundColor: LightTheme.whiteActive,
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 40.0, right: 40, top: 140),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 60, bottom: 40,right: 30,left: 30),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.withOpacity(0.5))),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset("assets/images/amico.svg"),
-                        Text(
-                          "WE ARE ON OUR WAY",
-                          style: kThemeData.textTheme.displaySmall,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Hang Back and Relax!",
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.black.withOpacity(0.5),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 35.0),
-                          child: Text(
-                            "Your order will be delivered in 2-5 business days.",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.black.withOpacity(0.5),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        const SizedBox(height: 60,),
-                        ButtonsWidget(name: "Track My Order", onPressed: () {})
-                      ],
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: 32, vertical: Get.height * 0.1),
+                padding: const EdgeInsets.only(
+                    top: 60, bottom: 40, right: 30, left: 30),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      30,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+                    boxShadow: [
+                      const BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        blurRadius: 0.2,
+                        spreadRadius: 1,
+                        offset: Offset(0, 2), // Shadow position
+                      ),
+                    ],
+                    border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/amico.svg",
+                      width: Get.width * 0.9,
+                      height: Get.height * 0.33,
+                    ),
+                    SizedBox(
+                      height: 28,
+                    ),
+                    Text(
+                      "WE ARE ON OUR WAY",
+                      style: kThemeData.textTheme.displaySmall?.copyWith(
+                        color: Color.fromRGBO(84, 104, 129, 1),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Hang Back and Relax!",
+                      style: kThemeData.textTheme.bodyLarge?.copyWith(
+                        color: Color.fromRGBO(84, 104, 129, 1),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Your order will be delivered within 2 business days.",
+                      textAlign: TextAlign.center,
+                      style: kThemeData.textTheme.bodyLarge?.copyWith(
+                        color: Color.fromRGBO(84, 104, 129, 1),
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.05,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: ButtonsWidget(
+                          name: "Track My Order",
+                          onPressed: () {
+                            Get.until(
+                                (route) => route.settings.name == Routes.HOME);
+                          }),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.05,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

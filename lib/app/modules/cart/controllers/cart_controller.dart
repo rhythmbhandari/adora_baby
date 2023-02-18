@@ -11,6 +11,7 @@ import 'package:adora_baby/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/checkout_model.dart';
 import '../../../data/models/get_carts_model.dart' as g;
 import '../../../data/models/get_city_model.dart' as c;
 import '../../../data/models/get_orders_model.dart' as o;
@@ -30,6 +31,8 @@ class CartController extends GetxController {
   TextEditingController cityController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
 
+  TextEditingController couponController = TextEditingController();
+
   final progressBarStatusOtp = false.obs;
 
   String? cityName;
@@ -44,6 +47,23 @@ class CartController extends GetxController {
   final mainCheckbox = false.obs;
 
   final RxList cartList = [].obs;
+
+  Rx<CheckoutModel> checkoutModel = CheckoutModel(
+          id: '',
+          cart: [''],
+          fullName: '',
+          phoneNumber: '',
+          altPhoneNumber: '',
+          address: '',
+          specialNotes: '',
+          isDimondUse: false,
+          subTotal: 0,
+          dimondOff: 0,
+          discount: 0,
+          deliveryCharge: 0,
+          grandTotal: 0,
+          isCouponUse: false)
+      .obs;
 
   final RxList addressList = [].obs;
 
@@ -95,6 +115,12 @@ class CartController extends GetxController {
   final progressBarStatusInformation = ProgressStatus.idle.obs;
 
   final progressBarStatusAddAddress = ProgressStatus.idle.obs;
+
+  final progressBarStatusCheckout = ProgressStatus.idle.obs;
+
+  final cashOnDeliveryCheckBox = true.obs;
+
+  final useDiamondCheckBox = false.obs;
 
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
@@ -503,23 +529,17 @@ class CartController extends GetxController {
       String altPhone, String address, String notes, List cartList) async {
     try {
       final status = await CheckOutRepository.checkout(
-              fullName.trim(),
-              phoneNumber.trim(),
-              altPhone.trim(),
-              address.trim(),
-              notes.trim(),
-              cartList)
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          fullName.trim(),
+          phoneNumber.trim(),
+          altPhone.trim(),
+          address.trim(),
+          notes.trim(),
+          cartList);
 
-      if (status) {
-        return true;
-      } else {
-        return false;
-      }
+      checkoutModel.value = status;
+      return true;
     } catch (e) {
+      authError.value = e.toString();
       return false;
     }
   }
@@ -642,6 +662,22 @@ class CartController extends GetxController {
     }
   }
 
+  Future<bool> requestToUpdateCheckOut(
+      String id, bool isDiamond, String couponCode) async {
+    try {
+      final status = await CheckOutRepository.updateCheckOut(
+        id,
+        isDiamond,
+        couponCode,
+      );
+      checkoutModel.value = status;
+      return true;
+    } catch (e) {
+      authError.value = e.toString();
+      return false;
+    }
+  }
+
   Future<bool> requestToRemoveCheckOut(String id) async {
     try {
       final status = await CheckOutRepository.removeCheckout(id.trim())
@@ -660,13 +696,10 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToPlaceOrder(String id) async {
+  Future<bool> requestToPlaceOrder() async {
     try {
       final status =
-          await CheckOutRepository.placeOrder(id.trim()).catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          await CheckOutRepository.placeOrder(checkoutModel.value.id);
 
       if (status) {
         return true;
@@ -674,6 +707,7 @@ class CartController extends GetxController {
         return false;
       }
     } catch (e) {
+      authError.value = e.toString();
       return false;
     }
   }
@@ -713,20 +747,15 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestUpdateCheckOut(bool a) async {
+  Future<bool> requestUpdateCheckOut(
+      String id, bool isDiamondUsed, String couponCode) async {
     try {
-      final response =
-          await CheckOutRepository.updateCheckOut(a).catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
-      if (response) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
+      final response = await CheckOutRepository.updateCheckOut(
+          id, isDiamondUsed, couponCode);
+      checkoutModel.value = response;
+      return true;
+    } catch (error) {
+      authError.value = error.toString();
       return false;
     }
   }

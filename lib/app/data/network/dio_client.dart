@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -377,7 +378,11 @@ class DioHelper {
       return Future.error('Connection timed');
     } on DioError catch (e) {
       if (e.response?.data != null) {
-        if (e.response!.data.entries.toString().contains('{')) {
+        log('Error is ${e.response?.data}');
+        if (e.response!.data[0] is String) {
+          return Future.error(
+              '${e.response!.data[0]}');
+        } else if (e.response!.data.entries.toString().contains('{')) {
           return Future.error(
               '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
         } else {
