@@ -25,7 +25,6 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
     RefreshController(),
   ];
 
-
   late TabController tabController;
 
   @override
@@ -45,6 +44,12 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
         // controller.selectedFilter.value = 0;
         // controller.searchController.text = "";
         // return true;
+        controller.updateSelectedBookingPage(
+          DateType.WEEK,
+          controller.pageController,
+          controller.dateTypeOrder,
+          controller.currentPageOrder,
+        );
         return true;
       },
       child: Scaffold(
@@ -68,6 +73,12 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                             // controller.selectedStages.value = 10;
                             // controller.selectedFilter.value = 0;
                             // controller.searchController.text = "";
+                            controller.updateSelectedBookingPage(
+                              DateType.WEEK,
+                              controller.pageController,
+                              controller.dateTypeOrder,
+                              controller.currentPageOrder,
+                            );
                             Get.back();
                           },
                           child: const Icon(
@@ -133,8 +144,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                     ? DarkTheme.lightActive
                                     : Colors.white,
                                 border: Border.all(
-                                    color: DarkTheme.lightActive,
-                                    width: 1),
+                                    color: DarkTheme.lightActive, width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 7 Days',
@@ -175,8 +185,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                     ? DarkTheme.lightActive
                                     : Colors.white,
                                 border: Border.all(
-                                    color: DarkTheme.lightActive,
-                                    width: 1),
+                                    color: DarkTheme.lightActive, width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 14 Days',
@@ -217,8 +226,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                     ? DarkTheme.lightActive
                                     : Colors.white,
                                 border: Border.all(
-                                    color: DarkTheme.lightActive,
-                                    width: 1),
+                                    color: DarkTheme.lightActive, width: 1),
                               ),
                               child: Center(
                                 child: Text('Last 30 Days',
@@ -260,8 +268,8 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                         pageIndex: pageViewIndex == 0
                             ? controller.orderHistoryIndexWeek
                             : pageViewIndex == 1
-                            ? controller.orderHistoryIndexDays
-                            : controller.orderHistoryIndexMonth,
+                                ? controller.orderHistoryIndexDays
+                                : controller.orderHistoryIndexMonth,
                         indexAPI: pageViewIndex,
                       );
                     },
