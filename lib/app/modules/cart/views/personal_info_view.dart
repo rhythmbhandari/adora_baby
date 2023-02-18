@@ -21,9 +21,9 @@ class PersonalInfoView extends GetView<CartController> {
     return progressWrap(
         Scaffold(
             backgroundColor: LightTheme.white,
-            body: SafeArea(
-                child: SingleChildScrollView(
-                    child: Column(children: [
+            body: SingleChildScrollView(
+              child: SafeArea(
+                child: Column(children: [
               Container(
                 color: LightTheme.white,
                 margin: EdgeInsets.symmetric(
@@ -186,63 +186,80 @@ class PersonalInfoView extends GetView<CartController> {
                       height: 5,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      // mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                Obx(() => controller.addressList.isNotEmpty
-                                    ? buildAddressWidget(controller)
-                                    : Container()),
-                              ],
-                            ),
-                          ),
+                        Obx(
+                          () => controller.addressList.isNotEmpty
+                              ? Expanded(
+                                  flex: 8,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        buildAddressWidget(controller)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.ADD_ADDRESS);
-                          },
-                          child: Container(
-                            width: Get.width * 0.25,
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 25, bottom: 25),
-                            margin: EdgeInsets.only(
-                              left: 25,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: const Color.fromRGBO(
-                                      192, 144, 254, 0.25)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 1,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
+                        Expanded(
+                          flex: 3,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.ADD_ADDRESS);
+                            },
+                            child: Obx(
+                              () => Container(
+                                width: Get.width * 0.25,
+                                padding: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  top: 25,
+                                  bottom: controller.addressList.isNotEmpty
+                                      ? 25
+                                      : 0,
                                 ),
-                              ],
-                              borderRadius: BorderRadius.circular(
-                                20,
+                                margin: EdgeInsets.only(
+                                  top: controller.addressList.isNotEmpty
+                                      ? 0
+                                      : 15,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: const Color.fromRGBO(
+                                          192, 144, 254, 0.25)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: Offset(
+                                          0, 2), // changes position of shadow
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(
+                                    20,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                        "assets/images/location-add.png"),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Add New Address" + '\n',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        style: kThemeData.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                color:
+                                                    DarkTheme.darkLightActive)),
+                                  ],
+                                ),
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                Image.asset("assets/images/location-add.png"),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text("Add New Address" + '\n',
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: kThemeData.textTheme.bodyMedium
-                                        ?.copyWith(
-                                            color: DarkTheme.darkLightActive)),
-                              ],
                             ),
                           ),
                         )
@@ -250,8 +267,102 @@ class PersonalInfoView extends GetView<CartController> {
                     ),
                   ],
                 ),
-              )
-            ])))),
+              ),
+              Container(
+                color: LightTheme.whiteActive,
+                height: 16,
+              ),
+              Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 22,
+                  ),
+                  padding: const EdgeInsets.only(top: 0, bottom: 40),
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Special Notes",
+                        style: kThemeData.textTheme.titleMedium?.copyWith(
+                          color: DarkTheme.darkNormal,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        controller: controller.notesController,
+                        cursorColor: AppColors.mainColor,
+                        style: kThemeData.textTheme.bodyLarge,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 24, horizontal: 24),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(33),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: DarkTheme.normal.withOpacity(0.7),
+                              ),
+                              borderRadius: BorderRadius.circular(33)),
+                          hintText: 'Type anything specific to your child',
+                          hintStyle: kThemeData.textTheme.bodyLarge?.copyWith(
+                              color: Color.fromRGBO(178, 187, 198, 1)),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ButtonsWidget(
+                          name: "Next",
+                          onPressed: () async {
+                            final status = false;
+                            // await controller.requestToCheckOut(
+                            //     controller.fNameController.text
+                            //         .trim(),
+                            //     controller.phoneController.text
+                            //         .trim(),
+                            //     controller
+                            //         .altPhoneController.text
+                            //         .trim(),
+                            //     snapshot.data![0].city.id,
+                            //     controller.notesController.text
+                            //         .trim());
+                            if (!status) {
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.red,
+                                duration: const Duration(milliseconds: 2000),
+                                content:
+                                    Text(controller.authError.toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              controller.progressBarStatusOtp.value = false;
+                            } else {
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.green,
+                                duration: const Duration(milliseconds: 2000),
+                                content: Text("Success!".toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Get.offNamed(Routes.CHECKOUT);
+                              controller.progressBarStatusOtp.value = false;
+                            }
+                          })
+                    ],
+                  ))
+            ]),
+              ),
+            )),
         controller.progressBarStatusInformation);
   }
 }

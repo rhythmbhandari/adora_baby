@@ -25,8 +25,11 @@ class CartController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController altPhoneController = TextEditingController();
   TextEditingController notesController = TextEditingController();
+
   TextEditingController addNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
+
   final progressBarStatusOtp = false.obs;
 
   String? cityName;
@@ -36,7 +39,7 @@ class CartController extends GetxController {
   }
 
   final authError = ''.obs;
-  final status = false.obs;
+  final isPrimaryAddAddress = false.obs;
 
   final mainCheckbox = false.obs;
 
@@ -44,7 +47,12 @@ class CartController extends GetxController {
 
   final RxList addressList = [].obs;
 
+  final RxList citiesList = [].obs;
+  final RxList citiesId = [].obs;
+
   final priceCart = 0.0.obs;
+
+  final selectedCity = '0'.obs;
 
   final tempSelectedCart = [].obs;
 
@@ -86,6 +94,8 @@ class CartController extends GetxController {
 
   final progressBarStatusInformation = ProgressStatus.idle.obs;
 
+  final progressBarStatusAddAddress = ProgressStatus.idle.obs;
+
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
     false,
@@ -120,6 +130,7 @@ class CartController extends GetxController {
       [
         cart(),
         getAddressList(),
+        getCities(),
       ],
     );
   }
@@ -163,6 +174,34 @@ class CartController extends GetxController {
           cart.product.priceItem = cart.quantity *
               (cart.product.salePrice ?? cart.product.regularPrice);
         }
+        completeLoading(progressBarStatusCart, false);
+        return true;
+      } else {
+        completeLoading(
+          progressBarStatusCart,
+          true,
+        );
+        return false;
+      }
+    } catch (e) {
+      showError(
+        progressBarStatusCart,
+      );
+      return false;
+    }
+  }
+
+  Future<bool> getCities() async {
+    try {
+      showSearching(progressBarStatusAddAddress);
+      final response = await CartRepository.getCities();
+      if (response.isNotEmpty) {
+        // for (var listItem in response) {
+        //   citiesList.add(listItem);
+        //   // citiesId.add(listItem.id);
+        // }
+        citiesList.value = response;
+        selectedCity.value = citiesList[0].id;
         completeLoading(progressBarStatusCart, false);
         return true;
       } else {
@@ -414,6 +453,63 @@ class CartController extends GetxController {
       }
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<bool> validateAddress() async {
+    bool isValid = true;
+
+    String addressName = addNameController.text.trim();
+    String cityName = cityController.text.trim();
+    String nearestLandmark = landMarkController.text.trim();
+    if (addressName.isEmpty) {
+      authError.value = 'Please enter address name.';
+      isValid = false;
+      return isValid;
+    } else if (cityName.isEmpty) {
+      authError.value = 'Please enter city name.';
+      isValid = false;
+      return isValid;
+    } else if (nearestLandmark.isEmpty) {
+      authError.value = 'Please enter nearest landmark.';
+      isValid = false;
+      return isValid;
+    }
+    final status = await requestToAddAddress(
+        cityName, nearestLandmark, addressName, isPrimaryAddAddress.value);
+    if (status) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> requestToAddAddress(
+    String city,
+    String landmark,
+    String addressName,
+    bool isPrimary,
+  ) async {
+    try {
+      final status = await CheckOutRepository.addAddress(
+        addressName,
+        city,
+        landmark,
+        isPrimary,
+      ).catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        return true;
+      } else {
+        authError.value = 'Could not add address.';
+        return false;
+      }
+    } catch (e) {
+      authError.value = e.toString();
+      return false;
     }
   }
 

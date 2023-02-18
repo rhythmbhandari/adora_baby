@@ -52,6 +52,8 @@ class LightTheme {
 
   static const Color light = Color.fromRGBO(253, 252, 254, 1);
   static const Color lightHover = Color.fromRGBO(250, 245, 252, 1);
+
+  static const Color lightNormalActive = Color.fromRGBO(243, 234, 249, 1);
   static const Color lightActive = Color.fromRGBO(247, 239, 251, 1);
 
   static const Color normal = Color.fromRGBO(252, 249, 253, 1);

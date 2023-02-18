@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
 import '../models/cart_model.dart';
+import '../models/city_model.dart';
 import '../network/network_helper.dart';
 
 class CartRepository {
@@ -105,6 +106,26 @@ class CartRepository {
           .map((i) => CartModel.fromJson(i))
           .toList();
       return cartList;
+    } else {
+      log(response.statusMessage ?? '');
+      return Future.error(data['message']);
+    }
+  }
+
+  static Future<List<Cities>> getCities() async {
+    const url = '$BASE_URL/city/';
+
+    final response = await NetworkHelper().getRequest(url,
+        contentType: await SecureStorage.returnHeaderWithToken());
+
+    final data = response.data;
+
+    if (response.statusCode == 200) {
+      log("Response : ${response.data}");
+      List<Cities> citiesList = (response.data["data"] as List)
+          .map((i) => Cities.fromJson(i))
+          .toList();
+      return citiesList;
     } else {
       log(response.statusMessage ?? '');
       return Future.error(data['message']);

@@ -59,8 +59,9 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<AddressModel> cities =
-          (status['data'] as List).map((i) => AddressModel.fromJson(i)).toList();
+      List<AddressModel> cities = (status['data'] as List)
+          .map((i) => AddressModel.fromJson(i))
+          .toList();
 
       return cities;
     }
@@ -77,8 +78,9 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<AddressModel> address =
-          (status['data'] as List).map((i) => AddressModel.fromJson(i)).toList();
+      List<AddressModel> address = (status['data'] as List)
+          .map((i) => AddressModel.fromJson(i))
+          .toList();
       storage.saveCityId(address[0].city.id);
 
       return address;
@@ -88,6 +90,31 @@ class CheckOutRepository {
   }
 
   //add address
+
+  static Future<bool> addAddress(
+      String addressName, String city, String landmark, bool isPrimary) async {
+    const url = '$BASE_URL/address/';
+    final body = jsonEncode({
+      "address_type": 'SECONDARY',
+      "city": '',
+      "nearest_landmark": landmark,
+      "primary_address": isPrimary,
+    });
+    try {
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
+        return true;
+      } else {
+        return Future.error('Error $response');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 
   static Future<bool> updateAddress(
     String city,
