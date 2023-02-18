@@ -475,7 +475,8 @@ class CartController extends GetxController {
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = error.toString();
       return false;
     }
   }

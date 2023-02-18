@@ -93,9 +93,68 @@ class CartLoadedWidget extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                            onTap: () {
-                              // controller.requestToDeleteCart(
-                              //     snapshot.data![0].id!);
+                            onTap: () async {
+                              try {
+                                if (controller.priceCart.value != 0.0) {
+                                  controller.showLoading(
+                                      controller.progressBarStatusCart);
+                                  var removalStatus = [];
+                                  for (final cart in controller.cartList) {
+                                    if (cart.checkBox) {
+                                      final status = await controller
+                                          .requestToDeleteCart(cart.id);
+                                      removalStatus.add(status);
+                                    }
+                                  }
+                                  log('Removal status $removalStatus');
+                                  if (removalStatus.contains(false)) {
+                                    var snackBar = SnackBar(
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.red,
+                                      duration:
+                                          const Duration(milliseconds: 2000),
+                                      content: Text(
+                                          'Could not remove all items from cart.'),
+                                    );
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  } else {
+                                    var snackBar = SnackBar(
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: AppColors.success500,
+                                      duration:
+                                          const Duration(milliseconds: 2000),
+                                      content: Text(
+                                          'Successfully removed items from cart.'),
+                                    );
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+
+                                  controller.completeLoading(
+                                      controller.progressBarStatusCart, false);
+                                } else {
+                                  var snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: AppColors.secondary500,
+                                    duration:
+                                        const Duration(milliseconds: 2000),
+                                    content: Text(
+                                        'Please select an item to remove.'),
+                                  );
+
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              } catch (e) {
+                                controller.completeLoading(
+                                    controller.progressBarStatusCart, false);
+                              }
                             },
                             child: const Text(
                               "Remove Selected",
@@ -188,9 +247,12 @@ class CartLoadedWidget extends StatelessWidget {
                                 };
                               }
                             }
-                            if(SessionManager.instance.user != null){
-                              controller.fNameController.text = SessionManager.instance.user?.fullName ?? '';
-                              controller.phoneController.text = SessionManager.instance.user?.phoneNumber ?? '';
+                            if (SessionManager.instance.user != null) {
+                              controller.fNameController.text =
+                                  SessionManager.instance.user?.fullName ?? '';
+                              controller.phoneController.text =
+                                  SessionManager.instance.user?.phoneNumber ??
+                                      '';
                             }
                             log('Cart is ${controller.cartMap}');
                             Get.toNamed(Routes.PERSONAL_INFORMATION);

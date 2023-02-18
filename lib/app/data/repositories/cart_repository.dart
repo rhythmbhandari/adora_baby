@@ -71,16 +71,12 @@ class CartRepository {
       "cart_id": id,
     });
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-
-      if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}');
-
+      final response = await DioHelper.postRequest(url,
+          body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error(response);
       }
     } on SocketException {
       return Future.error(

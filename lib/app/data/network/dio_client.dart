@@ -58,7 +58,7 @@ class DioHelper {
         RetryInterceptor(
           dio: dio,
           logPrint: print,
-          retries: 4,
+          retries: 2,
           retryDelays: const [
             Duration(
               seconds: 1,
@@ -156,7 +156,7 @@ class DioHelper {
         RetryInterceptor(
           dio: dio,
           logPrint: print,
-          retries: 4,
+          retries: 2,
           retryDelays: const [
             Duration(
               seconds: 1,
@@ -246,7 +246,7 @@ class DioHelper {
         RetryInterceptor(
           dio: dio,
           logPrint: print, // specify log function (optional)
-          retries: 4, // retry count (optional)
+          retries: 2, // retry count (optional)
           retryDelays: const [
             // set delays between retries (optional)
             Duration(
@@ -324,7 +324,7 @@ class DioHelper {
         RetryInterceptor(
           dio: dio,
           logPrint: print, // specify log function (optional)
-          retries: 4, // retry count (optional)
+          retries: 2, // retry count (optional)
           retryDelays: const [
             // set delays between retries (optional)
             Duration(
