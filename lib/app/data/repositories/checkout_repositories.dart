@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../main.dart';
 import 'package:http/http.dart' as http;
@@ -95,9 +96,9 @@ class CheckOutRepository {
       String addressName, String city, String landmark, bool isPrimary) async {
     const url = '$BASE_URL/address/';
     final body = jsonEncode({
-      "address_type": 'SECONDARY',
-      "city": '',
-      "nearest_landmark": landmark,
+      "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
+      "city": city,
+      "nearest_landmark": landmark.characters.take(49).toString(),
       "primary_address": isPrimary,
     });
     try {

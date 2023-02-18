@@ -89,34 +89,6 @@ class AddAddressView extends GetView<CartController> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextField(
-                            controller: controller.cityController,
-                            cursorColor: AppColors.mainColor,
-                            style: kThemeData.textTheme.bodyLarge?.copyWith(color: DarkTheme.normal.withOpacity(0.7)),
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(33),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 20,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1,
-                                      color: DarkTheme.normal.withOpacity(0.7),
-                                    ),
-                                    borderRadius: BorderRadius.circular(33)),
-                                hintText: 'City',
-                                hintStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    fontFamily: 'Poppins',
-                                    color: Color.fromRGBO(178, 187, 198, 1),
-                                    letterSpacing: 0.04))),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         Obx(() => AddressDropDown(
                             onChanged: (value) {
                               // pController.updateProvince(value!);
@@ -222,10 +194,15 @@ class AddAddressView extends GetView<CartController> {
                                   backgroundColor: AppColors.success500,
                                   duration: const Duration(milliseconds: 2000),
                                   content:
-                                      Text(controller.authError.toUpperCase()),
+                                      Text('Successfully added your address.'),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
+                                controller.cityController.text = '';
+                                controller.addNameController.text = '';
+                                controller.landMarkController.text = '';
+                                controller.isPrimaryAddAddress.value = false;
+                                Get.back();
                               } else {
                                 controller.completeLoading(
                                     controller.progressBarStatusAddAddress,

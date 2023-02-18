@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ Widget buildAddressWidget(CartController controller) {
                 bottom: 21,
               ),
               margin: EdgeInsets.only(
-                  right: index == myController.addressList.length - 1 ? 2 : 25,
+                  right: index == myController.addressList.length - 1 ? 15 : 25,
                   bottom: 10,
                   left: 3),
               width: Get.width * 0.65,
@@ -109,7 +110,22 @@ Widget buildAddressWidget(CartController controller) {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      controller.cityController.text =
+                          myController.addressList[index].city.city;
+                      controller.selectedCity.value =
+                          myController.addressList[index].city.id;
+                      controller.landMarkController.text =
+                          myController.addressList[index].nearestLandmark;
+                      controller.isPrimaryAddAddress.value = myController
+                              .addressList[index].addressType
+                              .toString()
+                              .toLowerCase()
+                              .contains('primary')
+                          ? true
+                          : false ?? false;
+                      Get.toNamed(Routes.ADD_ADDRESS);
+                    },
                     child: Container(
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: SvgPicture.asset(

@@ -460,14 +460,15 @@ class CartController extends GetxController {
     bool isValid = true;
 
     String addressName = addNameController.text.trim();
-    String cityName = cityController.text.trim();
+    String cityName = selectedCity.value;
     String nearestLandmark = landMarkController.text.trim();
-    if (addressName.isEmpty) {
-      authError.value = 'Please enter address name.';
-      isValid = false;
-      return isValid;
-    } else if (cityName.isEmpty) {
-      authError.value = 'Please enter city name.';
+    // if (addressName.isEmpty) {
+    //   authError.value = 'Please enter address name.';
+    //   isValid = false;
+    //   return isValid;
+    // } else
+      if (cityName.isEmpty || cityName == '0') {
+      authError.value = 'Please select city.';
       isValid = false;
       return isValid;
     } else if (nearestLandmark.isEmpty) {
@@ -502,6 +503,7 @@ class CartController extends GetxController {
       });
 
       if (status) {
+        getAddressList();
         return true;
       } else {
         authError.value = 'Could not add address.';

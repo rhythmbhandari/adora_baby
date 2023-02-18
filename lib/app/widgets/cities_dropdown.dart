@@ -22,8 +22,7 @@ class AddressDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return value == '0'
-        ? Container(
+    return Container(
             // margin: EdgeInsets.symmetric(horizontal: 10),
             padding: EdgeInsets.only(
               left: 0.02 * Get.height,
@@ -41,114 +40,35 @@ class AddressDropDown extends StatelessWidget {
 
             child: DropdownButtonHideUnderline(
               child: DropdownButtonFormField<String>(
-                  dropdownColor: LightTheme.lightActive,
+                  dropdownColor: Colors.white,
                   isExpanded: true,
                   enableFeedback: false,
                   decoration: InputDecoration(
                     filled: false,
                     hintText: 'Select City',
                     // floatingLabelAlignment: FloatingLabelAlignment.start,
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.67),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Graphik'),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    labelStyle: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        color: Color.fromRGBO(178, 187, 198, 1),
+                        letterSpacing: 0.04),
                     border: InputBorder.none,
                     // contentPadding: EdgeInsets.all(8)
                   ),
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(0.67),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Graphik'),
+                  style: kThemeData.textTheme.bodyLarge?.copyWith(
+                      color: DarkTheme.normal.withOpacity(0.7)),
                   value: value,
                   items: addressList
                       .map((item) => DropdownMenuItem<String>(
                             alignment: Alignment.centerLeft,
                             value: item.id,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: LightTheme.lightActive,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  // SizedBox(width: 6),
-                                  Text(
-                                    item.city,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Colors.white.withOpacity(0.67),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        fontFamily: 'Graphik'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  onChanged: onChanged),
-            ),
-          )
-        : Container(
-            padding: EdgeInsets.only(
-              left: 0.02 * Get.height,
-              right: 0.01 * Get.height,
-              // top: 0.005 * Get.height,
-              // bottom: 0.005 * Get.heigh
-            ),
-            width: Get.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(33.0),
-              border: Border.all(
-                  color: DarkTheme.normal.withOpacity(0.5), width: 1),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButtonFormField<String>(
-                  dropdownColor: Colors.white,
-                  isExpanded: true,
-                  enableFeedback: false,
-                  decoration: InputDecoration(
-                    filled: false,
-                    labelText: label,
-                    hintText: '',
-                    // floatingLabelAlignment: FloatingLabelAlignment.start,
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelStyle: kThemeData.textTheme.bodyLarge
-                        ?.copyWith(color: DarkTheme.normal.withOpacity(0.7)),
-                    border: InputBorder.none,
-                    // contentPadding: EdgeInsets.all(8)
-                  ),
-                  style: kThemeData.textTheme.bodyLarge
-                      ?.copyWith(color: DarkTheme.normal.withOpacity(0.7)),
-                  value: value,
-                  items: addressList
-                      .map((item) => DropdownMenuItem<String>(
-                            alignment: Alignment.centerLeft,
-                            value: item.id,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  // SizedBox(width: 6),
-                                  Text(
-                                    item.city,
-                                    textAlign: TextAlign.left,
-                                    style: kThemeData.textTheme.bodyLarge
-                                        ?.copyWith(
-                                            color: DarkTheme.normal
-                                                .withOpacity(0.7)),
-                                  ),
-                                ],
-                              ),
+                            child: Text(
+                              item.city,
+                              textAlign: TextAlign.left,
+                              style: kThemeData.textTheme.bodyLarge?.copyWith(
+                                  color: DarkTheme.normal.withOpacity(0.7)),
                             ),
                           ))
                       .toList(),
