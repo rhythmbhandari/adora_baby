@@ -59,6 +59,12 @@ class _DiamondsViewState extends State<DiamondsView>
         // controller.selectedFilter.value = 0;
         // controller.searchController.text = "";
         // return true;
+        controller.updateSelectedBookingPage(
+          DateType.WEEK,
+          controller.pageControllerOverview,
+          controller.dateTypeOverview,
+          controller.currentPageOverview,
+        );
         return true;
       },
       child: Scaffold(
@@ -82,6 +88,12 @@ class _DiamondsViewState extends State<DiamondsView>
                             // controller.selectedStages.value = 10;
                             // controller.selectedFilter.value = 0;
                             // controller.searchController.text = "";
+                            controller.updateSelectedBookingPage(
+                              DateType.WEEK,
+                              controller.pageControllerOverview,
+                              controller.dateTypeOverview,
+                              controller.currentPageOverview,
+                            );
                             Get.back();
                           },
                           child: const Icon(
