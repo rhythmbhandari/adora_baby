@@ -42,6 +42,8 @@ class CartController extends GetxController {
 
   final RxList cartList = [].obs;
 
+  final RxList addressList = [].obs;
+
   final priceCart = 0.0.obs;
 
   final tempSelectedCart = [].obs;
@@ -82,6 +84,8 @@ class CartController extends GetxController {
 
   final progressBarStatusCart = ProgressStatus.loading.obs;
 
+  final progressBarStatusInformation = ProgressStatus.idle.obs;
+
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
     false,
@@ -102,14 +106,49 @@ class CartController extends GetxController {
   Timer? timer;
   final addressValue = false.obs;
 
+  final selectedAddress = ''.obs;
+
   @override
   void onInit() {
     name();
-    cart();
+    fetchData();
     super.onInit();
   }
 
+  Future<void> fetchData() async {
+    await Future.wait(
+      [
+        cart(),
+        getAddressList(),
+      ],
+    );
+  }
+
   int index = 0;
+
+  Future<bool> getAddressList() async {
+    try {
+      showSearching(progressBarStatusInformation);
+      final response = await CheckOutRepository.getAddress();
+      if (response.isNotEmpty) {
+        addressList.value = response;
+        addressList[0].checked = true;
+        completeLoading(progressBarStatusInformation, false);
+        return true;
+      } else {
+        completeLoading(
+          progressBarStatusInformation,
+          true,
+        );
+        return false;
+      }
+    } catch (e) {
+      showError(
+        progressBarStatusInformation,
+      );
+      return false;
+    }
+  }
 
   Future<bool> cart() async {
     try {
@@ -360,7 +399,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<Datum>> requestGetAddress() async {
+  Future<List<AddressModel>> requestGetAddress() async {
     try {
       final response =
           await CheckOutRepository.getAddress().catchError((error) {

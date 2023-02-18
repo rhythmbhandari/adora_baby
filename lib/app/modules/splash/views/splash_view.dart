@@ -12,7 +12,7 @@ class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get.theme.primaryColor,
+      backgroundColor: LightTheme.light,
       body: controller.obx(
         (_) {
           return Container();

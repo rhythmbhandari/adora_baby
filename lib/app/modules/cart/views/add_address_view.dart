@@ -129,7 +129,7 @@ class AddAddressView extends GetView<CartController> {
                   ],
                 ),
                 const SizedBox(height: 20,),
-                FutureBuilder<List<Datum>>(
+                FutureBuilder<List<AddressModel>>(
                     future: CheckOutRepository.getAddress(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {

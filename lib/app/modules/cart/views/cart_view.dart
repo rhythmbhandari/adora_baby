@@ -23,7 +23,7 @@ class CartView extends GetView<CartController> {
   Widget build(BuildContext context) {
     return progressWrap(
         Scaffold(
-          backgroundColor: LightTheme.whiteActive,
+          backgroundColor: LightTheme.white,
           appBar: AppBar(
             backgroundColor: LightTheme.white,
             elevation: 0,

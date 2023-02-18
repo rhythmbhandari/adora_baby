@@ -169,8 +169,8 @@ class CartLoadedWidget extends StatelessWidget {
                           Get.toNamed(Routes.PERSONAL_INFORMATION);
                         }),
                   ),
-                  const SizedBox(
-                    height: 100,
+                  SizedBox(
+                    height: Get.height * 0.1,
                   ),
                 ],
               )

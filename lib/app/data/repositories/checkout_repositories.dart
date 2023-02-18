@@ -50,7 +50,7 @@ class CheckOutRepository {
     }
   }
 
-  static Future<List<Datum>> getAllCities() async {
+  static Future<List<AddressModel>> getAllCities() async {
     const url = '$BASE_URL/city/';
     final status = await DioHelper.getRequest(
       url,
@@ -59,8 +59,8 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<Datum> cities =
-          (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
+      List<AddressModel> cities =
+          (status['data'] as List).map((i) => AddressModel.fromJson(i)).toList();
 
       return cities;
     }
@@ -68,7 +68,7 @@ class CheckOutRepository {
     return Future.error('Error $status');
   }
 
-  static Future<List<Datum>> getAddress() async {
+  static Future<List<AddressModel>> getAddress() async {
     const url = '$BASE_URL/address/';
     final status = await DioHelper.getRequest(
       url,
@@ -77,8 +77,8 @@ class CheckOutRepository {
     );
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
-      List<Datum> address =
-          (status['data'] as List).map((i) => Datum.fromJson(i)).toList();
+      List<AddressModel> address =
+          (status['data'] as List).map((i) => AddressModel.fromJson(i)).toList();
       storage.saveCityId(address[0].city.id);
 
       return address;
