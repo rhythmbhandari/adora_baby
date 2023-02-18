@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:adora_baby/app/data/models/stages_brands.dart';
 import 'package:adora_baby/app/data/models/get_carts_model.dart' as a;
+import 'package:adora_baby/app/data/network/dio_client.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:adora_baby/app/widgets/shimmer_widget.dart';
 import 'package:adora_baby/main.dart';
@@ -44,18 +45,16 @@ class CartRepository {
     }
   }
 
-  static Future<bool> updateCart(String id, String quantity) async {
+  static Future<bool> updateCart(String id, int quantity) async {
     const url = '$BASE_URL/cart/update_to_cart/';
     final body = jsonEncode({"cart_id": id, "quantity": quantity});
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        print('Response is $response');
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error('Could not update cart.');
       }
     } on SocketException {
       return Future.error(

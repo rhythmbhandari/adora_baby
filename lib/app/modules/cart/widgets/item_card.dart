@@ -114,8 +114,25 @@ class CartCardWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: () =>
-                              getController.removeFromCartPressed(index),
+                          onTap: () async {
+                            final status =
+                            await getController.removeFromCartPressed(index);
+                            if(status){
+
+                            }else{
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.red,
+                                duration:
+                                const Duration(milliseconds: 2000),
+                                content: Text(
+                                    controller.authError.toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
                           child: Container(
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
@@ -150,7 +167,25 @@ class CartCardWidget extends StatelessWidget {
                           width: 14,
                         ),
                         GestureDetector(
-                          onTap: () => getController.addToCartPressed(index),
+                          onTap: () async {
+                            final status =
+                                await getController.addToCartPressed(index);
+                            if(status){
+
+                            }else{
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.red,
+                                duration:
+                                const Duration(milliseconds: 2000),
+                                content: Text(
+                                    controller.authError.toUpperCase()),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
                           child: Container(
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(

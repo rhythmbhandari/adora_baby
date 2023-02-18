@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:adora_baby/app/modules/cart/widgets/item_card.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
@@ -186,6 +187,10 @@ class CartLoadedWidget extends StatelessWidget {
                                   'quantity': cart.quantity
                                 };
                               }
+                            }
+                            if(SessionManager.instance.user != null){
+                              controller.fNameController.text = SessionManager.instance.user?.fullName ?? '';
+                              controller.phoneController.text = SessionManager.instance.user?.phoneNumber ?? '';
                             }
                             log('Cart is ${controller.cartMap}');
                             Get.toNamed(Routes.PERSONAL_INFORMATION);

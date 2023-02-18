@@ -235,15 +235,47 @@ class CartController extends GetxController {
     }
   }
 
-  addToCartPressed(int index) async {
-    if (cartList[index].quantity < cartList[index].product.stockQuantity) {
-      cartList[index].quantity += 1;
-      await calculatePriceItem(index);
-      await calculateGrandTotal(cartList);
-      // await addToCartMap(index);
-      log('Cart Map $cartMap');
-      cartList.refresh();
-      update(['add_remove_cart'], true);
+  Future<bool> addToCartPressed(int index) async {
+    try {
+      showLoading(progressBarStatusCart);
+
+      if (cartList[index].quantity < cartList[index].product.stockQuantity) {
+        cartList[index].quantity += 1;
+        final status = await requestUpdateToCart(
+            cartList[index].id, cartList[index].quantity);
+        if (status) {
+          log('Cart Map $cartMap');
+          cartList.refresh();
+          update(['add_remove_cart'], true);
+          await calculatePriceItem(index);
+          await calculateGrandTotal(cartList);
+          completeLoading(
+            progressBarStatusCart,
+            false,
+          );
+          return true;
+        } else {
+          completeLoading(
+            progressBarStatusCart,
+            false,
+          );
+          authError.value = 'Could not add to cart.';
+          return false;
+        }
+      }
+      completeLoading(
+        progressBarStatusCart,
+        false,
+      );
+      authError.value =
+          'Stock more than ${cartList[index].quantity} is not available.';
+      return false;
+    } catch (e) {
+      completeLoading(
+        progressBarStatusCart,
+        false,
+      );
+      return false;
     }
   }
 
@@ -253,23 +285,48 @@ class CartController extends GetxController {
             cartList[index].product.regularPrice);
   }
 
-  addToCartMap(int index) async {
-    cartMap[cartList[index].id] = {
-      'id': cartList[index].id,
-      'quantity': cartList[index].quantity
-    };
-  }
+  Future<bool> removeFromCartPressed(int index) async {
+    try {
+      showLoading(progressBarStatusCart);
 
-  removeFromCartPressed(int index) async {
-    var quantity = cartList[index].quantity;
-    if (quantity != 1 && quantity >= 0) {
-      cartList[index].quantity -= 1;
-      await calculatePriceItem(index);
-      await calculateGrandTotal(cartList);
-      // await addToCartMap(index);
-      log('Cart Map $cartMap');
-      cartList.refresh();
-      update(['add_remove_cart'], true);
+      var quantity = cartList[index].quantity;
+      if (quantity != 1 && quantity >= 0) {
+        cartList[index].quantity -= 1;
+        final status = await requestUpdateToCart(
+            cartList[index].id, cartList[index].quantity);
+        if (status) {
+          await calculatePriceItem(index);
+          await calculateGrandTotal(cartList);
+          log('Cart Map $cartMap');
+          cartList.refresh();
+          update(['add_remove_cart'], true);
+          completeLoading(
+            progressBarStatusCart,
+            false,
+          );
+          return true;
+        } else {
+          completeLoading(
+            progressBarStatusCart,
+            false,
+          );
+          authError.value = 'Could not remove from cart.';
+          return false;
+        }
+        // await addToCartMap(index);
+      }
+      completeLoading(
+        progressBarStatusCart,
+        false,
+      );
+      authError.value = 'Please use remove selected to delete item from cart';
+      return false;
+    } catch (e) {
+      completeLoading(
+        progressBarStatusCart,
+        false,
+      );
+      return false;
     }
   }
 
@@ -330,42 +387,65 @@ class CartController extends GetxController {
     }
   }
 
-  final fName = ''.obs;
-  final pNum = ''.obs;
-  final aNum = ''.obs;
-  final note = ''.obs;
-
   Future<bool> validatePersonalInfo() async {
-    fName.value = fNameController.text.trim();
-    pNum.value = phoneController.text.trim();
-    aNum.value = altPhoneController.text.trim();
-    note.value = notesController.text.trim();
+    String fName = fNameController.text.trim();
+    String pNum = phoneController.text.trim();
+    String aNum = altPhoneController.text.trim();
+    String note = notesController.text.trim();
+    String selectedAddress = selectedCity.value;
 
     bool isValid = true;
-    if (fName.value.isEmpty) {
+    if (fName.isEmpty) {
       isValid = false;
       authError.value = 'Name cannot be empty.'.tr;
-    } else if (pNum.value.isEmpty) {
+      return isValid;
+    } else if (pNum.isEmpty) {
       isValid = false;
       authError.value = 'Number cannot be empty.'.tr;
-    } else if (aNum.value.isEmpty) {
+      return isValid;
+    } else if (pNum.length != 10) {
       isValid = false;
-      authError.value = 'ALternate Number cannot be empty.'.tr;
-    } else if (note.value.isEmpty) {
+      authError.value = 'Phone numbers are 10 digit.'.tr;
+      return isValid;
+    } else if (aNum.isEmpty) {
       isValid = false;
-      authError.value = 'Notes cannot be empty.'.tr;
+      authError.value = 'Alternate number cannot be empty.'.tr;
+      return isValid;
+    } else if (aNum.length != 10) {
+      isValid = false;
+      authError.value = 'Alternate numbers should be 10 digit.'.tr;
+      return isValid;
+    } else if (selectedCity.isEmpty) {
+      isValid = false;
+      authError.value = 'Please select an address.'.tr;
+      return isValid;
     }
-    return isValid;
+    var cartList = [];
+    for (var e in cartMap.entries) {
+      cartList.add(e.value['id']);
+    }
+    log('Cart List is $cartList');
+    final status = await requestToCheckOut(
+      fName,
+      pNum,
+      aNum,
+      selectedAddress,
+      note,
+      cartList,
+    );
+    if (status) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  Future<bool> requestUpdateToCart() async {
-    TextEditingController quantityController =
-        TextEditingController(text: counter.value.toString());
-
+  Future<bool> requestUpdateToCart(String id, int quantity) async {
     try {
       final status = await CartRepository.updateCart(
-              idController.text.trim(), quantityController.text.trim())
-          .catchError((error) {
+        id,
+        quantity,
+      ).catchError((error) {
         authError.value = error;
         return false;
       });
@@ -419,10 +499,15 @@ class CartController extends GetxController {
   // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
-      String altPhone, String address, String notes) async {
+      String altPhone, String address, String notes, List cartList) async {
     try {
-      final status = await CheckOutRepository.checkout(fullName.trim(),
-              phoneNumber.trim(), altPhone.trim(), address.trim(), notes.trim())
+      final status = await CheckOutRepository.checkout(
+              fullName.trim(),
+              phoneNumber.trim(),
+              altPhone.trim(),
+              address.trim(),
+              notes.trim(),
+              cartList)
           .catchError((error) {
         authError.value = error;
         return false;
@@ -467,7 +552,7 @@ class CartController extends GetxController {
     //   isValid = false;
     //   return isValid;
     // } else
-      if (cityName.isEmpty || cityName == '0') {
+    if (cityName.isEmpty || cityName == '0') {
       authError.value = 'Please select city.';
       isValid = false;
       return isValid;

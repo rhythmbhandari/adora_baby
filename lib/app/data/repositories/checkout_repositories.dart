@@ -18,12 +18,11 @@ import '../models/get_orders_model.dart' as o;
 class CheckOutRepository {
   //personal info
   static Future<bool> checkout(String fullName, String phoneNumber,
-      String altPhone, String address, String notes) async {
+      String altPhone, String address, String notes, List cartList) async {
     const url = '$BASE_URL/checkout/';
-    print("this is id ${await storage.readCartId()}");
 
     final body = jsonEncode({
-      "cart": [await storage.readCartId()],
+      "cart": cartList,
       "full_name": fullName,
       "phone_number": phoneNumber,
       "alt_phone_number": altPhone,
