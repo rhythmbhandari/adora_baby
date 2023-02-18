@@ -257,6 +257,11 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                             : pageViewIndex == 1
                                 ? controller.orderHistoryListHalfMonth
                                 : controller.orderHistoryListMonth,
+                        pageIndex: pageViewIndex == 0
+                            ? controller.orderHistoryIndexWeek
+                            : pageViewIndex == 1
+                            ? controller.orderHistoryIndexDays
+                            : controller.orderHistoryIndexMonth,
                         indexAPI: pageViewIndex,
                       );
                     },

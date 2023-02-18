@@ -47,6 +47,12 @@ class ProfileController extends GetxController {
 
   final orderHistoryIndex = 1.obs;
 
+  final orderHistoryIndexWeek = 1.obs;
+
+  final orderHistoryIndexMonth = 1.obs;
+
+  final orderHistoryIndexDays = 1.obs;
+
   final diamondIndex = 1.obs;
 
   final diamondListWeek = [].obs;
@@ -181,7 +187,12 @@ class ProfileController extends GetxController {
     await Future.wait(
       [
         getUserDetails(),
-        getOrderList(isRefresh: true, isInitial: true, [].obs, index: 0),
+        getOrderList(
+            isRefresh: true,
+            isInitial: true,
+            ordersList,
+            orderHistoryIndex,
+            index: 0),
       ],
     );
   }
@@ -190,14 +201,24 @@ class ProfileController extends GetxController {
     await Future.wait(
       [
         getOrderList(
-            isRefresh: true, isInitial: true, orderHistoryListWeek, index: 0),
+            isRefresh: true,
+            isInitial: true,
+            orderHistoryListWeek,
+            orderHistoryIndexWeek,
+            index: 0),
         getOrderList(
             isRefresh: true,
             isInitial: true,
             orderHistoryListHalfMonth,
+            orderHistoryIndexDays,
             index: 1),
         getOrderList(
-            isRefresh: true, isInitial: true, orderHistoryListMonth, index: 2),
+          isRefresh: true,
+          isInitial: true,
+          orderHistoryListMonth,
+          orderHistoryIndexMonth,
+          index: 2,
+        ),
       ],
     );
   }
@@ -381,7 +402,7 @@ class ProfileController extends GetxController {
     );
   }
 
-  Future<void> getOrderList(RxList list,
+  Future<void> getOrderList(RxList list, RxInt orderIndex,
       {bool isRefresh = true, bool isInitial = false, int index = 0}) async {
     int time = index == 0
         ? 7
@@ -389,7 +410,7 @@ class ProfileController extends GetxController {
             ? 14
             : 30;
     String keyword =
-        '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderHistoryIndex.value}';
+        '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderIndex.value}';
 
     showProgressBar();
     await DataRepository.fetchOrderList(keyword)
@@ -400,35 +421,32 @@ class ProfileController extends GetxController {
                     if (value.isEmpty)
                       {
                         list.value = [].obs,
-                        orderHistoryIndex.value = 2,
+                        orderIndex.value = 2,
                       }
                     else
                       {
                         list.value = value,
-                        orderHistoryIndex.value = 2,
-                        ordersList.value = value,
+                        orderIndex.value = 2,
                       }
                   }
                 else if (isRefresh && isInitial)
                   {
                     if (value.isEmpty)
                       {
-                        ordersList.value = [].obs,
                         list.value = [].obs,
-                        orderHistoryIndex.value = 2,
+                        orderIndex.value = 2,
                       }
                     else
                       {
-                        ordersList.value = value,
-                        orderHistoryIndex.value = 2,
                         list.value = value,
+                        orderIndex.value = 2,
                       }
                   }
                 else
                   {
                     {
                       list.addAll(value),
-                      orderHistoryIndex.value++,
+                      orderIndex.value++,
                     }
                   }
               }

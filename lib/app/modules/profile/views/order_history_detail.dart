@@ -786,7 +786,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
                                                 Get.back();
-                                                controller.getOrderList(isRefresh: true, isInitial: true, [].obs, index: 0);
+                                                controller.getOrderList(isRefresh: true, isInitial: true, controller.ordersList, controller.orderHistoryIndex,index: 0);
                                               }
                                             },
                                             child: Container(

@@ -19,16 +19,19 @@ class OrderHistoryWidgets extends StatelessWidget {
 
   final int indexAPI;
 
+  final RxInt pageIndex;
+
   OrderHistoryWidgets({
     super.key,
     required this.refreshController,
     required this.list,
     required this.indexAPI,
+    required this.pageIndex,
   });
 
   void _onRefresh() async {
     await controller
-        .getOrderList(isRefresh: true, isInitial: false, list, index: indexAPI)
+        .getOrderList(isRefresh: true, isInitial: false, list, pageIndex, index: indexAPI)
         .then((value) => refreshController.refreshCompleted())
         .catchError(
       (error) async {
@@ -41,7 +44,7 @@ class OrderHistoryWidgets extends StatelessWidget {
 
   void _onLoading() async {
     await controller
-        .getOrderList(isRefresh: false, isInitial: false, list, index: indexAPI)
+        .getOrderList(isRefresh: false, isInitial: false, list, pageIndex, index: indexAPI)
         .then((value) => refreshController.loadComplete())
         .catchError(
       (error) async {
