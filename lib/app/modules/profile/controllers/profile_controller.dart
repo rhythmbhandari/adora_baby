@@ -57,7 +57,7 @@ class ProfileController extends GetxController {
   final diamondHalfMonthOverview = [].obs;
   final diamondListMonthOverview = [].obs;
 
-  final progressStatus = ProgressStatus.IDLE.obs;
+  final progressStatus = ProgressStatus.idle.obs;
 
   final Rx<Orders> selectedOrders = Orders().obs;
 

@@ -36,7 +36,7 @@ class ShopController extends GetxController {
   final allProductsSearched = [].obs;
   final hotSalesFiltered = [].obs;
 
-  final progressStatus = ProgressStatus.IDLE.obs;
+  final progressStatus = ProgressStatus.idle.obs;
 
   final TextEditingController searchController = TextEditingController();
 
@@ -63,13 +63,13 @@ class ShopController extends GetxController {
     'Sort by Price: Low to High'
   ].obs;
 
-  showProgressBar() => progressStatus.value = ProgressStatus.LOADING;
+  showProgressBar() => progressStatus.value = ProgressStatus.loading;
 
-  hideProgressBar() => progressStatus.value = ProgressStatus.IDLE;
+  hideProgressBar() => progressStatus.value = ProgressStatus.idle;
 
-  showErrorBar() => progressStatus.value = ProgressStatus.ERROR;
+  showErrorBar() => progressStatus.value = ProgressStatus.error;
 
-  hideErrorBar() => progressStatus.value = ProgressStatus.IDLE;
+  hideErrorBar() => progressStatus.value = ProgressStatus.idle;
 
   Future<void> fetchData() async {
     await Future.wait(
@@ -162,7 +162,7 @@ class ShopController extends GetxController {
       String ordering = 'regular_price'}) async {
     showProgressBar();
     if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.SEARCHING;
+      progressStatus.value = ProgressStatus.searching;
     }
 
     String keyword = '?page=${isRefresh ? 1 : hotSalesIndex.value}';
@@ -203,7 +203,7 @@ class ShopController extends GetxController {
       String ordering = 'regular_price'}) async {
     showProgressBar();
     if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.SEARCHING;
+      progressStatus.value = ProgressStatus.searching;
     }
 
     String keyword = '?page=${isRefresh ? 1 : allProductsSearchedIndex.value}';
@@ -321,7 +321,7 @@ class ShopController extends GetxController {
       String ordering = 'regular_price'}) async {
     showProgressBar();
     if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.SEARCHING;
+      progressStatus.value = ProgressStatus.searching;
     }
 
     String keyword = '?page=${isRefresh ? 1 : allProductsIndex.value}';

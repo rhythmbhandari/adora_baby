@@ -242,7 +242,7 @@ class MoreTips extends GetView<ShopController> {
                             ),
                           ),
                           Obx(() => controller.progressStatus.value ==
-                              ProgressStatus.SEARCHING
+                              ProgressStatus.searching
                               ? CustomProgressBar()
                               : Container()),
                         ],

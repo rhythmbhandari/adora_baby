@@ -9,9 +9,9 @@ Widget progressWrap(Scaffold scaffold, Rx<ProgressStatus> progressStatus) {
   return Obx(() => Stack(
         children: [
           scaffold,
-          if (progressStatus.value == ProgressStatus.LOADING) ...[
+          if (progressStatus.value == ProgressStatus.loading) ...[
             CustomProgressBar()
-          ] else if (progressStatus.value == ProgressStatus.ERROR) ...[
+          ] else if (progressStatus.value == ProgressStatus.error) ...[
             Container()
           ] else
             ...[],

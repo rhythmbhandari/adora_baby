@@ -351,7 +351,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           children: [
                             GestureDetector(
                               onTap: () {
-                                controller.decrementCounter(0);
+                                // controller.decrementCounter(0);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(12),
@@ -395,7 +395,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             ),
                             GestureDetector(
                               onTap: () {
-                                controller.incrementCounter(0);
+                                // controller.incrementCounter(0);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(12),

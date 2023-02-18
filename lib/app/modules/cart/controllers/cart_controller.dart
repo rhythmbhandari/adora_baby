@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:adora_baby/app/data/models/cart_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
@@ -14,6 +15,7 @@ import '../../../data/models/get_carts_model.dart' as g;
 import '../../../data/models/get_city_model.dart' as c;
 import '../../../data/models/get_orders_model.dart' as o;
 import '../../../data/models/get_single_order_model.dart' as s;
+import '../../../enums/progress_status.dart';
 
 class CartController extends GetxController {
   //TODO: Implement ProfileController
@@ -46,7 +48,40 @@ class CartController extends GetxController {
 
   final RxMap cartMap = {}.obs;
 
-  final progressBarStatus = false.obs;
+  showLoading(Rx<ProgressStatus> status) =>
+      status.value = ProgressStatus.loading;
+
+  showSearching(Rx<ProgressStatus> status) =>
+      status.value = ProgressStatus.searching;
+
+  completeLoading(Rx<ProgressStatus> progressStatus, bool isEmpty) => {
+        if (isEmpty)
+          {
+            progressStatus.value = ProgressStatus.empty,
+          }
+        else
+          {
+            progressStatus.value = ProgressStatus.success,
+          }
+      };
+
+  showNetworkError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.internetError;
+
+  showError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.error;
+
+  hideError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.idle;
+
+  final progressBarStatusCart = ProgressStatus.loading.obs;
+
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
   final value = [
     false,
@@ -76,20 +111,34 @@ class CartController extends GetxController {
 
   int index = 0;
 
-  void incrementCounter(int index) {
-    if (counter[index] < 15) {
-      counter[index]++;
+  Future<bool> cart() async {
+    try {
+      showSearching(progressBarStatusCart);
+      final response = await CartRepository.getCart();
+      if (response.isNotEmpty) {
+        cartList.value = response;
+        for (final cart in cartList) {
+          if (cart.quantity > cart.product.stockQuantity ?? 0) {
+            cart.quantity = cart.product.stockQuantity ?? 0;
+          }
+          cart.product.priceItem = cart.quantity *
+              (cart.product.salePrice ?? cart.product.regularPrice);
+        }
+        completeLoading(progressBarStatusCart, false);
+        return true;
+      } else {
+        completeLoading(
+          progressBarStatusCart,
+          true,
+        );
+        return false;
+      }
+    } catch (e) {
+      showError(
+        progressBarStatusCart,
+      );
+      return false;
     }
-  }
-
-  void decrementCounter(int index) {
-    if (counter[index] > 1) {
-      counter[index]--;
-    }
-  }
-
-  listBool(String id) {
-    return value;
   }
 
   Future<bool> calculateGrandTotal(RxList cartTempList) async {
@@ -106,6 +155,79 @@ class CartController extends GetxController {
     } catch (e) {
       return false;
     }
+  }
+
+  addToCartPressed(int index) async {
+    if (cartList[index].quantity < cartList[index].product.stockQuantity) {
+      cartList[index].quantity += 1;
+      await calculatePriceItem(index);
+      await calculateGrandTotal(cartList);
+      await addToCartMap(index);
+      log('Cart Map $cartMap');
+      cartList.refresh();
+      update(['add_remove_cart'], true);
+    }
+  }
+
+  calculatePriceItem(int index) async {
+    cartList[index].product.priceItem = cartList[index].quantity *
+        (cartList[index].product.salePrice ??
+            cartList[index].product.regularPrice);
+  }
+
+  addToCartMap(int index) async {
+    cartMap[cartList[index].id] = {
+      'id': cartList[index].id,
+      'quantity': cartList[index].quantity
+    };
+  }
+
+  removeFromCartPressed(int index) async {
+    var quantity = cartList[index].quantity;
+    if (quantity != 1 && quantity >= 0) {
+      cartList[index].quantity -= 1;
+      await calculatePriceItem(index);
+      await calculateGrandTotal(cartList);
+      await addToCartMap(index);
+      log('Cart Map $cartMap');
+      cartList.refresh();
+      update(['add_remove_cart'], true);
+    }
+  }
+
+  individualCheckboxPressed(bool? val, int index) async {
+    cartList[index].checkBox = val!;
+    var list = [];
+    for (final cart in cartList) {
+      if (cart.checkBox) {
+        list.add(cart.checkBox);
+      }
+    }
+    if (cartList.length == list.length) {
+      mainCheckbox.value = true;
+    } else {
+      mainCheckbox.value = false;
+    }
+    await calculateGrandTotal(cartList);
+    cartList.refresh();
+    update(
+      ['individualCheckbox', 'mainCheckbox'],
+      true,
+    );
+  }
+
+  mainCheckboxPressed(
+    bool? val,
+  ) async {
+    for (final cartItem in cartList) {
+      cartItem.checkBox = val;
+    }
+    mainCheckbox.value = val ?? false;
+    await calculateGrandTotal(cartList);
+    update(
+      ['individualCheckbox', 'mainCheckbox'],
+      true,
+    );
   }
 
   Future<bool> requestAddToCart(String name) async {
@@ -191,25 +313,6 @@ class CartController extends GetxController {
       });
 
       if (status) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<bool> cart() async {
-    try {
-      final response = await CartRepository.getCart();
-      if (response.isNotEmpty) {
-        cartList.value = response;
-        for (final cart in cartList) {
-          cart.product.priceItem = cart.quantity *
-              (cart.product.salePrice ?? cart.product.regularPrice);
-          // priceCart.value +=
-        }
         return true;
       } else {
         return false;

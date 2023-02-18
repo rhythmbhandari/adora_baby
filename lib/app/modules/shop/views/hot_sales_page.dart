@@ -593,7 +593,7 @@ class HotSalesView extends GetView<ShopController> {
                           ),
                         ),
                         Obx(() =>
-                            controller.progressStatus.value == ProgressStatus.SEARCHING
+                            controller.progressStatus.value == ProgressStatus.searching
                                 ? CustomProgressBar()
                                 : Container()),
                       ],

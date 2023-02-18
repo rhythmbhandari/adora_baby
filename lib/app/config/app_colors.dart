@@ -12,10 +12,9 @@ class AppColors {
   static const Color primary700 = Color.fromRGBO(124, 4, 165, 1);
   static const Color primary800 = Color.fromRGBO(96, 3, 128, 1);
   static const Color primary900 = Color.fromRGBO(73, 2, 98, 1);
-  static const Color linear1 = Color.fromRGBO(127,0,255,1);
-  static const Color linear2 = Color.fromRGBO(255,0,255,1);
+  static const Color linear1 = Color.fromRGBO(127, 0, 255, 1);
+  static const Color linear2 = Color.fromRGBO(255, 0, 255, 1);
   static const Color mainColor = Color.fromRGBO(181, 103, 233, 1);
-
 
   static const Color secondary50 = Color.fromRGBO(253, 242, 243, 1);
   static const Color secondary100 = Color.fromRGBO(249, 214, 217, 1);
@@ -44,8 +43,6 @@ class AppColors {
   static const Color error700 = Color.fromRGBO(164, 36, 36, 1);
 
   static const Color warning500 = Color.fromRGBO(231, 125, 54, 1);
-
-
 }
 
 class LightTheme {
@@ -77,6 +74,13 @@ class DarkTheme {
   static const Color lighter = Color.fromRGBO(175, 152, 168, 1);
   static const Color lightHover = Color.fromRGBO(159, 131, 150, 1);
   static const Color lightActive = Color.fromRGBO(150, 106, 129, 1);
+
+  static const Color darkLightActive = Color.fromRGBO(
+    140,
+    106,
+    129,
+    1,
+  );
 
   static const Color normal = Color.fromRGBO(78, 26, 61, 1);
   static const Color normalHover = Color.fromRGBO(66, 22, 52, 1);
