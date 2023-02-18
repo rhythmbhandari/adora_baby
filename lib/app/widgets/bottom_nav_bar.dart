@@ -84,8 +84,8 @@ class _MyHomePageState extends State<BottomNavBar>
                   // Text("home"),
                   // Text("moments"),
                   ShopView(),
-                  CartView(),
-                  ProfileView()
+                  const CartView(),
+                  const ProfileView()
                 ]),
         child: Container(
           decoration:  BoxDecoration(

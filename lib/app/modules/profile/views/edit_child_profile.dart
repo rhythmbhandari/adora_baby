@@ -88,7 +88,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditBabyName());
+                                    Get.to(() => const EditBabyName());
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",
@@ -145,7 +145,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditBabyDob());
+                                    Get.to(() => const EditBabyDob());
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",
@@ -235,7 +235,8 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      Get.to(EditMedicalCondition())
+                                                      Get.to(() =>
+                                                              const EditMedicalCondition())
                                                           ?.then((value) =>
                                                               setState(() {}));
                                                     },
@@ -345,7 +346,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(EditSpecialNotes());
+                                    Get.to(() => const EditSpecialNotes(),);
                                   },
                                   child: SvgPicture.asset(
                                     "assets/images/profile_edit.svg",

@@ -165,7 +165,7 @@ class PhoneView extends GetView<AuthController> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                Get.to(LoginView(), preventDuplicates: true);
+                                Get.to(() => LoginView(), preventDuplicates: true);
                               },
                               child: Text(
                                 "Login",

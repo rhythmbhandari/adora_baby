@@ -224,7 +224,8 @@ class BabyDetails extends GetView<AuthController> {
                                       final response =
                                           await controller.registerBabyName();
                                       if (response) {
-                                        Get.to(MedicalCondition());
+                                        Get.to(() => const MedicalCondition());
+
                                         controller.progressBarBabyDetail.value =
                                             false;
                                       } else {

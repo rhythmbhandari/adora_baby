@@ -283,7 +283,7 @@ class UsernameView extends GetView<AuthController> {
                                       final response =
                                           await controller.registerUsername();
                                       if (response) {
-                                        Get.to(BabyDetails());
+                                        Get.to(() => BabyDetails(),);
                                         controller.progressBarStatusUsername
                                             .value = false;
                                       } else {

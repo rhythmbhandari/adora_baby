@@ -74,7 +74,7 @@ class EditProfile extends GetView<ProfileController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditIdentification());
+                                Get.to(() => const EditIdentification(),);
                               },
                               child: SvgPicture.asset(
                                 "assets/images/profile_edit.svg",

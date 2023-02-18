@@ -186,7 +186,7 @@ class LoginView extends GetView<AuthController> {
                                     print('Controller ${controller.authError}');
                                     if (controller.authError
                                         .contains('stage incomplete')) {
-                                      Get.to(BabyDetails());
+                                      Get.to(() => BabyDetails());
                                     }
                                   } else {
                                     if (kDebugMode) {
@@ -244,7 +244,7 @@ class LoginView extends GetView<AuthController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(ForgetPasswordView(),
+                            Get.to(() => const ForgetPasswordView(),
                                 preventDuplicates: true);
                           },
                           child: Text(
@@ -268,7 +268,8 @@ class LoginView extends GetView<AuthController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(PhoneView(), preventDuplicates: true);
+                            Get.to(() => const PhoneView(),
+                                preventDuplicates: true);
                           },
                           child: Text(
                             "Register",

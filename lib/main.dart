@@ -11,8 +11,6 @@ import 'app/utils/storage_manager.dart';
 final storage = StorageManager();
 
 Future<void> main() async {
-  Get.put(CartController());
-
   runApp(
     GetMaterialApp(
       builder: (context, child) => ResponsiveWrapper.builder(

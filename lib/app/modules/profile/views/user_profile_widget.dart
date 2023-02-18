@@ -123,9 +123,8 @@ Widget userProfile(ProfileController controller, BuildContext context) {
               GestureDetector(
                 onTap: () {
                   controller.fetchDiamonds();
-                  Get.to(
-                    const DiamondsView(),
-                  );
+                  Get.to(()=> const DiamondsView());
+
                 },
                 child: Container(
                   padding:
@@ -233,7 +232,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
             right: 0,
             child: GestureDetector(
               onTap: () {
-                Get.to(EditProfile());
+                Get.to(() => const EditProfile());
               },
               child: SvgPicture.asset(
                 "assets/images/profile_edit.svg",

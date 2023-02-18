@@ -169,7 +169,7 @@ class OtpView extends GetView<AuthController> {
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       } else {
-                                        Get.to(ResetPasswordView());
+                                        Get.to(() => ResetPasswordView());
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       }
@@ -192,7 +192,7 @@ class OtpView extends GetView<AuthController> {
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       } else {
-                                        Get.to(UsernameView());
+                                        Get.to(() => UsernameView());
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       }

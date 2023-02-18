@@ -78,22 +78,18 @@ class AppPages {
     GetPage(
       name: _Paths.PRODUCT_DETAILS,
       page: () => const ProductDetails(),
-      binding: CartBinding(),
     ),
     GetPage(
       name: _Paths.PERSONAL_INFORMATION,
       page: () => const PersonalInfoView(),
-      binding: CartBinding(),
     ),
     GetPage(
       name: _Paths.ADD_ADDRESS,
       page: () => const AddAddressView(),
-      binding: CartBinding(),
     ),
     GetPage(
       name: _Paths.CHECKOUT,
       page: () => const CheckOutView(),
-      binding: CartBinding(),
     ),
   ];
 }

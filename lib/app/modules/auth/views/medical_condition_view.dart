@@ -211,7 +211,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(ChoiceLeader());
+                              Get.to(() => const ChoiceLeader());
                             },
                             child: Text(
                               'Special Note',
@@ -329,11 +329,11 @@ class _MedicalConditionState extends State<MedicalCondition> {
               ),
               Obx(() => controller.progressBarStatusCompleteProfile.value
                   ? GestureDetector(
-                  onTap: () {
-                    controller.progressBarStatusCompleteProfile.value =
-                    false;
-                  },
-                  child: CustomProgressBar())
+                      onTap: () {
+                        controller.progressBarStatusCompleteProfile.value =
+                            false;
+                      },
+                      child: CustomProgressBar())
                   : Container())
             ],
           ),

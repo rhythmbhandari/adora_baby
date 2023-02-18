@@ -151,7 +151,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
       cards.add(GestureDetector(
         onTap: () {
           controller.selectedOrders.value = controller.ordersList[i];
-          Get.to(OrderHistoryDetail());
+
+          Get.to(()=> OrderHistoryDetail());
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10),
@@ -364,9 +365,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
           GestureDetector(
             onTap: () {
               controller.fetchOrders();
-              Get.to(
-                OrderHistoryView(),
-              );
+              Get.to(()=> const OrderHistoryView());
+
             },
             child: Container(
               padding: EdgeInsets.only(top: 10, right: 24, bottom: 8),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adora_baby/app/data/models/cart_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
@@ -26,7 +27,6 @@ class CartController extends GetxController {
   TextEditingController landMarkController = TextEditingController();
   final progressBarStatusOtp = false.obs;
 
-
   String? cityName;
 
   name() async {
@@ -35,6 +35,16 @@ class CartController extends GetxController {
 
   final authError = ''.obs;
   final status = false.obs;
+
+  final mainCheckbox = false.obs;
+
+  final RxList cartList = [].obs;
+
+  final priceCart = 0.0.obs;
+
+  final tempSelectedCart = [].obs;
+
+  final RxMap cartMap = {}.obs;
 
   final progressBarStatus = false.obs;
   final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
@@ -60,11 +70,7 @@ class CartController extends GetxController {
   @override
   void onInit() {
     name();
-    timer = Timer(const Duration(seconds: 1), () {
-      progress;
-      cart().whenComplete(() => timer?.cancel());
-    });
-
+    cart();
     super.onInit();
   }
 
@@ -107,16 +113,17 @@ class CartController extends GetxController {
       return false;
     }
   }
+
   final fName = ''.obs;
   final pNum = ''.obs;
   final aNum = ''.obs;
   final note = ''.obs;
+
   Future<bool> validatePersonalInfo() async {
     fName.value = fNameController.text.trim();
     pNum.value = phoneController.text.trim();
     aNum.value = altPhoneController.text.trim();
     note.value = notesController.text.trim();
-
 
     bool isValid = true;
     if (fName.value.isEmpty) {
@@ -128,8 +135,7 @@ class CartController extends GetxController {
     } else if (aNum.value.isEmpty) {
       isValid = false;
       authError.value = 'ALternate Number cannot be empty.'.tr;
-    }
-    else if (note.value.isEmpty) {
+    } else if (note.value.isEmpty) {
       isValid = false;
       authError.value = 'Notes cannot be empty.'.tr;
     }
@@ -178,20 +184,22 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<g.Datum>> cart() async {
+  Future<bool> cart() async {
     try {
-      final response = await CartRepository.getCart().catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
+      final response = await CartRepository.getCart();
       if (response.isNotEmpty) {
-        return response;
+        cartList.value = response;
+        for (final cart in cartList) {
+          cart.product.priceItem = cart.quantity *
+              (cart.product.salePrice ?? cart.product.regularPrice);
+          // priceCart.value +=
+        }
+        return true;
       } else {
-        return [];
+        return false;
       }
     } catch (e) {
-      return [];
+      return false;
     }
   }
 
@@ -214,14 +222,10 @@ class CartController extends GetxController {
   // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
-      String altPhone, String address,String notes) async {
+      String altPhone, String address, String notes) async {
     try {
-      final status = await CheckOutRepository.checkout(
-              fullName.trim(),
-              phoneNumber.trim(),
-              altPhone.trim(),
-              address.trim(),
-              notes.trim())
+      final status = await CheckOutRepository.checkout(fullName.trim(),
+              phoneNumber.trim(), altPhone.trim(), address.trim(), notes.trim())
           .catchError((error) {
         authError.value = error;
         return false;

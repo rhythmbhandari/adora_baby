@@ -153,7 +153,7 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
           Positioned(
             child: GestureDetector(
               onTap: () {
-                Get.to(EditChildProfile());
+                Get.to(() => const EditChildProfile());
               },
               child: SvgPicture.asset(
                 "assets/images/profile_edit.svg",

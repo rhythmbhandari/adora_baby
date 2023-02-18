@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/data/models/stages_brands.dart';
@@ -14,6 +15,7 @@ import '../../config/constants.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
+import '../models/cart_model.dart';
 import '../network/network_helper.dart';
 
 class CartRepository {
@@ -89,8 +91,7 @@ class CartRepository {
     }
   }
 
-  static Future<List<a.Datum>> getCart() async {
-    print(await SecureStorage.returnHeaderWithToken());
+  static Future<List<CartModel>> getCart() async {
     const url = '$BASE_URL/cart/';
 
     final response = await NetworkHelper().getRequest(url,
@@ -99,17 +100,13 @@ class CartRepository {
     final data = response.data;
 
     if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
-      List<a.Datum> datas = (response.data["data"] as List)
-          .map((i) => a.Datum.fromJson(i))
+      log("Response : ${response.data}");
+      List<CartModel> cartList = (response.data["data"] as List)
+          .map((i) => CartModel.fromJson(i))
           .toList();
-      storage.saveCartId(datas[0].id);
-      print(datas[0].id);
-
-      return datas;
+      return cartList;
     } else {
-      print(response.statusMessage);
+      log(response.statusMessage ?? '');
       return Future.error(data['message']);
     }
   }

@@ -134,7 +134,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           controller.selectedOrders.value = list[index];
-                          Get.to(OrderHistoryDetail());
+                          Get.to(()=> OrderHistoryDetail());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
