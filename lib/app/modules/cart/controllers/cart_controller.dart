@@ -240,7 +240,7 @@ class CartController extends GetxController {
       cartList[index].quantity += 1;
       await calculatePriceItem(index);
       await calculateGrandTotal(cartList);
-      await addToCartMap(index);
+      // await addToCartMap(index);
       log('Cart Map $cartMap');
       cartList.refresh();
       update(['add_remove_cart'], true);
@@ -266,7 +266,7 @@ class CartController extends GetxController {
       cartList[index].quantity -= 1;
       await calculatePriceItem(index);
       await calculateGrandTotal(cartList);
-      await addToCartMap(index);
+      // await addToCartMap(index);
       log('Cart Map $cartMap');
       cartList.refresh();
       update(['add_remove_cart'], true);

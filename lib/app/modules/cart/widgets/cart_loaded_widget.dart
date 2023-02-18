@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/modules/cart/widgets/item_card.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
@@ -138,22 +140,20 @@ class CartLoadedWidget extends StatelessWidget {
                       color: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 56.0),
                       child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Sub Total",
-                            style: kThemeData.textTheme.bodyLarge
-                                ?.copyWith(
+                            style: kThemeData.textTheme.bodyLarge?.copyWith(
                               fontSize: 16,
                             ),
                           ),
                           Obx(() => Text(
                                 "Rs. ${controller.priceCart.value}",
-                                style: kThemeData.textTheme.titleMedium
-                            ?.copyWith(
-                          color: DarkTheme.dark,
-                          fontSize: 16,
+                                style:
+                                    kThemeData.textTheme.titleMedium?.copyWith(
+                                  color: DarkTheme.dark,
+                                  fontSize: 16,
                                 ),
                               )),
                         ],
@@ -166,7 +166,30 @@ class CartLoadedWidget extends StatelessWidget {
                     child: ButtonsWidget(
                         name: "Proceed",
                         onPressed: () {
-                          Get.toNamed(Routes.PERSONAL_INFORMATION);
+                          if (controller.priceCart.value == 0.0) {
+                            var snackBar = SnackBar(
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                              duration: Duration(milliseconds: 2000),
+                              content:
+                                  Text("Please select an item to checkout."),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            controller.cartMap.clear();
+                            for (final cart in controller.cartList) {
+                              if (cart.checkBox) {
+                                controller.cartMap[cart.id] = {
+                                  'id': cart.id,
+                                  'quantity': cart.quantity
+                                };
+                              }
+                            }
+                            log('Cart is ${controller.cartMap}');
+                            Get.toNamed(Routes.PERSONAL_INFORMATION);
+                          }
                         }),
                   ),
                   SizedBox(
