@@ -92,6 +92,22 @@ class CartController extends GetxController {
     return value;
   }
 
+  Future<bool> calculateGrandTotal(RxList cartTempList) async {
+    try {
+      var tempPrice = 0.0;
+      for (final cart in cartTempList) {
+        if (cart.checkBox) {
+          tempPrice += cart.quantity *
+              (cart.product.salePrice ?? cart.product.regularPrice);
+        }
+      }
+      priceCart.value = tempPrice;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> requestAddToCart(String name) async {
     TextEditingController quantityController =
         TextEditingController(text: counter[index].toString());

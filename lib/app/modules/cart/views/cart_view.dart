@@ -84,20 +84,16 @@ class CartView extends GetView<CartController> {
                                           builder: (myController) => Checkbox(
                                               value: myController
                                                   .mainCheckbox.value,
-                                              onChanged: (bool? val) {
+                                              onChanged: (bool? val) async {
                                                 for (final cartItem
                                                     in myController.cartList) {
                                                   cartItem.checkBox = val;
-                                                  myController.priceCart
-                                                      .value += cartItem
-                                                          .quantity *
-                                                      (cartItem.product
-                                                              .salePrice ??
-                                                          cartItem.product
-                                                              .regularPrice);
                                                 }
                                                 myController.mainCheckbox
                                                     .value = val ?? false;
+                                                await myController
+                                                    .calculateGrandTotal(
+                                                        myController.cartList);
                                                 myController.update(
                                                   [
                                                     'individualCheckbox',
@@ -166,36 +162,12 @@ class CartView extends GetView<CartController> {
                                                   Checkbox(
                                                 value: myController
                                                     .cartList[index].checkBox,
-                                                onChanged: (bool? val) {
+                                                onChanged: (bool? val) async {
                                                   myController.cartList[index]
                                                       .checkBox = val!;
-                                                  if (val) {
-                                                    myController.priceCart
-                                                        .value += myController
-                                                            .cartList[index]
-                                                            .quantity *
-                                                        (myController
-                                                                .cartList[index]
-                                                                .product
-                                                                .salePrice ??
-                                                            myController
-                                                                .cartList[index]
-                                                                .product
-                                                                .regularPrice);
-                                                  } else {
-                                                    myController.priceCart
-                                                        .value -= myController
-                                                            .cartList[index]
-                                                            .quantity *
-                                                        (myController
-                                                                .cartList[index]
-                                                                .product
-                                                                .salePrice ??
-                                                            myController
-                                                                .cartList[index]
-                                                                .product
-                                                                .regularPrice);
-                                                  }
+                                                  await myController
+                                                      .calculateGrandTotal(
+                                                      myController.cartList);
 
                                                   myController.update(
                                                     ['individualCheckbox'],
@@ -278,7 +250,7 @@ class CartView extends GetView<CartController> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async{
                                                       var quantity =
                                                           getController
                                                               .cartList[index]
@@ -302,17 +274,21 @@ class CartView extends GetView<CartController> {
                                                             .cartList[index]
                                                             .product
                                                             .priceItem = getController
-                                                            .cartList[index]
-                                                            .quantity *
+                                                                .cartList[index]
+                                                                .quantity *
                                                             (getController
-                                                                .cartList[
-                                                            index]
-                                                                .product
-                                                                .salePrice ??
+                                                                    .cartList[
+                                                                        index]
+                                                                    .product
+                                                                    .salePrice ??
                                                                 getController
                                                                     .cartList[
-                                                                index]
-                                                                    .product.regularPrice);
+                                                                        index]
+                                                                    .product
+                                                                    .regularPrice);
+                                                        await getController
+                                                            .calculateGrandTotal(
+                                                            getController.cartList);
                                                         // if(){}
                                                         getController.cartMap[
                                                             getController
@@ -402,7 +378,7 @@ class CartView extends GetView<CartController> {
                                                     width: 14,
                                                   ),
                                                   GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async{
                                                       getController
                                                           .cartList[index]
                                                           .quantity += 1;
@@ -420,7 +396,11 @@ class CartView extends GetView<CartController> {
                                                               getController
                                                                   .cartList[
                                                                       index]
-                                                                  .product.regularPrice);
+                                                                  .product
+                                                                  .regularPrice);
+                                                      await getController
+                                                          .calculateGrandTotal(
+                                                          getController.cartList);
                                                       getController.cartMap[
                                                           getController
                                                               .cartList[index]
