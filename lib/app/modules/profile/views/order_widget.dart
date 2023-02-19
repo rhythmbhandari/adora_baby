@@ -17,7 +17,12 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
 import '../../../data/models/orders_model.dart';
+import '../../../enums/progress_status.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../cart/widgets/cart_loaded_widget.dart';
+import '../../cart/widgets/custom_error_widget.dart';
+import '../../cart/widgets/empty_widget.dart';
+import '../../cart/widgets/internet_error_widget.dart';
 import 'order_history.dart';
 
 class OrderWidget extends StatelessWidget {
@@ -53,13 +58,28 @@ class OrderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() => controller.ordersList.isNotEmpty
-                ? _buildFeaturedCards(controller)
-                : Shimmer.fromColors(
-                    baseColor: Colors.white,
-                    highlightColor: LightTheme.lightActive,
-                    enabled: true,
-                    child: _buildImage()))
+            Obx(() {
+              switch (controller.progressStatusOrderProfile.value) {
+                case ProgressStatus.error:
+                  return const CustomErrorWidget();
+                case ProgressStatus.internetError:
+                  return const InternetErrorWidget();
+                case ProgressStatus.empty:
+                  return const EmptyWidget();
+                case ProgressStatus.idle:
+                case ProgressStatus.loading:
+                case ProgressStatus.searching:
+                case ProgressStatus.success:
+                  return controller.ordersList.isNotEmpty
+                      ? _buildFeaturedCards(controller)
+                      : Shimmer.fromColors(
+                          baseColor: Colors.white,
+                          highlightColor: LightTheme.lightActive,
+                          enabled: true,
+                          child: _buildImage(),
+                        );
+              }
+            }),
           ],
         ),
       ),
@@ -152,7 +172,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
         onTap: () {
           controller.selectedOrders.value = controller.ordersList[i];
 
-          Get.to(()=> OrderHistoryDetail());
+          Get.to(() => OrderHistoryDetail());
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10),
@@ -308,7 +328,16 @@ Widget _buildFeaturedCards(ProfileController controller) {
                             ),
                           ),
                         )
-                      : Container(),
+                      : Container(
+                padding: EdgeInsets.only(left: 19, top: 2),
+                child: Text(
+                  '\n',
+                  maxLines: 1,
+                  style: kThemeData.textTheme.labelSmall?.copyWith(
+                    color: DarkTheme.dark,
+                  ),
+                ),
+              ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
@@ -365,8 +394,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
           GestureDetector(
             onTap: () {
               controller.fetchOrders();
-              Get.to(()=> const OrderHistoryView());
-
+              Get.to(() => const OrderHistoryView());
             },
             child: Container(
               padding: EdgeInsets.only(top: 10, right: 24, bottom: 8),

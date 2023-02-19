@@ -65,6 +65,20 @@ class ProfileController extends GetxController {
 
   final progressStatus = ProgressStatus.idle.obs;
 
+  final progressStatusOrderProfile = ProgressStatus.idle.obs;
+
+  final progressStatusOrderWeek = ProgressStatus.idle.obs;
+
+  final progressStatusOrderHalfMonths = ProgressStatus.idle.obs;
+
+  final progressStatusOrderMonth = ProgressStatus.idle.obs;
+
+  final progressStatusDiamondWeek = ProgressStatus.idle.obs;
+
+  final progressStatusDiamondHalfMonths = ProgressStatus.idle.obs;
+
+  final progressStatusDiamondMonth = ProgressStatus.idle.obs;
+
   final Rx<Orders> selectedOrders = Orders().obs;
 
   final dateTypeOrder = DateType.WEEK.obs;
@@ -87,6 +101,38 @@ class ProfileController extends GetxController {
   String? _dob;
 
   setDate(String date) => _dob = date;
+
+  showLoading(Rx<ProgressStatus> status) =>
+      status.value = ProgressStatus.loading;
+
+  showSearching(Rx<ProgressStatus> status) =>
+      status.value = ProgressStatus.searching;
+
+  completeLoading(Rx<ProgressStatus> progressStatus, bool isEmpty) => {
+        if (isEmpty)
+          {
+            progressStatus.value = ProgressStatus.empty,
+          }
+        else
+          {
+            progressStatus.value = ProgressStatus.success,
+          }
+      };
+
+  showNetworkError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.internetError;
+
+  showError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.error;
+
+  hideError(
+    Rx<ProgressStatus> progressStatus,
+  ) =>
+      progressStatus.value = ProgressStatus.idle;
 
   final Rx<Users> user = Users(
     fullName: '',
@@ -188,11 +234,13 @@ class ProfileController extends GetxController {
       [
         getUserDetails(),
         getOrderList(
-            isRefresh: true,
-            isInitial: true,
-            ordersList,
-            orderHistoryIndex,
-            index: 0),
+          isRefresh: true,
+          isInitial: true,
+          ordersList,
+          orderHistoryIndex,
+          progressStatusOrderProfile,
+          index: 0,
+        ),
       ],
     );
   }
@@ -205,18 +253,21 @@ class ProfileController extends GetxController {
             isInitial: true,
             orderHistoryListWeek,
             orderHistoryIndexWeek,
+            progressStatusOrderWeek,
             index: 0),
         getOrderList(
             isRefresh: true,
             isInitial: true,
             orderHistoryListHalfMonth,
             orderHistoryIndexDays,
+            progressStatusOrderHalfMonths,
             index: 1),
         getOrderList(
           isRefresh: true,
           isInitial: true,
           orderHistoryListMonth,
           orderHistoryIndexMonth,
+          progressStatusOrderMonth,
           index: 2,
         ),
       ],
@@ -402,63 +453,77 @@ class ProfileController extends GetxController {
     );
   }
 
-  Future<void> getOrderList(RxList list, RxInt orderIndex,
-      {bool isRefresh = true, bool isInitial = false, int index = 0}) async {
-    int time = index == 0
-        ? 7
-        : index == 1
-            ? 14
-            : 30;
-    String keyword =
-        '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderIndex.value}';
+  Future<void> getOrderList(
+    RxList list,
+    RxInt orderIndex,
+    Rx<ProgressStatus> progressStatus, {
+    bool isRefresh = true,
+    bool isInitial = false,
+    int index = 0,
+  }) async {
+    try {
+      int time = index == 0
+          ? 7
+          : index == 1
+              ? 14
+              : 30;
+      String keyword =
+          '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderIndex.value}';
 
-    showProgressBar();
-    await DataRepository.fetchOrderList(keyword)
-        .then((value) => {
-              {
-                if (isRefresh && !isInitial)
-                  {
-                    if (value.isEmpty)
-                      {
-                        list.value = [].obs,
-                        orderIndex.value = 2,
-                      }
-                    else
-                      {
-                        list.value = value,
-                        orderIndex.value = 2,
-                      }
-                  }
-                else if (isRefresh && isInitial)
-                  {
-                    if (value.isEmpty)
-                      {
-                        list.value = [].obs,
-                        orderIndex.value = 2,
-                      }
-                    else
-                      {
-                        list.value = value,
-                        orderIndex.value = 2,
-                      }
-                  }
-                else
-                  {
+      showLoading(progressStatus);
+
+      await DataRepository.fetchOrderList(keyword)
+          .then((value) => {
+                {
+                  if (isRefresh && !isInitial)
                     {
-                      list.addAll(value),
-                      orderIndex.value++,
+                      if (value.isEmpty)
+                        {
+                          list.value = [].obs,
+                          orderIndex.value = 2,
+                        }
+                      else
+                        {
+                          list.value = value,
+                          orderIndex.value = 2,
+                        }
                     }
-                  }
-              }
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error) {
-        authError.value = error.toString();
-        log('Auth Error is ${authError}');
-        hideProgressBar();
-      },
-    );
+                  else if (isRefresh && isInitial)
+                    {
+                      if (value.isEmpty)
+                        {
+                          list.value = [].obs,
+                          orderIndex.value = 2,
+                        }
+                      else
+                        {
+                          list.value = value,
+                          orderIndex.value = 2,
+                        }
+                    }
+                  else
+                    {
+                      {
+                        list.addAll(value),
+                        orderIndex.value++,
+                      }
+                    }
+                }
+              })
+          .then(
+            (value) => completeLoading(
+              progressStatus,
+              list.isEmpty ? true : false,
+            ),
+          );
+    } catch (error) {
+      authError.value = error.toString();
+      log('Auth Error is $authError');
+      completeLoading(
+        progressStatus,
+        true,
+      );
+    }
   }
 
   Future<void> getDiamonds(RxList list,

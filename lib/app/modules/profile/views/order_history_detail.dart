@@ -672,142 +672,164 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               1,
                                             ),
                                           ),
-                                          controller
-                                              .selectedOrders
-                                              .value
-                                              .status
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains(
-                                              'order') ? Container(
-                                            padding: EdgeInsets.only(
-                                              left: 32,
-                                              right: 32,
-                                            ),
-                                            color: Color.fromRGBO(
-                                              250,
-                                              245,
-                                              252,
-                                              1,
-                                            ),
-                                            child: GestureDetector(
-                                              onTap: () {},
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                  top: 20,
-                                                  bottom: 20,
-                                                  left: 40,
-                                                  right: 40,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.primary500,
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                        'Need Help with this Order?',
-                                                        style: kThemeData
-                                                            .textTheme
-                                                            .labelMedium
-                                                            ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        )),
-                                                    SvgPicture.asset(
-                                                      "assets/images/messenger.svg",
-                                                      // height: 22,
-                                                      // color: Color(0xff667080)
+                                          controller.selectedOrders.value.status
+                                                  .toString()
+                                                  .toLowerCase()
+                                                  .contains('order')
+                                              ? Container(
+                                                  padding: EdgeInsets.only(
+                                                    left: 32,
+                                                    right: 32,
+                                                  ),
+                                                  color: Color.fromRGBO(
+                                                    250,
+                                                    245,
+                                                    252,
+                                                    1,
+                                                  ),
+                                                  child: GestureDetector(
+                                                    onTap: () {},
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 20,
+                                                        bottom: 20,
+                                                        left: 40,
+                                                        right: 40,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .primary500,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              'Need Help with this Order?',
+                                                              style: kThemeData
+                                                                  .textTheme
+                                                                  .labelMedium
+                                                                  ?.copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              )),
+                                                          SvgPicture.asset(
+                                                            "assets/images/messenger.svg",
+                                                            // height: 22,
+                                                            // color: Color(0xff667080)
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ): Container(),
-                                          controller
-                                              .selectedOrders
-                                              .value
-                                              .status
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains(
-                                              'order') ? Container(
-                                            height: Get.height * 0.03,
-                                            color: Color.fromRGBO(
-                                              250,
-                                              245,
-                                              252,
-                                              1,
-                                            ),
-                                          ): Container(),
-                                          controller
-                                              .selectedOrders
-                                              .value
-                                              .status
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains(
-                                              'order') ? GestureDetector(
-                                            onTap: () async {
-                                              final status = await controller
-                                                  .cancelBooking();
-                                              if (!status) {
-                                                controller.progressBarStatus
-                                                    .value = false;
-                                                var snackBar = SnackBar(
-                                                  elevation: 0,
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  backgroundColor: Colors.red,
-                                                  duration: Duration(
-                                                      milliseconds: 2000),
-                                                  content: Text(
-                                                      "${controller.authError.toUpperCase()}"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                              }else{
-                                                controller.progressBarStatus
-                                                    .value = false;
-                                                var snackBar = SnackBar(
-                                                  elevation: 0,
-                                                  behavior:
-                                                  SnackBarBehavior.floating,
-                                                  backgroundColor: AppColors.success500,
-                                                  duration: Duration(
-                                                      milliseconds: 2000),
-                                                  content: Text(
-                                                      "${controller.authError.toUpperCase()}"),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                                Get.back();
-                                                controller.getOrderList(isRefresh: true, isInitial: true, controller.ordersList, controller.orderHistoryIndex,index: 0);
-                                              }
-                                            },
-                                            child: Container(
-                                              color: Color.fromRGBO(
-                                                250,
-                                                245,
-                                                252,
-                                                1,
-                                              ),
-                                              child: Center(
-                                                child: Text('Cancel My Order',
-                                                    style: kThemeData
-                                                        .textTheme.labelMedium
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: DarkTheme
-                                                                .lightActive)),
-                                              ),
-                                            ),
-                                          ): Container(),
+                                                  ),
+                                                )
+                                              : Container(),
+                                          controller.selectedOrders.value.status
+                                                  .toString()
+                                                  .toLowerCase()
+                                                  .contains('order')
+                                              ? Container(
+                                                  height: Get.height * 0.03,
+                                                  color: Color.fromRGBO(
+                                                    250,
+                                                    245,
+                                                    252,
+                                                    1,
+                                                  ),
+                                                )
+                                              : Container(),
+                                          controller.selectedOrders.value.status
+                                                  .toString()
+                                                  .toLowerCase()
+                                                  .contains('order')
+                                              ? GestureDetector(
+                                                  onTap: () async {
+                                                    final status =
+                                                        await controller
+                                                            .cancelBooking();
+                                                    if (!status) {
+                                                      controller
+                                                          .progressBarStatus
+                                                          .value = false;
+                                                      var snackBar = SnackBar(
+                                                        elevation: 0,
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        duration: Duration(
+                                                            milliseconds: 2000),
+                                                        content: Text(
+                                                            "${controller.authError.toUpperCase()}"),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    } else {
+                                                      controller
+                                                          .progressBarStatus
+                                                          .value = false;
+                                                      var snackBar = SnackBar(
+                                                        elevation: 0,
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        backgroundColor:
+                                                            AppColors
+                                                                .success500,
+                                                        duration: Duration(
+                                                            milliseconds: 2000),
+                                                        content: Text(
+                                                            "${controller.authError.toUpperCase()}"),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                      Get.back();
+                                                      controller.getOrderList(
+                                                        isRefresh: true,
+                                                        isInitial: true,
+                                                        controller.ordersList,
+                                                        controller
+                                                            .orderHistoryIndex,
+                                                        index: 0,
+                                                        controller
+                                                            .progressStatusOrderProfile,
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    color: Color.fromRGBO(
+                                                      250,
+                                                      245,
+                                                      252,
+                                                      1,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                          'Cancel My Order',
+                                                          style: kThemeData
+                                                              .textTheme
+                                                              .labelMedium
+                                                              ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: DarkTheme
+                                                                      .lightActive)),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
                                           Container(
                                             height: Get.height * 0.06,
                                             color: Color.fromRGBO(

@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/enums/progress_status.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,17 +22,27 @@ class OrderHistoryWidgets extends StatelessWidget {
 
   final RxInt pageIndex;
 
+  final Rx<ProgressStatus> progressStatus;
+
   OrderHistoryWidgets({
     super.key,
     required this.refreshController,
     required this.list,
     required this.indexAPI,
     required this.pageIndex,
+    required this.progressStatus,
   });
 
   void _onRefresh() async {
     await controller
-        .getOrderList(isRefresh: true, isInitial: false, list, pageIndex, index: indexAPI)
+        .getOrderList(
+          isRefresh: true,
+          isInitial: false,
+          list,
+          pageIndex,
+          index: indexAPI,
+          progressStatus,
+        )
         .then((value) => refreshController.refreshCompleted())
         .catchError(
       (error) async {
@@ -44,7 +55,14 @@ class OrderHistoryWidgets extends StatelessWidget {
 
   void _onLoading() async {
     await controller
-        .getOrderList(isRefresh: false, isInitial: false, list, pageIndex, index: indexAPI)
+        .getOrderList(
+          isRefresh: false,
+          isInitial: false,
+          list,
+          pageIndex,
+          index: indexAPI,
+          progressStatus,
+        )
         .then((value) => refreshController.loadComplete())
         .catchError(
       (error) async {
@@ -137,7 +155,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           controller.selectedOrders.value = list[index];
-                          Get.to(()=> OrderHistoryDetail());
+                          Get.to(() => OrderHistoryDetail());
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(

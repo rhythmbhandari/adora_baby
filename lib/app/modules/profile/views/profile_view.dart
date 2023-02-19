@@ -86,7 +86,7 @@ class ProfileView extends GetView<ProfileController> {
                         );
                         Get.offAllNamed(Routes.PHONE);
                       } catch (e) {
-                        -Get.offAllNamed(Routes.PHONE);
+                        Get.offAllNamed(Routes.PHONE);
                       }
                     },
                     child: Text(

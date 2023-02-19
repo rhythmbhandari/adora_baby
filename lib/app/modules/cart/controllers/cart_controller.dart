@@ -161,6 +161,8 @@ class CartController extends GetxController {
     );
   }
 
+
+
   int index = 0;
 
   Future<bool> getAddressList() async {

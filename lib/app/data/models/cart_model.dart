@@ -2,7 +2,6 @@ class CartModel {
   CartModel({
     required this.id,
     required this.product,
-    required this.createdBy,
     required this.quantity,
     required this.productId,
     required this.checkBox,
@@ -50,7 +49,7 @@ class Product {
   double regularPrice;
   double? salePrice;
   bool stockAvailable;
-  List<ProductImage>? productImages;
+  List<ProductImage> productImages;
   int stockQuantity;
   double priceItem;
 
