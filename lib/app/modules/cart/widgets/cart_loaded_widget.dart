@@ -98,16 +98,17 @@ class CartLoadedWidget extends StatelessWidget {
                                 if (controller.priceCart.value != 0.0) {
                                   controller.showLoading(
                                       controller.progressBarStatusCart);
-                                  var removalStatus = [];
+                                  var carIdList = [];
                                   for (final cart in controller.cartList) {
                                     if (cart.checkBox) {
-                                      final status = await controller
-                                          .requestToDeleteCart(cart.id);
-                                      removalStatus.add(status);
+                                      carIdList.add(cart.id);
                                     }
                                   }
+
+                                  final removalStatus = await controller
+                                      .requestToDeleteCart(carIdList);
                                   log('Removal status $removalStatus');
-                                  if (removalStatus.contains(false)) {
+                                  if (!removalStatus) {
                                     var snackBar = SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
@@ -134,9 +135,14 @@ class CartLoadedWidget extends StatelessWidget {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
-
+                                  await controller.cart();
+                                  controller.priceCart.value = 0.0;
                                   controller.completeLoading(
-                                      controller.progressBarStatusCart, false);
+                                    controller.progressBarStatusCart,
+                                    controller.cartList.isNotEmpty
+                                        ? false
+                                        : true,
+                                  );
                                 } else {
                                   var snackBar = SnackBar(
                                     elevation: 0,

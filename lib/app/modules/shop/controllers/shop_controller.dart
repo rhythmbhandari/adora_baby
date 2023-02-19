@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/app_theme.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../../main.dart';
 import '../../../data/models/stages_brands.dart';
+import '../../../data/repositories/cart_repository.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/radio_buttons.dart';
 import '../../../enums/progress_status.dart';
@@ -36,6 +38,8 @@ class ShopController extends GetxController {
   final allProductsSearched = [].obs;
   final hotSalesFiltered = [].obs;
 
+  final counter = 1.obs;
+
   final progressStatus = ProgressStatus.idle.obs;
 
   final TextEditingController searchController = TextEditingController();
@@ -63,6 +67,14 @@ class ShopController extends GetxController {
     'Sort by Price: Low to High'
   ].obs;
 
+  final productDetailProgress = ProgressStatus.idle.obs;
+
+
+  showProgressBarDetail() => productDetailProgress.value = ProgressStatus.loading;
+
+  hideProgressBarDetail() => productDetailProgress.value = ProgressStatus.idle;
+
+
   showProgressBar() => progressStatus.value = ProgressStatus.loading;
 
   hideProgressBar() => progressStatus.value = ProgressStatus.idle;
@@ -70,6 +82,29 @@ class ShopController extends GetxController {
   showErrorBar() => progressStatus.value = ProgressStatus.error;
 
   hideErrorBar() => progressStatus.value = ProgressStatus.idle;
+
+  incrementCounter(int stockQuantity) {
+    log('Pressed');
+    if(counter.value > 0){
+      if(counter.value < stockQuantity){
+        counter.value++;
+      }
+    }else{
+      counter.value = 1;
+    }
+    update(['shopIncremenet']);
+  }
+
+  decrementCounter() {
+    if(counter.value > 2){
+
+      counter.value--;
+    }else{
+      counter.value = 1;
+    }
+
+    update(['shopIncremenet']);
+  }
 
   Future<void> fetchData() async {
     await Future.wait(
@@ -357,5 +392,24 @@ class ShopController extends GetxController {
         );
       },
     );
+  }
+
+  Future<bool> requestAddToCart(String name) async {
+    TextEditingController quantityController =
+        TextEditingController(text: counter.toString());
+
+    try {
+      final status = await CartRepository.addToCart(
+              name.toString(), quantityController.text.trim());
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      authError.value = '$error';
+      return false;
+    }
   }
 }

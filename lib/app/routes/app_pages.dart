@@ -1,6 +1,5 @@
 import 'package:adora_baby/app/modules/cart/views/add_address_view.dart';
 import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
-import 'package:adora_baby/app/modules/cart/views/product_details.dart';
 import 'package:get/get.dart';
 
 import '../modules/cart/bindings/cart_binding.dart';
@@ -9,6 +8,7 @@ import '../modules/cart/views/checkout_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/shop/bindings/shop_binding.dart';
+import '../modules/shop/views/product_details.dart';
 import '../modules/shop/views/shop_view.dart';
 import '../modules/auth/bindings/auth_bindings.dart';
 import '../modules/auth/views/otp_view.dart';

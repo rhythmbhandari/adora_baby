@@ -29,7 +29,7 @@ class CartRepository {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print('Response is $response');
         return true;
       } else {
@@ -65,14 +65,14 @@ class CartRepository {
     }
   }
 
-  static Future<bool> deleteCart(String id) async {
+  static Future<bool> deleteCart(List ofId) async {
     const url = '$BASE_URL/cart/delete/';
     final body = jsonEncode({
-      "cart_id": id,
+      "cart_id": ofId,
     });
     try {
-      final response = await DioHelper.postRequest(url,
-          body, false, await SecureStorage.returnHeaderWithToken());
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
       if (response) {
         return true;
       } else {

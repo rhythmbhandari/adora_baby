@@ -500,6 +500,7 @@ class CheckOutView extends GetView<CartController> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                               controller.cart();
+                              controller.priceCart.value = 0.0;
                               Get.to(() => const OrderConfirmation());
                             }
                           } catch (e) {

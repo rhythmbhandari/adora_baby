@@ -488,10 +488,10 @@ class CartController extends GetxController {
 
   final progressBarStatusDeleteCart = false.obs;
 
-  Future<bool> requestToDeleteCart(String id) async {
+  Future<bool> requestToDeleteCart(List ofId) async {
     try {
       final status =
-          await CartRepository.deleteCart(id.trim()).catchError((error) {
+          await CartRepository.deleteCart(ofId).catchError((error) {
         authError.value = error;
         return false;
       });
