@@ -61,11 +61,18 @@ class OrderWidget extends StatelessWidget {
             Obx(() {
               switch (controller.progressStatusOrderProfile.value) {
                 case ProgressStatus.error:
-                  return const CustomErrorWidget();
+                  return SizedBox(
+                      height: Get.height * 0.3,
+                      child: const FittedBox(child: CustomErrorWidget()));
                 case ProgressStatus.internetError:
-                  return const InternetErrorWidget();
+                  return SizedBox(
+                      height: Get.height * 0.3,
+                      child: const FittedBox(child: InternetErrorWidget()));
                 case ProgressStatus.empty:
-                  return const EmptyWidget();
+                  return SizedBox(
+                    height: Get.height * 0.3,
+                    child: const FittedBox(child: EmptyWidget()),
+                  );
                 case ProgressStatus.idle:
                 case ProgressStatus.loading:
                 case ProgressStatus.searching:
@@ -90,7 +97,7 @@ class OrderWidget extends StatelessWidget {
 Widget _buildImage() {
   return GridView.count(
     childAspectRatio: 1.3,
-    physics: NeverScrollableScrollPhysics(),
+    physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     crossAxisCount: 1,
     children: List.generate(
@@ -104,7 +111,7 @@ Widget _buildImage() {
                   flex: 3,
                   child: Container(
                     padding: const EdgeInsets.only(top: 10),
-                    margin: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -128,13 +135,13 @@ Widget _buildImage() {
                   flex: 2,
                   child: Container(
                     padding: const EdgeInsets.only(top: 10),
-                    margin: EdgeInsets.only(top: 20, bottom: 20, left: 0),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20, left: 0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
                             color: const Color.fromRGBO(192, 144, 254, 0.25)),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(15),
                             bottomLeft: Radius.circular(15))),
                     child: Container(
@@ -193,7 +200,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0.5,
                 blurRadius: 1,
-                offset: Offset(0, 2), // changes position of shadow
+                offset: const Offset(0, 2), // changes position of shadow
               ),
             ],
             borderRadius: BorderRadius.circular(
@@ -205,7 +212,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.only(left: 19, top: 10),
+                padding: const EdgeInsets.only(left: 19, top: 10),
                 child: Text(
                   '#${controller.ordersList[i].trackingCode}',
                   maxLines: 1,
@@ -218,7 +225,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                       .toLowerCase()
                       .contains('order')
                   ? Container(
-                      padding: EdgeInsets.only(left: 19, top: 2),
+                      padding: const EdgeInsets.only(left: 19, top: 2),
                       child: Text(
                         'Order Placed',
                         maxLines: 1,
@@ -232,7 +239,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                           .toLowerCase()
                           .contains('package')
                       ? Container(
-                          padding: EdgeInsets.only(left: 19, top: 2),
+                          padding: const EdgeInsets.only(left: 19, top: 2),
                           child: Text(
                             'Package Created',
                             maxLines: 1,
@@ -246,7 +253,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                               .toLowerCase()
                               .contains('shipped')
                           ? Container(
-                              padding: EdgeInsets.only(left: 19, top: 2),
+                              padding: const EdgeInsets.only(left: 19, top: 2),
                               child: Text(
                                 'Shipped',
                                 maxLines: 1,
@@ -261,7 +268,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                                   .toLowerCase()
                                   .contains('delivered')
                               ? Container(
-                                  padding: EdgeInsets.only(left: 19, top: 2),
+                                  padding: const EdgeInsets.only(left: 19, top: 2),
                                   child: Text(
                                     'Delivered',
                                     maxLines: 1,
@@ -277,7 +284,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                                       .contains('canceled')
                                   ? Container(
                                       padding:
-                                          EdgeInsets.only(left: 19, top: 2),
+                                          const EdgeInsets.only(left: 19, top: 2),
                                       child: Text(
                                         'Canceled',
                                         maxLines: 1,
@@ -301,7 +308,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                           .toLowerCase()
                           .contains('shipped')
                   ? Container(
-                      padding: EdgeInsets.only(left: 19, top: 2),
+                      padding: const EdgeInsets.only(left: 19, top: 2),
                       child: Text(
                         'Arriving ${DateTimeConverter.notificationDate(
                           controller.ordersList[i].estimatedTime,
@@ -317,7 +324,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                           .toLowerCase()
                           .contains('delivered')
                       ? Container(
-                          padding: EdgeInsets.only(left: 19, top: 2),
+                          padding: const EdgeInsets.only(left: 19, top: 2),
                           child: Text(
                             'Arrived ${DateTimeConverter.notificationDate(
                               controller.ordersList[i].estimatedTime,
@@ -329,17 +336,17 @@ Widget _buildFeaturedCards(ProfileController controller) {
                           ),
                         )
                       : Container(
-                padding: EdgeInsets.only(left: 19, top: 2),
-                child: Text(
-                  '\n',
-                  maxLines: 1,
-                  style: kThemeData.textTheme.labelSmall?.copyWith(
-                    color: DarkTheme.dark,
-                  ),
-                ),
-              ),
+                          padding: const EdgeInsets.only(left: 19, top: 2),
+                          child: Text(
+                            '\n',
+                            maxLines: 1,
+                            style: kThemeData.textTheme.labelSmall?.copyWith(
+                              color: DarkTheme.dark,
+                            ),
+                          ),
+                        ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,7 +387,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
       ));
     }
     FeaturedCard = Container(
-      padding: EdgeInsets.only(top: 16, bottom: 16),
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -388,7 +395,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
             scrollDirection: Axis.horizontal,
             child: Row(children: cards),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           GestureDetector(
@@ -397,7 +404,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
               Get.to(() => const OrderHistoryView());
             },
             child: Container(
-              padding: EdgeInsets.only(top: 10, right: 24, bottom: 8),
+              padding: const EdgeInsets.only(top: 10, right: 24, bottom: 8),
               alignment: Alignment.bottomRight,
               child: Text(
                 'Show History',

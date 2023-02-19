@@ -33,6 +33,10 @@ class _DiamondsViewState extends State<DiamondsView>
     RefreshController(),
   ];
 
+  ScrollController scrollController = ScrollController();
+  ScrollController scrollControllerOverview = ScrollController();
+  ScrollController scrollControllerStatement = ScrollController();
+
   late TabController tabController;
 
   late TabController tabControllerMain;
@@ -52,6 +56,13 @@ class _DiamondsViewState extends State<DiamondsView>
   }
 
   @override
+  void dispose() {
+    tabController.dispose();
+    tabControllerMain.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -59,12 +70,14 @@ class _DiamondsViewState extends State<DiamondsView>
         // controller.selectedFilter.value = 0;
         // controller.searchController.text = "";
         // return true;
-        controller.updateSelectedBookingPage(
-          DateType.WEEK,
-          controller.pageControllerOverview,
-          controller.dateTypeOverview,
-          controller.currentPageOverview,
-        );
+        if (controller.pageControllerOverview.value.hasClients) {
+          controller.updateSelectedBookingPage(
+            DateType.WEEK,
+            controller.pageControllerOverview,
+            controller.dateTypeOverview,
+            controller.currentPageOverview,
+          );
+        }
         return true;
       },
       child: Scaffold(
@@ -88,12 +101,15 @@ class _DiamondsViewState extends State<DiamondsView>
                             // controller.selectedStages.value = 10;
                             // controller.selectedFilter.value = 0;
                             // controller.searchController.text = "";
-                            controller.updateSelectedBookingPage(
-                              DateType.WEEK,
-                              controller.pageControllerOverview,
-                              controller.dateTypeOverview,
-                              controller.currentPageOverview,
-                            );
+                            if (controller
+                                .pageControllerOverview.value.hasClients) {
+                              controller.updateSelectedBookingPage(
+                                DateType.WEEK,
+                                controller.pageControllerOverview,
+                                controller.dateTypeOverview,
+                                controller.currentPageOverview,
+                              );
+                            }
                             Get.back();
                           },
                           child: const Icon(
@@ -183,7 +199,7 @@ class _DiamondsViewState extends State<DiamondsView>
                       children: [
                         Obx(() => SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              controller: controller.scrollControllerOverview,
+                              controller: scrollControllerOverview,
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 27, vertical: 0),
@@ -198,9 +214,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageOverview,
                                         );
                                         controller.animateTab(
-                                            0,
-                                            controller
-                                                .scrollControllerOverview);
+                                            0, scrollControllerOverview);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -248,9 +262,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageOverview,
                                         );
                                         controller.animateTab(
-                                            1,
-                                            controller
-                                                .scrollControllerOverview);
+                                            1, scrollControllerOverview);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -298,9 +310,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageOverview,
                                         );
                                         controller.animateTab(
-                                            2,
-                                            controller
-                                                .scrollControllerOverview);
+                                            2, scrollControllerOverview);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -362,6 +372,14 @@ class _DiamondsViewState extends State<DiamondsView>
                                       : pageViewIndex == 1
                                           ? controller.diamondHalfMonthOverview
                                           : controller.diamondListMonthOverview,
+                                  progressStatus: pageViewIndex == 0
+                                      ? controller
+                                      .progressStatusDiamondWeek
+                                      : pageViewIndex == 1
+                                      ? controller
+                                      .progressStatusDiamondHalfMonths
+                                      : controller
+                                      .progressStatusDiamondMonth,
                                   indexAPI: pageViewIndex,
                                 );
                               },
@@ -374,7 +392,7 @@ class _DiamondsViewState extends State<DiamondsView>
                       children: [
                         Obx(() => SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              controller: controller.scrollControllerStatement,
+                              controller: scrollControllerStatement,
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 27, vertical: 0),
@@ -389,9 +407,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageStatement,
                                         );
                                         controller.animateTab(
-                                            0,
-                                            controller
-                                                .scrollControllerStatement);
+                                            0, scrollControllerStatement);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -440,9 +456,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageStatement,
                                         );
                                         controller.animateTab(
-                                            1,
-                                            controller
-                                                .scrollControllerStatement);
+                                            1, scrollControllerStatement);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -491,9 +505,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                           controller.currentPageStatement,
                                         );
                                         controller.animateTab(
-                                            2,
-                                            controller
-                                                .scrollControllerStatement);
+                                            2, scrollControllerStatement);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -557,6 +569,14 @@ class _DiamondsViewState extends State<DiamondsView>
                                       : pageViewIndex == 1
                                           ? controller.diamondHalfMonth
                                           : controller.diamondListMonth,
+                                  progressStatus: pageViewIndex == 0
+                                      ? controller
+                                          .progressStatusDiamondWeekStatement
+                                      : pageViewIndex == 1
+                                          ? controller
+                                              .progressStatusDiamondHalfMonthsStatement
+                                          : controller
+                                              .progressStatusDiamondMonthStatement,
                                   indexAPI: pageViewIndex,
                                 );
                               },

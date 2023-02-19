@@ -79,6 +79,12 @@ class ProfileController extends GetxController {
 
   final progressStatusDiamondMonth = ProgressStatus.idle.obs;
 
+  final progressStatusDiamondWeekStatement = ProgressStatus.idle.obs;
+
+  final progressStatusDiamondHalfMonthsStatement = ProgressStatus.idle.obs;
+
+  final progressStatusDiamondMonthStatement = ProgressStatus.idle.obs;
+
   final Rx<Orders> selectedOrders = Orders().obs;
 
   final dateTypeOrder = DateType.WEEK.obs;
@@ -292,15 +298,45 @@ class ProfileController extends GetxController {
   Future<void> fetchDiamonds() async {
     await Future.wait(
       [
-        getDiamonds(isRefresh: true, isInitial: true, diamondListWeekOverview),
-        getDiamonds(isRefresh: true, isInitial: true, diamondHalfMonthOverview),
-        getDiamonds(isRefresh: true, isInitial: true, diamondListMonthOverview),
         getDiamonds(
-            isRefresh: true, isInitial: true, diamondListWeek, index: 0),
+          isRefresh: true,
+          isInitial: true,
+          diamondListWeekOverview,
+          progressStatusDiamondWeek,
+        ),
         getDiamonds(
-            isRefresh: true, isInitial: true, diamondHalfMonth, index: 1),
+          isRefresh: true,
+          isInitial: true,
+          diamondHalfMonthOverview,
+          progressStatusDiamondHalfMonths,
+        ),
         getDiamonds(
-            isRefresh: true, isInitial: true, diamondListMonth, index: 2),
+          isRefresh: true,
+          isInitial: true,
+          diamondListMonthOverview,
+          progressStatusDiamondMonth,
+        ),
+        getDiamonds(
+          isRefresh: true,
+          isInitial: true,
+          diamondListWeek,
+          index: 0,
+          progressStatusDiamondMonthStatement,
+        ),
+        getDiamonds(
+          isRefresh: true,
+          isInitial: true,
+          diamondHalfMonth,
+          index: 1,
+          progressStatusDiamondHalfMonthsStatement,
+        ),
+        getDiamonds(
+          isRefresh: true,
+          isInitial: true,
+          diamondListMonth,
+          index: 2,
+          progressStatusDiamondHalfMonthsStatement,
+        ),
       ],
     );
     pieChartCalculateWeek();
@@ -380,10 +416,6 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
-  ScrollController scrollController = new ScrollController();
-  ScrollController scrollControllerOverview = new ScrollController();
-  ScrollController scrollControllerStatement = new ScrollController();
-
   void scroll(double position, ScrollController scrollController) {
     scrollController.jumpTo(position);
   }
@@ -457,7 +489,7 @@ class ProfileController extends GetxController {
     RxList list,
     RxInt orderIndex,
     Rx<ProgressStatus> progressStatus, {
-    bool isRefresh = true,
+    bool isRefresh = false,
     bool isInitial = false,
     int index = 0,
   }) async {
@@ -470,7 +502,9 @@ class ProfileController extends GetxController {
       String keyword =
           '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00&page=${isRefresh ? 1 : orderIndex.value}';
 
-      showLoading(progressStatus);
+      if (isRefresh) {
+        showLoading(progressStatus);
+      }
 
       await DataRepository.fetchOrderList(keyword)
           .then((value) => {
@@ -519,77 +553,86 @@ class ProfileController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       log('Auth Error is $authError');
-      completeLoading(
+      showError(
         progressStatus,
-        true,
       );
     }
   }
 
-  Future<void> getDiamonds(RxList list,
-      {bool isRefresh = true,
+  Future<void> getDiamonds(RxList list, Rx<ProgressStatus> progressStatus,
+      {bool isRefresh = false,
       bool isInitial = false,
       int index = 0,
       bool isOverview = false}) async {
-    int time = index == 0
-        ? 7
-        : index == 1
-            ? 14
-            : 30;
-    String keyword =
-        '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00';
+    try {
+      if (isRefresh) {
+        showLoading(progressStatus);
+      }
 
-    keyword = !isOverview
-        ? '$keyword&page=${isRefresh ? 1 : orderHistoryIndex.value}'
-        : '$keyword&limit=10000';
+      int time = index == 0
+          ? 7
+          : index == 1
+              ? 14
+              : 30;
+      String keyword =
+          '?datetime_range_before=${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}T23:59:59&datetime_range_after=${DateTime.now().subtract(Duration(days: time)).year}-${DateTime.now().subtract(Duration(days: time)).month}-${DateTime.now().subtract(Duration(days: time)).day}T00:00:00';
 
-    showProgressBar();
-    await DataRepository.fetchDiamonds(keyword)
-        .then((value) => {
-              {
-                if (isRefresh && !isInitial)
-                  {
-                    if (value.isEmpty)
-                      {
-                        list.value = [].obs,
-                        diamondIndex.value = 2,
-                      }
-                    else
-                      {
-                        list.value = value,
-                        diamondIndex.value = 2,
-                      }
-                  }
-                else if (isRefresh && isInitial)
-                  {
-                    if (value.isEmpty)
-                      {
-                        list.value = [].obs,
-                        diamondIndex.value = 2,
-                      }
-                    else
-                      {
-                        diamondIndex.value = 2,
-                        list.value = value,
-                      }
-                  }
-                else
-                  {
+      keyword = !isOverview
+          ? '$keyword&page=${isRefresh ? 1 : orderHistoryIndex.value}'
+          : '$keyword&limit=10000';
+
+      showProgressBar();
+      await DataRepository.fetchDiamonds(keyword)
+          .then((value) => {
+                {
+                  if (isRefresh && !isInitial)
                     {
-                      list.addAll(value),
-                      diamondIndex.value++,
+                      if (value.isEmpty)
+                        {
+                          list.value = [].obs,
+                          diamondIndex.value = 2,
+                        }
+                      else
+                        {
+                          list.value = value,
+                          diamondIndex.value = 2,
+                        }
                     }
-                  }
-              }
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error) {
-        authError.value = error.toString();
-        log('Auth Error is ${authError}');
-        hideProgressBar();
-      },
-    );
+                  else if (isRefresh && isInitial)
+                    {
+                      if (value.isEmpty)
+                        {
+                          list.value = [].obs,
+                          diamondIndex.value = 2,
+                        }
+                      else
+                        {
+                          diamondIndex.value = 2,
+                          list.value = value,
+                        }
+                    }
+                  else
+                    {
+                      {
+                        list.addAll(value),
+                        diamondIndex.value++,
+                      }
+                    }
+                }
+              })
+          .then(
+            (value) => completeLoading(
+              progressStatus,
+              list.isEmpty ? true : false,
+            ),
+          );
+    } catch (error) {
+      authError.value = error.toString();
+      log('Auth Error is ${authError}');
+      showError(
+        progressStatus,
+      );
+    }
   }
 
   Future<bool> cancelBooking() async {

@@ -27,6 +27,9 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
 
   late TabController tabController;
 
+
+  ScrollController scrollControllerOrderHistory = ScrollController();
+
   @override
   void initState() {
     tabController = TabController(
@@ -113,7 +116,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
               ),
               Obx(() => SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    controller: controller.scrollController,
+                    controller: scrollControllerOrderHistory,
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 27, vertical: 20),
@@ -129,7 +132,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               );
                               controller.animateTab(
                                 0,
-                                controller.scrollController,
+                                scrollControllerOrderHistory,
                               );
                             },
                             child: Container(
@@ -171,7 +174,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                 controller.currentPageOrder,
                               );
                               controller.animateTab(
-                                  1, controller.scrollController);
+                                  1, scrollControllerOrderHistory);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -212,7 +215,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                 controller.currentPageOrder,
                               );
                               controller.animateTab(
-                                  2, controller.scrollController);
+                                  2, scrollControllerOrderHistory);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(

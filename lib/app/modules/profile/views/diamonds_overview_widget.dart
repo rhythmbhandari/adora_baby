@@ -6,10 +6,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../enums/progress_status.dart';
 import '../../../utils/date_time_converter.dart';
+import '../../cart/widgets/custom_error_widget.dart';
+import '../../cart/widgets/empty_widget.dart';
+import '../../cart/widgets/internet_error_widget.dart';
 
 class DiamondsOverviewWidget extends StatelessWidget {
   final ProfileController controller = Get.find();
@@ -20,11 +25,14 @@ class DiamondsOverviewWidget extends StatelessWidget {
 
   final int indexAPI;
 
+  final Rx<ProgressStatus> progressStatus;
+
   DiamondsOverviewWidget({
     super.key,
     required this.refreshController,
     required this.list,
     required this.indexAPI,
+    required this.progressStatus,
   });
 
   Map<String, double> dataMap = {
@@ -36,7 +44,13 @@ class DiamondsOverviewWidget extends StatelessWidget {
 
   void _onRefresh() async {
     await controller
-        .getDiamonds(isRefresh: true, isInitial: false, list, index: indexAPI)
+        .getDiamonds(
+          isRefresh: true,
+          isInitial: false,
+          list,
+          index: indexAPI,
+          progressStatus,
+        )
         .then((value) => refreshController.refreshCompleted())
         .catchError(
       (error) async {
@@ -121,26 +135,83 @@ class DiamondsOverviewWidget extends StatelessWidget {
       ),
       controller: refreshController,
       onRefresh: _onRefresh,
-
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.only(top: 16),
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: GetBuilder<ProfileController>(
-              builder: (value) => list.isNotEmpty
-                  ? pieChartWidget(
-                      indexAPI == 0
-                          ? value.dataMap
-                          : indexAPI == 1
-                              ? value.dataMapHalfMonth
-                              : value.dataMapMonth,
-                      context)
-                  : Container()),
-        ),
+            physics: NeverScrollableScrollPhysics(),
+            child: Obx(() {
+              switch (progressStatus.value) {
+                case ProgressStatus.error:
+                  return Container(
+                      height: Get.height * 0.7,
+                      child: FittedBox(child: const CustomErrorWidget()));
+                case ProgressStatus.internetError:
+                  return Container(
+                      height: Get.height * 0.7,
+                      child: FittedBox(child: const InternetErrorWidget()));
+                case ProgressStatus.empty:
+                  return Container(
+                      height: Get.height * 0.7,
+                      child: FittedBox(child: const EmptyWidget()));
+                case ProgressStatus.idle:
+                case ProgressStatus.loading:
+                case ProgressStatus.searching:
+                case ProgressStatus.success:
+                  return GetBuilder<ProfileController>(
+                    builder: (value) => list.isNotEmpty
+                        ? pieChartWidget(
+                            indexAPI == 0
+                                ? value.dataMap
+                                : indexAPI == 1
+                                    ? value.dataMapHalfMonth
+                                    : value.dataMapMonth,
+                            context)
+                        : Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: LightTheme.lightActive,
+                            enabled: true,
+                            child: buildImagePieCart(),
+                          ),
+                  );
+              }
+            })),
       ),
     );
   }
+}
+
+Widget buildImagePieCart() {
+  return GridView.count(
+    childAspectRatio: 3,
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    crossAxisCount: 1,
+    children: List.generate(
+      5,
+      (index) => Container(
+        padding: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(left: 52, right: 52, bottom: 16),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border:
+                Border.all(color: const Color.fromRGBO(192, 144, 254, 0.25)),
+            borderRadius: BorderRadius.circular(15)),
+        child: Container(
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            decoration: const BoxDecoration(
+                color: Color.fromRGBO(243, 234, 249, 1),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15))),
+            child: Text(
+              "snapshot.data![index].name",
+              style: kThemeData.textTheme.bodyMedium,
+            )),
+      ),
+    ),
+  );
 }
 
 Widget pieChartWidget(Map<String, double> value, BuildContext context) {
