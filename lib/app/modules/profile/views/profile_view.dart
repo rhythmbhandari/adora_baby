@@ -74,16 +74,20 @@ class ProfileView extends GetView<ProfileController> {
                 Center(
                   child: GestureDetector(
                     onTap: () async {
-                      await storage.delete(
-                        Constants.ACCESS_TOKEN,
-                      );
-                      await storage.delete(
-                        Constants.LOGGED_IN_STATUS,
-                      );
-                      await storage.delete(
-                        Constants.REFRESH_TOKEN,
-                      );
-                      Get.offAllNamed(Routes.PHONE);
+                      try {
+                        await storage.delete(
+                          Constants.ACCESS_TOKEN,
+                        );
+                        await storage.delete(
+                          Constants.LOGGED_IN_STATUS,
+                        );
+                        await storage.delete(
+                          Constants.REFRESH_TOKEN,
+                        );
+                        Get.offAllNamed(Routes.PHONE);
+                      } catch (e) {
+                        -Get.offAllNamed(Routes.PHONE);
+                      }
                     },
                     child: Text(
                       'Logout',

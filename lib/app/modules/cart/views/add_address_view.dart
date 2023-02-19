@@ -142,7 +142,8 @@ class AddAddressView extends GetView<CartController> {
                                     borderRadius: BorderRadius.circular(50.0),
                                     side: BorderSide(
                                         color: Color.fromRGBO(0, 0, 0, 1),
-                                        strokeAlign: StrokeAlign.inside),
+                                        // strokeAlign: StrokeAlign.inside,
+                                    ),
                                   ),
                                   borderOnForeground: false,
                                   elevation: 3,
