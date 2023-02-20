@@ -44,13 +44,15 @@ class DiamondsOverviewWidget extends StatelessWidget {
 
   void _onRefresh() async {
     try {
-      await controller.getDiamonds(
-        isRefresh: true,
-        isInitial: false,
-        list,
-        index: indexAPI,
-        progressStatus,
-      );
+      await controller
+          .getDiamonds(
+            isRefresh: true,
+            isInitial: false,
+            list,
+            index: indexAPI,
+            progressStatus,
+          )
+          .then((value) => refreshController.refreshCompleted());
     } catch (error) {
       refreshController.refreshFailed();
       await Future.delayed(const Duration(milliseconds: 0000)).then((value) {

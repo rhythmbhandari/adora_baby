@@ -186,7 +186,7 @@ class _DiamondsViewState extends State<DiamondsView>
                   vertical: 16,
                 ),
                 child: Text(
-                  '${controller.user.value.diamond} Diamonds',
+                  '${controller.user.value.diamond ?? 0} Diamonds',
                   style: kThemeData.textTheme.titleMedium
                       ?.copyWith(color: DarkTheme.dark),
                 ),

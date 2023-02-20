@@ -9,11 +9,13 @@ import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart
 import 'package:adora_baby/app/widgets/tips_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../main.dart';
@@ -51,7 +53,7 @@ class ShopView extends GetView<ShopController> {
 }
 
 class NewShopViewBody extends StatelessWidget {
-  const NewShopViewBody({
+  NewShopViewBody({
     Key? key,
     required this.controller,
     required this.profileController,
@@ -60,147 +62,220 @@ class NewShopViewBody extends StatelessWidget {
   final ShopController controller;
   final ProfileController profileController;
 
+  final RefreshController _refreshControllerShop=
+  RefreshController(initialRefresh: false);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 20, top: 30),
+        child: SmartRefresher(
+          physics: const AlwaysScrollableScrollPhysics(),
+          enablePullDown: true,
+          enablePullUp: false,
+          header: ClassicHeader(
+            refreshStyle: RefreshStyle.Follow,
+            releaseIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator()),
+            failedIcon: const Icon(Icons.error, color: Colors.grey),
+            idleIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator.partiallyRevealed(
+                  progress: 0.4,
+                )),
+            textStyle: Get.textTheme.headline5!.copyWith(
+                fontFamily: 'Roboto',
+                color: Get.theme.primaryColor,
+                fontWeight: FontWeight.w500),
+            releaseText: '',
+            idleText: '',
+            failedText: '',
+            completeText: '',
+            refreshingText: '',
+            refreshingIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator()),
+          ),
+          footer: ClassicFooter(
+            // refreshStyle: RefreshStyle.Follow,
+            canLoadingText: '',
+            loadStyle: LoadStyle.ShowWhenLoading,
+            noDataText: '',
+            noMoreIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: Icon(Icons.expand_circle_down,
+                    color: Colors.red)),
+            canLoadingIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator()),
+            failedIcon: const Icon(Icons.error, color: Colors.grey),
+            idleIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator.partiallyRevealed(
+                  progress: 0.4,
+                )),
+            textStyle: Get.textTheme.headline5!.copyWith(
+                fontFamily: 'Roboto',
+                color: Get.theme.primaryColor,
+                fontWeight: FontWeight.w500),
+            idleText: '',
+            failedText: '',
+            loadingText: '',
+            loadingIcon: const SizedBox(
+                width: 25.0,
+                height: 25.0,
+                child: CupertinoActivityIndicator()),
+          ),
+          controller: _refreshControllerShop,
+          onRefresh: () {
+            controller.fetchData().then((value) =>
+                _refreshControllerShop.refreshCompleted());
+          },
+          child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(
-                  height: 40,
-                ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 41),
-                  child: GetBuilder<ProfileController>(
-                    id: 'homePageProfile',
-                    builder: (value) => Row(
-                      children: [
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              height: Get.height * 0.06,
-                              width: Get.height * 0.06,
-                              imageUrl: value.user.value.photos != null &&
-                                      value.user.value.photos!.isNotEmpty
-                                  ? value.user.value.photos!.length > 1
-                                      ? '${value.user.value.photos?[1]?.name}'
-                                      : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                  : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
-                              placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.only(bottom: 20, top: 30),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 41),
+                        child: GetBuilder<ProfileController>(
+                          id: 'homePageProfile',
+                          builder: (value) => Row(
                             children: [
-                              Text(
-                                value.user.value.babyName ?? '',
-                                style: kThemeData.textTheme.labelMedium
-                                    ?.copyWith(color: DarkTheme.darkNormal),
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    height: Get.height * 0.06,
+                                    width: Get.height * 0.06,
+                                    imageUrl: value.user.value.photos != null &&
+                                            value.user.value.photos!.isNotEmpty
+                                        ? value.user.value.photos!.length > 1
+                                            ? '${value.user.value.photos?[1]?.name}'
+                                            : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                        : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
                               ),
-                              Text(
-                                '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
-                                style: kThemeData.textTheme.labelMedium
-                                    ?.copyWith(color: DarkTheme.darkNormal),
+                              SizedBox(
+                                width: 8,
                               ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      value.user.value.babyName ?? '',
+                                      style: kThemeData.textTheme.labelMedium
+                                          ?.copyWith(color: DarkTheme.darkNormal),
+                                    ),
+                                    Text(
+                                      '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
+                                      style: kThemeData.textTheme.labelMedium
+                                          ?.copyWith(color: DarkTheme.darkNormal),
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => SearchView(),
-                        arguments: controller.allProducts);
-                  },
-                  child: Hero(
-                    tag: 'search',
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 31.0, right: 31, top: 20),
-                        child: TextField(
-                          cursorColor: AppColors.mainColor,
-                          // focusNode: searchNode,
-                          autofocus: false,
-                          enabled: false,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            hintText: 'Search for Items',
-                            hintStyle: kThemeData.textTheme.bodyLarge
-                                ?.copyWith(color: Color(0xffAF98A8)),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 18),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0, right: 23, bottom: 8),
-                              child: SvgPicture.asset(
-                                  "assets/images/search-normal.svg"),
-                            ),
-                            fillColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(33),
-                                borderSide: const BorderSide(
-                                    width: 1,
-                                    color: Color.fromRGBO(175, 152, 168, 1))),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(33),
-                                borderSide: const BorderSide(
-                                    width: 1,
-                                    color: Color.fromRGBO(175, 152, 168, 1))),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(33),
-                                borderSide: const BorderSide(
-                                    width: 1,
-                                    color: Color.fromRGBO(175, 152, 168, 1))),
                           ),
                         ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => SearchView(),
+                              arguments: controller.allProducts);
+                        },
+                        child: Hero(
+                          tag: 'search',
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 31.0, right: 31, top: 20),
+                              child: TextField(
+                                cursorColor: AppColors.mainColor,
+                                // focusNode: searchNode,
+                                autofocus: false,
+                                enabled: false,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  hintText: 'Search for Items',
+                                  hintStyle: kThemeData.textTheme.bodyLarge
+                                      ?.copyWith(color: Color(0xffAF98A8)),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 24, vertical: 18),
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, right: 23, bottom: 8),
+                                    child: SvgPicture.asset(
+                                        "assets/images/search-normal.svg"),
+                                  ),
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(33),
+                                      borderSide: const BorderSide(
+                                          width: 1,
+                                          color: Color.fromRGBO(175, 152, 168, 1))),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(33),
+                                      borderSide: const BorderSide(
+                                          width: 1,
+                                          color: Color.fromRGBO(175, 152, 168, 1))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(33),
+                                      borderSide: const BorderSide(
+                                          width: 1,
+                                          color: Color.fromRGBO(175, 152, 168, 1))),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            color: LightTheme.lightActive,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 23,
-                ),
-                TrendingImages(controller: controller),
-                HotSale(
-                  controller: controller,
-                ),
-                tips(controller, context),
-                AllProducts(controller: controller),
                 Container(
-                  height: Get.height * 0.1,
+                  color: LightTheme.lightActive,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 23,
+                      ),
+                      TrendingImages(controller: controller),
+                      HotSale(
+                        controller: controller,
+                      ),
+                      tips(controller, context),
+                      AllProducts(controller: controller),
+                      Container(
+                        height: Get.height * 0.1,
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
-          )
-        ],
-      ),
-    ));
+          ),
+        ));
   }
 }
 

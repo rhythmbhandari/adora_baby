@@ -111,7 +111,6 @@ class ShopController extends GetxController {
         getHotSales(true),
         getAllProducts(true),
         getStages(),
-        DataRepository.fetchProfileDetail(),
         getTips(true, true),
       ],
     );

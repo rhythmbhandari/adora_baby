@@ -265,7 +265,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> fetchData() async {
-    await Future.wait(
+    showLoading(progressStatus);
+    final status = await Future.wait(
       [
         getUserDetails(),
         getOrderList(
@@ -280,6 +281,12 @@ class ProfileController extends GetxController {
         getCities(),
       ],
     );
+    if(status.contains(false)){
+      completeLoading(progressStatus, true);
+    }else{
+      completeLoading(progressStatus, false);
+    }
+
   }
 
   Future<bool> validateAddress() async {

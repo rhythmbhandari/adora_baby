@@ -1,9 +1,12 @@
+import 'package:adora_baby/app/modules/profile/views/diamonds_view.dart';
+import 'package:adora_baby/app/modules/profile/views/order_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../profile/views/order_history_detail.dart';
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
@@ -32,15 +35,20 @@ class EmptyWidget extends StatelessWidget {
           Container(
             height: 37,
           ),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Text(
-              'No data available.',
-              textAlign: TextAlign.center,
-              style: Get.theme.textTheme.headlineMedium?.copyWith(
-                color: DarkTheme.darkLightActive,
+          GestureDetector(
+            onTap: (){
+              Get.to(OrderHistoryDetail());
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Text(
+                'No data available.',
+                textAlign: TextAlign.center,
+                style: Get.theme.textTheme.headlineMedium?.copyWith(
+                  color: DarkTheme.darkLightActive,
+                ),
               ),
             ),
           ),
