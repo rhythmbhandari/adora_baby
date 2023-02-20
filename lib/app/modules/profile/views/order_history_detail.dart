@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:adora_baby/app/modules/cart/widgets/empty_widget.dart';
+import 'package:adora_baby/app/modules/cart/widgets/internet_error_widget.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,6 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../data/models/order_logs_model.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/date_time_converter.dart';
@@ -20,6 +23,8 @@ import '../../../widgets/gradient_icon.dart';
 
 class OrderHistoryDetail extends GetView<ProfileController> {
   OrderHistoryDetail({Key? key}) : super(key: key);
+
+  final ScrollController _scrollController =  ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +151,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                 body: TabBarView(
                                   children: [
                                     SingleChildScrollView(
+                                     key:  new PageStorageKey('details'),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -843,185 +849,32 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                       ),
                                     ),
                                     SingleChildScrollView(
+                                      key: new PageStorageKey('track_my_order'),
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 50,
-                                          vertical: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            controller
-                                                    .selectedOrders.value.status
-                                                    .toString()
-                                                    .toLowerCase()
-                                                    .contains('delivered')
-                                                ? Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 3,
-                                                        child: Text(
-                                                            'Delivered on ',
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .bodyLarge
-                                                                ?.copyWith(
-                                                                    color: DarkTheme
-                                                                        .dark)),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 3,
-                                                        child: Text(
-                                                            DateTimeConverter
-                                                                .tripDateFormatter(
-                                                                    controller
-                                                                        .selectedOrders
-                                                                        .value
-                                                                        .estimatedTime!),
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .labelMedium
-                                                                ?.copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    color: DarkTheme
-                                                                        .dark)),
-                                                      ),
-                                                      Expanded(
-                                                          child: SizedBox())
-                                                    ],
-                                                  )
-                                                : controller.selectedOrders
-                                                        .value.status
-                                                        .toString()
-                                                        .toLowerCase()
-                                                        .contains('canceled')
-                                                    ? Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 3,
-                                                            child: Text(
-                                                                'Canceled on ',
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .bodyLarge
-                                                                    ?.copyWith(
-                                                                        color: DarkTheme
-                                                                            .dark)),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 3,
-                                                            child: Text(
-                                                                DateTimeConverter
-                                                                    .tripDateFormatter(controller
-                                                                        .selectedOrders
-                                                                        .value
-                                                                        .updatedAt!),
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .labelMedium
-                                                                    ?.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        color: DarkTheme
-                                                                            .dark)),
-                                                          ),
-                                                          Expanded(
-                                                              child: SizedBox())
-                                                        ],
-                                                      )
-                                                    : Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 3,
-                                                            child: Text(
-                                                                'Estimated Time',
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .bodyLarge
-                                                                    ?.copyWith(
-                                                                        color: DarkTheme
-                                                                            .dark)),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 3,
-                                                            child: Text(
-                                                                controller
-                                                                            .selectedOrders
-                                                                            .value
-                                                                            .estimatedTime ==
-                                                                        null
-                                                                    ? 'N/A'
-                                                                    : DateTimeConverter.tripDateFormatter(controller
-                                                                        .selectedOrders
-                                                                        .value
-                                                                        .estimatedTime!),
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .labelMedium
-                                                                    ?.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        color: DarkTheme
-                                                                            .dark)),
-                                                          ),
-                                                          Expanded(
-                                                              child: SizedBox())
-                                                        ],
-                                                      ),
-                                            Container(
-                                              height: 45,
-                                            ),
-                                            controller
-                                                    .selectedOrders.value.status
-                                                    .toString()
-                                                    .toLowerCase()
-                                                    .contains('order')
-                                                ? Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 30,
-                                                        width: 30,
-                                                        decoration: BoxDecoration(
-                                                            color: AppColors
-                                                                .success500,
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .success500,
-                                                                width: 1.5)),
-                                                        child: Center(
-                                                            child: Icon(
-                                                          Icons.check_outlined,
-                                                          color: Colors.white,
-                                                          size: 20,
-                                                        )),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 50,
-                                                      ),
-                                                      SvgPicture.asset(
-                                                          "assets/images/order_placed.svg",
-                                                          // height: 22,
-                                                          color:
-                                                              DarkTheme.dark),
-                                                      SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      Expanded(
-                                                        child: Column(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 50,
+                                            vertical: 50,
+                                          ),
+                                          child: FutureBuilder<
+                                              List<OrderLogsModel>>(
+                                            future:
+                                                controller.initiateTrackOrder(),
+                                            builder: (context, snapshot) {
+                                              log('Snapshot is ${snapshot.data}');
+                                              if (snapshot.hasData) {
+                                                if (snapshot.data != null &&
+                                                    snapshot.data!.isNotEmpty) {
+                                                  return ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      itemCount: snapshot
+                                                              .data?.length ??
+                                                          0,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .start,
@@ -1029,292 +882,508 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text('Order Placed',
-                                                                style: kThemeData
-                                                                    .textTheme
-                                                                    .labelMedium
-                                                                    ?.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        color: DarkTheme
-                                                                            .dark)),
                                                             Text(
-                                                                'We have received your order.',
+                                                                '${snapshot.data?[index].orderStatus}',
                                                                 style: kThemeData
                                                                     .textTheme
-                                                                    .bodyMedium
+                                                                    .titleMedium
                                                                     ?.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        color: DarkTheme
-                                                                            .dark)),
+                                                                        color: AppColors
+                                                                            .primary700)),
+                                                            SizedBox(
+                                                                height: 10),
                                                           ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                : controller.selectedOrders
-                                                        .value.status
-                                                        .toString()
-                                                        .toLowerCase()
-                                                        .contains('package')
-                                                    ? Row(
-                                                        children: [
-                                                          Container(
-                                                            height: 30,
-                                                            width: 30,
-                                                            decoration: BoxDecoration(
-                                                                color: AppColors
-                                                                    .success500,
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border: Border.all(
-                                                                    color: AppColors
-                                                                        .success500,
-                                                                    width:
-                                                                        1.5)),
-                                                            child: Center(
-                                                                child: Icon(
-                                                              Icons
-                                                                  .check_outlined,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 20,
-                                                            )),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 50,
-                                                          ),
-                                                          SvgPicture.asset(
-                                                              "assets/images/package_created.svg",
-                                                              // height: 22,
-                                                              color: DarkTheme
-                                                                  .dark),
-                                                          SizedBox(
-                                                            width: 8,
-                                                          ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                    'Package Created',
-                                                                    style: kThemeData
-                                                                        .textTheme
-                                                                        .labelMedium
-                                                                        ?.copyWith(
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            color: DarkTheme.dark)),
-                                                                Text(
-                                                                    'We have packed your order.',
-                                                                    style: kThemeData
-                                                                        .textTheme
-                                                                        .bodyMedium
-                                                                        ?.copyWith(
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                            color: DarkTheme.dark)),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )
-                                                    : controller.selectedOrders
-                                                            .value.status
-                                                            .toString()
-                                                            .toLowerCase()
-                                                            .contains('shipped')
-                                                        ? Row(
-                                                            children: [
-                                                              Container(
-                                                                height: 30,
-                                                                width: 30,
-                                                                decoration: BoxDecoration(
-                                                                    color: AppColors
-                                                                        .success500,
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    border: Border.all(
-                                                                        color: AppColors
-                                                                            .success500,
-                                                                        width:
-                                                                            1.5)),
-                                                                child: Center(
-                                                                    child: Icon(
-                                                                  Icons
-                                                                      .check_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 20,
-                                                                )),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 50,
-                                                              ),
-                                                              SvgPicture.asset(
-                                                                  "assets/images/shipped.svg",
-                                                                  // height: 22,
-                                                                  color:
-                                                                      DarkTheme
-                                                                          .dark),
-                                                              SizedBox(
-                                                                width: 8,
-                                                              ),
-                                                              Expanded(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                        'Shipped',
-                                                                        style: kThemeData
-                                                                            .textTheme
-                                                                            .labelMedium
-                                                                            ?.copyWith(
-                                                                                fontWeight: FontWeight.w600,
-                                                                                color: DarkTheme.dark)),
-                                                                    Text(
-                                                                        'We are shipping your order.',
-                                                                        style: kThemeData
-                                                                            .textTheme
-                                                                            .bodyMedium
-                                                                            ?.copyWith(
-                                                                                fontWeight: FontWeight.w400,
-                                                                                color: DarkTheme.dark)),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        : controller
-                                                                .selectedOrders
-                                                                .value
-                                                                .status
-                                                                .toString()
-                                                                .toLowerCase()
-                                                                .contains(
-                                                                    'delivered')
-                                                            ? Row(
-                                                                children: [
-                                                                  Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    decoration: BoxDecoration(
-                                                                        color: AppColors
-                                                                            .success500,
-                                                                        shape: BoxShape
-                                                                            .circle,
-                                                                        border: Border.all(
-                                                                            color:
-                                                                                AppColors.success500,
-                                                                            width: 1.5)),
-                                                                    child: Center(
-                                                                        child: Icon(
-                                                                      Icons
-                                                                          .check_outlined,
-                                                                      color: Colors
-                                                                          .white,
-                                                                      size: 20,
-                                                                    )),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 50,
-                                                                  ),
-                                                                  SvgPicture.asset(
-                                                                      "assets/images/location-tick.svg",
-                                                                      // height: 22,
-                                                                      color: DarkTheme
-                                                                          .dark),
-                                                                  SizedBox(
-                                                                    width: 8,
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                            'Order Delivered',
-                                                                            style:
-                                                                                kThemeData.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: DarkTheme.dark)),
-                                                                        Text(
-                                                                            'Your order is delivered',
-                                                                            style:
-                                                                                kThemeData.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: DarkTheme.dark)),
-                                                                      ],
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              )
-                                                            : Row(
-                                                                children: [
-                                                                  Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        shape: BoxShape
-                                                                            .circle,
-                                                                        border: Border.all(
-                                                                            color:
-                                                                                AppColors.error500,
-                                                                            width: 1.5)),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 50,
-                                                                  ),
-                                                                  SvgPicture.asset(
-                                                                      "assets/images/canceled.svg",
-                                                                      // height: 22,
-                                                                      color: AppColors
-                                                                          .error500),
-                                                                  SizedBox(
-                                                                    width: 8,
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                            'Canceled',
-                                                                            style:
-                                                                                kThemeData.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: AppColors.error500)),
-                                                                        Text(
-                                                                            'Your order was canceled as the deilvery was late',
-                                                                            style:
-                                                                                kThemeData.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppColors.error500)),
-                                                                      ],
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              )
-                                          ],
-                                        ),
-                                      ),
+                                                        );
+                                                      });
+                                                } else {
+                                                  return Container(
+                                                      height: Get.height * 0.6,
+                                                      child: FittedBox(
+                                                          child:
+                                                              EmptyWidget()));
+                                                }
+                                              } else if (snapshot.hasError) {
+                                                return Container(
+                                                    height: Get.height * 0.6,
+                                                    child: FittedBox(
+                                                        child:
+                                                            InternetErrorWidget()));
+                                              }
+                                              return  Container(
+                                                  height: Get.height * 0.6,
+                                                  child: FittedBox(
+                                                      child:
+                                                          InternetErrorWidget()));
+                                            },
+                                          )
+
+                                          // Column(
+                                          //   children: [
+                                          //     controller
+                                          //             .selectedOrders.value.status
+                                          //             .toString()
+                                          //             .toLowerCase()
+                                          //             .contains('delivered')
+                                          //         ? Row(
+                                          //             mainAxisAlignment:
+                                          //                 MainAxisAlignment
+                                          //                     .spaceBetween,
+                                          //             children: [
+                                          //               Expanded(
+                                          //                 flex: 3,
+                                          //                 child: Text(
+                                          //                     'Delivered on ',
+                                          //                     style: kThemeData
+                                          //                         .textTheme
+                                          //                         .bodyLarge
+                                          //                         ?.copyWith(
+                                          //                             color: DarkTheme
+                                          //                                 .dark)),
+                                          //               ),
+                                          //               Expanded(
+                                          //                 flex: 3,
+                                          //                 child: Text(
+                                          //                     DateTimeConverter
+                                          //                         .tripDateFormatter(
+                                          //                             controller
+                                          //                                 .selectedOrders
+                                          //                                 .value
+                                          //                                 .estimatedTime!),
+                                          //                     style: kThemeData
+                                          //                         .textTheme
+                                          //                         .labelMedium
+                                          //                         ?.copyWith(
+                                          //                             fontWeight:
+                                          //                                 FontWeight
+                                          //                                     .w600,
+                                          //                             color: DarkTheme
+                                          //                                 .dark)),
+                                          //               ),
+                                          //               Expanded(
+                                          //                   child: SizedBox())
+                                          //             ],
+                                          //           )
+                                          //         : controller.selectedOrders
+                                          //                 .value.status
+                                          //                 .toString()
+                                          //                 .toLowerCase()
+                                          //                 .contains('canceled')
+                                          //             ? Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .spaceBetween,
+                                          //                 children: [
+                                          //                   Expanded(
+                                          //                     flex: 3,
+                                          //                     child: Text(
+                                          //                         'Canceled on ',
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .bodyLarge
+                                          //                             ?.copyWith(
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                   ),
+                                          //                   Expanded(
+                                          //                     flex: 3,
+                                          //                     child: Text(
+                                          //                         DateTimeConverter
+                                          //                             .tripDateFormatter(controller
+                                          //                                 .selectedOrders
+                                          //                                 .value
+                                          //                                 .updatedAt!),
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .labelMedium
+                                          //                             ?.copyWith(
+                                          //                                 fontWeight:
+                                          //                                     FontWeight
+                                          //                                         .w600,
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                   ),
+                                          //                   Expanded(
+                                          //                       child: SizedBox())
+                                          //                 ],
+                                          //               )
+                                          //             : Row(
+                                          //                 mainAxisAlignment:
+                                          //                     MainAxisAlignment
+                                          //                         .spaceBetween,
+                                          //                 children: [
+                                          //                   Expanded(
+                                          //                     flex: 3,
+                                          //                     child: Text(
+                                          //                         'Estimated Time',
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .bodyLarge
+                                          //                             ?.copyWith(
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                   ),
+                                          //                   Expanded(
+                                          //                     flex: 3,
+                                          //                     child: Text(
+                                          //                         controller
+                                          //                                     .selectedOrders
+                                          //                                     .value
+                                          //                                     .estimatedTime ==
+                                          //                                 null
+                                          //                             ? 'N/A'
+                                          //                             : DateTimeConverter.tripDateFormatter(controller
+                                          //                                 .selectedOrders
+                                          //                                 .value
+                                          //                                 .estimatedTime!),
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .labelMedium
+                                          //                             ?.copyWith(
+                                          //                                 fontWeight:
+                                          //                                     FontWeight
+                                          //                                         .w600,
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                   ),
+                                          //                   Expanded(
+                                          //                       child: SizedBox())
+                                          //                 ],
+                                          //               ),
+                                          //     Container(
+                                          //       height: 45,
+                                          //     ),
+                                          //     controller
+                                          //             .selectedOrders.value.status
+                                          //             .toString()
+                                          //             .toLowerCase()
+                                          //             .contains('order')
+                                          //         ? Row(
+                                          //             children: [
+                                          //               Container(
+                                          //                 height: 30,
+                                          //                 width: 30,
+                                          //                 decoration: BoxDecoration(
+                                          //                     color: AppColors
+                                          //                         .success500,
+                                          //                     shape:
+                                          //                         BoxShape.circle,
+                                          //                     border: Border.all(
+                                          //                         color: AppColors
+                                          //                             .success500,
+                                          //                         width: 1.5)),
+                                          //                 child: Center(
+                                          //                     child: Icon(
+                                          //                   Icons.check_outlined,
+                                          //                   color: Colors.white,
+                                          //                   size: 20,
+                                          //                 )),
+                                          //               ),
+                                          //               SizedBox(
+                                          //                 width: 50,
+                                          //               ),
+                                          //               SvgPicture.asset(
+                                          //                   "assets/images/order_placed.svg",
+                                          //                   // height: 22,
+                                          //                   color:
+                                          //                       DarkTheme.dark),
+                                          //               SizedBox(
+                                          //                 width: 8,
+                                          //               ),
+                                          //               Expanded(
+                                          //                 child: Column(
+                                          //                   mainAxisAlignment:
+                                          //                       MainAxisAlignment
+                                          //                           .start,
+                                          //                   crossAxisAlignment:
+                                          //                       CrossAxisAlignment
+                                          //                           .start,
+                                          //                   children: [
+                                          //                     Text('Order Placed',
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .labelMedium
+                                          //                             ?.copyWith(
+                                          //                                 fontWeight:
+                                          //                                     FontWeight
+                                          //                                         .w600,
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                     Text(
+                                          //                         'We have received your order.',
+                                          //                         style: kThemeData
+                                          //                             .textTheme
+                                          //                             .bodyMedium
+                                          //                             ?.copyWith(
+                                          //                                 fontWeight:
+                                          //                                     FontWeight
+                                          //                                         .w400,
+                                          //                                 color: DarkTheme
+                                          //                                     .dark)),
+                                          //                   ],
+                                          //                 ),
+                                          //               )
+                                          //             ],
+                                          //           )
+                                          //         : controller.selectedOrders
+                                          //                 .value.status
+                                          //                 .toString()
+                                          //                 .toLowerCase()
+                                          //                 .contains('package')
+                                          //             ? Row(
+                                          //                 children: [
+                                          //                   Container(
+                                          //                     height: 30,
+                                          //                     width: 30,
+                                          //                     decoration: BoxDecoration(
+                                          //                         color: AppColors
+                                          //                             .success500,
+                                          //                         shape: BoxShape
+                                          //                             .circle,
+                                          //                         border: Border.all(
+                                          //                             color: AppColors
+                                          //                                 .success500,
+                                          //                             width:
+                                          //                                 1.5)),
+                                          //                     child: Center(
+                                          //                         child: Icon(
+                                          //                       Icons
+                                          //                           .check_outlined,
+                                          //                       color:
+                                          //                           Colors.white,
+                                          //                       size: 20,
+                                          //                     )),
+                                          //                   ),
+                                          //                   SizedBox(
+                                          //                     width: 50,
+                                          //                   ),
+                                          //                   SvgPicture.asset(
+                                          //                       "assets/images/package_created.svg",
+                                          //                       // height: 22,
+                                          //                       color: DarkTheme
+                                          //                           .dark),
+                                          //                   SizedBox(
+                                          //                     width: 8,
+                                          //                   ),
+                                          //                   Expanded(
+                                          //                     child: Column(
+                                          //                       mainAxisAlignment:
+                                          //                           MainAxisAlignment
+                                          //                               .start,
+                                          //                       crossAxisAlignment:
+                                          //                           CrossAxisAlignment
+                                          //                               .start,
+                                          //                       children: [
+                                          //                         Text(
+                                          //                             'Package Created',
+                                          //                             style: kThemeData
+                                          //                                 .textTheme
+                                          //                                 .labelMedium
+                                          //                                 ?.copyWith(
+                                          //                                     fontWeight:
+                                          //                                         FontWeight.w600,
+                                          //                                     color: DarkTheme.dark)),
+                                          //                         Text(
+                                          //                             'We have packed your order.',
+                                          //                             style: kThemeData
+                                          //                                 .textTheme
+                                          //                                 .bodyMedium
+                                          //                                 ?.copyWith(
+                                          //                                     fontWeight:
+                                          //                                         FontWeight.w400,
+                                          //                                     color: DarkTheme.dark)),
+                                          //                       ],
+                                          //                     ),
+                                          //                   )
+                                          //                 ],
+                                          //               )
+                                          //             : controller.selectedOrders
+                                          //                     .value.status
+                                          //                     .toString()
+                                          //                     .toLowerCase()
+                                          //                     .contains('shipped')
+                                          //                 ? Row(
+                                          //                     children: [
+                                          //                       Container(
+                                          //                         height: 30,
+                                          //                         width: 30,
+                                          //                         decoration: BoxDecoration(
+                                          //                             color: AppColors
+                                          //                                 .success500,
+                                          //                             shape: BoxShape
+                                          //                                 .circle,
+                                          //                             border: Border.all(
+                                          //                                 color: AppColors
+                                          //                                     .success500,
+                                          //                                 width:
+                                          //                                     1.5)),
+                                          //                         child: Center(
+                                          //                             child: Icon(
+                                          //                           Icons
+                                          //                               .check_outlined,
+                                          //                           color: Colors
+                                          //                               .white,
+                                          //                           size: 20,
+                                          //                         )),
+                                          //                       ),
+                                          //                       SizedBox(
+                                          //                         width: 50,
+                                          //                       ),
+                                          //                       SvgPicture.asset(
+                                          //                           "assets/images/shipped.svg",
+                                          //                           // height: 22,
+                                          //                           color:
+                                          //                               DarkTheme
+                                          //                                   .dark),
+                                          //                       SizedBox(
+                                          //                         width: 8,
+                                          //                       ),
+                                          //                       Expanded(
+                                          //                         child: Column(
+                                          //                           mainAxisAlignment:
+                                          //                               MainAxisAlignment
+                                          //                                   .start,
+                                          //                           crossAxisAlignment:
+                                          //                               CrossAxisAlignment
+                                          //                                   .start,
+                                          //                           children: [
+                                          //                             Text(
+                                          //                                 'Shipped',
+                                          //                                 style: kThemeData
+                                          //                                     .textTheme
+                                          //                                     .labelMedium
+                                          //                                     ?.copyWith(
+                                          //                                         fontWeight: FontWeight.w600,
+                                          //                                         color: DarkTheme.dark)),
+                                          //                             Text(
+                                          //                                 'We are shipping your order.',
+                                          //                                 style: kThemeData
+                                          //                                     .textTheme
+                                          //                                     .bodyMedium
+                                          //                                     ?.copyWith(
+                                          //                                         fontWeight: FontWeight.w400,
+                                          //                                         color: DarkTheme.dark)),
+                                          //                           ],
+                                          //                         ),
+                                          //                       )
+                                          //                     ],
+                                          //                   )
+                                          //                 : controller
+                                          //                         .selectedOrders
+                                          //                         .value
+                                          //                         .status
+                                          //                         .toString()
+                                          //                         .toLowerCase()
+                                          //                         .contains(
+                                          //                             'delivered')
+                                          //                     ? Row(
+                                          //                         children: [
+                                          //                           Container(
+                                          //                             height: 30,
+                                          //                             width: 30,
+                                          //                             decoration: BoxDecoration(
+                                          //                                 color: AppColors
+                                          //                                     .success500,
+                                          //                                 shape: BoxShape
+                                          //                                     .circle,
+                                          //                                 border: Border.all(
+                                          //                                     color:
+                                          //                                         AppColors.success500,
+                                          //                                     width: 1.5)),
+                                          //                             child: Center(
+                                          //                                 child: Icon(
+                                          //                               Icons
+                                          //                                   .check_outlined,
+                                          //                               color: Colors
+                                          //                                   .white,
+                                          //                               size: 20,
+                                          //                             )),
+                                          //                           ),
+                                          //                           SizedBox(
+                                          //                             width: 50,
+                                          //                           ),
+                                          //                           SvgPicture.asset(
+                                          //                               "assets/images/location-tick.svg",
+                                          //                               // height: 22,
+                                          //                               color: DarkTheme
+                                          //                                   .dark),
+                                          //                           SizedBox(
+                                          //                             width: 8,
+                                          //                           ),
+                                          //                           Expanded(
+                                          //                             child:
+                                          //                                 Column(
+                                          //                               mainAxisAlignment:
+                                          //                                   MainAxisAlignment
+                                          //                                       .start,
+                                          //                               crossAxisAlignment:
+                                          //                                   CrossAxisAlignment
+                                          //                                       .start,
+                                          //                               children: [
+                                          //                                 Text(
+                                          //                                     'Order Delivered',
+                                          //                                     style:
+                                          //                                         kThemeData.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: DarkTheme.dark)),
+                                          //                                 Text(
+                                          //                                     'Your order is delivered',
+                                          //                                     style:
+                                          //                                         kThemeData.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: DarkTheme.dark)),
+                                          //                               ],
+                                          //                             ),
+                                          //                           )
+                                          //                         ],
+                                          //                       )
+                                          //                     : Row(
+                                          //                         children: [
+                                          //                           Container(
+                                          //                             height: 30,
+                                          //                             width: 30,
+                                          //                             decoration: BoxDecoration(
+                                          //                                 color: Colors
+                                          //                                     .white,
+                                          //                                 shape: BoxShape
+                                          //                                     .circle,
+                                          //                                 border: Border.all(
+                                          //                                     color:
+                                          //                                         AppColors.error500,
+                                          //                                     width: 1.5)),
+                                          //                           ),
+                                          //                           SizedBox(
+                                          //                             width: 50,
+                                          //                           ),
+                                          //                           SvgPicture.asset(
+                                          //                               "assets/images/canceled.svg",
+                                          //                               // height: 22,
+                                          //                               color: AppColors
+                                          //                                   .error500),
+                                          //                           SizedBox(
+                                          //                             width: 8,
+                                          //                           ),
+                                          //                           Expanded(
+                                          //                             child:
+                                          //                                 Column(
+                                          //                               mainAxisAlignment:
+                                          //                                   MainAxisAlignment
+                                          //                                       .start,
+                                          //                               crossAxisAlignment:
+                                          //                                   CrossAxisAlignment
+                                          //                                       .start,
+                                          //                               children: [
+                                          //                                 Text(
+                                          //                                     'Canceled',
+                                          //                                     style:
+                                          //                                         kThemeData.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: AppColors.error500)),
+                                          //                                 Text(
+                                          //                                     'Your order was canceled as the deilvery was late',
+                                          //                                     style:
+                                          //                                         kThemeData.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, color: AppColors.error500)),
+                                          //                               ],
+                                          //                             ),
+                                          //                           )
+                                          //                         ],
+                                          //                       )
+                                          //   ],
+                                          // ),
+                                          ),
                                     )
                                   ],
                                 ),
@@ -1323,7 +1392,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                           ],
                         ),
                       ))),
-              Obx(() => controller.progressBarStatus.value
+              Obx(() => controller.progressBarStatusOrderDetails.value
                   ? Center(child: CustomProgressBar())
                   : Container())
             ],

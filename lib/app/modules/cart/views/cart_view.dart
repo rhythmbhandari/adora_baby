@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/modules/cart/widgets/item_card.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
@@ -34,17 +37,22 @@ class CartView extends GetView<CartController> {
                 color: LightTheme.whiteActive,
                 child: Column(
                   children: [
-                    Container(
-                      color: LightTheme.white,
-                      padding: EdgeInsets.only(
-                        bottom: Get.height * 0.02,
-                        top: Get.height * 0.02,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Cart',
-                          style: kThemeData.textTheme.displaySmall
-                              ?.copyWith(color: DarkTheme.normal),
+                    GestureDetector(
+                      onTap: () async {
+                        log((await storage.readAccessToken()).toString());
+                      },
+                      child: Container(
+                        color: LightTheme.white,
+                        padding: EdgeInsets.only(
+                          bottom: Get.height * 0.02,
+                          top: Get.height * 0.02,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Cart',
+                            style: kThemeData.textTheme.displaySmall
+                                ?.copyWith(color: DarkTheme.normal),
+                          ),
                         ),
                       ),
                     ),

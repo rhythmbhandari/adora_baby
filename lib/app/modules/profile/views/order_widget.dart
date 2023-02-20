@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
@@ -178,7 +180,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
       cards.add(GestureDetector(
         onTap: () {
           controller.selectedOrders.value = controller.ordersList[i];
-
+          log('the value is ${controller.selectedOrders.value.id}');
           Get.to(() => OrderHistoryDetail());
         },
         child: Container(
@@ -211,13 +213,18 @@ Widget _buildFeaturedCards(ProfileController controller) {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 19, top: 10),
-                child: Text(
-                  '#${controller.ordersList[i].trackingCode}',
-                  maxLines: 1,
-                  style: kThemeData.textTheme.labelSmall
-                      ?.copyWith(color: DarkTheme.dark, fontSize: 12),
+              GestureDetector(
+                onTap: (){
+                  log(controller.ordersList[i].status);
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(left: 19, top: 10),
+                  child: Text(
+                    '#${controller.ordersList[i].trackingCode}',
+                    maxLines: 1,
+                    style: kThemeData.textTheme.labelSmall
+                        ?.copyWith(color: DarkTheme.dark, fontSize: 12),
+                  ),
                 ),
               ),
               controller.ordersList[i].status

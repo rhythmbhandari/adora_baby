@@ -24,29 +24,31 @@ class SearchView extends GetView<ShopController> {
 
   void _onRefresh() async {
     // monitor network fetch
-    controller.selectedStages.value = 10;
-    controller.selectedFilter.value = 0;
-    controller.searchController.text = "";
-    await controller
-        .searchProducts(true)
-        .then((value) => _refreshControllerSearch.refreshCompleted())
-        .catchError((error) async {
+    try {
+      controller.selectedStages.value = 10;
+      controller.selectedFilter.value = 0;
+      controller.searchController.text = "";
+      await controller
+          .searchProducts(true)
+          .then((value) => _refreshControllerSearch.refreshCompleted());
+    } catch (error) {
       _refreshControllerSearch.refreshFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerSearch.refreshToIdle());
-    });
+    }
   }
 
   void _onLoading() async {
     // monitor network fetch
-    await controller
-        .searchProducts(false)
-        .then((value) => _refreshControllerSearch.loadComplete())
-        .catchError((error) async {
+    try {
+      await controller
+          .searchProducts(false)
+          .then((value) => _refreshControllerSearch.loadComplete());
+    } catch (error) {
       _refreshControllerSearch.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerSearch.refreshToIdle());
-    });
+    }
   }
 
   @override
@@ -198,7 +200,8 @@ class SearchView extends GetView<ShopController> {
                                         child: TextField(
                                           cursorColor: AppColors.mainColor,
                                           autofocus: true,
-                                          controller: controller.searchController,
+                                          controller:
+                                              controller.searchController,
                                           style: kThemeData.textTheme.bodyLarge
                                               ?.copyWith(color: DarkTheme.dark),
                                           onSubmitted: (_) =>
@@ -212,9 +215,11 @@ class SearchView extends GetView<ShopController> {
                                                     color: Color(0xffAF98A8)),
                                             contentPadding:
                                                 const EdgeInsets.symmetric(
-                                                    horizontal: 24, vertical: 18),
+                                                    horizontal: 24,
+                                                    vertical: 18),
                                             suffixIcon: GestureDetector(
-                                              onTap: () => filterPressed(context),
+                                              onTap: () =>
+                                                  filterPressed(context),
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8.0,
@@ -600,14 +605,14 @@ class SearchView extends GetView<ShopController> {
                                                     ),
                                                   ))
                                       : Container(
-                                    color: Color.fromRGBO(
-                                    250,
-                                    245,
-                                    252,
-                                    1,
-                                  ),
-                                    height: Get.height,
-                                  ))
+                                          color: Color.fromRGBO(
+                                            250,
+                                            245,
+                                            252,
+                                            1,
+                                          ),
+                                          height: Get.height,
+                                        ))
                                 ],
                               ),
                             ),

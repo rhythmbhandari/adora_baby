@@ -32,12 +32,11 @@ class AuthController extends GetxController {
 
   final confirmPasswordInvisibleLogin = true.obs;
   String? _dob;
+
   setDate(String date) => _dob = date;
   final babyMedicalCondition = [].obs;
 
   final selectedTags = [].obs;
-
-
 
   final phone = ''.obs;
   final otp = ''.obs;
@@ -232,18 +231,16 @@ class AuthController extends GetxController {
   Future<bool> requestOtpFromServer() async {
     try {
       final status =
-          await AuthRepository.requestOtp(phoneController.text.trim())
-              .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          await AuthRepository.requestOtp(phoneController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
+
       return false;
     }
   }
@@ -251,20 +248,17 @@ class AuthController extends GetxController {
   Future<bool> registerUsername() async {
     try {
       final status = await AuthRepository.registerUserName(
-              fullNameController.text.trim(),
-              userNameController.text.trim(),
-              passwordController.text.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          fullNameController.text.trim(),
+          userNameController.text.trim(),
+          passwordController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -272,22 +266,19 @@ class AuthController extends GetxController {
   Future<bool> registerBabyName() async {
     try {
       final status = await AuthRepository.registerBabyName(
-              fullNameController.text.trim(),
-              userNameController.text.trim(),
-              passwordController.text.trim(),
-              babyNameController.text.trim(),
-              '${dobController.text.trim()}')
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          fullNameController.text.trim(),
+          userNameController.text.trim(),
+          passwordController.text.trim(),
+          babyNameController.text.trim(),
+          dobController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -295,22 +286,20 @@ class AuthController extends GetxController {
   Future<bool> registerMedicalCondition() async {
     try {
       final status = await AuthRepository.registerBabyName(
-              fullNameController.text.trim(),
-              userNameController.text.trim(),
-              passwordController.text.trim(),
-              babyNameController.text.trim(),
-              '${dobController.text.trim()}T00:00')
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          fullNameController.text.trim(),
+          userNameController.text.trim(),
+          passwordController.text.trim(),
+          babyNameController.text.trim(),
+          '${dobController.text.trim()}T00:00');
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
+
       return false;
     }
   }
@@ -318,18 +307,15 @@ class AuthController extends GetxController {
   Future<bool> resetPasswordStarted() async {
     try {
       final status =
-          await AuthRepository.reset(resetPasswordController.text.trim())
-              .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          await AuthRepository.reset(resetPasswordController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -337,18 +323,15 @@ class AuthController extends GetxController {
   Future<bool> requestResetPassword() async {
     try {
       final status =
-          await AuthRepository.resetPassword(phoneController.text.trim())
-              .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          await AuthRepository.resetPassword(phoneController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -356,17 +339,14 @@ class AuthController extends GetxController {
   Future<bool> addMedicalCondition() async {
     try {
       final status = await AuthRepository.updateMedicalCondition(
-              specialNote.value, selectedTags)
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          specialNote.value, selectedTags);
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -374,18 +354,15 @@ class AuthController extends GetxController {
   Future<bool> verifyOtpFromServer() async {
     try {
       final status = await AuthRepository.verifyOtp(
-              phoneController.text.trim(), otpController.text.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          phoneController.text.trim(), otpController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -393,18 +370,15 @@ class AuthController extends GetxController {
   Future<bool> verifyResetPassword() async {
     try {
       final status = await AuthRepository.verifyReset(
-              phoneController.text.trim(), otpController.text.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          phoneController.text.trim(), otpController.text.trim());
       print('Reset status is $status');
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -412,18 +386,15 @@ class AuthController extends GetxController {
   Future<bool> login() async {
     try {
       final status = await AuthRepository.initiateLogin(
-              loginPhoneController.text.trim(),
-              loginPasswordController.text.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          loginPhoneController.text.trim(),
+          loginPasswordController.text.trim());
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -431,10 +402,7 @@ class AuthController extends GetxController {
   Future<List> getMedicalCategories() async {
     try {
       final response =
-          await AuthRepository.fetchMedicalCategories().catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          await AuthRepository.fetchMedicalCategories();
 
       if (response.isNotEmpty) {
         babyMedicalCondition.value = response;
@@ -442,10 +410,9 @@ class AuthController extends GetxController {
       } else {
         return [];
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return [];
     }
   }
-
-
 }

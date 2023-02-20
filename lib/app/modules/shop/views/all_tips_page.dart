@@ -21,29 +21,31 @@ class MoreTips extends GetView<ShopController> {
   MoreTips({Key? key}) : super(key: key);
 
   final RefreshController _refreshControllerTips =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    await controller
-        .getTips(true, false)
-        .then((value) => _refreshControllerTips.refreshCompleted())
-        .catchError((error) async {
+    try {
+      await controller
+          .getTips(true, false)
+          .then((value) => _refreshControllerTips.refreshCompleted());
+    } catch (error) {
       _refreshControllerTips.refreshFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerTips.refreshToIdle());
-    });
+    }
   }
 
   void _onLoading() async {
-    // monitor network fetch
-    await controller
-        .getTips(false, false)
-        .then((value) => _refreshControllerTips.loadComplete())
-        .catchError((error) async {
+    try {
+      await controller
+          .getTips(false, false)
+          .then((value) => _refreshControllerTips.loadComplete());
+    } catch (error) {
       _refreshControllerTips.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerTips.refreshToIdle());
-    });
+    }
+    // monitor network fetch
   }
 
   @override
@@ -123,8 +125,8 @@ class MoreTips extends GetView<ShopController> {
                               idleIcon: SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child:
-                                  CupertinoActivityIndicator.partiallyRevealed(
+                                  child: CupertinoActivityIndicator
+                                      .partiallyRevealed(
                                     progress: 0.4,
                                   )),
                               textStyle: Get.textTheme.headline5!.copyWith(
@@ -159,8 +161,8 @@ class MoreTips extends GetView<ShopController> {
                               idleIcon: SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child:
-                                  CupertinoActivityIndicator.partiallyRevealed(
+                                  child: CupertinoActivityIndicator
+                                      .partiallyRevealed(
                                     progress: 0.4,
                                   )),
                               textStyle: Get.textTheme.headline5!.copyWith(
@@ -187,50 +189,66 @@ class MoreTips extends GetView<ShopController> {
                               ),
                               child: SingleChildScrollView(
                                 physics: NeverScrollableScrollPhysics(),
-                                child: Obx(() =>
-                                controller.tipsListFiltered.isNotEmpty
+                                child: Obx(() => controller
+                                        .tipsListFiltered.isNotEmpty
                                     ? ListView.builder(
-                                    physics:
-                                    NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(vertical: 32, horizontal: 32),
-                                    itemCount: controller
-                                        .tipsListFiltered.length,
-                                    itemBuilder:
-                                        (BuildContext context,
-                                        int index) =>
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 32, horizontal: 32),
+                                        itemCount:
+                                            controller.tipsListFiltered.length,
+                                        itemBuilder: (BuildContext context,
+                                                int index) =>
                                             Container(
                                               // padding: const EdgeInsets.only(top: 10),
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   border: Border.all(
-                                                      color: const Color.fromRGBO(192, 144, 254, 0.25)),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              192,
+                                                              144,
+                                                              254,
+                                                              0.25)),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.grey.withOpacity(0.5),
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
                                                       spreadRadius: 1,
                                                       blurRadius: 2,
-                                                      offset:
-                                                      Offset(0, 2), // changes position of shadow
+                                                      offset: Offset(0,
+                                                          2), // changes position of shadow
                                                     ),
                                                   ],
-                                                  borderRadius: BorderRadius.circular(30)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30)),
                                               child: Container(
                                                 // padding: EdgeInsets.symmetric(horizontal: 18),
                                                 child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(30.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
                                                   child: Container(
                                                     height: Get.height * 0.4,
                                                     width: Get.width,
                                                     child: CachedNetworkImage(
                                                       fit: BoxFit.fill,
-                                                      imageUrl: '${controller.tipsList[index].picture}',
-                                                      placeholder: (context, url) => Container(
-                                                          height: Get.height * 0.4,
-                                                          child: Center(
-                                                              child: CircularProgressIndicator())),
-                                                      errorWidget: (context, url, error) =>
+                                                      imageUrl:
+                                                          '${controller.tipsList[index].picture}',
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Container(
+                                                              height:
+                                                                  Get.height *
+                                                                      0.4,
+                                                              child: Center(
+                                                                  child:
+                                                                      CircularProgressIndicator())),
+                                                      errorWidget: (context,
+                                                              url, error) =>
                                                           Icon(Icons.error),
                                                     ),
                                                   ),
@@ -242,7 +260,7 @@ class MoreTips extends GetView<ShopController> {
                             ),
                           ),
                           Obx(() => controller.progressStatus.value ==
-                              ProgressStatus.searching
+                                  ProgressStatus.searching
                               ? CustomProgressBar()
                               : Container()),
                         ],
@@ -253,5 +271,4 @@ class MoreTips extends GetView<ShopController> {
           )),
     );
   }
-
 }

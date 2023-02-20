@@ -25,29 +25,31 @@ class HotSalesView extends GetView<ShopController> {
 
   void _onRefresh() async {
     // monitor network fetch
-    controller.selectedStages.value = 10;
-    controller.selectedFilter.value = 0;
-    controller.searchController.text = "";
-    await controller
-        .getHotSalesFiltered(true)
-        .then((value) => _refreshControllerHotSales.refreshCompleted())
-        .catchError((error) async {
+    try {
+      controller.selectedStages.value = 10;
+      controller.selectedFilter.value = 0;
+      controller.searchController.text = "";
+      await controller
+          .getHotSalesFiltered(true)
+          .then((value) => _refreshControllerHotSales.refreshCompleted());
+    } catch (error) {
       _refreshControllerHotSales.refreshFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerHotSales.refreshToIdle());
-    });
+    }
   }
 
   void _onLoading() async {
     // monitor network fetch
-    await controller
-        .getHotSalesFiltered(false)
-        .then((value) => _refreshControllerHotSales.loadComplete())
-        .catchError((error) async {
+    try {
+      await controller
+          .getHotSalesFiltered(false)
+          .then((value) => _refreshControllerHotSales.loadComplete());
+    } catch (error) {
       _refreshControllerHotSales.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
           .then((value) => _refreshControllerHotSales.refreshToIdle());
-    });
+    }
   }
 
   @override
@@ -123,8 +125,8 @@ class HotSalesView extends GetView<ShopController> {
                             idleIcon: SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child:
-                                    CupertinoActivityIndicator.partiallyRevealed(
+                                child: CupertinoActivityIndicator
+                                    .partiallyRevealed(
                                   progress: 0.4,
                                 )),
                             textStyle: Get.textTheme.headline5!.copyWith(
@@ -159,8 +161,8 @@ class HotSalesView extends GetView<ShopController> {
                             idleIcon: SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child:
-                                    CupertinoActivityIndicator.partiallyRevealed(
+                                child: CupertinoActivityIndicator
+                                    .partiallyRevealed(
                                   progress: 0.4,
                                 )),
                             textStyle: Get.textTheme.headline5!.copyWith(
@@ -198,12 +200,15 @@ class HotSalesView extends GetView<ShopController> {
                                       controller: controller.searchController,
                                       style: kThemeData.textTheme.bodyLarge
                                           ?.copyWith(color: DarkTheme.dark),
-                                      onSubmitted: (_) => filterPressed(context),
+                                      onSubmitted: (_) =>
+                                          filterPressed(context),
                                       decoration: InputDecoration(
                                         hintText: 'Search for Items',
                                         filled: true,
-                                        hintStyle: kThemeData.textTheme.bodyLarge
-                                            ?.copyWith(color: Color(0xffAF98A8)),
+                                        hintStyle: kThemeData
+                                            .textTheme.bodyLarge
+                                            ?.copyWith(
+                                                color: Color(0xffAF98A8)),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                                 horizontal: 24, vertical: 18),
@@ -303,11 +308,14 @@ class HotSalesView extends GetView<ShopController> {
                                   SizedBox(
                                     height: 18,
                                   ),
-                                  Obx(() => controller.hotSalesFiltered.isNotEmpty
+                                  Obx(() => controller
+                                          .hotSalesFiltered.isNotEmpty
                                       ? ListView.builder(
-                                          physics: NeverScrollableScrollPhysics(),
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
-                                          itemCount: controller.hotSalesFiltered.length,
+                                          itemCount: controller
+                                              .hotSalesFiltered.length,
                                           itemBuilder: (BuildContext context,
                                                   int index) =>
                                               GestureDetector(
@@ -315,11 +323,13 @@ class HotSalesView extends GetView<ShopController> {
                                                   Get.toNamed(
                                                       Routes.PRODUCT_DETAILS,
                                                       arguments: controller
-                                                          .hotSalesFiltered[index]);
+                                                              .hotSalesFiltered[
+                                                          index]);
                                                 },
                                                 child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
                                                   margin: EdgeInsets.only(
                                                       left: 36,
                                                       right: 36,
@@ -422,21 +432,26 @@ class HotSalesView extends GetView<ShopController> {
                                                       ),
                                                       Container(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                    .only(
                                                                 left: 13,
                                                                 right: 13),
                                                         width: Get.width,
                                                         decoration: const BoxDecoration(
-                                                            color: Color.fromRGBO(
-                                                                243, 234, 249, 1),
-                                                            borderRadius:
-                                                                BorderRadius.only(
-                                                                    bottomRight: Radius
+                                                            color: Color
+                                                                .fromRGBO(
+                                                                    243,
+                                                                    234,
+                                                                    249,
+                                                                    1),
+                                                            borderRadius: BorderRadius.only(
+                                                                bottomRight:
+                                                                    Radius
                                                                         .circular(
                                                                             15),
-                                                                    bottomLeft: Radius
-                                                                        .circular(
-                                                                            15))),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        15))),
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -450,7 +465,8 @@ class HotSalesView extends GetView<ShopController> {
                                                             ),
                                                             Text(
                                                               controller
-                                                                  .hotSalesFiltered[index]
+                                                                  .hotSalesFiltered[
+                                                                      index]
                                                                   .shortName,
                                                               maxLines: 1,
                                                               style: kThemeData
@@ -467,7 +483,8 @@ class HotSalesView extends GetView<ShopController> {
                                                             ),
                                                             Text(
                                                               controller
-                                                                  .hotSalesFiltered[index]
+                                                                  .hotSalesFiltered[
+                                                                      index]
                                                                   .name,
                                                               maxLines: 2,
                                                               style: kThemeData
@@ -492,8 +509,8 @@ class HotSalesView extends GetView<ShopController> {
                                                               ignoreGestures:
                                                                   true,
                                                               itemSize: 12,
-                                                              direction:
-                                                                  Axis.horizontal,
+                                                              direction: Axis
+                                                                  .horizontal,
                                                               allowHalfRating:
                                                                   true,
                                                               glow: false,
@@ -503,12 +520,14 @@ class HotSalesView extends GetView<ShopController> {
                                                                       horizontal:
                                                                           0.0),
                                                               itemBuilder:
-                                                                  (context, _) =>
+                                                                  (context,
+                                                                          _) =>
                                                                       GradientIcon(
                                                                 Icons.star,
                                                                 10.0,
                                                                 LinearGradient(
-                                                                  colors: <Color>[
+                                                                  colors: <
+                                                                      Color>[
                                                                     Color
                                                                         .fromRGBO(
                                                                             127,
@@ -536,46 +555,50 @@ class HotSalesView extends GetView<ShopController> {
                                                             SizedBox(
                                                               height: 8,
                                                             ),
-                                                            controller.hotSalesFiltered[index]
-                                                                .salePrice !=
-                                                                0
+                                                            controller
+                                                                        .hotSalesFiltered[
+                                                                            index]
+                                                                        .salePrice !=
+                                                                    0
                                                                 ? Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child: Text(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child:
+                                                                            Text(
+                                                                          "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
+                                                                          maxLines:
+                                                                              2,
+                                                                          style: kThemeData
+                                                                              .textTheme
+                                                                              .bodyMedium
+                                                                              ?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        "Rs. ${controller.hotSalesFiltered[index].salePrice}",
+                                                                        maxLines:
+                                                                            2,
+                                                                        style: kThemeData
+                                                                            .textTheme
+                                                                            .bodyMedium
+                                                                            ?.copyWith(color: DarkTheme.normal),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                : Text(
                                                                     "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
                                                                     maxLines: 2,
                                                                     style: kThemeData
-                                                                        .textTheme.bodyMedium
+                                                                        .textTheme
+                                                                        .bodyMedium
                                                                         ?.copyWith(
-                                                                        color: DarkTheme
-                                                                            .lightActive,
-                                                                        decoration:
-                                                                        TextDecoration
-                                                                            .lineThrough),
+                                                                            color:
+                                                                                DarkTheme.normal),
                                                                   ),
-                                                                ),
-                                                                Text(
-                                                                  "Rs. ${controller.hotSalesFiltered[index].salePrice}",
-                                                                  maxLines: 2,
-                                                                  style: kThemeData
-                                                                      .textTheme.bodyMedium
-                                                                      ?.copyWith(
-                                                                      color: DarkTheme
-                                                                          .normal),
-                                                                ),
-                                                                SizedBox(width: 20,)
-                                                              ],
-                                                            )
-                                                                : Text(
-                                                              "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
-                                                              maxLines: 2,
-                                                              style: kThemeData
-                                                                  .textTheme.bodyMedium
-                                                                  ?.copyWith(
-                                                                  color:
-                                                                  DarkTheme.normal),
-                                                            ),
                                                             SizedBox(
                                                               height: 8,
                                                             ),
@@ -592,10 +615,10 @@ class HotSalesView extends GetView<ShopController> {
                             ),
                           ),
                         ),
-                        Obx(() =>
-                            controller.progressStatus.value == ProgressStatus.searching
-                                ? CustomProgressBar()
-                                : Container()),
+                        Obx(() => controller.progressStatus.value ==
+                                ProgressStatus.searching
+                            ? CustomProgressBar()
+                            : Container()),
                       ],
                     ),
                   )
@@ -663,22 +686,22 @@ class HotSalesView extends GetView<ShopController> {
                                     shape: BoxShape.circle),
                               ),
                               Obx(
-                                    () => controller.selectedFilter.value == index
+                                () => controller.selectedFilter.value == index
                                     ? Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  top: 0,
-                                  child: Center(
-                                    child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                          color: AppColors.primary500,
-                                          shape: BoxShape.circle),
-                                    ),
-                                  ),
-                                )
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        top: 0,
+                                        child: Center(
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primary500,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                      )
                                     : Container(),
                               ),
                             ],
@@ -765,22 +788,22 @@ class HotSalesView extends GetView<ShopController> {
                                     shape: BoxShape.circle),
                               ),
                               Obx(
-                                    () => controller.selectedStages.value == index
+                                () => controller.selectedStages.value == index
                                     ? Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  top: 0,
-                                  child: Center(
-                                    child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                          color: AppColors.primary500,
-                                          shape: BoxShape.circle),
-                                    ),
-                                  ),
-                                )
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        top: 0,
+                                        child: Center(
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primary500,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                      )
                                     : Container(),
                               ),
                             ],

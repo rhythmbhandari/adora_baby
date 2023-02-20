@@ -658,11 +658,12 @@ class _ProductDetailsState extends State<ProductDetails>
 
                                     final HomeController homeController =
                                         Get.find();
+                                    Get.until(
+                                      (route) =>
+                                          route.settings.name == Routes.HOME,
+                                    );
                                     homeController.currentPage.value = 1;
-                                    Get.back();
-                                  } catch (e) {
-
-                                  }
+                                  } catch (e) {}
                                   // Find the ScaffoldMessenger in the widget tree
                                   // and use it to show a SnackBar.
                                   ScaffoldMessenger.of(context)

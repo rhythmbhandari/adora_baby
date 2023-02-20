@@ -8,7 +8,11 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
   final currentPage = 0.obs;
+
+  final isRedirected = 3.obs;
   //
+
+  // int currentPage = 0;
   // late TabController tabController;
 
   @override

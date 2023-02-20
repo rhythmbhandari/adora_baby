@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/cart/views/cart_view.dart';
-import 'package:adora_baby/app/modules/home/controllers/home_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../config/app_colors.dart';
+import '../modules/home/controllers/home_controller.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -23,9 +23,9 @@ class BottomNavBar extends StatefulWidget {
 
 class _MyHomePageState extends State<BottomNavBar>
     with SingleTickerProviderStateMixin {
-  final HomeController controller = Get.find();
-
   late TabController tabController;
+  late int currentPage;
+  final HomeController controller = Get.find();
 
   final List<Widget> text = [
     Text(
@@ -44,24 +44,29 @@ class _MyHomePageState extends State<BottomNavBar>
 
   @override
   void initState() {
-    controller.currentPage.value = 0;
+    currentPage = 0;
+    controller.isRedirected.listen((p0) {
+      log('It is $p0');
+      if (p0 != 3) {
+        tabController.index = p0;
+      }
+    });
     tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
       () {
         final value = tabController.animation!.value.round();
-        if (value != controller.currentPage.value && mounted) {
+        if (value != currentPage && mounted) {
           changePage(value);
         }
       },
     );
-    controller.currentPage.listen((value) {
-      tabController.index = value;
-    });
     super.initState();
   }
 
   void changePage(int newPage) {
-    controller.currentPage.value = newPage;
+    setState(() {
+      currentPage = newPage;
+    });
   }
 
   @override
@@ -73,8 +78,9 @@ class _MyHomePageState extends State<BottomNavBar>
   @override
   Widget build(BuildContext context) {
     return FrostedBottomBar(
-        opacity: 0.6,
-        width: Get.width,
+      bottom: 30,
+        opacity: 0.9,
+        width: Get.width * 0.7,
         // width: 350,
         sigmaX: 5,
         sigmaY: 5,
@@ -82,10 +88,16 @@ class _MyHomePageState extends State<BottomNavBar>
         duration: const Duration(milliseconds: 10),
         hideOnScroll: false,
         body: (context, controller) => TabBarView(
-            controller: tabController,
-            dragStartBehavior: DragStartBehavior.down,
-            physics: const BouncingScrollPhysics(),
-            children: [ShopView(), const CartView(), const ProfileView()]),
+                controller: tabController,
+                dragStartBehavior: DragStartBehavior.down,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  // Text("home"),
+                  // Text("moments"),
+                  ShopView(),
+                  const CartView(),
+                  const ProfileView()
+                ]),
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -97,38 +109,41 @@ class _MyHomePageState extends State<BottomNavBar>
               ],
             ),
           ),
-          child: Obx(() => TabBar(
-                padding: const EdgeInsets.only(top: 20, bottom: 20),
-                controller: tabController,
-                indicator: const DotIndicator(),
-                tabs: [
-                  // currentPage == 0
-                  //     ? text[0]
-                  //     : const TabsIcon(
-                  //         images: "assets/images/home.svg",
-                  //       ),
-                  // currentPage == 1
-                  //     ? text[1]
-                  //     : const TabsIcon(
-                  //         images: "assets/images/gallery.svg",
-                  //       ),
-                  controller.currentPage.value == 0
-                      ? text[0]
-                      : const TabsIcon(
-                          images: "assets/images/shop.svg",
-                        ),
-                  controller.currentPage.value == 1
-                      ? text[1]
-                      : const TabsIcon(
-                          images: "assets/images/shopping-cart.svg",
-                        ),
-                  controller.currentPage.value == 2
-                      ? text[2]
-                      : const TabsIcon(
-                          images: "assets/images/profile.svg",
-                        )
-                ],
-              )),
+          child: TabBar(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            controller: tabController,
+            onTap: (value) {
+              log('Value is $value');
+            },
+            indicator: const DotIndicator(),
+            tabs: [
+              // currentPage == 0
+              //     ? text[0]
+              //     : const TabsIcon(
+              //         images: "assets/images/home.svg",
+              //       ),
+              // currentPage == 1
+              //     ? text[1]
+              //     : const TabsIcon(
+              //         images: "assets/images/gallery.svg",
+              //       ),
+              currentPage == 0
+                  ? text[0]
+                  : const TabsIcon(
+                      images: "assets/images/shop.svg",
+                    ),
+              currentPage == 1
+                  ? text[1]
+                  : const TabsIcon(
+                      images: "assets/images/shopping-cart.svg",
+                    ),
+              currentPage == 2
+                  ? text[2]
+                  : const TabsIcon(
+                      images: "assets/images/profile.svg",
+                    )
+            ],
+          ),
         ));
   }
 }

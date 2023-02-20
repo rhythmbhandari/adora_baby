@@ -69,11 +69,10 @@ class ShopController extends GetxController {
 
   final productDetailProgress = ProgressStatus.idle.obs;
 
-
-  showProgressBarDetail() => productDetailProgress.value = ProgressStatus.loading;
+  showProgressBarDetail() =>
+      productDetailProgress.value = ProgressStatus.loading;
 
   hideProgressBarDetail() => productDetailProgress.value = ProgressStatus.idle;
-
 
   showProgressBar() => progressStatus.value = ProgressStatus.loading;
 
@@ -85,21 +84,20 @@ class ShopController extends GetxController {
 
   incrementCounter(int stockQuantity) {
     log('Pressed');
-    if(counter.value > 0){
-      if(counter.value < stockQuantity){
+    if (counter.value > 0) {
+      if (counter.value < stockQuantity) {
         counter.value++;
       }
-    }else{
+    } else {
       counter.value = 1;
     }
     update(['shopIncremenet']);
   }
 
   decrementCounter() {
-    if(counter.value > 2){
-
+    if (counter.value > 2) {
       counter.value--;
-    }else{
+    } else {
       counter.value = 1;
     }
 
@@ -125,67 +123,64 @@ class ShopController extends GetxController {
   }
 
   Future<void> getTrendingImages() async {
-    showProgressBar();
-    await ShopRepository.fetchTrendingImages()
-        .then(
-          (value) => trendingImagesList.value = value,
-        )
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
+    try {
+      showProgressBar();
+      await ShopRepository.fetchTrendingImages()
+          .then(
+            (value) => trendingImagesList.value = value,
+          )
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
+    }
   }
 
   Future<void> getStages() async {
-    showProgressBar();
-    await ShopRepository.fetchStages()
-        .then(
-          (value) => stagesList.value = value,
-        )
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
+    try {
+      showProgressBar();
+      await ShopRepository.fetchStages()
+          .then(
+            (value) => stagesList.value = value,
+          )
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
+    }
   }
 
   Future<void> getHotSales(bool isRefresh) async {
-    showProgressBar();
-    String keyword = '?page=1';
+    try {
+      showProgressBar();
+      String keyword = '?page=1';
 
-    await ShopRepository.fetchHotSales(keyword)
-        .then((value) => {
-              if (isRefresh)
-                {
-                  if (value.isEmpty)
-                    {hotSales.value = [].obs, hotSalesIndex.value = 2}
-                  else
-                    {hotSales.value = value, hotSalesIndex.value = 2}
-                }
-              else
-                {hotSales.addAll(value), hotSalesIndex.value++}
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
+      await ShopRepository.fetchHotSales(keyword)
+          .then((value) => {
+                if (isRefresh)
+                  {
+                    if (value.isEmpty)
+                      {hotSales.value = [].obs, hotSalesIndex.value = 2}
+                    else
+                      {hotSales.value = value, hotSalesIndex.value = 2}
+                  }
+                else
+                  {hotSales.addAll(value), hotSalesIndex.value++}
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
+    }
   }
 
   Future<void> getHotSalesFiltered(bool isRefresh,
@@ -195,38 +190,37 @@ class ShopController extends GetxController {
       String filterId = '',
       bool isOrdered = false,
       String ordering = 'regular_price'}) async {
-    showProgressBar();
-    if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.searching;
+    try {
+      showProgressBar();
+      if (isSearch || isOrdered || isFilter) {
+        progressStatus.value = ProgressStatus.searching;
+      }
+
+      String keyword = '?page=${isRefresh ? 1 : hotSalesIndex.value}';
+      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
+      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
+      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
+
+      await ShopRepository.fetchHotSales(keyword)
+          .then((value) => {
+                if (isRefresh & (isSearch || isOrdered || isFilter))
+                  {
+                    if (value.isEmpty)
+                      {hotSalesFiltered.value = [].obs, hotSalesIndex.value = 2}
+                    else
+                      {hotSalesFiltered.value = value, hotSalesIndex.value = 2}
+                  }
+                else
+                  {hotSalesFiltered.addAll(value), hotSalesIndex.value++}
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
     }
-
-    String keyword = '?page=${isRefresh ? 1 : hotSalesIndex.value}';
-    keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-    keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-    keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-    await ShopRepository.fetchHotSales(keyword)
-        .then((value) => {
-              if (isRefresh & (isSearch || isOrdered || isFilter))
-                {
-                  if (value.isEmpty)
-                    {hotSalesFiltered.value = [].obs, hotSalesIndex.value = 2}
-                  else
-                    {hotSalesFiltered.value = value, hotSalesIndex.value = 2}
-                }
-              else
-                {hotSalesFiltered.addAll(value), hotSalesIndex.value++}
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
   }
 
   Future<void> searchProducts(bool isRefresh,
@@ -236,115 +230,113 @@ class ShopController extends GetxController {
       String filterId = '',
       bool isOrdered = false,
       String ordering = 'regular_price'}) async {
-    showProgressBar();
-    if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.searching;
+    try {
+      showProgressBar();
+      if (isSearch || isOrdered || isFilter) {
+        progressStatus.value = ProgressStatus.searching;
+      }
+
+      String keyword =
+          '?page=${isRefresh ? 1 : allProductsSearchedIndex.value}';
+      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
+      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
+      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
+
+      await ShopRepository.fetchAllProducts(keyword)
+          .then((value) => {
+                if (isRefresh & (isSearch || isOrdered || isFilter))
+                  {
+                    if (value.isEmpty)
+                      {
+                        allProductsSearched.value = [].obs,
+                        allProductsSearchedIndex.value = 2
+                      }
+                    else
+                      {
+                        allProductsSearched.value = value,
+                        allProductsSearchedIndex.value = 2
+                      }
+                  }
+                else
+                  {
+                    allProductsSearched.addAll(value),
+                    allProductsSearchedIndex.value++
+                  }
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
     }
-
-    String keyword = '?page=${isRefresh ? 1 : allProductsSearchedIndex.value}';
-    keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-    keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-    keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-    await ShopRepository.fetchAllProducts(keyword)
-        .then((value) => {
-              if (isRefresh & (isSearch || isOrdered || isFilter))
-                {
-                  if (value.isEmpty)
-                    {
-                      allProductsSearched.value = [].obs,
-                      allProductsSearchedIndex.value = 2
-                    }
-                  else
-                    {
-                      allProductsSearched.value = value,
-                      allProductsSearchedIndex.value = 2
-                    }
-                }
-              else
-                {
-                  allProductsSearched.addAll(value),
-                  allProductsSearchedIndex.value++
-                }
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
   }
 
   Future<void> getAllProducts(bool isRefresh) async {
-    showProgressBar();
-    String keyword = '?page=1';
+    try {
+      showProgressBar();
+      String keyword = '?page=1';
 
-    await ShopRepository.fetchAllProducts(keyword)
-        .then((value) => {
-              if (isRefresh)
-                {
-                  if (value.isEmpty)
-                    {allProducts.value = [].obs, allProductsIndex.value = 2}
-                  else
-                    {allProducts.value = value, allProductsIndex.value = 2}
-                }
-              else
-                {allProducts.addAll(value), allProductsIndex.value++}
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
+      await ShopRepository.fetchAllProducts(keyword)
+          .then((value) => {
+                if (isRefresh)
+                  {
+                    if (value.isEmpty)
+                      {allProducts.value = [].obs, allProductsIndex.value = 2}
+                    else
+                      {allProducts.value = value, allProductsIndex.value = 2}
+                  }
+                else
+                  {allProducts.addAll(value), allProductsIndex.value++}
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
+    }
   }
 
   Future<void> getTips(bool isRefresh, bool isInitial) async {
-    showProgressBar();
+    try {
+      showProgressBar();
 
-    String keyword = '?page=$tipsIndex';
+      String keyword = '?page=$tipsIndex';
 
-    await ShopRepository.fetchTips(isRefresh ? '?page=1' : '?page=$tipsIndex')
-        .then((value) => {
-              if (isRefresh)
-                {
-                  if (value.isEmpty)
-                    {
-                      tipsListFiltered.value = [].obs,
-                      tipsIndex.value = 2,
-                      tipsList.value = [].obs,
-                    }
-                  else
-                    {
-                      tipsListFiltered.value = value,
-                      tipsIndex.value = 2,
-                      tipsList.value = value,
-                    }
-                }
-              else
-                {
-                  tipsListFiltered.addAll(value),
-                  tipsIndex.value++,
-                }
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
+      await ShopRepository.fetchTips(isRefresh ? '?page=1' : '?page=$tipsIndex')
+          .then((value) => {
+                if (isRefresh)
+                  {
+                    if (value.isEmpty)
+                      {
+                        tipsListFiltered.value = [].obs,
+                        tipsIndex.value = 2,
+                        tipsList.value = [].obs,
+                      }
+                    else
+                      {
+                        tipsListFiltered.value = value,
+                        tipsIndex.value = 2,
+                        tipsList.value = value,
+                      }
+                  }
+                else
+                  {
+                    tipsListFiltered.addAll(value),
+                    tipsIndex.value++,
+                  }
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
+    }
   }
 
   Future<void> getAllProductsFiltered(bool isRefresh,
@@ -354,53 +346,49 @@ class ShopController extends GetxController {
       String filterId = '',
       bool isOrdered = false,
       String ordering = 'regular_price'}) async {
-    showProgressBar();
-    if (isSearch || isOrdered || isFilter) {
-      progressStatus.value = ProgressStatus.searching;
+    try {
+      showProgressBar();
+      if (isSearch || isOrdered || isFilter) {
+        progressStatus.value = ProgressStatus.searching;
+      }
+
+      String keyword = '?page=${isRefresh ? 1 : allProductsIndex.value}';
+      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
+      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
+      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
+
+      await ShopRepository.fetchAllProducts(keyword)
+          .then((value) => {
+                if (isRefresh & (isSearch || isOrdered || isFilter))
+                  {
+                    if (value.isEmpty)
+                      {
+                        allProductsFiltered.value = [].obs,
+                        allProductsIndex.value = 2
+                      }
+                    else
+                      {
+                        allProductsFiltered.value = value,
+                        allProductsIndex.value = 2
+                      }
+                  }
+                else
+                  {allProductsFiltered.addAll(value), allProductsIndex.value++}
+              })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => hideProgressBar(),
+      );
     }
-
-    String keyword = '?page=${isRefresh ? 1 : allProductsIndex.value}';
-    keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-    keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-    keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-    await ShopRepository.fetchAllProducts(keyword)
-        .then((value) => {
-              if (isRefresh & (isSearch || isOrdered || isFilter))
-                {
-                  if (value.isEmpty)
-                    {
-                      allProductsFiltered.value = [].obs,
-                      allProductsIndex.value = 2
-                    }
-                  else
-                    {
-                      allProductsFiltered.value = value,
-                      allProductsIndex.value = 2
-                    }
-                }
-              else
-                {allProductsFiltered.addAll(value), allProductsIndex.value++}
-            })
-        .then((value) => hideProgressBar())
-        .catchError(
-      (error, stackTrace) {
-        authError.value = error.toString();
-        showErrorBar();
-        Future.delayed(const Duration(seconds: 2)).then(
-          (value) => hideProgressBar(),
-        );
-      },
-    );
   }
 
   Future<bool> requestAddToCart(String name) async {
-    TextEditingController quantityController =
-        TextEditingController(text: counter.toString());
-
     try {
       final status = await CartRepository.addToCart(
-              name.toString(), quantityController.text.trim());
+          name.toString(), counter.toString().trim());
 
       if (status) {
         return true;

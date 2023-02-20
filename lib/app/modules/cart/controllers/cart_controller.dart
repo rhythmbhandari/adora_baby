@@ -63,7 +63,6 @@ class CartController extends GetxController {
 
   final priceCart = 0.0.obs;
 
-
   final tempSelectedCart = [].obs;
 
   final RxMap cartMap = {}.obs;
@@ -147,10 +146,7 @@ class CartController extends GetxController {
     );
   }
 
-
-
   int index = 0;
-
 
   Future<bool> cart() async {
     try {
@@ -181,7 +177,6 @@ class CartController extends GetxController {
       return false;
     }
   }
-
 
   Future<bool> calculateGrandTotal(RxList cartTempList) async {
     try {
@@ -335,18 +330,15 @@ class CartController extends GetxController {
 
     try {
       final status = await CartRepository.addToCart(
-              name.toString(), quantityController.text.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+          name.toString(), quantityController.text.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -410,17 +402,15 @@ class CartController extends GetxController {
       final status = await CartRepository.updateCart(
         id,
         quantity,
-      ).catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      );
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -429,11 +419,7 @@ class CartController extends GetxController {
 
   Future<bool> requestToDeleteCart(List ofId) async {
     try {
-      final status =
-          await CartRepository.deleteCart(ofId).catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final status = await CartRepository.deleteCart(ofId);
 
       if (status) {
         return true;
@@ -485,37 +471,30 @@ class CartController extends GetxController {
 
   Future<List<AddressModel>> requestGetAddress() async {
     try {
-      final response =
-          await CheckOutRepository.getAddress().catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final response = await CheckOutRepository.getAddress();
 
       if (response.isNotEmpty) {
         return response;
       } else {
         return [];
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return [];
     }
   }
 
-
   Future<bool> requestToDeleteAddress(String id) async {
     try {
-      final status =
-          await CheckOutRepository.deleteAddress(id.trim()).catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final status = await CheckOutRepository.deleteAddress(id.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -538,18 +517,15 @@ class CartController extends GetxController {
 
   Future<bool> requestToRemoveCheckOut(String id) async {
     try {
-      final status = await CheckOutRepository.removeCheckout(id.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final status = await CheckOutRepository.removeCheckout(id.trim());
 
       if (status) {
         return true;
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -572,29 +548,22 @@ class CartController extends GetxController {
 
   Future<List<o.Datum>> requestGetOrders() async {
     try {
-      final response = await CheckOutRepository.getOrders().catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final response = await CheckOutRepository.getOrders();
 
       if (response.isNotEmpty) {
         return response;
       } else {
         return [];
       }
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return [];
     }
   }
 
   Future<List<s.GetSingleOrder>> requestGetSingleOrder(String id) async {
     try {
-      final response =
-          await CheckOutRepository.getSingleOrder(id).catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
+      final response = await CheckOutRepository.getSingleOrder(id);
       if (response.isNotEmpty) {
         return response;
       } else {

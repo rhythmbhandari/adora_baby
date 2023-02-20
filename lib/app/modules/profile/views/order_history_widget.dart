@@ -38,43 +38,41 @@ class OrderHistoryWidgets extends StatelessWidget {
   });
 
   void _onRefresh() async {
-    await controller
-        .getOrderList(
-          isRefresh: true,
-          isInitial: false,
-          list,
-          pageIndex,
-          index: indexAPI,
-          progressStatus,
-        )
-        .then((value) => refreshController.refreshCompleted())
-        .catchError(
-      (error) async {
-        refreshController.refreshFailed();
-        await Future.delayed(const Duration(milliseconds: 0000))
-            .then((value) => refreshController.refreshToIdle());
-      },
-    );
+    try {
+      await controller
+          .getOrderList(
+            isRefresh: true,
+            isInitial: false,
+            list,
+            pageIndex,
+            index: indexAPI,
+            progressStatus,
+          )
+          .then((value) => refreshController.refreshCompleted());
+    } catch (e) {
+      refreshController.refreshFailed();
+      await Future.delayed(const Duration(milliseconds: 0000))
+          .then((value) => refreshController.refreshToIdle());
+    }
   }
 
   void _onLoading() async {
-    await controller
-        .getOrderList(
-          isRefresh: true,
-          isInitial: false,
-          list,
-          pageIndex,
-          index: indexAPI,
-          progressStatus,
-        )
-        .then((value) => refreshController.loadComplete())
-        .catchError(
-      (error) async {
-        refreshController.loadNoData();
-        await Future.delayed(const Duration(milliseconds: 0000))
-            .then((value) => refreshController.refreshToIdle());
-      },
-    );
+    try {
+      await controller
+          .getOrderList(
+            isRefresh: true,
+            isInitial: false,
+            list,
+            pageIndex,
+            index: indexAPI,
+            progressStatus,
+          )
+          .then((value) => refreshController.loadComplete());
+    } catch (e) {
+      refreshController.loadNoData();
+      await Future.delayed(const Duration(milliseconds: 0000))
+          .then((value) => refreshController.refreshToIdle());
+    }
   }
 
   @override

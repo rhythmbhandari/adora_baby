@@ -5,6 +5,7 @@ import 'package:adora_baby/app/data/models/diamonds.dart';
 
 import '../../config/constants.dart';
 import '../../utils/secure_storage.dart';
+import '../models/order_logs_model.dart';
 import '../models/orders_model.dart';
 import '../models/user_model.dart';
 import '../network/dio_client.dart';
@@ -92,6 +93,29 @@ class DataRepository {
               i,
             ),
           )
+          .toList();
+      log('Reached here $orders');
+      return orders;
+    }
+    return Future.error('Server error.');
+  }
+
+  static Future<List<OrderLogsModel>> fetchOrderLogs(String orderId) async {
+    final url = '$BASE_URL/order_logs/$orderId/get_order_logs/';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeaderWithToken(),
+    );
+    if (status is List) {
+      log('Status received is $status');
+      List<OrderLogsModel> orders = (status)
+          .map(
+            (i) => OrderLogsModel.fromJson(
+          i,
+        ),
+      )
           .toList();
       log('Reached here $orders');
       return orders;

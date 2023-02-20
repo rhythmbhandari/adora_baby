@@ -35,40 +35,34 @@ class DiamondsStatementWidget extends StatelessWidget {
   });
 
   void _onRefresh() async {
-    await controller
-        .getDiamonds(
+    try {
+      await controller.getDiamonds(
+        isRefresh: true,
+        isInitial: false,
+        list,
+        index: indexAPI,
+        progressStatus,
+      );
+    } catch (error) {
+      refreshController.refreshFailed();
+      await Future.delayed(const Duration(milliseconds: 0000))
+          .then((value) => refreshController.refreshToIdle());
+    }
+  }
+
+  void _onLoading() async {
+    try {
+      await controller.getDiamonds(
           isRefresh: true,
           isInitial: false,
           list,
           index: indexAPI,
-          progressStatus,
-        )
-        .then((value) => refreshController.refreshCompleted())
-        .catchError(
-      (error) async {
-        refreshController.refreshFailed();
-        await Future.delayed(const Duration(milliseconds: 0000))
-            .then((value) => refreshController.refreshToIdle());
-      },
-    );
-  }
-
-  void _onLoading() async {
-    await controller
-        .getDiamonds(
-            isRefresh: true,
-            isInitial: false,
-            list,
-            index: indexAPI,
-            progressStatus)
-        .then((value) => refreshController.loadComplete())
-        .catchError(
-      (error) async {
-        refreshController.loadNoData();
-        await Future.delayed(Duration(milliseconds: 0000))
-            .then((value) => refreshController.refreshToIdle());
-      },
-    );
+          progressStatus);
+    } catch (error) {
+      refreshController.loadNoData();
+      await Future.delayed(Duration(milliseconds: 0000))
+          .then((value) => refreshController.refreshToIdle());
+    }
   }
 
   @override

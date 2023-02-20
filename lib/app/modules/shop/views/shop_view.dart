@@ -76,6 +76,7 @@ class NewShopViewBody extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 41),
                   child: GetBuilder<ProfileController>(
+                    id: 'homePageProfile',
                     builder: (value) => Row(
                       children: [
                         Center(

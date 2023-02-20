@@ -43,29 +43,26 @@ class DiamondsOverviewWidget extends StatelessWidget {
   };
 
   void _onRefresh() async {
-    await controller
-        .getDiamonds(
-          isRefresh: true,
-          isInitial: false,
-          list,
-          index: indexAPI,
-          progressStatus,
-        )
-        .then((value) => refreshController.refreshCompleted())
-        .catchError(
-      (error) async {
-        refreshController.refreshFailed();
-        await Future.delayed(const Duration(milliseconds: 0000)).then((value) {
-          refreshController.refreshToIdle();
-          indexAPI == 0
-              ? controller.pieChartCalculateWeek()
-              : indexAPI == 1
-                  ? controller.pieChartCalculateHalfMonth()
-                  : controller.pieChartCalculateMonth();
-          controller.update();
-        });
-      },
-    );
+    try {
+      await controller.getDiamonds(
+        isRefresh: true,
+        isInitial: false,
+        list,
+        index: indexAPI,
+        progressStatus,
+      );
+    } catch (error) {
+      refreshController.refreshFailed();
+      await Future.delayed(const Duration(milliseconds: 0000)).then((value) {
+        refreshController.refreshToIdle();
+        indexAPI == 0
+            ? controller.pieChartCalculateWeek()
+            : indexAPI == 1
+                ? controller.pieChartCalculateHalfMonth()
+                : controller.pieChartCalculateMonth();
+        controller.update();
+      });
+    }
   }
 
   @override

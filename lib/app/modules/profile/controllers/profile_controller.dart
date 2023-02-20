@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../data/models/order_logs_model.dart';
 import '../../../data/models/orders_model.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/cart_repository.dart';
@@ -45,7 +46,6 @@ class ProfileController extends GetxController {
   final orderHistoryListMonth = [].obs;
 
   final selectedCity = '0'.obs;
-
 
   final editAddressId = '0'.obs;
 
@@ -147,6 +147,8 @@ class ProfileController extends GetxController {
 
   final progressBarStatusAddAddress = ProgressStatus.idle.obs;
 
+  final progressBarStatusOrderDetails = false.obs;
+
   showNetworkError(
     Rx<ProgressStatus> progressStatus,
   ) =>
@@ -185,6 +187,9 @@ class ProfileController extends GetxController {
         : user.value.accountMedicalConditiob!) {
       selectedTags.addAll(i.medicalCondition);
     }
+    update(
+      ['homePageProfile'],
+    );
   }
 
   setChildData() {}
@@ -320,10 +325,7 @@ class ProfileController extends GetxController {
         city,
         landmark,
         isPrimary,
-      ).catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      );
 
       if (status) {
         getAddressList();
@@ -640,15 +642,20 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getUserDetails() async {
-    showProgressBar();
-    // final firebaseMessaging = FirebaseMessaging.instance;
-    // String? deviceToken = await firebaseMessaging.getToken();
-    await DataRepository.fetchProfileDetail().catchError((error) {
-      authError.value = error;
+    try {
+      showProgressBar();
+      // final firebaseMessaging = FirebaseMessaging.instance;
+      // String? deviceToken = await firebaseMessaging.getToken();
+      await DataRepository.fetchProfileDetail().then(
+        (value) => setUserData(),
+      );
+
       hideProgressBar();
-    }).then(
-      (value) => setUserData(),
-    );
+    } catch (error) {
+      authError.value = '$error';
+
+      hideProgressBar();
+    }
   }
 
   Future<void> getOrderList(
@@ -804,11 +811,7 @@ class ProfileController extends GetxController {
   Future<bool> cancelBooking() async {
     try {
       showProgressBar();
-      final status = await DataRepository.cancel(selectedOrders.value.id)
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final status = await DataRepository.cancel(selectedOrders.value.id);
 
       if (status) {
         hideProgressBar();
@@ -827,11 +830,7 @@ class ProfileController extends GetxController {
 
   Future<List> getMedicalCategories() async {
     try {
-      final response =
-          await AuthRepository.fetchMedicalCategories().catchError((error) {
-        authError.value = error;
-        return false;
-      });
+      final response = await AuthRepository.fetchMedicalCategories();
 
       if (response.isNotEmpty) {
         babyMedicalCondition.value = response;
@@ -839,19 +838,40 @@ class ProfileController extends GetxController {
       } else {
         return [];
       }
+    } catch (error) {
+      authError.value = '$error';
+      return [];
+    }
+  }
+
+  Future<List<OrderLogsModel>> initiateTrackOrder() async {
+    try {
+      final response =
+          await DataRepository.fetchOrderLogs(selectedOrders.value.id ?? '');
+
+      log('Response is $response');
+      if (response.isNotEmpty) {
+        return response;
+      } else {
+        return [];
+      }
     } catch (e) {
+      log('Error is $e');
       return [];
     }
   }
 
   Future<bool> editProfile(String body) async {
-    showProgressBar();
-    await DataRepository.updateProfile(body).catchError((error) {
-      authError.value = error;
+    try {
+      showProgressBar();
+      await DataRepository.updateProfile(body)
+          .then((value) async => await getUserDetails());
+      return true;
+    } catch (error) {
+      authError.value = '$error';
       hideProgressBar();
       return false;
-    }).then((value) async => await getUserDetails());
-    return true;
+    }
   }
 
   Future<bool> addMedicalCondition() async {
@@ -861,12 +881,10 @@ class ProfileController extends GetxController {
                   ? 'empty'
                   : specialNoteController.text.trim(),
               selectedTags)
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      }).then((value) async => await getUserDetails());
+          .then((value) async => await getUserDetails());
       return true;
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
@@ -876,13 +894,10 @@ class ProfileController extends GetxController {
       await AuthRepository.updatePhoto(
         image,
         pictureOf,
-      ).catchError((error) {
-        log('Error is $error');
-        authError.value = error;
-        return false;
-      }).then((value) async => await getUserDetails());
+      ).then((value) async => await getUserDetails());
       return true;
-    } catch (e) {
+    } catch (error) {
+      authError.value = '$error';
       return false;
     }
   }
