@@ -275,7 +275,7 @@ class CheckOutView extends GetView<CartController> {
                               color: DarkTheme.darkNormal
                           ),
                         ),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         hintText: 'Coupon Code',
                         hintStyle: kThemeData.textTheme.bodyLarge?.copyWith(
                           color: DarkTheme.darkLightActive

@@ -22,6 +22,7 @@ import '../../../config/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -654,8 +655,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                     final CartController cartController =
                                         Get.find();
                                     cartController.cart();
+
+                                    final HomeController homeController =
+                                        Get.find();
+                                    homeController.currentPage.value = 1;
+                                    Get.back();
                                   } catch (e) {
-                                    //
+
                                   }
                                   // Find the ScaffoldMessenger in the widget tree
                                   // and use it to show a SnackBar.

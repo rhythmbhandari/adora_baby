@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
@@ -212,7 +214,8 @@ class PersonalInfoView extends GetView<CartController> {
                               flex: 3,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(Routes.ADD_ADDRESS , arguments: [false, 0, true]);
+                                  Get.toNamed(Routes.ADD_ADDRESS,
+                                      arguments: [false, 0, true]);
                                 },
                                 child: Obx(
                                   () => Container(
@@ -232,7 +235,7 @@ class PersonalInfoView extends GetView<CartController> {
                                           ? 0
                                           : 15,
                                       bottom: profileController
-                                          .addressList.isNotEmpty
+                                              .addressList.isNotEmpty
                                           ? 0
                                           : 25,
                                     ),
@@ -370,6 +373,7 @@ class PersonalInfoView extends GetView<CartController> {
                                     Get.offNamed(Routes.CHECKOUT);
                                   }
                                 } catch (e) {
+                                  log('Error is $e');
                                   controller.completeLoading(
                                       controller.progressBarStatusInformation,
                                       false);

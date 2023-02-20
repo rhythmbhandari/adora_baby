@@ -19,6 +19,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../main.dart';
 import '../../../widgets/gradient_icon.dart';
 
+import '../../cart/controllers/cart_controller.dart';
 import '../../search/views/search_view.dart';
 import '../widgets/all_products.dart';
 import '../widgets/hot_sales.dart';
@@ -34,6 +35,7 @@ class ShopView extends GetView<ShopController> {
   ShopView({Key? key}) : super(key: key);
 
   final ProfileController profileController = Get.find();
+  final CartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/cart/views/cart_view.dart';
+import 'package:adora_baby/app/modules/home/controllers/home_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -11,7 +14,6 @@ import 'package:get/get.dart';
 
 import '../config/app_colors.dart';
 
-
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
 
@@ -21,42 +23,45 @@ class BottomNavBar extends StatefulWidget {
 
 class _MyHomePageState extends State<BottomNavBar>
     with SingleTickerProviderStateMixin {
-  late int currentPage;
+  final HomeController controller = Get.find();
+
   late TabController tabController;
 
   final List<Widget> text = [
-    // Text("Home",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
-    // const Text("Moment",style:  TextStyle(
-    //     color: Colors.white,
-    //     fontFamily: "Poppins",
-    //     fontSize: 8.8,
-    //     fontWeight: FontWeight.w600,
-    //     fontStyle: FontStyle.normal,
-    //     letterSpacing: 0),),
-    Text("Shop",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
-    Text("Cart",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
-    Text("Profile",style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),),
+    Text(
+      "Shop",
+      style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),
+    ),
+    Text(
+      "Cart",
+      style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),
+    ),
+    Text(
+      "Profile",
+      style: kThemeData.textTheme.labelMedium?.copyWith(fontSize: 10),
+    ),
   ];
 
   @override
   void initState() {
-    currentPage = 0;
+    controller.currentPage.value = 0;
     tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
       () {
         final value = tabController.animation!.value.round();
-        if (value != currentPage && mounted) {
+        if (value != controller.currentPage.value && mounted) {
           changePage(value);
         }
       },
     );
+    controller.currentPage.listen((value) {
+      tabController.index = value;
+    });
     super.initState();
   }
 
   void changePage(int newPage) {
-    setState(() {
-      currentPage = newPage;
-    });
+    controller.currentPage.value = newPage;
   }
 
   @override
@@ -77,18 +82,12 @@ class _MyHomePageState extends State<BottomNavBar>
         duration: const Duration(milliseconds: 10),
         hideOnScroll: false,
         body: (context, controller) => TabBarView(
-                controller: tabController,
-                dragStartBehavior: DragStartBehavior.down,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  // Text("home"),
-                  // Text("moments"),
-                  ShopView(),
-                  const CartView(),
-                  const ProfileView()
-                ]),
+            controller: tabController,
+            dragStartBehavior: DragStartBehavior.down,
+            physics: const BouncingScrollPhysics(),
+            children: [ShopView(), const CartView(), const ProfileView()]),
         child: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -98,41 +97,38 @@ class _MyHomePageState extends State<BottomNavBar>
               ],
             ),
           ),
-          child: TabBar(
-
-            padding: const EdgeInsets.only(top: 20,bottom: 20),
-            controller: tabController,
-
-
-            indicator: const DotIndicator(),
-            tabs: [
-              // currentPage == 0
-              //     ? text[0]
-              //     : const TabsIcon(
-              //         images: "assets/images/home.svg",
-              //       ),
-              // currentPage == 1
-              //     ? text[1]
-              //     : const TabsIcon(
-              //         images: "assets/images/gallery.svg",
-              //       ),
-              currentPage == 0
-                  ? text[0]
-                  : const TabsIcon(
-                      images: "assets/images/shop.svg",
-                    ),
-              currentPage == 1
-                  ? text[1]
-                  : const TabsIcon(
-                      images: "assets/images/shopping-cart.svg",
-                    ),
-              currentPage == 2
-                  ? text[2]
-                  : const TabsIcon(
-                      images: "assets/images/profile.svg",
-                    )
-            ],
-          ),
+          child: Obx(() => TabBar(
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                controller: tabController,
+                indicator: const DotIndicator(),
+                tabs: [
+                  // currentPage == 0
+                  //     ? text[0]
+                  //     : const TabsIcon(
+                  //         images: "assets/images/home.svg",
+                  //       ),
+                  // currentPage == 1
+                  //     ? text[1]
+                  //     : const TabsIcon(
+                  //         images: "assets/images/gallery.svg",
+                  //       ),
+                  controller.currentPage.value == 0
+                      ? text[0]
+                      : const TabsIcon(
+                          images: "assets/images/shop.svg",
+                        ),
+                  controller.currentPage.value == 1
+                      ? text[1]
+                      : const TabsIcon(
+                          images: "assets/images/shopping-cart.svg",
+                        ),
+                  controller.currentPage.value == 2
+                      ? text[2]
+                      : const TabsIcon(
+                          images: "assets/images/profile.svg",
+                        )
+                ],
+              )),
         ));
   }
 }

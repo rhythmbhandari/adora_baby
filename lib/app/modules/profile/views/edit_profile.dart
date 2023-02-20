@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widgets/custom_progress_bar.dart';
+import '../../cart/widgets/address_widget.dart';
 import '../controllers/profile_controller.dart';
 import 'edit_profile_individual/edit_identification.dart';
 
@@ -74,7 +76,9 @@ class EditProfile extends GetView<ProfileController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(() => const EditIdentification(),);
+                                Get.to(
+                                  () => const EditIdentification(),
+                                );
                               },
                               child: SvgPicture.asset(
                                 "assets/images/profile_edit.svg",
@@ -165,8 +169,97 @@ class EditProfile extends GetView<ProfileController> {
                           style: kThemeData.textTheme.titleMedium
                               ?.copyWith(color: DarkTheme.dark),
                         ),
-                        SizedBox(
-                          height: Get.height * 0.02,
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          // mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Obx(
+                                  () => controller.addressList.isNotEmpty
+                                  ? Expanded(
+                                flex: 8,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      buildAddressWidget(
+                                        controller,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                                  : Container(),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(Routes.ADD_ADDRESS , arguments: [false, 0, true]);
+                                },
+                                child: Obx(
+                                      () => Container(
+                                    width: Get.width * 0.25,
+                                    padding: EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                      top: 25,
+                                      bottom: controller
+                                          .addressList.isNotEmpty
+                                          ? 25
+                                          : 0,
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      top: controller
+                                          .addressList.isNotEmpty
+                                          ? 0
+                                          : 15,
+                                      bottom: controller
+                                          .addressList.isNotEmpty
+                                          ? 0
+                                          : 25,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              192, 144, 254, 0.25)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset: Offset(0,
+                                              2), // changes position of shadow
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(
+                                        20,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Image.asset(
+                                            "assets/images/location-add.png"),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text("Add New Address" + '\n',
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            style: kThemeData
+                                                .textTheme.bodyMedium
+                                                ?.copyWith(
+                                                color: DarkTheme
+                                                    .darkLightActive)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ]),
                 ),
@@ -175,9 +268,11 @@ class EditProfile extends GetView<ProfileController> {
                     padding: EdgeInsets.symmetric(
                       horizontal: 32,
                     ),
-                    child: ButtonsWidget(name: 'Save', onPressed: () {
-                      Get.back();
-                    })),
+                    child: ButtonsWidget(
+                        name: 'Save',
+                        onPressed: () {
+                          Get.back();
+                        })),
                 SizedBox(
                   height: Get.height * 0.06,
                 ),

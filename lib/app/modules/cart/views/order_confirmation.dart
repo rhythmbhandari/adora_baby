@@ -10,6 +10,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../home/controllers/home_controller.dart';
 
 class OrderConfirmation extends GetView<CartController> {
   const OrderConfirmation({Key? key}) : super(key: key);
@@ -87,6 +88,8 @@ class OrderConfirmation extends GetView<CartController> {
                       child: ButtonsWidget(
                           name: "Track My Order",
                           onPressed: () {
+                            final HomeController homeController = Get.find();
+                            homeController.currentPage.value = 2;
                             Get.until(
                                 (route) => route.settings.name == Routes.HOME);
                           }),

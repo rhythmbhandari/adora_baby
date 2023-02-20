@@ -17,6 +17,7 @@ import '../../../data/models/get_city_model.dart' as c;
 import '../../../data/models/get_orders_model.dart' as o;
 import '../../../data/models/get_single_order_model.dart' as s;
 import '../../../enums/progress_status.dart';
+import '../../profile/controllers/profile_controller.dart';
 
 class CartController extends GetxController {
   //TODO: Implement ProfileController
@@ -355,7 +356,7 @@ class CartController extends GetxController {
     String pNum = phoneController.text.trim();
     String aNum = altPhoneController.text.trim();
     String note = notesController.text.trim();
-    final profileController = Get.find();
+    final ProfileController profileController = Get.find();
     String selectedAddress = profileController.selectedCity.value;
 
     bool isValid = true;
