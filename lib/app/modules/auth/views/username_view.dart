@@ -239,7 +239,7 @@ class UsernameView extends GetView<AuthController> {
                                             controller.passwordInvisible.value
                                                 ? Icons.visibility_off_outlined
                                                 : Icons.visibility_outlined,
-                                            color: DarkTheme.darkNormal
+                                            color: DarkTheme.darkNormal,
                                           ),
                                         ),
                                         contentPadding:

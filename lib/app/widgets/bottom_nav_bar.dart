@@ -46,10 +46,12 @@ class _MyHomePageState extends State<BottomNavBar>
   void initState() {
     currentPage = 0;
     controller.isRedirected.listen((p0) {
+      log('Reached');
       log('It is $p0');
       if (p0 != 3) {
         tabController.index = p0;
       }
+      controller.isRedirected.value = 3;
     });
     tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
@@ -78,7 +80,7 @@ class _MyHomePageState extends State<BottomNavBar>
   @override
   Widget build(BuildContext context) {
     return FrostedBottomBar(
-      bottom: 30,
+        bottom: 30,
         opacity: 0.9,
         width: Get.width * 0.7,
         // width: 350,

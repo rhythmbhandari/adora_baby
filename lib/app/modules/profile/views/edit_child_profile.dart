@@ -230,7 +230,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                                     style: kThemeData
                                                         .textTheme.titleMedium
                                                         ?.copyWith(
-                                                      color: DarkTheme.darkNormal
+                                                      color: DarkTheme.darkNormal,
                                                     ),
                                                   ),
                                                   GestureDetector(

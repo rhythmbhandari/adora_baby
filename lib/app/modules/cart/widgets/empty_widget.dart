@@ -10,9 +10,11 @@ import '../../../config/app_theme.dart';
 import '../../profile/views/order_history_detail.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({
-    Key? key,
+  EmptyWidget({
+    Key? key, this.isSearched = false,
   }) : super(key: key);
+
+  bool isSearched;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class EmptyWidget extends StatelessWidget {
         vertical: Get.height * 0.02,
       ),
       decoration: BoxDecoration(
-        color: LightTheme.white,
+        color: isSearched? LightTheme.whiteActive: LightTheme.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

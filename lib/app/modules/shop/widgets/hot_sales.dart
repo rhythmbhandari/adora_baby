@@ -56,16 +56,21 @@ class HotSale extends StatelessWidget {
                 child: Obx(() => controller.hotSales.isNotEmpty
                     ? GestureDetector(
                         onTap: () {
-                          Get.toNamed(Routes.PRODUCT_DETAILS, arguments: [
-                            controller.allProducts[index].name,
-                            controller
-                                .allProducts[index].productImages[index].name,
-                            controller.allProducts[index].reviews[index].grade,
-                            controller.allProducts[index].stockAvailable,
-                            controller.allProducts[index].regularPrice,
-                            controller.allProducts[index].weightInGrams,
-                            controller.allProducts[index].bestBy,
-                          ]);
+                          controller.productSelected.value =
+                              controller.allProducts[index];
+                          Get.toNamed(
+                            Routes.PRODUCT_DETAILS,
+                            //     arguments: [
+                            //   controller.allProducts[index].name,
+                            //   controller
+                            //       .allProducts[index].productImages[index].name,
+                            //   controller.allProducts[index].reviews[index].grade,
+                            //   controller.allProducts[index].stockAvailable,
+                            //   controller.allProducts[index].regularPrice,
+                            //   controller.allProducts[index].weightInGrams,
+                            //   controller.allProducts[index].bestBy,
+                            // ]
+                          );
                         },
                         child: AlignedGridView.count(
                           crossAxisCount: 2,
@@ -123,8 +128,9 @@ class ProductCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.PRODUCT_DETAILS,
-            arguments: controller.hotSales[index]);
+        controller.productSelected.value =
+        controller.hotSales[index];
+        Get.toNamed(Routes.PRODUCT_DETAILS);
       },
       child: Container(
         padding: const EdgeInsets.only(top: 10),

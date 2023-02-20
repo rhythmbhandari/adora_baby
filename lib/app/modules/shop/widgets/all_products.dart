@@ -68,8 +68,9 @@ class AllProducts extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.toNamed(Routes.PRODUCT_DETAILS,
-                                  arguments: controller.allProducts[index]);
+                              controller.productSelected.value =
+                              controller.allProducts[index];
+                              Get.toNamed(Routes.PRODUCT_DETAILS);
                             },
                             child: Container(
                               padding: const EdgeInsets.only(top: 10),

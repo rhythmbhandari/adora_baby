@@ -201,7 +201,7 @@ class MoreTips extends GetView<ShopController> {
                                         itemBuilder: (BuildContext context,
                                                 int index) =>
                                             Container(
-                                              // padding: const EdgeInsets.only(top: 10),
+                                              margin: const EdgeInsets.only(bottom: 20),
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,

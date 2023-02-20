@@ -39,7 +39,7 @@ class TrendingImages extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                   child: CachedNetworkImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     imageUrl: '${i.name}',
                     placeholder: (context, url) =>
                         Center(child: CircularProgressIndicator()),

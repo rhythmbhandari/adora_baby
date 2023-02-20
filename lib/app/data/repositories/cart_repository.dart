@@ -65,6 +65,32 @@ class CartRepository {
     }
   }
 
+  static Future<bool> postReview(
+    String grade,
+    String review,
+    String product,
+  ) async {
+    const url = '$BASE_URL/rating/';
+    final body =
+        jsonEncode({"grade": grade, "review": review, "product": product});
+    try {
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
+        return true;
+      } else {
+        return Future.error('Could not post review.');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      log('Error is $e');
+      return Future.error(
+          '$e');
+    }
+  }
+
   static Future<bool> deleteCart(List ofId) async {
     const url = '$BASE_URL/cart/delete/';
     final body = jsonEncode({

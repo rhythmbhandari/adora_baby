@@ -153,7 +153,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                   case ProgressStatus.empty:
                     return Container(
                         height: Get.height * 0.7,
-                        child: FittedBox(child: const EmptyWidget()));
+                        child: FittedBox(child: EmptyWidget()));
                   case ProgressStatus.idle:
                   case ProgressStatus.loading:
                   case ProgressStatus.searching:
@@ -195,7 +195,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.darkNormal
+                                                color: DarkTheme.darkNormal,
                                               ),
                                             ),
                                             SizedBox(
@@ -218,7 +218,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.bodyMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.darkNormal
+                                                color: DarkTheme.darkNormal,
                                               ),
                                             ),
                                           ],

@@ -14,6 +14,7 @@ import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../cart/widgets/empty_widget.dart';
 import '../../shop/controllers/shop_controller.dart';
 
 class SearchView extends GetView<ShopController> {
@@ -326,293 +327,304 @@ class SearchView extends GetView<ShopController> {
                                           shrinkWrap: true,
                                           itemCount: controller
                                               .allProductsSearched.length,
-                                          itemBuilder:
-                                              (BuildContext context,
-                                                      int index) =>
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed(
-                                                          Routes
-                                                              .PRODUCT_DETAILS,
-                                                          arguments: controller
-                                                                  .allProductsSearched[
-                                                              index]);
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10),
-                                                      margin: EdgeInsets.only(
-                                                          left: 36,
-                                                          right: 36,
-                                                          bottom: 16),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          border: Border.all(
-                                                              color: const Color
-                                                                      .fromRGBO(
-                                                                  192,
-                                                                  144,
-                                                                  254,
-                                                                  0.25)),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors.grey
-                                                                  .withOpacity(
-                                                                      0.5),
-                                                              spreadRadius: 1,
-                                                              blurRadius: 2,
-                                                              offset: Offset(0,
-                                                                  2), // changes position of shadow
-                                                            ),
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      15)),
-                                                      child: Column(
+                                          itemBuilder: (BuildContext context,
+                                                  int index) =>
+                                              GestureDetector(
+                                                onTap: () {
+                                                  controller.productSelected
+                                                      .value = controller
+                                                          .allProductsSearched[
+                                                      index];
+                                                  Get.toNamed(
+                                                    Routes.PRODUCT_DETAILS,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
+                                                  margin: EdgeInsets.only(
+                                                      left: 36,
+                                                      right: 36,
+                                                      bottom: 16),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: const Color
+                                                                  .fromRGBO(192,
+                                                              144, 254, 0.25)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          offset: Offset(0,
+                                                              2), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: Column(
+                                                    children: [
+                                                      Stack(
                                                         children: [
-                                                          Stack(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top: 2,
-                                                                        bottom:
-                                                                            2,
-                                                                        left: 6,
-                                                                        right:
-                                                                            6),
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  gradient:
-                                                                      const LinearGradient(
-                                                                    begin: Alignment
-                                                                        .topRight,
-                                                                    end: Alignment
-                                                                        .bottomLeft,
-                                                                    colors: [
-                                                                      AppColors
-                                                                          .linear2,
-                                                                      AppColors
-                                                                          .linear1,
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Text(
-                                                                  "Sale!",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontFamily:
-                                                                          "Poppins",
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    top: 12,
+                                                                    bottom: 8),
+                                                            child: Center(
+                                                              child:
+                                                                  Image.network(
+                                                                controller
+                                                                    .allProductsSearched[
+                                                                        index]
+                                                                    .productImages[
+                                                                        0]
+                                                                    .name,
+                                                                height:
+                                                                    Get.height *
+                                                                        0.25,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 2,
+                                                                    bottom: 2,
+                                                                    left: 6,
+                                                                    right: 6),
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        8),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              gradient:
+                                                                  const LinearGradient(
+                                                                begin: Alignment
+                                                                    .topRight,
+                                                                end: Alignment
+                                                                    .bottomLeft,
+                                                                colors: [
+                                                                  AppColors
+                                                                      .linear2,
+                                                                  AppColors
+                                                                      .linear1,
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            child: const Text(
+                                                              "Sale!",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontFamily:
+                                                                      "Poppins",
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  letterSpacing:
+                                                                      0.04),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 13,
+                                                                right: 13),
+                                                        width: Get.width,
+                                                        decoration: const BoxDecoration(
+                                                            color: Color
+                                                                .fromRGBO(
+                                                                    243,
+                                                                    234,
+                                                                    249,
+                                                                    1),
+                                                            borderRadius: BorderRadius.only(
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            15),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        15))),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            Text(
+                                                              controller
+                                                                  .allProductsSearched[
+                                                                      index]
+                                                                  .shortName,
+                                                              maxLines: 1,
+                                                              style: kThemeData
+                                                                  .textTheme
+                                                                  .labelSmall
+                                                                  ?.copyWith(
+                                                                      color: AppColors
+                                                                          .secondary700,
                                                                       fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      letterSpacing:
-                                                                          0.04),
+                                                                          12),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 4,
+                                                            ),
+                                                            Text(
+                                                              controller
+                                                                  .allProductsSearched[
+                                                                      index]
+                                                                  .name,
+                                                              maxLines: 2,
+                                                              style: kThemeData
+                                                                  .textTheme
+                                                                  .bodyMedium
+                                                                  ?.copyWith(
+                                                                      color: AppColors
+                                                                          .primary700,
+                                                                      fontSize:
+                                                                          14),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            RatingBar.builder(
+                                                              initialRating:
+                                                                  controller
+                                                                      .allProductsSearched[
+                                                                          index]
+                                                                      .rating
+                                                                      .gradeAvg,
+                                                              ignoreGestures:
+                                                                  true,
+                                                              itemSize: 12,
+                                                              direction: Axis
+                                                                  .horizontal,
+                                                              allowHalfRating:
+                                                                  true,
+                                                              glow: false,
+                                                              itemCount: 5,
+                                                              itemPadding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          0.0),
+                                                              itemBuilder:
+                                                                  (context,
+                                                                          _) =>
+                                                                      GradientIcon(
+                                                                Icons.star,
+                                                                10.0,
+                                                                LinearGradient(
+                                                                  colors: <
+                                                                      Color>[
+                                                                    Color
+                                                                        .fromRGBO(
+                                                                            127,
+                                                                            0,
+                                                                            255,
+                                                                            1),
+                                                                    Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            0,
+                                                                            255,
+                                                                            1)
+                                                                  ],
+                                                                  begin: Alignment
+                                                                      .topLeft,
+                                                                  end: Alignment
+                                                                      .bottomRight,
                                                                 ),
                                                               ),
-                                                              Positioned(
-                                                                bottom: 0,
-                                                                child:
-                                                                    Container(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left: 13,
-                                                                      right: 13,
-                                                                      top: 18),
-                                                                  width:
-                                                                      Get.width,
-                                                                  decoration: const BoxDecoration(
-                                                                      color: Color.fromRGBO(
-                                                                          243,
-                                                                          234,
-                                                                          249,
-                                                                          1),
-                                                                      borderRadius: BorderRadius.only(
-                                                                          bottomRight: Radius.circular(
-                                                                              15),
-                                                                          bottomLeft:
-                                                                              Radius.circular(15))),
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
+                                                              onRatingUpdate:
+                                                                  (rating) {
+                                                                print(rating);
+                                                              },
+                                                            ),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            controller.allProductsSearched[index].salePrice !=
+                                                                        0 &&
+                                                                    controller
+                                                                            .allProductsSearched[index]
+                                                                            .salePrice !=
+                                                                        null
+                                                                ? Row(
                                                                     children: [
-                                                                      SizedBox(
-                                                                        height:
-                                                                            8,
+                                                                      Expanded(
+                                                                        child:
+                                                                            Text(
+                                                                          "Rs. ${controller.allProductsSearched[index].regularPrice}",
+                                                                          maxLines:
+                                                                              2,
+                                                                          style: kThemeData
+                                                                              .textTheme
+                                                                              .bodyMedium
+                                                                              ?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                                        ),
                                                                       ),
                                                                       Text(
-                                                                        controller
-                                                                            .allProductsSearched[index]
-                                                                            .shortName,
-                                                                        maxLines:
-                                                                            1,
-                                                                        style: kThemeData
-                                                                            .textTheme
-                                                                            .labelSmall
-                                                                            ?.copyWith(
-                                                                                color: AppColors.secondary700,
-                                                                                fontSize: 12),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            4,
-                                                                      ),
-                                                                      Text(
-                                                                        controller
-                                                                            .allProductsSearched[index]
-                                                                            .name,
+                                                                        "Rs. ${controller.allProductsSearched[index].salePrice}",
                                                                         maxLines:
                                                                             2,
                                                                         style: kThemeData
                                                                             .textTheme
                                                                             .bodyMedium
-                                                                            ?.copyWith(
-                                                                                color: AppColors.primary700,
-                                                                                fontSize: 14),
+                                                                            ?.copyWith(color: DarkTheme.normal),
                                                                       ),
                                                                       SizedBox(
-                                                                        height:
-                                                                            8,
-                                                                      ),
-                                                                      RatingBar
-                                                                          .builder(
-                                                                        initialRating: controller
-                                                                            .allProductsSearched[index]
-                                                                            .rating
-                                                                            .gradeAvg,
-                                                                        ignoreGestures:
-                                                                            true,
-                                                                        itemSize:
-                                                                            12,
-                                                                        direction:
-                                                                            Axis.horizontal,
-                                                                        allowHalfRating:
-                                                                            true,
-                                                                        glow:
-                                                                            false,
-                                                                        itemCount:
-                                                                            5,
-                                                                        itemPadding:
-                                                                            EdgeInsets.symmetric(horizontal: 0.0),
-                                                                        itemBuilder:
-                                                                            (context, _) =>
-                                                                                GradientIcon(
-                                                                          Icons
-                                                                              .star,
-                                                                          10.0,
-                                                                          LinearGradient(
-                                                                            colors: <Color>[
-                                                                              Color.fromRGBO(127, 0, 255, 1),
-                                                                              Color.fromRGBO(255, 0, 255, 1)
-                                                                            ],
-                                                                            begin:
-                                                                                Alignment.topLeft,
-                                                                            end:
-                                                                                Alignment.bottomRight,
-                                                                          ),
-                                                                        ),
-                                                                        onRatingUpdate:
-                                                                            (rating) {
-                                                                          print(
-                                                                              rating);
-                                                                        },
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            8,
-                                                                      ),
-                                                                      controller.allProductsSearched[index].salePrice !=
-                                                                              0
-                                                                          ? Row(
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Text(
-                                                                                    "Rs. ${controller.allProductsSearched[index].regularPrice}",
-                                                                                    maxLines: 2,
-                                                                                    style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
-                                                                                  ),
-                                                                                ),
-                                                                                Text(
-                                                                                  "Rs. ${controller.allProductsSearched[index].salePrice}",
-                                                                                  maxLines: 2,
-                                                                                  style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 20,
-                                                                                )
-                                                                              ],
-                                                                            )
-                                                                          : Text(
-                                                                              "Rs. ${controller.allProductsSearched[index].regularPrice}",
-                                                                              maxLines: 2,
-                                                                              style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
-                                                                            ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            8,
-                                                                      ),
+                                                                        width:
+                                                                            20,
+                                                                      )
                                                                     ],
+                                                                  )
+                                                                : Text(
+                                                                    "Rs. ${controller.allProductsSearched[index].regularPrice}",
+                                                                    maxLines: 2,
+                                                                    style: kThemeData
+                                                                        .textTheme
+                                                                        .bodyMedium
+                                                                        ?.copyWith(
+                                                                            color:
+                                                                                DarkTheme.normal),
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                height:
-                                                                    Get.height *
-                                                                        0.38,
-                                                              ),
-                                                              Center(
-                                                                child: Image
-                                                                    .network(
-                                                                  controller
-                                                                      .allProductsSearched[
-                                                                          index]
-                                                                      .productImages[
-                                                                          0]
-                                                                      .name,
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.25,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ))
-                                      : Container(
-                                          color: Color.fromRGBO(
-                                            250,
-                                            245,
-                                            252,
-                                            1,
-                                          ),
-                                          height: Get.height,
-                                        ))
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ))
+                                      : EmptyWidget(
+                                          isSearched: true))
                                 ],
                               ),
                             ),

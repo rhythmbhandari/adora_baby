@@ -15,6 +15,7 @@ import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../cart/widgets/empty_widget.dart';
 import '../controllers/shop_controller.dart';
 
 class HotSalesView extends GetView<ShopController> {
@@ -320,11 +321,14 @@ class HotSalesView extends GetView<ShopController> {
                                                   int index) =>
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.PRODUCT_DETAILS,
-                                                      arguments: controller
+                                                  controller.productSelected
+                                                          .value =
+                                                      controller
                                                               .hotSalesFiltered[
-                                                          index]);
+                                                          index];
+                                                  Get.toNamed(
+                                                    Routes.PRODUCT_DETAILS,
+                                                  );
                                                 },
                                                 child: Container(
                                                   padding:
@@ -609,7 +613,8 @@ class HotSalesView extends GetView<ShopController> {
                                                   ),
                                                 ),
                                               ))
-                                      : Container())
+                                      :  EmptyWidget(
+                                      isSearched: true))
                                 ],
                               ),
                             ),

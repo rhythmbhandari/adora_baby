@@ -146,7 +146,7 @@ class LoginView extends GetView<AuthController> {
                                       controller.passwordInvisibleLogin.value
                                           ? Icons.visibility_off_outlined
                                           : Icons.visibility_outlined,
-                                      color: DarkTheme.darkNormal
+                                      color: DarkTheme.darkNormal,
                                     ),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(

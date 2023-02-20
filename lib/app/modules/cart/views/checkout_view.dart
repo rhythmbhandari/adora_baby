@@ -266,13 +266,13 @@ class CheckOutView extends GetView<CartController> {
                       cursorColor: AppColors.primary300,
                       controller: controller.couponController,
                       style: kThemeData.textTheme.bodyLarge?.copyWith(
-                          color: DarkTheme.darkNormal
+                          color: DarkTheme.darkNormal,
                       ),
                       decoration: InputDecoration(
                         label: Text(
                           '',
                           style: kThemeData.textTheme.bodyLarge?.copyWith(
-                              color: DarkTheme.darkNormal
+                              color: DarkTheme.darkNormal,
                           ),
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.always,

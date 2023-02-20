@@ -134,7 +134,7 @@ class ResetPasswordView extends GetView<AuthController> {
                                                 .value
                                             ? Icons.visibility_off_outlined
                                             : Icons.visibility_outlined,
-                                        color: DarkTheme.darkNormal
+                                        color: DarkTheme.darkNormal,
                                       ),
                                     ),
                                     contentPadding: EdgeInsets.symmetric(
@@ -206,7 +206,7 @@ class ResetPasswordView extends GetView<AuthController> {
                                                 .value
                                             ? Icons.visibility_off_outlined
                                             : Icons.visibility_outlined,
-                                        color: DarkTheme.darkNormal
+                                        color: DarkTheme.darkNormal,
                                       ),
                                     ),
                                     contentPadding: EdgeInsets.symmetric(

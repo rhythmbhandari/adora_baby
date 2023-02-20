@@ -105,7 +105,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
       cards.add(GestureDetector(
         onTap: (){
           print("Data is ${controller.ordersList[i].name}");
-          // Get.toNamed(Routes.PRODUCT_DETAILS, arguments: snapshot.data![0][index]);
+          // final ShopController controller = Get.find();
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10),
@@ -216,7 +216,9 @@ class RecentlyViewedProducts extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         print("Data is ${snapshot.data![0][index].name}");
-        Get.toNamed(Routes.PRODUCT_DETAILS, arguments: snapshot.data![0][index]);
+        final ShopController controller = Get.find();
+        controller.productSelected.value =snapshot.data![0][index];
+        Get.toNamed(Routes.PRODUCT_DETAILS,);
       },
       child: Container(
         padding: const EdgeInsets.only(top: 10),

@@ -147,7 +147,7 @@ class ProfileView extends GetView<ProfileController> {
                           case ProgressStatus.internetError:
                             return const InternetErrorWidget();
                           case ProgressStatus.empty:
-                            return const EmptyWidget();
+                            return EmptyWidget();
                           case ProgressStatus.idle:
                           case ProgressStatus.loading:
                           case ProgressStatus.searching:

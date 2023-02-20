@@ -90,6 +90,7 @@ class OrderConfirmation extends GetView<CartController> {
                           name: "Track My Order",
                           onPressed: () {
                             controller.cart();
+                            controller.mainCheckbox.value = false;
                             final HomeController homeController = Get.find();
                             final ProfileController profileController =
                                 Get.find();

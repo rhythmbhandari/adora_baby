@@ -153,7 +153,7 @@ class OrderHistoryWidgets extends StatelessWidget {
               case ProgressStatus.empty:
                 return Container(
                     height: Get.height * 0.7,
-                    child: FittedBox(child: const EmptyWidget()));
+                    child: FittedBox(child: EmptyWidget()));
               case ProgressStatus.idle:
               case ProgressStatus.loading:
               case ProgressStatus.searching:
@@ -383,7 +383,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                     style: kThemeData
                                                         .textTheme.labelSmall
                                                         ?.copyWith(
-                                                      color: DarkTheme.darkNormal
+                                                      color: DarkTheme.darkNormal,
                                                     ),
                                                   ),
                                                 )
@@ -406,7 +406,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                             .textTheme
                                                             .labelSmall
                                                             ?.copyWith(
-                                                          color: DarkTheme.darkNormal
+                                                          color: DarkTheme.darkNormal,
                                                         ),
                                                       ),
                                                     )
@@ -421,7 +421,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                             .textTheme
                                                             .labelSmall
                                                             ?.copyWith(
-                                                          color: DarkTheme.darkNormal
+                                                          color: DarkTheme.darkNormal,
                                                         ),
                                                       ),
                                                     ),

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../main.dart';
+import '../../../data/models/hot_sales_model.dart';
 import '../../../data/models/stages_brands.dart';
 import '../../../data/repositories/cart_repository.dart';
 import '../../../widgets/buttons.dart';
@@ -24,6 +25,8 @@ class ShopController extends GetxController {
   final isSelected = false.obs;
   final authError = ''.obs;
   final trendingImagesList = [].obs;
+
+  final Rx<HotSales> productSelected = HotSales().obs;
 
   final stagesList = [].obs;
 
@@ -42,7 +45,11 @@ class ShopController extends GetxController {
 
   final progressStatus = ProgressStatus.idle.obs;
 
+  final progressStatusReview = ProgressStatus.idle.obs;
+
   final TextEditingController searchController = TextEditingController();
+
+  final TextEditingController reviewController = TextEditingController();
 
   @override
   void onInit() {
@@ -73,6 +80,11 @@ class ShopController extends GetxController {
       productDetailProgress.value = ProgressStatus.loading;
 
   hideProgressBarDetail() => productDetailProgress.value = ProgressStatus.idle;
+
+  showProgressBarReview() =>
+      progressStatusReview.value = ProgressStatus.loading;
+
+  hideProgressBarReview() => progressStatusReview.value = ProgressStatus.idle;
 
   showProgressBar() => progressStatus.value = ProgressStatus.loading;
 
@@ -388,6 +400,31 @@ class ShopController extends GetxController {
     try {
       final status = await CartRepository.addToCart(
           name.toString(), counter.toString().trim());
+
+      if (status) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      authError.value = '$error';
+      return false;
+    }
+  }
+
+  final ratingsReview = 0.0.obs;
+
+  Future<bool> initiateReview(String productId) async {
+    try {
+      if (ratingsReview.value == 0.0) {
+        authError.value = 'Please provide a rating.';
+        return false;
+      } else if (reviewController.text.trim().isEmpty) {
+        authError.value = 'Please write a review.';
+        return false;
+      }
+      final status = await CartRepository.postReview(
+          ratingsReview.value.toStringAsPrecision(1), reviewController.text.trim(), productId);
 
       if (status) {
         return true;

@@ -98,7 +98,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                 'Order #${controller.selectedOrders.value.trackingCode}',
                                 style:
                                     kThemeData.textTheme.displaySmall?.copyWith(
-                                  color: DarkTheme.darkNormal
+                                  color: DarkTheme.darkNormal,
                                 ),
                               ),
                             ),
@@ -113,7 +113,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                         labelStyle: kThemeData
                                             .textTheme.labelMedium
                                             ?.copyWith(
-                                          color: DarkTheme.darkNormal
+                                          color: DarkTheme.darkNormal,
                                           fontSize: 18,
                                         ),
                                         isScrollable: false,
@@ -124,8 +124,8 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           color: DarkTheme.lighter,
                                           fontSize: 18,
                                         ),
-                                        labelColor: DarkTheme.darkNormal
-                                        indicatorColor: DarkTheme.darkNormal
+                                        labelColor: DarkTheme.darkNormal,
+                                        indicatorColor: DarkTheme.darkNormal,
                                         indicatorSize:
                                             TabBarIndicatorSize.label,
                                         indicatorWeight: 2,
@@ -305,7 +305,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.darkNormal
+                                                color: DarkTheme.darkNormal,
                                               ),
                                             ),
                                           ),
@@ -464,7 +464,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.darkNormal
+                                                color: DarkTheme.darkNormal,
                                               ),
                                             ),
                                           ),
