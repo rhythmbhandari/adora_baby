@@ -168,6 +168,7 @@ class CartController extends GetxController {
           progressBarStatusCart,
           true,
         );
+        cartList.value = [];
         return false;
       }
     } catch (e) {

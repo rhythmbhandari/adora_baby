@@ -63,7 +63,25 @@ class ProfileView extends GetView<ProfileController> {
                               ?.copyWith(color: DarkTheme.normal),
                         ),
                         Expanded(flex: 4, child: SizedBox()),
-                        Icon(Icons.menu),
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              await storage.delete(
+                                Constants.ACCESS_TOKEN,
+                              );
+                              await storage.delete(
+                                Constants.LOGGED_IN_STATUS,
+                              );
+                              await storage.delete(
+                                Constants.REFRESH_TOKEN,
+                              );
+                              Get.offAllNamed(Routes.PHONE);
+                            } catch (e) {
+                              Get.offAllNamed(Routes.PHONE);
+                            }
+                          },
+                          child: Icon(Icons.logout_rounded)
+                        ),
                         SizedBox(
                           width: 35,
                         )
@@ -165,31 +183,6 @@ class ProfileView extends GetView<ProfileController> {
                                   ),
                                   OrderWidget(
                                     controller: controller,
-                                  ),
-                                  Center(
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        try {
-                                          await storage.delete(
-                                            Constants.ACCESS_TOKEN,
-                                          );
-                                          await storage.delete(
-                                            Constants.LOGGED_IN_STATUS,
-                                          );
-                                          await storage.delete(
-                                            Constants.REFRESH_TOKEN,
-                                          );
-                                          Get.offAllNamed(Routes.PHONE);
-                                        } catch (e) {
-                                          Get.offAllNamed(Routes.PHONE);
-                                        }
-                                      },
-                                      child: Text(
-                                        'Logout',
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.green),
-                                      ),
-                                    ),
                                   ),
                                   SizedBox(height: Get.height * 0.15)
                                 ],
