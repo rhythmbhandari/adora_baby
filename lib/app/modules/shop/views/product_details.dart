@@ -397,7 +397,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                         child: Text(
                                           myController.counter.value.toString(),
                                           style: const TextStyle(
-                                              color: DarkTheme.dark,
+                                              color: DarkTheme.darkNormal
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w700,
                                               fontSize: 28),

@@ -98,7 +98,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                           style: kThemeData
                                               .textTheme.titleMedium
                                               ?.copyWith(
-                                            color: DarkTheme.dark,
+                                            color: DarkTheme.darkNormal
                                           ),
                                         ),
                                         ChipsChoice<dynamic>.multiple(

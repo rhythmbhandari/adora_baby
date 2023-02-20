@@ -286,7 +286,7 @@
 //                                                              Obx(
 //                                                                    () => Text(
 //                                                                  controller.counter[index].toString(),
-//                                                                  style: const TextStyle(color: DarkTheme.dark, fontFamily: 'Poppins', fontWeight: FontWeight.w900, fontSize: 10),
+//                                                                  style: const TextStyle(color: DarkTheme.darkNormal fontFamily: 'Poppins', fontWeight: FontWeight.w900, fontSize: 10),
 //                                                                ),
 //                                                              ),
 //                                                            )),
@@ -345,7 +345,7 @@
 //                                                                Text(
 //                                                                  "Rs. ${snapshot.data![index].product!.regularPrice! * controller.counter[index]}",
 //                                                                  style: const TextStyle(
-//                                                                      color: DarkTheme.dark,
+//                                                                      color: DarkTheme.darkNormal
 //                                                                      fontFamily: 'Poppins',
 //                                                                      fontWeight: FontWeight.w700,
 //                                                                      fontSize: 16),

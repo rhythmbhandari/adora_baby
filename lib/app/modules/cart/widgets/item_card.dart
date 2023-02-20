@@ -217,7 +217,7 @@ class CartCardWidget extends StatelessWidget {
                         child: Text(
                           "Rs. ${controller.cartList[index].product.priceItem}",
                           style: const TextStyle(
-                              color: DarkTheme.dark,
+                              color: DarkTheme.darkNormal
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w700,
                               fontSize: 16),

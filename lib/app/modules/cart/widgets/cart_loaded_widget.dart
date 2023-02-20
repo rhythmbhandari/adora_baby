@@ -218,7 +218,7 @@ class CartLoadedWidget extends StatelessWidget {
                                 "Rs. ${controller.priceCart.value}",
                                 style:
                                     kThemeData.textTheme.titleMedium?.copyWith(
-                                  color: DarkTheme.dark,
+                                  color: DarkTheme.darkNormal
                                   fontSize: 16,
                                 ),
                               )),

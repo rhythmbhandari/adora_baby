@@ -383,7 +383,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                     style: kThemeData
                                                         .textTheme.labelSmall
                                                         ?.copyWith(
-                                                      color: DarkTheme.dark,
+                                                      color: DarkTheme.darkNormal
                                                     ),
                                                   ),
                                                 )
@@ -406,7 +406,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                             .textTheme
                                                             .labelSmall
                                                             ?.copyWith(
-                                                          color: DarkTheme.dark,
+                                                          color: DarkTheme.darkNormal
                                                         ),
                                                       ),
                                                     )
@@ -421,7 +421,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                                                             .textTheme
                                                             .labelSmall
                                                             ?.copyWith(
-                                                          color: DarkTheme.dark,
+                                                          color: DarkTheme.darkNormal
                                                         ),
                                                       ),
                                                     ),

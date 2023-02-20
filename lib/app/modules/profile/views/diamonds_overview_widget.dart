@@ -229,7 +229,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               child: Text(
                 '${value['Diamonds Spent']}\nDiamonds\nSpent',
                 style: kThemeData.textTheme.labelSmall?.copyWith(
-                  color: DarkTheme.dark,
+                  color: DarkTheme.darkNormal
                 ),
               )),
           Positioned(
@@ -239,7 +239,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
                 '${value['Diamonds Earned']}\nDiamonds\nEarned',
                 textAlign: TextAlign.end,
                 style: kThemeData.textTheme.labelSmall?.copyWith(
-                  color: DarkTheme.dark,
+                  color: DarkTheme.darkNormal
                 ),
               )),
           PieChart(
@@ -332,7 +332,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
                 'The more you shop, the more you earn!\n\nDiamonds are great way to enjoy discounts while buying products from Adora App.\n\nGet diamonds with each of your purchase. ',
                 textAlign: TextAlign.start,
                 style: kThemeData.textTheme.labelSmall?.copyWith(
-                  color: DarkTheme.dark,
+                  color: DarkTheme.darkNormal
                 ),
               ),
             ),

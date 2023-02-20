@@ -156,8 +156,8 @@ class _DiamondsViewState extends State<DiamondsView>
                         kThemeData.textTheme.labelMedium?.copyWith(
                       fontSize: 18,
                     ),
-                    labelColor: DarkTheme.dark,
-                    indicatorColor: DarkTheme.dark,
+                    labelColor: DarkTheme.darkNormal
+                    indicatorColor: DarkTheme.darkNormal
                     padding: EdgeInsets.symmetric(horizontal: 40),
                     controller: tabControllerMain,
                     indicatorWeight: 2.5,

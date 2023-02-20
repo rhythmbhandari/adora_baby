@@ -51,7 +51,7 @@ class OrderWidget extends StatelessWidget {
                 child: Text(
                   "My Orders",
                   style: TextStyle(
-                    color: DarkTheme.dark,
+                    color: DarkTheme.darkNormal
                     fontFamily: "PLayfair",
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
@@ -223,7 +223,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                     '#${controller.ordersList[i].trackingCode}',
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
-                        ?.copyWith(color: DarkTheme.dark, fontSize: 12),
+                        ?.copyWith(color: DarkTheme.darkNormal fontSize: 12),
                   ),
                 ),
               ),
@@ -322,7 +322,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                         )}',
                         maxLines: 1,
                         style: kThemeData.textTheme.labelSmall?.copyWith(
-                          color: DarkTheme.dark,
+                          color: DarkTheme.darkNormal
                         ),
                       ),
                     )
@@ -338,7 +338,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                             )}',
                             maxLines: 1,
                             style: kThemeData.textTheme.labelSmall?.copyWith(
-                              color: DarkTheme.dark,
+                              color: DarkTheme.darkNormal
                             ),
                           ),
                         )
@@ -348,7 +348,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
                             '\n',
                             maxLines: 1,
                             style: kThemeData.textTheme.labelSmall?.copyWith(
-                              color: DarkTheme.dark,
+                              color: DarkTheme.darkNormal
                             ),
                           ),
                         ),

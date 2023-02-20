@@ -195,7 +195,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.dark,
+                                                color: DarkTheme.darkNormal
                                               ),
                                             ),
                                             SizedBox(
@@ -218,7 +218,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               style: kThemeData
                                                   .textTheme.bodyMedium
                                                   ?.copyWith(
-                                                color: DarkTheme.dark,
+                                                color: DarkTheme.darkNormal
                                               ),
                                             ),
                                           ],
