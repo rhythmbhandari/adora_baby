@@ -1,5 +1,6 @@
 import 'package:adora_baby/app/modules/profile/views/diamonds_view.dart';
 import 'package:adora_baby/app/modules/profile/views/order_history.dart';
+import 'package:adora_baby/app/modules/shop/views/temp_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class EmptyWidget extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              Get.to(OrderHistoryDetail());
+              // Get.to(TempView());
             },
             child: Container(
               padding: EdgeInsets.symmetric(

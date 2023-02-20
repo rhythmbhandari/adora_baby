@@ -883,7 +883,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                                '${snapshot.data?[index].orderStatus}',
+                                                                '${snapshot.data?[index].orderStatus}.'.replaceAll(RegExp('[^A-Za-z]'), ' ').toLowerCase().capitalize ?? '',
                                                                 style: kThemeData
                                                                     .textTheme
                                                                     .titleMedium
