@@ -9,12 +9,15 @@ import 'package:shimmer/shimmer.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../routes/app_pages.dart';
+import '../../profile/controllers/profile_controller.dart';
 import '../../shop/widgets/auth_progress_indicator.dart';
 import '../controllers/cart_controller.dart';
 import '../widgets/address_widget.dart';
 
 class PersonalInfoView extends GetView<CartController> {
-  const PersonalInfoView({Key? key}) : super(key: key);
+  PersonalInfoView({Key? key}) : super(key: key);
+
+  final ProfileController profileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -189,14 +192,16 @@ class PersonalInfoView extends GetView<CartController> {
                           // mainAxisSize: MainAxisSize.max,
                           children: [
                             Obx(
-                              () => controller.addressList.isNotEmpty
+                              () => profileController.addressList.isNotEmpty
                                   ? Expanded(
                                       flex: 8,
                                       child: SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
                                           children: [
-                                            buildAddressWidget(controller)
+                                            buildAddressWidget(
+                                              profileController,
+                                            )
                                           ],
                                         ),
                                       ),
@@ -207,7 +212,7 @@ class PersonalInfoView extends GetView<CartController> {
                               flex: 3,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(Routes.ADD_ADDRESS);
+                                  Get.toNamed(Routes.ADD_ADDRESS , arguments: [false, 0, true]);
                                 },
                                 child: Obx(
                                   () => Container(
@@ -216,14 +221,20 @@ class PersonalInfoView extends GetView<CartController> {
                                       left: 20,
                                       right: 20,
                                       top: 25,
-                                      bottom: controller.addressList.isNotEmpty
+                                      bottom: profileController
+                                              .addressList.isNotEmpty
                                           ? 25
                                           : 0,
                                     ),
                                     margin: EdgeInsets.only(
-                                      top: controller.addressList.isNotEmpty
+                                      top: profileController
+                                              .addressList.isNotEmpty
                                           ? 0
                                           : 15,
+                                      bottom: profileController
+                                          .addressList.isNotEmpty
+                                          ? 0
+                                          : 25,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -323,7 +334,8 @@ class PersonalInfoView extends GetView<CartController> {
                               name: "Next",
                               onPressed: () async {
                                 try {
-                                  controller.showLoading(controller.progressBarStatusInformation);
+                                  controller.showLoading(
+                                      controller.progressBarStatusInformation);
                                   final status =
                                       await controller.validatePersonalInfo();
                                   if (!status) {
@@ -358,7 +370,6 @@ class PersonalInfoView extends GetView<CartController> {
                                     Get.offNamed(Routes.CHECKOUT);
                                   }
                                 } catch (e) {
-
                                   controller.completeLoading(
                                       controller.progressBarStatusInformation,
                                       false);

@@ -5,15 +5,16 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../profile/controllers/profile_controller.dart';
 import '../controllers/cart_controller.dart';
 
-Widget buildAddressWidget(CartController controller) {
+Widget buildAddressWidget(ProfileController controller) {
   final cards = <Widget>[];
   Widget FeaturedCard;
 
   if (controller != null) {
     for (int index = 0; index < controller.addressList.length; index++) {
-      cards.add(GetBuilder<CartController>(
+      cards.add(GetBuilder<ProfileController>(
         id: 'addressCheckBox',
         builder: (myController) => GestureDetector(
           onTap: () {
@@ -117,6 +118,8 @@ Widget buildAddressWidget(CartController controller) {
                           myController.addressList[index].city.id;
                       controller.landMarkController.text =
                           myController.addressList[index].nearestLandmark;
+                      controller.addNameController.text =
+                          myController.addressList[index].address;
                       controller.isPrimaryAddAddress.value = myController
                               .addressList[index].addressType
                               .toString()
@@ -124,7 +127,7 @@ Widget buildAddressWidget(CartController controller) {
                               .contains('primary')
                           ? true
                           : false ?? false;
-                      Get.toNamed(Routes.ADD_ADDRESS);
+                      Get.toNamed(Routes.ADD_ADDRESS, arguments: [true, myController.addressList[index].id, false]);
                     },
                     child: Container(
                       padding: EdgeInsets.only(right: 10, left: 10),

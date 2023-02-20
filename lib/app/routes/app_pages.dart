@@ -81,7 +81,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PERSONAL_INFORMATION,
-      page: () => const PersonalInfoView(),
+      page: () => PersonalInfoView(),
     ),
     GetPage(
       name: _Paths.ADD_ADDRESS,

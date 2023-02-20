@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
+import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/shop/widgets/all_brands.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
 import 'package:adora_baby/app/widgets/tips_widget.dart';
@@ -32,23 +33,30 @@ import '../widgets/trending_images.dart';
 class ShopView extends GetView<ShopController> {
   ShopView({Key? key}) : super(key: key);
 
+  final ProfileController profileController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return progressWrap(
         Scaffold(
             backgroundColor: LightTheme.white,
-            body: NewShopViewBody(controller: controller)),
+            body: NewShopViewBody(
+              controller: controller,
+              profileController: profileController,
+            )),
         controller.progressStatus);
   }
 }
 
 class NewShopViewBody extends StatelessWidget {
-  NewShopViewBody({
+  const NewShopViewBody({
     Key? key,
     required this.controller,
+    required this.profileController,
   }) : super(key: key);
 
   final ShopController controller;
+  final ProfileController profileController;
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +71,54 @@ class NewShopViewBody extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    // controller.getTrendingImages();
-                    log('${await storage.readAccessToken()}');
-                  },
-                  child: Text(
-                    "Shop",
-                    style: kThemeData.textTheme.displaySmall,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 41),
+                  child: GetBuilder<ProfileController>(
+                    builder: (value) => Row(
+                      children: [
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              height: Get.height * 0.06,
+                              width: Get.height * 0.06,
+                              imageUrl: value.user.value.photos != null &&
+                                      value.user.value.photos!.isNotEmpty
+                                  ? value.user.value.photos!.length > 1
+                                      ? '${value.user.value.photos?[1]?.name}'
+                                      : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                  : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                value.user.value.babyName ?? '',
+                                style: kThemeData.textTheme.labelMedium
+                                    ?.copyWith(color: DarkTheme.darkNormal),
+                              ),
+                              Text(
+                                '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
+                                style: kThemeData.textTheme.labelMedium
+                                    ?.copyWith(color: DarkTheme.darkNormal),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -84,7 +132,7 @@ class NewShopViewBody extends StatelessWidget {
                       type: MaterialType.transparency,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 20),
+                            left: 31.0, right: 31, top: 20),
                         child: TextField(
                           cursorColor: AppColors.mainColor,
                           // focusNode: searchNode,

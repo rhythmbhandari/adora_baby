@@ -12,6 +12,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../data/models/orders_model.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/cart_repository.dart';
+import '../../../data/repositories/checkout_repositories.dart';
 import '../../../data/repositories/data_repository.dart';
 import '../../../data/repositories/session_manager.dart';
 import '../../../enums/progress_status.dart';
@@ -29,6 +31,8 @@ class ProfileController extends GetxController {
   final imageBoolMain = false.obs;
   final imageBoolChild = false.obs;
 
+  final isEditAddress = false.obs;
+
   final selectedTags = [].obs;
 
   final fullName = ''.obs;
@@ -39,6 +43,15 @@ class ProfileController extends GetxController {
   final orderHistoryListWeek = [].obs;
   final orderHistoryListHalfMonth = [].obs;
   final orderHistoryListMonth = [].obs;
+
+  final selectedCity = '0'.obs;
+
+
+  final editAddressId = '0'.obs;
+
+  TextEditingController addNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController landMarkController = TextEditingController();
 
   File? imagesMain;
   File? imagesChild;
@@ -97,6 +110,11 @@ class ProfileController extends GetxController {
   final currentPageStatement = 0.obs;
   final currentPageOverview = 0.obs;
 
+  final RxList addressList = [].obs;
+
+  final RxList citiesList = [].obs;
+  final RxList citiesId = [].obs;
+
   TextEditingController fullNameController = TextEditingController();
   TextEditingController contactInformationController = TextEditingController();
 
@@ -124,6 +142,10 @@ class ProfileController extends GetxController {
             progressStatus.value = ProgressStatus.success,
           }
       };
+
+  final progressBarStatusEditProfile = ProgressStatus.idle.obs;
+
+  final progressBarStatusAddAddress = ProgressStatus.idle.obs;
 
   showNetworkError(
     Rx<ProgressStatus> progressStatus,
@@ -229,6 +251,8 @@ class ProfileController extends GetxController {
     }
   }
 
+  final isPrimaryAddAddress = false.obs;
+
   @override
   void onInit() {
     fetchData();
@@ -247,8 +271,150 @@ class ProfileController extends GetxController {
           progressStatusOrderProfile,
           index: 0,
         ),
+        getAddressList(),
+        getCities(),
       ],
     );
+  }
+
+  Future<bool> validateAddress() async {
+    bool isValid = true;
+
+    String addressName = addNameController.text.trim();
+    String cityName = selectedCity.value;
+    String nearestLandmark = landMarkController.text.trim();
+    if (addressName.isEmpty) {
+      authError.value = 'Please enter address name.';
+      isValid = false;
+      return isValid;
+    } else if (cityName.isEmpty || cityName == '0') {
+      authError.value = 'Please select city.';
+      isValid = false;
+      return isValid;
+    } else if (nearestLandmark.isEmpty) {
+      authError.value = 'Please enter nearest landmark.';
+      isValid = false;
+      return isValid;
+    }
+    final status = isEditAddress.value
+        ? await requestToEditAddress(
+            cityName, nearestLandmark, addressName, isPrimaryAddAddress.value)
+        : await requestToAddAddress(
+            cityName, nearestLandmark, addressName, isPrimaryAddAddress.value);
+    if (status) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> requestToAddAddress(
+    String city,
+    String landmark,
+    String addressName,
+    bool isPrimary,
+  ) async {
+    try {
+      final status = await CheckOutRepository.addAddress(
+        addressName,
+        city,
+        landmark,
+        isPrimary,
+      ).catchError((error) {
+        authError.value = error;
+        return false;
+      });
+
+      if (status) {
+        getAddressList();
+        return true;
+      } else {
+        authError.value = 'Could not add address.';
+        return false;
+      }
+    } catch (e) {
+      authError.value = e.toString();
+      return false;
+    }
+  }
+
+  Future<bool> requestToEditAddress(
+    String city,
+    String landmark,
+    String addressName,
+    bool isPrimary,
+  ) async {
+    try {
+      final status = await CheckOutRepository.updateAddress(
+        addressName,
+        city,
+        landmark,
+        isPrimary,
+        editAddressId.value,
+      );
+      if (status) {
+        getAddressList();
+        return true;
+      } else {
+        authError.value = 'Could not add address.';
+        return false;
+      }
+    } catch (e) {
+      authError.value = e.toString();
+      return false;
+    }
+  }
+
+  Future<bool> getCities() async {
+    try {
+      showSearching(progressBarStatusAddAddress);
+      final response = await CartRepository.getCities();
+      if (response.isNotEmpty) {
+        // for (var listItem in response) {
+        //   citiesList.add(listItem);
+        //   // citiesId.add(listItem.id);
+        // }
+        citiesList.value = response;
+        selectedCity.value = citiesList[0].id;
+        completeLoading(progressBarStatusAddAddress, false);
+        return true;
+      } else {
+        completeLoading(
+          progressBarStatusAddAddress,
+          true,
+        );
+        return false;
+      }
+    } catch (e) {
+      showError(
+        progressBarStatusAddAddress,
+      );
+      return false;
+    }
+  }
+
+  Future<bool> getAddressList() async {
+    try {
+      showSearching(progressBarStatusEditProfile);
+      final response = await CheckOutRepository.getAddress();
+      if (response.isNotEmpty) {
+        addressList.value = response;
+        addressList[0].checked = true;
+        completeLoading(progressBarStatusEditProfile, false);
+        return true;
+      } else {
+        completeLoading(
+          progressBarStatusEditProfile,
+          true,
+        );
+        return false;
+      }
+    } catch (e) {
+      showError(
+        progressBarStatusEditProfile,
+      );
+      return false;
+    }
   }
 
   Future<void> fetchOrders() async {

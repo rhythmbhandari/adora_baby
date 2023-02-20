@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
@@ -10,12 +12,22 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
 import '../../../widgets/cities_dropdown.dart';
+import '../../profile/controllers/profile_controller.dart';
 
-class AddAddressView extends GetView<CartController> {
+class AddAddressView extends GetView<ProfileController> {
   const AddAddressView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (Get.arguments != null) {
+      final list = Get.arguments;
+      controller.isEditAddress.value = list[0];
+      controller.editAddressId.value = list[1].toString();
+      if (list[2]) {
+        controller.addNameController.text = '';
+        controller.landMarkController.text = '';
+      }
+    }
     return progressWrap(
         Scaffold(
           backgroundColor: LightTheme.white,
@@ -92,6 +104,11 @@ class AddAddressView extends GetView<CartController> {
                         Obx(() => AddressDropDown(
                             onChanged: (value) {
                               // pController.updateProvince(value!);
+                              if (value != null) {
+                                log('Value is $value');
+                                controller.selectedCity.value =
+                                    value.toString();
+                              }
                             },
                             label: "City",
                             isAddressSelected: true,
@@ -141,8 +158,8 @@ class AddAddressView extends GetView<CartController> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(50.0),
                                     side: BorderSide(
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        // strokeAlign: StrokeAlign.inside,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      // strokeAlign: StrokeAlign.inside,
                                     ),
                                   ),
                                   borderOnForeground: false,

@@ -99,7 +99,13 @@ class CheckOutRepository {
       "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
       "city": city,
       "nearest_landmark": landmark.characters.take(49).toString(),
-      "primary_address": isPrimary,
+      "address": addressName,
+    });
+    print({
+      "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
+      "city": city,
+      "nearest_landmark": landmark.characters.take(49).toString(),
+      "address": addressName,
     });
     try {
       final response = await DioHelper.postRequest(
@@ -118,26 +124,26 @@ class CheckOutRepository {
   }
 
   static Future<bool> updateAddress(
+    String addressName,
     String city,
     String landmark,
-    String type,
+    bool isPrimary,
+    String id,
   ) async {
-    const url = '$BASE_URL/address/';
+    final url = '$BASE_URL/address/$id/';
     final body = jsonEncode({
+      "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
       "city": city,
-      "nearest_landmark": landmark,
-      "address_type": type,
+      "nearest_landmark": landmark.characters.take(49).toString(),
+      "address": addressName,
     });
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        print("working");
-        print('Response is ${response.statusCode}.');
+      final response = await DioHelper.putRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error('Error $response');
       }
     } on SocketException {
       return Future.error(

@@ -27,10 +27,6 @@ class CartController extends GetxController {
   TextEditingController altPhoneController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
-  TextEditingController addNameController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController landMarkController = TextEditingController();
-
   TextEditingController couponController = TextEditingController();
 
   final progressBarStatusOtp = false.obs;
@@ -42,7 +38,6 @@ class CartController extends GetxController {
   }
 
   final authError = ''.obs;
-  final isPrimaryAddAddress = false.obs;
 
   final mainCheckbox = false.obs;
 
@@ -65,14 +60,8 @@ class CartController extends GetxController {
           isCouponUse: false)
       .obs;
 
-  final RxList addressList = [].obs;
-
-  final RxList citiesList = [].obs;
-  final RxList citiesId = [].obs;
-
   final priceCart = 0.0.obs;
 
-  final selectedCity = '0'.obs;
 
   final tempSelectedCart = [].obs;
 
@@ -114,8 +103,6 @@ class CartController extends GetxController {
 
   final progressBarStatusInformation = ProgressStatus.idle.obs;
 
-  final progressBarStatusAddAddress = ProgressStatus.idle.obs;
-
   final progressBarStatusCheckout = ProgressStatus.idle.obs;
 
   final cashOnDeliveryCheckBox = true.obs;
@@ -155,8 +142,6 @@ class CartController extends GetxController {
     await Future.wait(
       [
         cart(),
-        getAddressList(),
-        getCities(),
       ],
     );
   }
@@ -165,29 +150,6 @@ class CartController extends GetxController {
 
   int index = 0;
 
-  Future<bool> getAddressList() async {
-    try {
-      showSearching(progressBarStatusInformation);
-      final response = await CheckOutRepository.getAddress();
-      if (response.isNotEmpty) {
-        addressList.value = response;
-        addressList[0].checked = true;
-        completeLoading(progressBarStatusInformation, false);
-        return true;
-      } else {
-        completeLoading(
-          progressBarStatusInformation,
-          true,
-        );
-        return false;
-      }
-    } catch (e) {
-      showError(
-        progressBarStatusInformation,
-      );
-      return false;
-    }
-  }
 
   Future<bool> cart() async {
     try {
@@ -219,33 +181,6 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> getCities() async {
-    try {
-      showSearching(progressBarStatusAddAddress);
-      final response = await CartRepository.getCities();
-      if (response.isNotEmpty) {
-        // for (var listItem in response) {
-        //   citiesList.add(listItem);
-        //   // citiesId.add(listItem.id);
-        // }
-        citiesList.value = response;
-        selectedCity.value = citiesList[0].id;
-        completeLoading(progressBarStatusCart, false);
-        return true;
-      } else {
-        completeLoading(
-          progressBarStatusCart,
-          true,
-        );
-        return false;
-      }
-    } catch (e) {
-      showError(
-        progressBarStatusCart,
-      );
-      return false;
-    }
-  }
 
   Future<bool> calculateGrandTotal(RxList cartTempList) async {
     try {
@@ -420,7 +355,8 @@ class CartController extends GetxController {
     String pNum = phoneController.text.trim();
     String aNum = altPhoneController.text.trim();
     String note = notesController.text.trim();
-    String selectedAddress = selectedCity.value;
+    final profileController = Get.find();
+    String selectedAddress = profileController.selectedCity.value;
 
     bool isValid = true;
     if (fName.isEmpty) {
@@ -443,7 +379,7 @@ class CartController extends GetxController {
       isValid = false;
       authError.value = 'Alternate numbers should be 10 digit.'.tr;
       return isValid;
-    } else if (selectedCity.isEmpty) {
+    } else if (profileController.selectedCity.isEmpty) {
       isValid = false;
       authError.value = 'Please select an address.'.tr;
       return isValid;
@@ -564,87 +500,6 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> validateAddress() async {
-    bool isValid = true;
-
-    String addressName = addNameController.text.trim();
-    String cityName = selectedCity.value;
-    String nearestLandmark = landMarkController.text.trim();
-    // if (addressName.isEmpty) {
-    //   authError.value = 'Please enter address name.';
-    //   isValid = false;
-    //   return isValid;
-    // } else
-    if (cityName.isEmpty || cityName == '0') {
-      authError.value = 'Please select city.';
-      isValid = false;
-      return isValid;
-    } else if (nearestLandmark.isEmpty) {
-      authError.value = 'Please enter nearest landmark.';
-      isValid = false;
-      return isValid;
-    }
-    final status = await requestToAddAddress(
-        cityName, nearestLandmark, addressName, isPrimaryAddAddress.value);
-    if (status) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> requestToAddAddress(
-    String city,
-    String landmark,
-    String addressName,
-    bool isPrimary,
-  ) async {
-    try {
-      final status = await CheckOutRepository.addAddress(
-        addressName,
-        city,
-        landmark,
-        isPrimary,
-      ).catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
-      if (status) {
-        getAddressList();
-        return true;
-      } else {
-        authError.value = 'Could not add address.';
-        return false;
-      }
-    } catch (e) {
-      authError.value = e.toString();
-      return false;
-    }
-  }
-
-  Future<bool> requestToUpdateAddress(
-    String city,
-    String landmark,
-    String type,
-  ) async {
-    try {
-      final status = await CheckOutRepository.updateAddress(
-              city.trim(), landmark.trim(), type.trim())
-          .catchError((error) {
-        authError.value = error;
-        return false;
-      });
-
-      if (status) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
 
   Future<bool> requestToDeleteAddress(String id) async {
     try {
