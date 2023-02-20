@@ -510,7 +510,7 @@ class ProfileController extends GetxController {
           isInitial: true,
           diamondListMonth,
           index: 2,
-          progressStatusDiamondHalfMonthsStatement,
+          progressStatusDiamondMonthStatement,
         ),
       ],
     );
