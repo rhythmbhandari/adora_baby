@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adora_baby/app/modules/cart/widgets/empty_widget.dart';
 import 'package:adora_baby/app/modules/cart/widgets/internet_error_widget.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
+import 'package:adora_baby/app/modules/profile/views/cancel_order_dialog.dart';
 import 'package:adora_baby/app/modules/profile/views/tracking_view.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -760,60 +761,48 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               ? GestureDetector(
                                                   onTap: () async {
                                                     final status =
-                                                        await controller
-                                                            .cancelBooking();
-                                                    if (!status) {
-                                                      controller
-                                                          .progressBarStatus
-                                                          .value = false;
-                                                      var snackBar = SnackBar(
-                                                        elevation: 0,
-                                                        behavior:
-                                                            SnackBarBehavior
-                                                                .floating,
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        duration: Duration(
-                                                            milliseconds: 2000),
-                                                        content: Text(
-                                                            "${controller.authError.toUpperCase()}"),
-                                                      );
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              snackBar);
-                                                    } else {
-                                                      controller
-                                                          .progressBarStatus
-                                                          .value = false;
-                                                      var snackBar = SnackBar(
-                                                        elevation: 0,
-                                                        behavior:
-                                                            SnackBarBehavior
-                                                                .floating,
-                                                        backgroundColor:
-                                                            AppColors
-                                                                .success500,
-                                                        duration: Duration(
-                                                            milliseconds: 2000),
-                                                        content: Text(
-                                                            "${controller.authError.toUpperCase()}"),
-                                                      );
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              snackBar);
-                                                      Get.back();
-                                                      controller.getOrderList(
-                                                        isRefresh: true,
-                                                        isInitial: true,
-                                                        controller.ordersList,
-                                                        controller
-                                                            .orderHistoryIndex,
-                                                        index: 0,
-                                                        controller
-                                                            .progressStatusOrderProfile,
-                                                      );
+                                                        await showDialog<bool>(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return CancelOrderDialog();
+                                                      },
+                                                    );
+                                                    if(status != null){
+                                                      if(status){
+                                                        final ProfileController controller = Get.find();
+
+                                                        final status = await controller.cancelBooking();
+                                                        if (!status) {
+                                                          controller.progressBarStatusOrderDetails.value = false;
+                                                          var snackBar = SnackBar(
+                                                            elevation: 0,
+                                                            behavior: SnackBarBehavior.floating,
+                                                            backgroundColor: Colors.red,
+                                                            duration: Duration(milliseconds: 2000),
+                                                            content: Text("${controller.authError.toUpperCase()}"),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        } else {
+                                                          controller.progressBarStatusOrderDetails.value = false;
+                                                          var snackBar = SnackBar(
+                                                            elevation: 0,
+                                                            behavior: SnackBarBehavior.floating,
+                                                            backgroundColor: AppColors.success500,
+                                                            duration: Duration(milliseconds: 2000),
+                                                            content: Text("Order successfully cancelled."),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Get.back();
+                                                          controller.getOrderList(
+                                                            isRefresh: true,
+                                                            isInitial: true,
+                                                            controller.ordersList,
+                                                            controller.orderHistoryIndex,
+                                                            index: 0,
+                                                            controller.progressStatusOrderProfile,
+                                                          );
+                                                        }
+                                                      }
                                                     }
                                                   },
                                                   child: Container(

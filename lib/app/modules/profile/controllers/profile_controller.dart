@@ -834,20 +834,21 @@ class ProfileController extends GetxController {
 
   Future<bool> cancelBooking() async {
     try {
-      showProgressBar();
+      progressBarStatusOrderDetails.value = true;
       final status = await DataRepository.cancel(selectedOrders.value.id);
 
       if (status) {
-        hideProgressBar();
+        progressBarStatusOrderDetails.value = false;
         return true;
       } else {
-        hideProgressBar();
+        progressBarStatusOrderDetails.value = false;
         return false;
       }
     } catch (e) {
       authError.value = e.toString();
       log('Auth Error is ${authError}');
-      hideProgressBar();
+
+      progressBarStatusOrderDetails.value = false;
       return false;
     }
   }
