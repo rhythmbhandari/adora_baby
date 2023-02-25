@@ -19,6 +19,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../../main.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
+import '../../../data/models/reviews.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/gradient_icon.dart';
@@ -92,9 +93,14 @@ class _ProductDetailsState extends State<ProductDetails>
                             width: 60,
                           ),
                           Center(
-                            child: Text(
-                              "Product Detail",
-                              style: kThemeData.textTheme.displaySmall,
+                            child: GestureDetector(
+                              onTap: () {
+                                log('it is ${controller.productSelected.value.id}');
+                              },
+                              child: Text(
+                                "Product Detail",
+                                style: kThemeData.textTheme.displaySmall,
+                              ),
                             ),
                           ),
                         ],
@@ -126,9 +132,11 @@ class _ProductDetailsState extends State<ProductDetails>
                             height: 17.39,
                           ),
                           RatingBar.builder(
-                            initialRating: controller.productSelected.value.rating == null
-                                ? 0.0
-                                : controller.productSelected.value.rating!.gradeAvg,
+                            initialRating:
+                                controller.productSelected.value.rating == null
+                                    ? 0.0
+                                    : controller
+                                        .productSelected.value.rating!.gradeAvg,
                             ignoreGestures: true,
                             itemSize: 17,
                             direction: Axis.horizontal,
@@ -199,7 +207,9 @@ class _ProductDetailsState extends State<ProductDetails>
                               // onPageChanged: callbackFunction,
                               scrollDirection: Axis.horizontal,
                             ),
-                            items: controller.productSelected.value.productImages?.map((i) {
+                            items: controller
+                                .productSelected.value.productImages
+                                ?.map((i) {
                               return Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 18),
@@ -237,7 +247,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              controller.productSelected.value.stockAvailable == true
+                              controller.productSelected.value.stockAvailable ==
+                                      true
                                   ? Text(
                                       "In Stock",
                                       style: kThemeData.textTheme.titleMedium
@@ -267,7 +278,9 @@ class _ProductDetailsState extends State<ProductDetails>
                           const SizedBox(
                             height: 10,
                           ),
-                          controller.productSelected.value.salePrice == 0 || controller.productSelected.value.salePrice == null
+                          controller.productSelected.value.salePrice == 0 ||
+                                  controller.productSelected.value.salePrice ==
+                                      null
                               ? Text(
                                   "Rs. ${controller.productSelected.value.regularPrice}",
                                   style: kThemeData.textTheme.titleLarge,
@@ -285,7 +298,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    controller.productSelected.value.salePrice != null
+                                    controller.productSelected.value
+                                                .salePrice !=
+                                            null
                                         ? Text(
                                             "Rs. ${controller.productSelected.value.salePrice}",
                                             style:
@@ -300,7 +315,9 @@ class _ProductDetailsState extends State<ProductDetails>
                           controller.productSelected.value.weightInGrams != null
                               ? Text(
                                   'Weight: ' +
-                                      controller.productSelected.value.weightInGrams.toString() +
+                                      controller
+                                          .productSelected.value.weightInGrams
+                                          .toString() +
                                       ' grams',
                                   style: const TextStyle(
                                     color: Colors.grey,
@@ -413,9 +430,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    log(controller.productSelected.value.stockQuantity.toString());
+                                    log(controller
+                                        .productSelected.value.stockQuantity
+                                        .toString());
                                     if (myController.counter.value ==
-                                        (controller.productSelected.value.stockQuantity ?? 1)) {
+                                        (controller.productSelected.value
+                                                .stockQuantity ??
+                                            1)) {
                                       var snackBar = SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
@@ -428,8 +449,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     } else {
-                                      myController.incrementCounter(
-                                          controller.productSelected.value.stockQuantity ?? 1);
+                                      myController.incrementCounter(controller
+                                              .productSelected
+                                              .value
+                                              .stockQuantity ??
+                                          1);
                                     }
                                   },
                                   child: Container(
@@ -518,7 +542,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                   TextField(
                                     cursorColor: AppColors.mainColor,
                                     onTap: () {
-                                      Get.to(() => AddReview(), arguments: controller.productSelected.value);
+                                      Get.to(() => AddReview(),
+                                          arguments:
+                                              controller.productSelected.value);
                                     },
                                     // focusNode: searchNode,
                                     autofocus: false,
@@ -573,148 +599,185 @@ class _ProductDetailsState extends State<ProductDetails>
                                   SizedBox(
                                     height: 23,
                                   ),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: controller.productSelected.value.reviews?.length ?? 0,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0xff000000),
-                                                  ),
-                                                  child: controller.productSelected.value.reviews != null &&
-                                                      controller.productSelected.value
-                                                          .reviews![index]
-                                                          ?.createdBy
-                                                          ?.profilePhoto.isNotEmpty
-                                                      ? ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100.0),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            fit: BoxFit.cover,
-                                                            height: Get.height *
-                                                                0.06,
-                                                            width: Get.height *
-                                                                0.06,
-                                                            imageUrl: '${controller.productSelected.value.reviews?[index]?.createdBy!.profilePhoto['name']}' ??
-                                                                 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
-                                                            placeholder: (context,
-                                                                    url) =>
-                                                                const Center(
-                                                                    child:
-                                                                        CircularProgressIndicator()),
-                                                            errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
-                                                                const Icon(Icons
-                                                                    .error),
-                                                          ),
-                                                        )
-                                                      : Container(),
-                                                ),
-                                                const SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Expanded(
-                                                  child: Column(
+                                  GetBuilder<ShopController>(
+                                    id: 'reviewId',
+                                    builder: (myController) => FutureBuilder<List<Reviews>>(
+                                      future: myController.initiateGetReviews(myController.countingReview.value),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          if (snapshot.data != null &&
+                                              snapshot.data!.isNotEmpty) {
+                                            return ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount:
+                                                    snapshot.data?.length ?? 0,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              shape:
+                                                                  BoxShape.circle,
+                                                              color: Color(
+                                                                  0xff000000),
+                                                            ),
+                                                            child: snapshot.data !=
+                                                                        null &&
+                                                                    snapshot
+                                                                        .data?[
+                                                                            index]
+                                                                        .createdBy
+                                                                        ?.profilePhoto
+                                                                        .isNotEmpty
+                                                                ? ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                100.0),
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      height:
+                                                                          Get.height *
+                                                                              0.06,
+                                                                      width:
+                                                                          Get.height *
+                                                                              0.06,
+                                                                      imageUrl:
+                                                                          '${snapshot.data?[index].createdBy?.profilePhoto['name']}' ??
+                                                                              'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                                                      placeholder: (context,
+                                                                              url) =>
+                                                                          const Center(
+                                                                              child:
+                                                                                  CircularProgressIndicator()),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          const Icon(
+                                                                              Icons.error),
+                                                                    ),
+                                                                  )
+                                                                : Container(),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 16,
+                                                          ),
+                                                          Expanded(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  '${snapshot.data?[index].createdBy?.fullName}',
+                                                                  style: kThemeData
+                                                                      .textTheme
+                                                                      .titleMedium
+                                                                      ?.copyWith(
+                                                                          color: DarkTheme
+                                                                              .dark),
+                                                                ),
+                                                                RatingBar.builder(
+                                                                  initialRating:
+                                                                      double.parse(
+                                                                          '${snapshot.data?[index].grade}'),
+                                                                  ignoreGestures:
+                                                                      true,
+                                                                  itemSize: 17,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  glow: false,
+                                                                  itemCount: 5,
+                                                                  itemPadding:
+                                                                      const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              0.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          GradientIcon(
+                                                                    Icons.star,
+                                                                    10.0,
+                                                                    const LinearGradient(
+                                                                      colors: <
+                                                                          Color>[
+                                                                        Color.fromRGBO(
+                                                                            127,
+                                                                            0,
+                                                                            255,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            0,
+                                                                            255,
+                                                                            1)
+                                                                      ],
+                                                                      begin: Alignment
+                                                                          .topLeft,
+                                                                      end: Alignment
+                                                                          .bottomRight,
+                                                                    ),
+                                                                  ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    print(rating);
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 11),
                                                       Text(
-                                                        '${controller.productSelected.value.reviews?[index]?.createdBy?.fullName}',
+                                                        '${snapshot.data?[index].review}',
                                                         style: kThemeData
-                                                            .textTheme
-                                                            .titleMedium
+                                                            .textTheme.bodyLarge
                                                             ?.copyWith(
                                                                 color: DarkTheme
-                                                                    .dark),
+                                                                    .darkNormal),
                                                       ),
-                                                      RatingBar.builder(
-                                                        initialRating: double.parse(
-                                                            '${controller.productSelected.value.reviews![index]?.grade}'),
-                                                        ignoreGestures: true,
-                                                        itemSize: 17,
-                                                        direction:
-                                                            Axis.horizontal,
-                                                        allowHalfRating: true,
-                                                        glow: false,
-                                                        itemCount: 5,
-                                                        itemPadding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal:
-                                                                    0.0),
-                                                        itemBuilder:
-                                                            (context, _) =>
-                                                                GradientIcon(
-                                                          Icons.star,
-                                                          10.0,
-                                                          const LinearGradient(
-                                                            colors: <Color>[
-                                                              Color.fromRGBO(
-                                                                  127,
-                                                                  0,
-                                                                  255,
-                                                                  1),
-                                                              Color.fromRGBO(
-                                                                  255,
-                                                                  0,
-                                                                  255,
-                                                                  1)
-                                                            ],
-                                                            begin: Alignment
-                                                                .topLeft,
-                                                            end: Alignment
-                                                                .bottomRight,
-                                                          ),
-                                                        ),
-                                                        onRatingUpdate:
-                                                            (rating) {
-                                                          print(rating);
-                                                        },
-                                                      ),
+                                                      const SizedBox(height: 20),
                                                     ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 11),
-                                            Text(
-                                              '${controller.productSelected.value.reviews![index]?.review}',
-                                              style: kThemeData
-                                                  .textTheme.bodyLarge
-                                                  ?.copyWith(
-                                                      color:
-                                                          DarkTheme.darkNormal),
-                                            ),
-                                            const SizedBox(height: 20),
-                                          ],
-                                        );
-                                      }),
+                                                  );
+                                                });
+                                          } else {
+                                            return Container();
+                                          }
+                                        } else if (snapshot.hasError) {
+                                          return Container();
+                                        }
+                                        return Container();
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             ); //3rd tabView
@@ -739,8 +802,8 @@ class _ProductDetailsState extends State<ProductDetails>
                   child: GestureDetector(
                     onTap: () async {
                       controller.showProgressBarDetail();
-                      final status =
-                          await controller.requestAddToCart('${controller.productSelected.value.id}');
+                      final status = await controller.requestAddToCart(
+                          '${controller.productSelected.value.id}');
                       if (status) {
                         const snackBar = SnackBar(
                           backgroundColor: Colors.green,

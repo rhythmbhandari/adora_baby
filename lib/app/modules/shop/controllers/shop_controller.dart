@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../../main.dart';
 import '../../../data/models/hot_sales_model.dart';
+import '../../../data/models/reviews.dart';
 import '../../../data/models/stages_brands.dart';
 import '../../../data/repositories/cart_repository.dart';
 import '../../../widgets/buttons.dart';
@@ -25,6 +26,8 @@ class ShopController extends GetxController {
   final isSelected = false.obs;
   final authError = ''.obs;
   final trendingImagesList = [].obs;
+
+  final countingReview = 0.obs;
 
   final Rx<HotSales> productSelected = HotSales().obs;
 
@@ -191,6 +194,23 @@ class ShopController extends GetxController {
       Future.delayed(const Duration(seconds: 2)).then(
         (value) => hideProgressBar(),
       );
+    }
+  }
+
+  Future<List<Reviews>> initiateGetReviews(int val) async {
+    try {
+      final response =
+      await DataRepository.fetchReviews(productSelected.value.id ?? '');
+
+      log('Response is $response');
+      if (response.isNotEmpty) {
+        return response;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log('Error is $e');
+      return [];
     }
   }
 

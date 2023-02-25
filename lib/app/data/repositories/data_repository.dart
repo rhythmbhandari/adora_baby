@@ -7,6 +7,7 @@ import '../../config/constants.dart';
 import '../../utils/secure_storage.dart';
 import '../models/order_logs_model.dart';
 import '../models/orders_model.dart';
+import '../models/reviews.dart';
 import '../models/user_model.dart';
 import '../network/dio_client.dart';
 import 'session_manager.dart';
@@ -121,6 +122,28 @@ class DataRepository {
       return orders;
     }
     return Future.error('Server error.');
+  }
+
+  static Future<List<Reviews>> fetchReviews(String productId) async {
+    final url = '$BASE_URL/rating/?product=$productId';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeaderWithToken(),
+    );
+    if (status is Map<dynamic, dynamic>) {
+      List<Reviews> review = (status['data'] as List)
+          .map(
+            (i) => Reviews.fromJson(
+          i,
+        ),
+      )
+          .toList();
+      log('Reached here $review');
+      return review;
+    }
+    return Future.error('Could not fetch');
   }
 
   static Future<bool> cancel(String? id) async {

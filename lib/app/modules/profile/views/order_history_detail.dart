@@ -482,7 +482,14 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               cursorColor: AppColors.primary300,
                                               decoration: InputDecoration(
                                                 label: Text(
-                                                  '${controller.selectedOrders.value.checkOut?.couponCode ?? 'N/A'}',
+                                                  (controller
+                                                              .selectedOrders
+                                                              .value
+                                                              .checkOut
+                                                              ?.isCouponUse ??
+                                                          false
+                                                      ? '${controller.selectedOrders.value.checkOut?.couponCode ?? 'N/A'}'
+                                                      : 'N/A'),
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontFamily: 'Poppins',
@@ -767,39 +774,72 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                         return CancelOrderDialog();
                                                       },
                                                     );
-                                                    if(status != null){
-                                                      if(status){
-                                                        final ProfileController controller = Get.find();
+                                                    if (status != null) {
+                                                      if (status) {
+                                                        final ProfileController
+                                                            controller =
+                                                            Get.find();
 
-                                                        final status = await controller.cancelBooking();
+                                                        final status =
+                                                            await controller
+                                                                .cancelBooking();
                                                         if (!status) {
-                                                          controller.progressBarStatusOrderDetails.value = false;
-                                                          var snackBar = SnackBar(
+                                                          controller
+                                                              .progressBarStatusOrderDetails
+                                                              .value = false;
+                                                          var snackBar =
+                                                              SnackBar(
                                                             elevation: 0,
-                                                            behavior: SnackBarBehavior.floating,
-                                                            backgroundColor: Colors.red,
-                                                            duration: Duration(milliseconds: 2000),
-                                                            content: Text("${controller.authError.toUpperCase()}"),
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    2000),
+                                                            content: Text(
+                                                                "${controller.authError.toUpperCase()}"),
                                                           );
-                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
                                                         } else {
-                                                          controller.progressBarStatusOrderDetails.value = false;
-                                                          var snackBar = SnackBar(
+                                                          controller
+                                                              .progressBarStatusOrderDetails
+                                                              .value = false;
+                                                          var snackBar =
+                                                              SnackBar(
                                                             elevation: 0,
-                                                            behavior: SnackBarBehavior.floating,
-                                                            backgroundColor: AppColors.success500,
-                                                            duration: Duration(milliseconds: 2000),
-                                                            content: Text("Order successfully cancelled."),
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            backgroundColor:
+                                                                AppColors
+                                                                    .success500,
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    2000),
+                                                            content: Text(
+                                                                "Order successfully cancelled."),
                                                           );
-                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  snackBar);
                                                           Get.back();
-                                                          controller.getOrderList(
+                                                          controller
+                                                              .getOrderList(
                                                             isRefresh: true,
                                                             isInitial: true,
-                                                            controller.ordersList,
-                                                            controller.orderHistoryIndex,
+                                                            controller
+                                                                .ordersList,
+                                                            controller
+                                                                .orderHistoryIndex,
                                                             index: 0,
-                                                            controller.progressStatusOrderProfile,
+                                                            controller
+                                                                .progressStatusOrderProfile,
                                                           );
                                                         }
                                                       }

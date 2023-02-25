@@ -39,9 +39,14 @@ class TrackingView extends GetView<ProfileController> {
                   ),
                 ),
                 Text(
-                  controller.selectedOrders.value.estimatedTime == null
+                  controller.selectedOrders.value.status
+                          .toString()
+                          .toLowerCase()
+                          .contains('canceled')
                       ? 'N/A'
-                      : ' ${DateTimeConverter.bookingDetailsDate(controller.selectedOrders.value.estimatedTime ?? DateTime.now())}',
+                      : controller.selectedOrders.value.estimatedTime == null
+                          ? 'N/A'
+                          : ' ${DateTimeConverter.bookingDetailsDate(controller.selectedOrders.value.estimatedTime ?? DateTime.now())}',
                   style: kThemeData.textTheme.titleMedium?.copyWith(
                     color: DarkTheme.darkNormal,
                   ),

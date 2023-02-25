@@ -184,6 +184,7 @@ class AddReview extends GetView<ShopController> {
                                   final status = await controller
                                       .initiateReview('${product.id}');
                                   if (status) {
+                                    controller.countingReview.value++;
                                     const snackBar = SnackBar(
                                       backgroundColor: Colors.green,
                                       content: Text(
@@ -191,7 +192,10 @@ class AddReview extends GetView<ShopController> {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     );
+                                    controller.update(['reviewId']);
                                     Get.back();
+                                    controller.reviewController.text = '';
+                                    controller.ratingsReview.value = 0.0;
 
                                     // Find the ScaffoldMessenger in the widget tree
                                     // and use it to show a SnackBar.

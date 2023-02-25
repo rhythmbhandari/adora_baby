@@ -71,23 +71,26 @@ class CheckOutRepository {
   }
 
   static Future<List<AddressModel>> getAddress() async {
-    const url = '$BASE_URL/address/';
-    final status = await DioHelper.getRequest(
-      url,
-      true,
-      await SecureStorage.returnHeader(),
-    );
-    log('Status received is $status');
-    if (status is Map<dynamic, dynamic>) {
-      List<AddressModel> address = (status['data'] as List)
-          .map((i) => AddressModel.fromJson(i))
-          .toList();
-      storage.saveCityId(address[0].city.id);
+    try {
+      const url = '$BASE_URL/address/';
+      final status = await DioHelper.getRequest(
+        url,
+        true,
+        await SecureStorage.returnHeader(),
+      );
+      log('Status received is  === address $status');
+      if (status is Map<dynamic, dynamic>) {
+        List<AddressModel> address = (status['data'] as List)
+            .map((i) => AddressModel.fromJson(i))
+            .toList();
+        storage.saveCityId(address[0].city.id);
 
-      return address;
+        return address;
+      }
+      return [];
+    } catch (e) {
+      return [];
     }
-
-    return Future.error('Error $status');
   }
 
   //add address
@@ -264,14 +267,19 @@ class CheckOutRepository {
       "is_diamond_use": isDiamondUsed,
       "coupon_code": couponApplied
     };
+    log('huh');
 
     try {
       final response = await DioHelper.putRequest(
           url, body, true, await SecureStorage.returnHeaderWithToken());
+      log('Respons is $response');
       if (response is Map<String, dynamic>) {
+        log('here');
         CheckoutModel checkoutModel = CheckoutModel.fromJson(
           response,
         );
+
+        log('parsed');
         return checkoutModel;
       } else {
         return Future.error('$response');

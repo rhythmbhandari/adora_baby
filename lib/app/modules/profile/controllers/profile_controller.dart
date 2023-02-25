@@ -299,6 +299,7 @@ class ProfileController extends GetxController {
         getCities(),
       ],
     );
+    log('Status is $status');
     if (status.contains(false)) {
       completeLoading(progressStatus, true);
     } else {
@@ -423,6 +424,7 @@ class ProfileController extends GetxController {
     try {
       showSearching(progressBarStatusEditProfile);
       final response = await CheckOutRepository.getAddress();
+      log('Address response is $response');
       if (response.isNotEmpty) {
         addressList.value = response;
         addressList[0].checked = true;
@@ -433,9 +435,10 @@ class ProfileController extends GetxController {
           progressBarStatusEditProfile,
           true,
         );
-        return false;
+        return true;
       }
     } catch (e) {
+      log('Error is === $e');
       showError(
         progressBarStatusEditProfile,
       );

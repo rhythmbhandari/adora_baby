@@ -204,7 +204,7 @@ class DioHelper {
         }
         return true;
       } else {
-        return Future.error('Server error.');
+        return Future.error(response.data);
       }
     } on SocketException {
       return Future.error(
@@ -366,7 +366,10 @@ class DioHelper {
       );
       debugPrint('Response is $response');
       debugPrint('Status code is ${response.statusCode}');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (returnResponse) {
+          return response.data;
+        }
         return true;
       } else {
         return Future.error('Server error.');
@@ -380,8 +383,7 @@ class DioHelper {
       if (e.response?.data != null) {
         log('Error is ${e.response?.data}');
         if (e.response!.data[0] is String) {
-          return Future.error(
-              '${e.response!.data[0]}');
+          return Future.error('${e.response!.data[0]}');
         } else if (e.response!.data.entries.toString().contains('{')) {
           return Future.error(
               '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
