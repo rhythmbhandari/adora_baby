@@ -429,7 +429,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          '${controller.selectedOrders.value.checkOut?.dimondOff} Diamonds used',
+                                                          '${controller.selectedOrders.value.checkOut?.dimondOff ?? 0} Diamonds used',
                                                           style: kThemeData
                                                               .textTheme
                                                               .titleMedium
@@ -439,7 +439,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                                           .dark),
                                                         ),
                                                         Text(
-                                                          'Rs. ${controller.selectedOrders.value.checkOut?.discount} off',
+                                                          'Rs. ${controller.selectedOrders.value.checkOut?.dimondOff ?? 0} off',
                                                           style: kThemeData
                                                               .textTheme
                                                               .bodyMedium
