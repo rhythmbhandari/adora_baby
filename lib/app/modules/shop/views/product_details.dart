@@ -753,12 +753,12 @@ class _ProductDetailsState extends State<ProductDetails>
                           final CartController cartController = Get.find();
                           cartController.cart();
 
-                          final HomeController homeController = Get.find();
-
-                          homeController.isRedirected.value = 1;
-                          Get.until(
-                            (route) => route.settings.name == Routes.HOME,
-                          );
+                          // final HomeController homeController = Get.find();
+                          //
+                          // homeController.isRedirected.value = 1;
+                          // Get.until(
+                          //   (route) => route.settings.name == Routes.HOME,
+                          // );
 
                         } catch (e) {}
                         // Find the ScaffoldMessenger in the widget tree

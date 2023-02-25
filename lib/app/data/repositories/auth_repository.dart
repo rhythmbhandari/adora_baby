@@ -123,7 +123,7 @@ class AuthRepository {
       final status = await DioHelper.postRequest(
         url,
         body,
-        true,
+        false,
         await SecureStorage.returnHeaderWithMultipartToken(),
       );
       if (status) {

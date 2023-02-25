@@ -202,7 +202,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               height: 5,
                                             ),
                                             Text(
-                                              'Order #${list[index].orderId}',
+                                              'Order #${list[index].id}',
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(

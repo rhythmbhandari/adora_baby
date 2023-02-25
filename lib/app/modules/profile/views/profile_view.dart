@@ -31,14 +31,57 @@ class ProfileView extends GetView<ProfileController> {
   final RefreshController _refreshControllerProfile =
       RefreshController(initialRefresh: false);
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return progressWrap(
         Scaffold(
             backgroundColor: LightTheme.white,
+            key: _scaffoldKey,
             appBar: AppBar(
               backgroundColor: LightTheme.white,
               elevation: 0,
+            ),
+            endDrawer: Container(
+              width: Get.width * 0.5,
+              child: Drawer(
+                backgroundColor: LightTheme.white,
+                child: ListView(
+                  // Important: Remove any padding from the ListView.
+                  padding: EdgeInsets.symmetric(
+                      vertical: Get.height * 0.08, horizontal: 10),
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Logout',
+                        style: kThemeData.textTheme.bodyLarge
+                            ?.copyWith(color: DarkTheme.normal, fontSize: 18),
+                      ),
+                      onTap: () async {
+                        try {
+                          await storage.delete(
+                            Constants.ACCESS_TOKEN,
+                          );
+                          await storage.delete(
+                            Constants.LOGGED_IN_STATUS,
+                          );
+                          await storage.delete(
+                            Constants.REFRESH_TOKEN,
+                          );
+                          Get.offAllNamed(Routes.PHONE);
+                        } catch (e) {
+                          Get.offAllNamed(Routes.PHONE);
+                        }
+                      },
+                      trailing: Icon(
+                        Icons.logout,
+                        color: DarkTheme.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             body: SafeArea(
                 child: Container(
@@ -64,24 +107,24 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                         Expanded(flex: 4, child: SizedBox()),
                         GestureDetector(
-                          onTap: () async {
-                            try {
-                              await storage.delete(
-                                Constants.ACCESS_TOKEN,
-                              );
-                              await storage.delete(
-                                Constants.LOGGED_IN_STATUS,
-                              );
-                              await storage.delete(
-                                Constants.REFRESH_TOKEN,
-                              );
-                              Get.offAllNamed(Routes.PHONE);
-                            } catch (e) {
-                              Get.offAllNamed(Routes.PHONE);
-                            }
-                          },
-                          child: Icon(Icons.logout_rounded)
-                        ),
+                            onTap: () async {
+                              // try {
+                              //   await storage.delete(
+                              //     Constants.ACCESS_TOKEN,
+                              //   );
+                              //   await storage.delete(
+                              //     Constants.LOGGED_IN_STATUS,
+                              //   );
+                              //   await storage.delete(
+                              //     Constants.REFRESH_TOKEN,
+                              //   );
+                              //   Get.offAllNamed(Routes.PHONE);
+                              // } catch (e) {
+                              //   Get.offAllNamed(Routes.PHONE);
+                              // }
+                              _scaffoldKey.currentState!.openEndDrawer();
+                            },
+                            child: Icon(Icons.menu)),
                         SizedBox(
                           width: 35,
                         )
