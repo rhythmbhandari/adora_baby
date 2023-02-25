@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../../main.dart';
@@ -115,7 +116,7 @@ class AuthRepository {
       'picture_off': pictureOf,
       'name': image == null
           ? null
-          : await d.MultipartFile.fromFile(image.path,
+          : MultipartFileRecreatable.fromFileSync(image.path,
               contentType: MediaType('image', 'jpg'), filename: fileName),
     });
     try {

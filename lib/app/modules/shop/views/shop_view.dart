@@ -160,12 +160,7 @@ class NewShopViewBody extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     height: Get.height * 0.06,
                                     width: Get.height * 0.06,
-                                    imageUrl: value.user.value.photos != null &&
-                                            value.user.value.photos!.isNotEmpty
-                                        ? value.user.value.photos!.length > 1
-                                            ? '${value.user.value.photos?[1]?.name}'
-                                            : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                        : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                    imageUrl: value.babyPhotoUrl.value,
                                     placeholder: (context, url) => const Center(
                                         child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) =>

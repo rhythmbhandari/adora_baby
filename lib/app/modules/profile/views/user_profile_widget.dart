@@ -99,11 +99,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                                 fit: BoxFit.cover,
                                 height: Get.height * 0.14,
                                 width: Get.height * 0.14,
-                                imageUrl: controller
-                                        .user.value.photos!= null && controller
-                                    .user.value.photos!.isNotEmpty
-                                    ? '${controller.user.value.photos?[0]?.name}'
-                                    : 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                imageUrl: controller.userPhotoUrl.value,
                                 placeholder: (context, url) => const Center(
                                     child: CircularProgressIndicator()),
                                 errorWidget: (context, url, error) =>

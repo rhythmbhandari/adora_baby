@@ -49,6 +49,13 @@ class ProfileController extends GetxController {
 
   final editAddressId = '0'.obs;
 
+  final userPhotoUrl =
+      'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+          .obs;
+  final babyPhotoUrl =
+      'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+          .obs;
+
   TextEditingController addNameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
@@ -182,6 +189,17 @@ class ProfileController extends GetxController {
         DateFormat('yyyy-MM-dd').format(user.value.babyDob ?? DateTime.now()) ??
             '';
     selectedTags.value = [].obs;
+    if (user.value.photos != null) {
+      if (user.value.photos?.isNotEmpty ?? false) {
+        for (Photo photo in user.value.photos!) {
+          if (photo.pictureOff.toLowerCase().contains('child')) {
+            babyPhotoUrl.value = photo.name;
+          } else {
+            userPhotoUrl.value = photo.name;
+          }
+        }
+      }
+    }
     for (var i in user.value.accountMedicalConditiob == null
         ? []
         : user.value.accountMedicalConditiob!) {
@@ -281,12 +299,11 @@ class ProfileController extends GetxController {
         getCities(),
       ],
     );
-    if(status.contains(false)){
+    if (status.contains(false)) {
       completeLoading(progressStatus, true);
-    }else{
+    } else {
       completeLoading(progressStatus, false);
     }
-
   }
 
   Future<bool> validateAddress() async {
