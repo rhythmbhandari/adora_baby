@@ -44,6 +44,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
+        <!-- Add custom icon to the notifications -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_firebase_notification" />
         <service
             android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
             android:stopWithTask="false"
