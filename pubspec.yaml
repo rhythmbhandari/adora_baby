@@ -41,6 +41,8 @@ dependencies:
   image_cropper: ^3.0.1
   http_parser: ^4.0.2
   timelines: ^0.1.0
+  firebase_core: ^2.7.0
+  flutter_local_notifications: ^8.2.0
 
 
 dev_dependencies: 

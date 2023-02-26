@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>205110042083-jbmevqj5h5fbs9ah8ngs8datqrgjva1s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.205110042083-jbmevqj5h5fbs9ah8ngs8datqrgjva1s</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB39qRKOKmAQOO53r9dMlokbXSUP5ENjno</string>
+	<key>GCM_SENDER_ID</key>
+	<string>205110042083</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.adorababy.adoraBaby</string>
+	<key>PROJECT_ID</key>
+	<string>adorababy-notification</string>
+	<key>STORAGE_BUCKET</key>
+	<string>adorababy-notification.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:205110042083:ios:919175e56038de2843d4d6</string>
+</dict>
+</plist>
