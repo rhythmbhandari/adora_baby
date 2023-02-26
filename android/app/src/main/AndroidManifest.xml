@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.adora_baby.adora_baby">
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -49,8 +48,6 @@
             android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
             android:stopWithTask="false"
             android:exported="false"/>
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
-            android:exported="true">
-        </receiver>
     </application>
 </manifest>
+

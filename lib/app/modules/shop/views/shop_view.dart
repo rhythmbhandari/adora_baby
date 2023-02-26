@@ -1,14 +1,12 @@
+
 import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/app/data/models/stages_brands.dart' as a;
-import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
-import 'package:adora_baby/app/modules/shop/widgets/all_brands.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
 import 'package:adora_baby/app/widgets/tips_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -16,9 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shimmer/shimmer.dart';
 
-import '../../../../main.dart';
 import '../../../widgets/gradient_icon.dart';
 
 import '../../cart/controllers/cart_controller.dart';
@@ -27,9 +23,6 @@ import '../widgets/all_products.dart';
 import '../widgets/hot_sales.dart';
 
 import '../../../config/app_colors.dart';
-import '../../../enums/progress_status.dart';
-import '../../../widgets/shimmer_widget.dart';
-import '../../../widgets/recently_viewed.dart';
 import '../controllers/shop_controller.dart';
 import '../widgets/trending_images.dart';
 
@@ -176,10 +169,18 @@ class NewShopViewBody extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      value.user.value.babyName ?? '',
-                                      style: kThemeData.textTheme.labelMedium
-                                          ?.copyWith(color: DarkTheme.darkNormal),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        final firebaseMessaging = FirebaseMessaging.instance;
+                                        String? deviceToken = await firebaseMessaging.getToken();
+                                        log(deviceToken ?? '');
+                                        log('HEHEHE');
+                                      },
+                                      child: Text(
+                                        value.user.value.babyName ?? '',
+                                        style: kThemeData.textTheme.labelMedium
+                                            ?.copyWith(color: DarkTheme.darkNormal),
+                                      ),
                                     ),
                                     Text(
                                       '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
