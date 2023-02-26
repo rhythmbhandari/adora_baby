@@ -17,7 +17,7 @@ class DioHelper {
     return Dio(BaseOptions(
         baseUrl: baseUrl, connectTimeout: 5000, receiveTimeout: 3000))
       ..interceptors.add(
-        Logging(),
+        PrettyDioLogger(),
       );
   }
 

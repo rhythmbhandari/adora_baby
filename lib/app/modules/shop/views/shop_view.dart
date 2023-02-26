@@ -169,18 +169,10 @@ class NewShopViewBody extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        final firebaseMessaging = FirebaseMessaging.instance;
-                                        String? deviceToken = await firebaseMessaging.getToken();
-                                        log(deviceToken ?? '');
-                                        log('HEHEHE');
-                                      },
-                                      child: Text(
-                                        value.user.value.babyName ?? '',
-                                        style: kThemeData.textTheme.labelMedium
-                                            ?.copyWith(color: DarkTheme.darkNormal),
-                                      ),
+                                    Text(
+                                      value.user.value.babyName ?? '',
+                                      style: kThemeData.textTheme.labelMedium
+                                          ?.copyWith(color: DarkTheme.darkNormal),
                                     ),
                                     Text(
                                       '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
