@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "205110042083-m99nptjhm3knloqtuk15ptnhkdf0gjnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adora_baby.adora_baby",
+            "certificate_hash": "8d44e1f3c15039a45df54539dc1943fbb5971395"
+          }
+        },
+        {
           "client_id": "205110042083-h5hjdtnibguigt0fl2t0rmmhmqp003d5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "205110042083-h5hjdtnibguigt0fl2t0rmmhmqp003d5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "205110042083-jbmevqj5h5fbs9ah8ngs8datqrgjva1s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adorababy.adoraBaby"
+              }
             }
           ]
         }

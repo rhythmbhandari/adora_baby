@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '205110042083',
     projectId: 'adorababy-notification',
     storageBucket: 'adorababy-notification.appspot.com',
+    androidClientId: '205110042083-m99nptjhm3knloqtuk15ptnhkdf0gjnn.apps.googleusercontent.com',
     iosClientId: '205110042083-jbmevqj5h5fbs9ah8ngs8datqrgjva1s.apps.googleusercontent.com',
     iosBundleId: 'com.adorababy.adoraBaby',
   );
@@ -77,6 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '205110042083',
     projectId: 'adorababy-notification',
     storageBucket: 'adorababy-notification.appspot.com',
+    androidClientId: '205110042083-m99nptjhm3knloqtuk15ptnhkdf0gjnn.apps.googleusercontent.com',
     iosClientId: '205110042083-jbmevqj5h5fbs9ah8ngs8datqrgjva1s.apps.googleusercontent.com',
     iosBundleId: 'com.adorababy.adoraBaby',
   );
