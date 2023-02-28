@@ -132,13 +132,17 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
               SizedBox(
                 height: 4,
               ),
-              controller.selectedTags.isNotEmpty
+              controller.selectedTags.isEmpty || controller.selectedMedicalConditions.isEmpty
                   ? Text(
                       'No Allergies, No Difficulties',
                       style: kThemeData.textTheme.bodyLarge
                           ?.copyWith(color: DarkTheme.normal),
                     )
-                  : Container(),
+                  : Text(
+                controller.selectedMedicalConditions.join(', '),
+                style: kThemeData.textTheme.bodyLarge
+                    ?.copyWith(color: DarkTheme.normal),
+              ),
               SizedBox(
                 height: 12,
               ),

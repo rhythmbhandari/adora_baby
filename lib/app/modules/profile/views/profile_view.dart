@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/app/data/network/dio_client.dart';
-import 'package:adora_baby/app/widgets/recently_viewed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +12,6 @@ import '../../../../main.dart';
 import '../../../config/constants.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
-import '../../../utils/jwt_decoder.dart';
-import '../../cart/widgets/cart_loaded_widget.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';

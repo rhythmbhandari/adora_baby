@@ -35,6 +35,7 @@ class ProfileController extends GetxController {
   final isEditAddress = false.obs;
 
   final selectedTags = [].obs;
+  final selectedMedicalConditions = [].obs;
 
   final fullName = ''.obs;
   final phoneNumber = ''.obs;
@@ -205,6 +206,17 @@ class ProfileController extends GetxController {
         : user.value.accountMedicalConditiob!) {
       selectedTags.addAll(i.medicalCondition);
     }
+    selectedMedicalConditions.value = [].obs;
+
+    for (var condition in babyMedicalCondition) {
+      for (int i = 0; i < condition[2].length; i++) {
+        log('J is ${condition[1][i]}');
+        if (selectedTags.contains(condition[2][i])) {
+          selectedMedicalConditions.add(condition[1][i]);
+        }
+      }
+    }
+
     update(
       ['homePageProfile'],
     );
@@ -295,6 +307,7 @@ class ProfileController extends GetxController {
           progressStatusOrderProfile,
           index: 0,
         ),
+        getMedicalCategories(),
         getAddressList(),
         getCities(),
       ],
