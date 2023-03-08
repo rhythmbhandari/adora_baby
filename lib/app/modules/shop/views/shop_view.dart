@@ -1,10 +1,11 @@
-
 import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
+import 'package:adora_baby/app/modules/shop/views/notifications_view.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
 import 'package:adora_baby/app/widgets/tips_widget.dart';
+import 'package:adora_baby/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,9 +16,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../utils/secure_storage.dart';
 import '../../../widgets/gradient_icon.dart';
 
 import '../../cart/controllers/cart_controller.dart';
+import '../../profile/views/diamonds_view.dart';
 import '../../search/views/search_view.dart';
 import '../widgets/all_products.dart';
 import '../widgets/hot_sales.dart';
@@ -55,215 +58,286 @@ class NewShopViewBody extends StatelessWidget {
   final ShopController controller;
   final ProfileController profileController;
 
-  final RefreshController _refreshControllerShop=
-  RefreshController(initialRefresh: false);
+  final RefreshController _refreshControllerShop =
+      RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: SmartRefresher(
-          physics: const AlwaysScrollableScrollPhysics(),
-          enablePullDown: true,
-          enablePullUp: false,
-          header: ClassicHeader(
-            refreshStyle: RefreshStyle.Follow,
-            releaseIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator()),
-            failedIcon: const Icon(Icons.error, color: Colors.grey),
-            idleIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator.partiallyRevealed(
-                  progress: 0.4,
-                )),
-            textStyle: Get.textTheme.headline5!.copyWith(
-                fontFamily: 'Roboto',
-                color: Get.theme.primaryColor,
-                fontWeight: FontWeight.w500),
-            releaseText: '',
-            idleText: '',
-            failedText: '',
-            completeText: '',
-            refreshingText: '',
-            refreshingIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator()),
-          ),
-          footer: ClassicFooter(
-            // refreshStyle: RefreshStyle.Follow,
-            canLoadingText: '',
-            loadStyle: LoadStyle.ShowWhenLoading,
-            noDataText: '',
-            noMoreIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: Icon(Icons.expand_circle_down,
-                    color: Colors.red)),
-            canLoadingIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator()),
-            failedIcon: const Icon(Icons.error, color: Colors.grey),
-            idleIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator.partiallyRevealed(
-                  progress: 0.4,
-                )),
-            textStyle: Get.textTheme.headline5!.copyWith(
-                fontFamily: 'Roboto',
-                color: Get.theme.primaryColor,
-                fontWeight: FontWeight.w500),
-            idleText: '',
-            failedText: '',
-            loadingText: '',
-            loadingIcon: const SizedBox(
-                width: 25.0,
-                height: 25.0,
-                child: CupertinoActivityIndicator()),
-          ),
-          controller: _refreshControllerShop,
-          onRefresh: () {
-            controller.fetchData().then((value) =>
-                _refreshControllerShop.refreshCompleted());
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 20, top: 30),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 41),
-                        child: GetBuilder<ProfileController>(
-                          id: 'homePageProfile',
-                          builder: (value) => Row(
-                            children: [
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.0),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    height: Get.height * 0.06,
-                                    width: Get.height * 0.06,
-                                    imageUrl: value.babyPhotoUrl.value,
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
+      physics: const AlwaysScrollableScrollPhysics(),
+      enablePullDown: true,
+      enablePullUp: false,
+      header: ClassicHeader(
+        refreshStyle: RefreshStyle.Follow,
+        releaseIcon: const SizedBox(
+            width: 25.0, height: 25.0, child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
+            width: 25.0,
+            height: 25.0,
+            child: CupertinoActivityIndicator.partiallyRevealed(
+              progress: 0.4,
+            )),
+        textStyle: Get.textTheme.headline5!.copyWith(
+            fontFamily: 'Roboto',
+            color: Get.theme.primaryColor,
+            fontWeight: FontWeight.w500),
+        releaseText: '',
+        idleText: '',
+        failedText: '',
+        completeText: '',
+        refreshingText: '',
+        refreshingIcon: const SizedBox(
+            width: 25.0, height: 25.0, child: CupertinoActivityIndicator()),
+      ),
+      footer: ClassicFooter(
+        // refreshStyle: RefreshStyle.Follow,
+        canLoadingText: '',
+        loadStyle: LoadStyle.ShowWhenLoading,
+        noDataText: '',
+        noMoreIcon: const SizedBox(
+            width: 25.0,
+            height: 25.0,
+            child: Icon(Icons.expand_circle_down, color: Colors.red)),
+        canLoadingIcon: const SizedBox(
+            width: 25.0, height: 25.0, child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
+            width: 25.0,
+            height: 25.0,
+            child: CupertinoActivityIndicator.partiallyRevealed(
+              progress: 0.4,
+            )),
+        textStyle: Get.textTheme.headline5!.copyWith(
+            fontFamily: 'Roboto',
+            color: Get.theme.primaryColor,
+            fontWeight: FontWeight.w500),
+        idleText: '',
+        failedText: '',
+        loadingText: '',
+        loadingIcon: const SizedBox(
+            width: 25.0, height: 25.0, child: CupertinoActivityIndicator()),
+      ),
+      controller: _refreshControllerShop,
+      onRefresh: () {
+        controller
+            .fetchData()
+            .then((value) => _refreshControllerShop.refreshCompleted());
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(bottom: 20, top: 30),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 41),
+                    child: GetBuilder<ProfileController>(
+                      id: 'homePageProfile',
+                      builder: (value) => Row(
+                        children: [
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                height: Get.height * 0.06,
+                                width: Get.height * 0.06,
+                                imageUrl: value.babyPhotoUrl.value,
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  value.user.value.babyName ?? '',
+                                  style: kThemeData.textTheme.labelMedium
+                                      ?.copyWith(color: DarkTheme.darkNormal),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
                                   children: [
                                     Text(
-                                      value.user.value.babyName ?? '',
-                                      style: kThemeData.textTheme.labelMedium
-                                          ?.copyWith(color: DarkTheme.darkNormal),
-                                    ),
-                                    Text(
                                       '${(DateTime.now().difference(value.user.value.babyDob != null ? value.user.value.babyDob! : DateTime.now()).inDays / 30).floor()} Months',
-                                      style: kThemeData.textTheme.labelMedium
-                                          ?.copyWith(color: DarkTheme.darkNormal),
+                                      style: kThemeData.textTheme.labelSmall
+                                          ?.copyWith(
+                                              color: DarkTheme.darkNormal),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        value.fetchDiamonds();
+                                        Get.to(() => const DiamondsView());
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            top: 5,
+                                            bottom: 5,
+                                            left: 16,
+                                            right: 16),
+                                        // margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
+                                        // width: Get.width * 0.2,
+                                        // height: 32,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                                colors: [
+                                                  Color.fromRGBO(
+                                                      127, 0, 255, 1),
+                                                  Color.fromRGBO(
+                                                      255, 0, 255, 1),
+                                                ]),
+                                            borderRadius:
+                                                BorderRadius.circular(25)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/images/profile_diamonds.svg",
+                                              // height: 0.022 * Get.height,
+                                              height: 14,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                              '${value.user.value.diamond ?? 0}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: kThemeData
+                                                  .textTheme.labelSmall
+                                                  ?.copyWith(
+                                                      fontSize: 12,
+                                                      color: LightTheme.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                          // SizedBox(
+                          //   width: 8,
+                          // ),
+                          // GestureDetector(
+                          //   onTap: () async {
+                          //     log((await storage.readAccessToken()).toString());
+                          //   },
+                          //   child: SvgPicture.asset(
+                          //     "assets/images/message.svg",
+                          //     // height: 0.022 * Get.height,
+                          //     // color: Colors.red,
+                          //     height: 28,
+                          //   ),
+                          // ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(() => SearchView(),
-                              arguments: controller.allProducts);
-                        },
-                        child: Hero(
-                          tag: 'search',
-                          child: Material(
-                            type: MaterialType.transparency,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 31.0, right: 31, top: 20),
-                              child: TextField(
-                                cursorColor: AppColors.mainColor,
-                                // focusNode: searchNode,
-                                autofocus: false,
-                                enabled: false,
-                                readOnly: true,
-                                decoration: InputDecoration(
-                                  hintText: 'Search for Items',
-                                  hintStyle: kThemeData.textTheme.bodyLarge
-                                      ?.copyWith(color: Color(0xffAF98A8)),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 18),
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8.0, right: 23, bottom: 8),
-                                    child: SvgPicture.asset(
-                                        "assets/images/search-normal.svg"),
-                                  ),
-                                  fillColor: Colors.white,
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(33),
-                                      borderSide: const BorderSide(
-                                          width: 1,
-                                          color: Color.fromRGBO(175, 152, 168, 1))),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(33),
-                                      borderSide: const BorderSide(
-                                          width: 1,
-                                          color: Color.fromRGBO(175, 152, 168, 1))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(33),
-                                      borderSide: const BorderSide(
-                                          width: 1,
-                                          color: Color.fromRGBO(175, 152, 168, 1))),
-                                ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => SearchView(),
+                          arguments: controller.allProducts);
+                    },
+                    child: Hero(
+                      tag: 'search',
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 31.0, right: 31, top: 20),
+                          child: TextField(
+                            cursorColor: AppColors.mainColor,
+                            // focusNode: searchNode,
+                            autofocus: false,
+                            enabled: false,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              hintText: 'Search for Items',
+                              hintStyle: kThemeData.textTheme.bodyLarge
+                                  ?.copyWith(color: Color(0xffAF98A8)),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 18),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, right: 23, bottom: 8),
+                                child: SvgPicture.asset(
+                                    "assets/images/search-normal.svg"),
                               ),
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(33),
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Color.fromRGBO(175, 152, 168, 1))),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(33),
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Color.fromRGBO(175, 152, 168, 1))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(33),
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Color.fromRGBO(175, 152, 168, 1))),
                             ),
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-                Container(
-                  color: LightTheme.lightActive,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 23,
-                      ),
-                      TrendingImages(controller: controller),
-                      HotSale(
-                        controller: controller,
-                      ),
-                      tips(controller, context),
-                      AllProducts(controller: controller),
-                      Container(
-                        height: Get.height * 0.1,
-                      )
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+            Container(
+              color: LightTheme.lightActive,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 23,
+                  ),
+                  TrendingImages(controller: controller),
+                  HotSale(
+                    controller: controller,
+                  ),
+                  tips(controller, context),
+                  AllProducts(controller: controller),
+                  Container(
+                    height: Get.height * 0.1,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }
 

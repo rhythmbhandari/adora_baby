@@ -12,21 +12,18 @@ class CancelOrderDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       // side: BorderSide(color: AppColors.linear1)),
-      backgroundColor: AppColors.primary500,
-      title: Text(
-        'Are you sure you want to cancel this order?',
-        style: TextStyle(
-            color: LightTheme.lightActive,
-            // fontFamily: 'WWF',
-            fontSize: 20),
-      ),
+      backgroundColor: LightTheme.lightNormalActive,
+      title: Text('Are you sure you want to cancel this order?',
+          textAlign: TextAlign.center,
+          style: Get.theme.textTheme.titleMedium?.copyWith(
+              color: DarkTheme.darkNormal,
+              fontSize: 18,
+              fontWeight: FontWeight.w700)),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         GestureDetector(
           onTap: () async {
-
-            Navigator.pop(context, true);
-
+            Navigator.pop(context, false);
           },
           child: Center(
             child: Container(
@@ -37,8 +34,8 @@ class CancelOrderDialog extends StatelessWidget {
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                      AppColors.primary500,
-                      AppColors.secondary500,
+                      AppColors.linear2,
+                      AppColors.linear1,
                     ]),
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -46,14 +43,11 @@ class CancelOrderDialog extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: 0.01 * Get.height, right: 0.014 * Get.height),
-                  child: Text(
-                    "Yes",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Graphik',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  child: Text("No, Continue Using the App",
+                      style: Get.theme.textTheme.labelSmall?.copyWith(
+                          color: DarkTheme.darkNormal,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400)),
                 ),
               ),
             ),
@@ -65,16 +59,14 @@ class CancelOrderDialog extends StatelessWidget {
         Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.pop(context, false);
+              Navigator.pop(context, true);
             },
             child: Text(
-              "No",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: LightTheme.lightActive,
-                  // decoration: TextDecoration.underline,
-                  decorationColor: Colors.grey),
+              "Yes, I'll come back later",
+              style: Get.theme.textTheme.labelSmall?.copyWith(
+                  color: DarkTheme.darkNormal,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400),
             ),
           ),
         ),

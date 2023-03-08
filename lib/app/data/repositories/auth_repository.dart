@@ -20,6 +20,8 @@ class AuthRepository {
     final body = {"phone_number": phoneNumber};
     try {
       final response = await http.post(Uri.parse(url), body: body);
+
+      log('Response is received ${response.statusCode}');
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       log('Message is received $decodedResponse');
       if (response.statusCode == 200) {

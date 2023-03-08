@@ -119,49 +119,44 @@ Widget userProfile(ProfileController controller, BuildContext context) {
               GestureDetector(
                 onTap: () {
                   controller.fetchDiamonds();
-                  Get.to(()=> const DiamondsView());
-
+                  Get.to(() => const DiamondsView());
                 },
                 child: Container(
-                  padding:
-                      EdgeInsets.only(top: 10, bottom: 10, left: 6, right: 6),
-                  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
-                  // width: Get.width * 0.23,
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                  ),
+                  // margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
+                  // width: Get.width * 0.2,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
                             Color.fromRGBO(127, 0, 255, 1),
-                            Color.fromRGBO(255, 0, 255, 0.5),
+                            Color.fromRGBO(255, 0, 255, 1),
                           ]),
                       borderRadius: BorderRadius.circular(25)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/profile_diamonds.svg",
-                                // height: 0.022 * Get.height,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                '${controller.user.value.diamond ?? 0}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: kThemeData.textTheme.labelSmall
-                                    ?.copyWith(color: LightTheme.white),
-                              ),
-                            ],
-                          ),
+                      SvgPicture.asset(
+                        "assets/images/profile_diamonds.svg",
+                        // height: 0.022 * Get.height,
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Flexible(
+                        child: Text(
+                          '${controller.user.value.diamond ?? 0}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: kThemeData.textTheme.labelSmall
+                              ?.copyWith(color: LightTheme.white, fontSize: 14),
                         ),
                       ),
                     ],
@@ -184,8 +179,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                           controller.user.value.accountAddress!.isEmpty
                       ? Expanded(
                           child: GestureDetector(
-                            onTap: (){
-
+                            onTap: () {
                               Get.to(() => const EditProfile());
                             },
                             child: Text(
@@ -198,7 +192,9 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                         )
                       : Expanded(
                           child: Text(
-                            controller.user.value.accountAddress?[0]['nearest_landmark'] ?? 'Set your Home Address.',
+                            controller.user.value.accountAddress?[0]
+                                    ['nearest_landmark'] ??
+                                'Set your Home Address.',
                             maxLines: 2,
                             style: kThemeData.textTheme.bodyLarge
                                 ?.copyWith(color: DarkTheme.normal),

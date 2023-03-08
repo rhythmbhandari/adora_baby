@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timelines/timelines.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
@@ -23,6 +24,7 @@ import '../../../routes/app_pages.dart';
 import '../../../utils/date_time_converter.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../shop/views/getBrandName.dart';
 import 'package_delivery_tracking.dart';
 
 class OrderHistoryDetail extends GetView<ProfileController> {
@@ -223,7 +225,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          '${controller.selectedOrders.value.checkOut?.cart?[i]?.product?.shortName}',
+                                                          getBrandName(controller.selectedOrders.value.checkOut?.cart?[i]?.product?.categories),
                                                           maxLines: 1,
                                                           style: kThemeData
                                                               .textTheme
@@ -705,7 +707,21 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     1,
                                                   ),
                                                   child: GestureDetector(
-                                                    onTap: () {},
+                                                    onTap: () async {
+                                                      try {
+                                                        Uri url = Uri.parse(
+                                                            'https://www.facebook.com/adorababies');
+                                                        if (await canLaunchUrl(
+                                                            url)) {
+                                                          await launchUrl(url);
+                                                        } else {
+                                                          throw 'Could not launch $url';
+                                                        }
+                                                      } catch (error) {
+                                                        await launchUrl(Uri.parse(
+                                                            'https://www.google.com/search?q=adorababies'));
+                                                      }
+                                                    },
                                                     child: Container(
                                                       padding:
                                                           const EdgeInsets.only(

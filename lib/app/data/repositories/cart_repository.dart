@@ -24,24 +24,22 @@ class CartRepository {
   static Future<bool> addToCart(String product, String quantity) async {
     const url = '$BASE_URL/cart/add_to_cart/';
     final body = jsonEncode({"product_id": product, "quantity": quantity});
-    print(await SecureStorage.returnHeaderWithToken());
     try {
-      final response = await http.post(Uri.parse(url),
-          body: body, headers: await SecureStorage.returnHeaderWithToken());
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print('Response is $response');
+      final response = await DioHelper.postRequest(
+          url, body, false, await SecureStorage.returnHeaderWithToken());
+      if (response) {
+        print('Response is hehehe $response');
         return true;
       } else {
         print(response.statusCode);
 
-        return Future.error(response.statusCode);
+        return Future.error('Error');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error("Exception");
+      return Future.error("$e");
     }
   }
 
@@ -86,8 +84,7 @@ class CartRepository {
           'Please check your internet connection and try again.');
     } catch (e) {
       log('Error is $e');
-      return Future.error(
-          '$e');
+      return Future.error('$e');
     }
   }
 
@@ -134,22 +131,20 @@ class CartRepository {
   }
 
   static Future<List<Cities>> getCities() async {
-    const url = '$BASE_URL/city/';
+    const url = '$BASE_URL/city/?limit=-1';
 
-    final response = await NetworkHelper().getRequest(url,
-        contentType: await SecureStorage.returnHeaderWithToken());
+    final response = await DioHelper.getRequest(
+        url, true, await SecureStorage.returnHeaderWithToken());
 
-    final data = response.data;
-
-    if (response.statusCode == 200) {
-      log("Response : ${response.data}");
-      List<Cities> citiesList = (response.data["data"] as List)
+    if (response is Map<dynamic, dynamic>) {
+      log("Response : ${response['data']}");
+      List<Cities> citiesList = (response["data"] as List)
           .map((i) => Cities.fromJson(i))
           .toList();
       return citiesList;
     } else {
       log(response.statusMessage ?? '');
-      return Future.error(data['message']);
+      return Future.error(response['message']);
     }
   }
 }

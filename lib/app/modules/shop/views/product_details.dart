@@ -25,6 +25,7 @@ import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
+import 'getBrandName.dart';
 import 'review_add.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -118,7 +119,8 @@ class _ProductDetailsState extends State<ProductDetails>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${controller.productSelected.value.shortName}',
+                            getBrandName(
+                                controller.productSelected.value.categories),
                             maxLines: 1,
                             style: kThemeData.textTheme.labelSmall?.copyWith(
                                 color: AppColors.secondary700, fontSize: 12),
@@ -601,8 +603,10 @@ class _ProductDetailsState extends State<ProductDetails>
                                   ),
                                   GetBuilder<ShopController>(
                                     id: 'reviewId',
-                                    builder: (myController) => FutureBuilder<List<Reviews>>(
-                                      future: myController.initiateGetReviews(myController.countingReview.value),
+                                    builder: (myController) =>
+                                        FutureBuilder<List<Reviews>>(
+                                      future: myController.initiateGetReviews(
+                                          myController.countingReview.value),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           if (snapshot.data != null &&
@@ -620,7 +624,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Row(
                                                         mainAxisAlignment:
@@ -635,8 +640,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                             width: 40,
                                                             decoration:
                                                                 const BoxDecoration(
-                                                              shape:
-                                                                  BoxShape.circle,
+                                                              shape: BoxShape
+                                                                  .circle,
                                                               color: Color(
                                                                   0xff000000),
                                                             ),
@@ -650,27 +655,25 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                         .isNotEmpty
                                                                 ? ClipRRect(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                100.0),
+                                                                        BorderRadius.circular(
+                                                                            100.0),
                                                                     child:
                                                                         CachedNetworkImage(
                                                                       fit: BoxFit
                                                                           .cover,
-                                                                      height:
-                                                                          Get.height *
-                                                                              0.06,
-                                                                      width:
-                                                                          Get.height *
-                                                                              0.06,
+                                                                      height: Get
+                                                                              .height *
+                                                                          0.06,
+                                                                      width: Get
+                                                                              .height *
+                                                                          0.06,
                                                                       imageUrl:
                                                                           '${snapshot.data?[index].createdBy?.profilePhoto['name']}' ??
                                                                               'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
                                                                       placeholder: (context,
                                                                               url) =>
                                                                           const Center(
-                                                                              child:
-                                                                                  CircularProgressIndicator()),
+                                                                              child: CircularProgressIndicator()),
                                                                       errorWidget: (context,
                                                                               url,
                                                                               error) =>
@@ -698,10 +701,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                       .textTheme
                                                                       .titleMedium
                                                                       ?.copyWith(
-                                                                          color: DarkTheme
-                                                                              .dark),
+                                                                          color:
+                                                                              DarkTheme.dark),
                                                                 ),
-                                                                RatingBar.builder(
+                                                                RatingBar
+                                                                    .builder(
                                                                   initialRating:
                                                                       double.parse(
                                                                           '${snapshot.data?[index].grade}'),
@@ -714,11 +718,10 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                       true,
                                                                   glow: false,
                                                                   itemCount: 5,
-                                                                  itemPadding:
-                                                                      const EdgeInsets
-                                                                              .symmetric(
-                                                                          horizontal:
-                                                                              0.0),
+                                                                  itemPadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          0.0),
                                                                   itemBuilder:
                                                                       (context,
                                                                               _) =>
@@ -747,7 +750,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                   ),
                                                                   onRatingUpdate:
                                                                       (rating) {
-                                                                    print(rating);
+                                                                    print(
+                                                                        rating);
                                                                   },
                                                                 ),
                                                               ],
@@ -755,7 +759,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                           ),
                                                         ],
                                                       ),
-                                                      const SizedBox(height: 11),
+                                                      const SizedBox(
+                                                          height: 11),
                                                       Text(
                                                         '${snapshot.data?[index].review}',
                                                         style: kThemeData
@@ -764,7 +769,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                 color: DarkTheme
                                                                     .darkNormal),
                                                       ),
-                                                      const SizedBox(height: 20),
+                                                      const SizedBox(
+                                                          height: 20),
                                                     ],
                                                   );
                                                 });

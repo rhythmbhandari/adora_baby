@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adora_baby/app/modules/shop/views/getBrandName.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class HotSalesView extends GetView<ShopController> {
     } catch (error) {
       _refreshControllerHotSales.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
-          .then((value) => _refreshControllerHotSales.refreshToIdle());
+          .then((value) => _refreshControllerHotSales.loadComplete());
     }
   }
 
@@ -468,10 +469,10 @@ class HotSalesView extends GetView<ShopController> {
                                                               height: 8,
                                                             ),
                                                             Text(
-                                                              controller
+                                                              getBrandName(controller
                                                                   .hotSalesFiltered[
-                                                                      index]
-                                                                  .shortName,
+                                                              index]
+                                                                  .categories),
                                                               maxLines: 1,
                                                               style: kThemeData
                                                                   .textTheme

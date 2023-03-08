@@ -145,7 +145,7 @@ class Category {
     slug: json["slug"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
-    isProductCategory: json["is_product_category"],
+    isProductCategory: json["is_product_category"]?? false,
   );
 
   Map<String, dynamic> toJson() => {

@@ -7,9 +7,11 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/route_manager.dart';
 
 import '../../../main.dart';
 import '../../config/constants.dart';
+import '../../routes/app_pages.dart';
 import '../../utils/logging.dart';
 
 class DioHelper {
@@ -123,16 +125,15 @@ class DioHelper {
       return Future.error('Connection timed');
     } on DioError catch (e) {
       if (e.response?.data != null) {
-        if (e.response!.data.entries.toString().contains(
-              '{',
-            )) {
+        log('Error is ${e.response?.data}');
+        if (e.response!.data[0] is String) {
+          return Future.error('${e.response!.data[0]}');
+        } else if (e.response!.data.entries.toString().contains('{')) {
           return Future.error(
-            '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}',
-          );
+              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
         } else {
           return Future.error(
-            '${e.response!.data[e.response!.data.keys.first]}',
-          );
+              '${e.response!.data[e.response!.data.keys.first]}');
         }
       } else {
         return Future.error('Server error. Please try again later!');
@@ -221,7 +222,10 @@ class DioHelper {
         }
         return false;
       } else if (e.response?.data != null) {
-        if (e.response!.data.entries.toString().contains('{')) {
+        log('Error is ${e.response?.data}');
+        if (e.response!.data[0] is String) {
+          return Future.error('${e.response!.data[0]}');
+        } else if (e.response!.data.entries.toString().contains('{')) {
           return Future.error(
               '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
         } else {
@@ -300,7 +304,10 @@ class DioHelper {
       return Future.error('Connection timed');
     } on DioError catch (e) {
       if (e.response?.data != null) {
-        if (e.response!.data.entries.toString().contains('{')) {
+        log('Error is ${e.response?.data}');
+        if (e.response!.data[0] is String) {
+          return Future.error('${e.response!.data[0]}');
+        } else if (e.response!.data.entries.toString().contains('{')) {
           return Future.error(
               '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
         } else {
@@ -401,15 +408,28 @@ class DioHelper {
   }
 
   static Future<void> refreshToken() async {
-    final refreshToken = await storage.readRefreshToken();
-    Dio dio = getDioClient();
-    const url = '$baseUrl/refresh/';
-    final body = jsonEncode({'refresh': refreshToken});
-    final response = await dio.post(url, data: body);
+    try{
+      final refreshToken = await storage.readRefreshToken();
+      Dio dio = getDioClient();
+      const url = '$baseUrl/refresh/';
+      final body = jsonEncode({'refresh': refreshToken});
+      final response = await dio.post(url, data: body);
 
-    if (response.statusCode == 200) {
-      storage.saveAccessToken(response.data["access"]);
-      storage.saveRefreshToken(response.data["refresh"]);
+      if (response.statusCode == 200) {
+        storage.saveAccessToken(response.data["access"]);
+        storage.saveRefreshToken(response.data["refresh"]);
+      }
+    }catch(e){
+      await storage.delete(
+        Constants.ACCESS_TOKEN,
+      );
+      await storage.delete(
+        Constants.LOGGED_IN_STATUS,
+      );
+      await storage.delete(
+        Constants.REFRESH_TOKEN,
+      );
+      Get.offAndToNamed(Routes.PHONE);
     }
   }
 }

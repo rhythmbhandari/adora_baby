@@ -46,6 +46,7 @@ class HotSales {
     this.reviews,
     this.productImages,
     this.stockQuantity,
+    this.brandName,
     this.categories,
   });
 
@@ -66,6 +67,7 @@ class HotSales {
   List<Review?>? reviews;
   List<ProductImage?>? productImages;
   int? stockQuantity;
+  String? brandName;
   List<Category?>? categories;
 
   factory HotSales.fromJson(Map<String, dynamic> json) => HotSales(
@@ -81,6 +83,8 @@ class HotSales {
         shortDescription: json["short_description"],
         longDescription: json["long_description"],
         weightInGrams: json["weight_in_grams"],
+        // brandName: json["categories"] == null
+        //     ? '' categories.,
         bestBy: DateTime.parse(json["Best_BY"]),
         rating: Rating.fromJson(json["rating"]),
         reviews: json["reviews"] == null
@@ -92,7 +96,7 @@ class HotSales {
             : List<ProductImage?>.from(
                 json["product_images"]!.map((x) => ProductImage.fromJson(x))),
         stockQuantity: json["stock_quantity"],
-        categories: json["categories"] == null
+        categories:  json["categories"] == null
             ? []
             : List<Category?>.from(
                 json["categories"]!.map((x) => Category.fromJson(x))),
@@ -156,7 +160,7 @@ class Category {
         slug: json["slug"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        isProductCategory: json["is_product_category"],
+        isProductCategory: json["is_product_category"]?? false,
       );
 
   Map<String, dynamic> toJson() => {

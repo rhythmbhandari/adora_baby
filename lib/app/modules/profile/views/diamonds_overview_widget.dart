@@ -151,8 +151,100 @@ class DiamondsOverviewWidget extends StatelessWidget {
                       child: FittedBox(child: const InternetErrorWidget()));
                 case ProgressStatus.empty:
                   return Container(
-                      height: Get.height * 0.7,
-                      child: FittedBox(child: EmptyWidget()));
+                    height: Get.height * 0.85,
+                    margin: EdgeInsets.symmetric(
+                      vertical: Get.height * 0.02,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Get.to(TempView());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 20,
+                            ),
+                            child: Text(
+                              "You haven't earned any coin yet.",
+                              style: Get.theme.textTheme.bodyLarge?.copyWith(
+                                fontSize: 16,
+                                color: DarkTheme.darkNormal,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.05,
+                        ),
+                        Center(
+                          child: SvgPicture.asset(
+                            'assets/images/oops.svg',
+                            width: Get.width * 0.8,
+                            // height: Get.height * 0.4,
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 25),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 22,
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: DarkTheme.lighter,
+                                width: 0.1,
+                              ),
+                              color: Colors.white,
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.18),
+                                  blurRadius: 3,
+                                  spreadRadius: 1,
+                                  offset: Offset(
+                                    -0,
+                                    2,
+                                  ), // Shadow position
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/info-circle.svg",
+                                height: 22,
+                                // color: const Color(0xff667080),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'The more you shop, the more you earn!\n\nDiamonds are great way to enjoy discounts while buying products from Adora App.\n\nGet diamonds with each of your purchase. ',
+                                  textAlign: TextAlign.start,
+                                  style: kThemeData.textTheme.bodyMedium?.copyWith(
+                                    color: DarkTheme.darkNormal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 case ProgressStatus.idle:
                 case ProgressStatus.loading:
                 case ProgressStatus.searching:
@@ -331,7 +423,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               child: Text(
                 'The more you shop, the more you earn!\n\nDiamonds are great way to enjoy discounts while buying products from Adora App.\n\nGet diamonds with each of your purchase. ',
                 textAlign: TextAlign.start,
-                style: kThemeData.textTheme.labelSmall?.copyWith(
+                style: kThemeData.textTheme.bodyMedium?.copyWith(
                   color: DarkTheme.darkNormal,
                 ),
               ),

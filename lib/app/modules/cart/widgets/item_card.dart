@@ -78,7 +78,7 @@ class CartCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    controller.cartList[index].product!.shortName!,
+                    controller.cartList[index].product?.shortName ?? '',
                     style: kThemeData.textTheme.bodyMedium?.copyWith(
                       color: AppColors.secondary700,
                     ),

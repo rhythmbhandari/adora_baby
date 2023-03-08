@@ -40,6 +40,25 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
+  static Future<List<HotSales>> fetchNotifications(String keyword) async {
+    final url = '$BASE_URL/notification/$keyword';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+
+    if (status is Map<dynamic, dynamic>) {
+      List<HotSales> hotSales =
+      (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      log('Reached here');
+      return hotSales;
+    }
+
+    return Future.error('Error $status');
+  }
+
   static Future<List<HotSales>> getIndividualProduct(String id) async {
     final url = '$BASE_URL/shops/$id';
 

@@ -264,7 +264,7 @@ class CheckOutRepository {
     var url = '$BASE_URL/checkout/$id/';
 
     final body = {
-      "is_diamond_use": isDiamondUsed,
+      "is_dimond_use": isDiamondUsed,
       "coupon_code": couponApplied
     };
     log('huh');

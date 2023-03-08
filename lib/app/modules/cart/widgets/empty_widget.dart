@@ -31,7 +31,7 @@ class EmptyWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            'assets/images/no_data.svg',
+            'assets/images/oops.svg',
             width: Get.width,
             // height: Get.height * 0.4,
           ),

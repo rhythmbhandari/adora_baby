@@ -54,12 +54,14 @@ class DiamondsStatementWidget extends StatelessWidget {
 
   void _onLoading() async {
     try {
-      await controller.getDiamonds(
-          isRefresh: true,
-          isInitial: false,
-          list,
-          index: indexAPI,
-          progressStatus).then((value) => refreshController.loadComplete());
+      await controller
+          .getDiamonds(
+              isRefresh: true,
+              isInitial: false,
+              list,
+              index: indexAPI,
+              progressStatus)
+          .then((value) => refreshController.loadComplete());
     } catch (error) {
       refreshController.loadNoData();
       await Future.delayed(Duration(milliseconds: 0000))
@@ -152,8 +154,48 @@ class DiamondsStatementWidget extends StatelessWidget {
                         child: FittedBox(child: const InternetErrorWidget()));
                   case ProgressStatus.empty:
                     return Container(
-                        height: Get.height * 0.7,
-                        child: FittedBox(child: EmptyWidget()));
+                      height: Get.height * 0.85,
+                      margin: EdgeInsets.symmetric(
+                        vertical: Get.height * 0.02,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Get.to(TempView());
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 40,
+                                vertical: 20,
+                              ),
+                              child: Text(
+                                'No coins were recently used.',
+                                style: Get.theme.textTheme.bodyLarge?.copyWith(
+                                  fontSize: 16,
+                                  color: DarkTheme.darkNormal,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.05,
+                          ),
+                          Center(
+                            child: SvgPicture.asset(
+                              'assets/images/oops.svg',
+                              width: Get.width * 0.8,
+                              // height: Get.height * 0.4,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   case ProgressStatus.idle:
                   case ProgressStatus.loading:
                   case ProgressStatus.searching:
@@ -191,7 +233,13 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Diamonds earned on',
+                                              list[index]
+                                                      .types
+                                                      .toString()
+                                                      .toLowerCase()
+                                                      .contains('earned')
+                                                  ? 'Diamonds earned on'
+                                                  : 'Diamonds spent on',
                                               style: kThemeData
                                                   .textTheme.titleMedium
                                                   ?.copyWith(

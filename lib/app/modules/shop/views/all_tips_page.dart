@@ -43,7 +43,7 @@ class MoreTips extends GetView<ShopController> {
     } catch (error) {
       _refreshControllerTips.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
-          .then((value) => _refreshControllerTips.refreshToIdle());
+          .then((value) => _refreshControllerTips.loadComplete());
     }
     // monitor network fetch
   }

@@ -43,6 +43,7 @@ class ShopController extends GetxController {
   final allProductsFiltered = [].obs;
   final allProductsSearched = [].obs;
   final hotSalesFiltered = [].obs;
+  final notificationsList = [].obs;
 
   final counter = 1.obs;
 
@@ -62,6 +63,7 @@ class ShopController extends GetxController {
 
   final hotSalesIndex = 1.obs;
   final allProductsIndex = 1.obs;
+  final notificationsIndex = 1.obs;
 
   final tipsIndex = 1.obs;
 
@@ -211,6 +213,34 @@ class ShopController extends GetxController {
     } catch (e) {
       log('Error is $e');
       return [];
+    }
+  }
+
+  Future<void> getNotifications(bool isRefresh,) async {
+    try {
+      showProgressBar();
+
+      String keyword = '?page=${isRefresh ? 1 : notificationsIndex.value}';
+
+      await ShopRepository.fetchHotSales(keyword)
+          .then((value) => {
+        if (isRefresh)
+          {
+            if (value.isEmpty)
+              {notificationsList.value = [].obs, notificationsIndex.value = 2}
+            else
+              {notificationsList.value = value, notificationsIndex.value = 2}
+          }
+        else
+          {notificationsList.addAll(value), notificationsIndex.value++}
+      })
+          .then((value) => hideProgressBar());
+    } catch (error) {
+      authError.value = error.toString();
+      showErrorBar();
+      Future.delayed(const Duration(seconds: 2)).then(
+            (value) => hideProgressBar(),
+      );
     }
   }
 
@@ -420,7 +450,6 @@ class ShopController extends GetxController {
     try {
       final status = await CartRepository.addToCart(
           name.toString(), counter.toString().trim());
-
       if (status) {
         return true;
       } else {

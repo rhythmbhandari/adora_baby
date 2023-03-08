@@ -18,6 +18,7 @@ import '../../../data/models/hot_sales_model.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
+import '../views/getBrandName.dart';
 
 class AllProducts extends StatelessWidget {
   final ShopController controller;
@@ -159,7 +160,8 @@ class AllProducts extends StatelessWidget {
                                           height: 8,
                                         ),
                                         Text(
-                                          '${controller.allProducts[index].shortName}',
+                                          getBrandName(controller.allProducts[index]
+                                              .categories ?? []),
                                           maxLines: 1,
                                           style: kThemeData.textTheme.labelSmall
                                               ?.copyWith(

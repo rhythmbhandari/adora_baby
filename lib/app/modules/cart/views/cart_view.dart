@@ -137,7 +137,50 @@ class CartView extends GetView<CartController> {
                           case ProgressStatus.internetError:
                             return const InternetErrorWidget();
                           case ProgressStatus.empty:
-                            return EmptyWidget();
+                            return Container(
+                              height: Get.height * 0.85,
+                              margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.02,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Get.to(TempView());
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 40,
+                                        vertical: 40,
+                                      ),
+                                      child: Text(
+                                        'Your Cart is empty.',
+                                        style: Get
+                                            .theme.textTheme.headlineMedium
+                                            ?.copyWith(
+                                          color: DarkTheme.darkNormal,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.1,
+                                  ),
+                                  Center(
+                                    child: SvgPicture.asset(
+                                      'assets/images/oops.svg',
+                                      width: Get.width,
+                                      // height: Get.height * 0.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           case ProgressStatus.idle:
                           case ProgressStatus.loading:
                           case ProgressStatus.searching:

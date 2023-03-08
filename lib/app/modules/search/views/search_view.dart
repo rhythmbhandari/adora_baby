@@ -16,6 +16,7 @@ import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../shop/controllers/shop_controller.dart';
+import '../../shop/views/getBrandName.dart';
 
 class SearchView extends GetView<ShopController> {
   SearchView({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class SearchView extends GetView<ShopController> {
     } catch (error) {
       _refreshControllerSearch.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
-          .then((value) => _refreshControllerSearch.refreshToIdle());
+          .then((value) => _refreshControllerSearch.loadComplete());
     }
   }
 
@@ -477,10 +478,10 @@ class SearchView extends GetView<ShopController> {
                                                               height: 8,
                                                             ),
                                                             Text(
-                                                              controller
+                                                              getBrandName(controller
                                                                   .allProductsSearched[
                                                                       index]
-                                                                  .shortName,
+                                                                  .categories),
                                                               maxLines: 1,
                                                               style: kThemeData
                                                                   .textTheme
@@ -623,8 +624,7 @@ class SearchView extends GetView<ShopController> {
                                                   ),
                                                 ),
                                               ))
-                                      : EmptyWidget(
-                                          isSearched: true))
+                                      : EmptyWidget(isSearched: true))
                                 ],
                               ),
                             ),

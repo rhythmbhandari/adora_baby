@@ -11,6 +11,7 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
+import '../views/getBrandName.dart';
 
 class HotSale extends StatelessWidget {
   const HotSale({
@@ -205,7 +206,8 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    controller.hotSales[index].shortName,
+                    getBrandName(controller.hotSales[index]
+                        .categories),
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),

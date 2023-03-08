@@ -16,6 +16,7 @@ import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../controllers/shop_controller.dart';
+import 'getBrandName.dart';
 
 class AllProductsView extends GetView<ShopController> {
   AllProductsView({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class AllProductsView extends GetView<ShopController> {
     } catch (error) {
       _refreshControllerAllProducts.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
-          .then((value) => _refreshControllerAllProducts.refreshToIdle());
+          .then((value) => _refreshControllerAllProducts.loadComplete());
     }
   }
 
@@ -467,10 +468,11 @@ class AllProductsView extends GetView<ShopController> {
                                                                   height: 8,
                                                                 ),
                                                                 Text(
-                                                                  controller
-                                                                      .allProductsFiltered[
-                                                                  index]
-                                                                      .shortName,
+
+                                                                  getBrandName(controller
+                                                                    .allProductsFiltered[
+                                                                index]
+                                                                      .categories),
                                                                   maxLines: 1,
                                                                   style: kThemeData
                                                                       .textTheme
