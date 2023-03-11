@@ -36,6 +36,10 @@
 	<string>media</string>
     <key>NSCameraUsageDescription</key>
     <string>To capture profile photo</string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>tel</string>
+    </array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
