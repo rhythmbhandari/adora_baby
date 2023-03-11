@@ -15,7 +15,9 @@ import '../config/app_colors.dart';
 import '../modules/home/controllers/home_controller.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({Key? key, required this.scaffoldKey}) : super(key: key);
+
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   State<BottomNavBar> createState() => _MyHomePageState();
@@ -98,7 +100,7 @@ class _MyHomePageState extends State<BottomNavBar>
                   // Text("moments"),
                   ShopView(),
                   CartView(),
-                  ProfileView()
+                  ProfileView(widget.scaffoldKey)
                 ]),
         child: Container(
           decoration: BoxDecoration(

@@ -32,14 +32,14 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: _Paths.PROFILE,
-      page: () => ProfileView(),
-      binding: ProfileBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.PROFILE,
+    //   page: () => ProfileView(),
+    //   binding: ProfileBinding(),
+    // ),
     GetPage(
       name: _Paths.OTP,
       page: () => const OtpView(),
