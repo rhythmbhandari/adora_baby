@@ -15,6 +15,7 @@ import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../cart/widgets/empty_widget.dart';
 import '../controllers/shop_controller.dart';
 
 class MoreTips extends GetView<ShopController> {
@@ -255,7 +256,7 @@ class MoreTips extends GetView<ShopController> {
                                                 ),
                                               ),
                                             ))
-                                    : Container()),
+                                    : EmptyWidget()),
                               ),
                             ),
                           ),

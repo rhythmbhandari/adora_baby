@@ -314,7 +314,7 @@ class ProfileController extends GetxController {
     );
     log('Status is $status');
     if (status.contains(false)) {
-      completeLoading(progressStatus, true);
+      completeLoading(progressStatus, false);
     } else {
       completeLoading(progressStatus, false);
     }
