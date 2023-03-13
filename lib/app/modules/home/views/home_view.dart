@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/profile/views/change_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -90,6 +91,7 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                           onTap: () {
+                            Get.to(() => ChangePassword());
                             _scaffoldKey.currentState!.closeEndDrawer();
                           },
                           leading: SvgPicture.asset(
@@ -325,11 +327,12 @@ class HomeView extends GetView<HomeController> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Uri url = Uri.parse('https://www.google.com/search?q=adora+baby+terms+and+condition');
+                      Uri url = Uri.parse(
+                          'https://www.google.com/search?q=adora+baby+terms+and+condition');
                       if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
+                        await launchUrl(url);
                       } else {
-                      throw 'Could not launch $url';
+                        throw 'Could not launch $url';
                       }
                     },
                     child: Text(
