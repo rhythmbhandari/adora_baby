@@ -200,6 +200,33 @@ class AuthRepository {
     }
   }
 
+  static Future<bool> changePassword(
+      String currentPassword, String newPassword) async {
+    const url = '$BASE_URL/accounts/change-password/';
+    final body = jsonEncode(
+        {"old_password": currentPassword, "new_password": newPassword});
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: body, headers: await SecureStorage.returnHeaderWithToken());
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        print('Response is $response');
+        return true;
+      } else if (response.statusCode == 429 || response.statusCode == 401) {
+        print('Response is $decodedResponse');
+        return Future.error('${decodedResponse["data"]}');
+      } else {
+        return Future.error('${decodedResponse["error"]}');
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    }
+  }
+
   static Future<bool> verifyOtp(String phoneNumber, String code) async {
     try {
       const url = '$BASE_URL/accounts/verify/';

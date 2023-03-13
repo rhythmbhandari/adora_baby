@@ -85,6 +85,8 @@ class DarkTheme {
   );
 
   static const Color normal = Color.fromRGBO(78, 26, 61, 1);
+
+  static const Color darkLighter = Color.fromRGBO(175, 152, 168, 1);
   static const Color normalHover = Color.fromRGBO(66, 22, 52, 1);
   static const Color normalActive = Color.fromRGBO(57, 19, 45, 1);
 
