@@ -40,7 +40,7 @@ class AllProducts extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 log('Parsed is ${controller.allProducts}');
               },
               child: const Center(
@@ -70,7 +70,7 @@ class AllProducts extends StatelessWidget {
                           return GestureDetector(
                             onTap: () {
                               controller.productSelected.value =
-                              controller.allProducts[index];
+                                  controller.allProducts[index];
                               Get.toNamed(Routes.PRODUCT_DETAILS);
                             },
                             child: Container(
@@ -100,9 +100,19 @@ class AllProducts extends StatelessWidget {
                                             EdgeInsets.only(top: 12, bottom: 8),
                                         child: Center(
                                           child: Image.network(
-                                            controller.allProducts[index].productImages.isEmpty
+                                            controller.allProducts[index]
+                                                    .productImages.isEmpty
                                                 ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                                :'${controller.allProducts[index].productImages[0].name}',
+                                                : '${controller.allProducts[index].productImages?.firstWhere(
+                                                      (image) =>
+                                                          image?.isFeaturedImage !=
+                                                              null &&
+                                                          image?.isFeaturedImage ==
+                                                              true,
+                                                      orElse: () => ProductImage(
+                                                          name:
+                                                              'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
+                                                    ).name ?? ''}',
                                             height: Get.height * 0.16,
                                           ),
                                         ),
@@ -162,8 +172,10 @@ class AllProducts extends StatelessWidget {
                                           height: 8,
                                         ),
                                         Text(
-                                          getBrandName(controller.allProducts[index]
-                                              .categories ?? []),
+                                          getBrandName(controller
+                                                  .allProducts[index]
+                                                  .categories ??
+                                              []),
                                           maxLines: 1,
                                           style: kThemeData.textTheme.labelSmall
                                               ?.copyWith(
@@ -279,7 +291,8 @@ class AllProducts extends StatelessWidget {
                         child: _buildImage()))),
             GestureDetector(
               onTap: () {
-                Get.to(() => AllProductsView(), arguments: controller.allProducts);
+                Get.to(() => AllProductsView(),
+                    arguments: controller.allProducts);
               },
               child: Align(
                 alignment: Alignment.centerRight,
