@@ -12,8 +12,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:get/get.dart';
+import 'package:html/parser.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../main.dart';
@@ -27,6 +29,7 @@ import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
 import 'getBrandName.dart';
 import 'review_add.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
@@ -186,49 +189,80 @@ class _ProductDetailsState extends State<ProductDetails>
                           const SizedBox(
                             height: 10,
                           ),
-                          CarouselSlider(
-                            options: CarouselOptions(
-                              height: Get.height * 0.32,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              viewportFraction: 1,
-                              aspectRatio: 2.0,
-                              enableInfiniteScroll: false,
-                              padEnds: false,
-                              onPageChanged: (val, _) {
-                                // setState(() {
-                                //   print("new index $val");
-                                //   carouselController.jumpToPage(val);
-                                // });
-                              },
-                              // clipBehavior: Clip.antiAlias,
-                              // onPageChanged: callbackFunction,
-                              scrollDirection: Axis.horizontal,
-                            ),
-                            items: controller
-                                .productSelected.value.productImages
-                                ?.map((i) {
-                              return Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 18),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl: '${i?.name}',
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                          controller.productSelected.value.productImages
+                                      ?.isEmpty ??
+                                  false
+                              ? Container(
+                                  height: Get.height * 0.32,
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 20,
                                   ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 18),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                          'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
+                                  ),
+                                )
+                              : CarouselSlider(
+                                  options: CarouselOptions(
+                                    height: Get.height * 0.32,
+                                    autoPlay: true,
+                                    autoPlayInterval:
+                                        const Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        const Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 1,
+                                    aspectRatio: 2.0,
+                                    enableInfiniteScroll: false,
+                                    padEnds: false,
+                                    onPageChanged: (val, _) {
+                                      // setState(() {
+                                      //   print("new index $val");
+                                      //   carouselController.jumpToPage(val);
+                                      // });
+                                    },
+                                    // clipBehavior: Clip.antiAlias,
+                                    // onPageChanged: callbackFunction,
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  items: controller
+                                      .productSelected.value.productImages
+                                      ?.map((i) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: i?.name == null
+                                              ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                              : '${i?.name}',
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                              );
-                            }).toList(),
-                          ),
                           // InkWell(
                           //   onTap: () {
                           //     carouselController.nextPage(
@@ -261,7 +295,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   : const Text(
                                       "Out of Stock",
                                       style: TextStyle(
-                                        color: LightTheme.whiteActive,
+                                        color: AppColors.error500,
                                         fontFamily: "Poppins",
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -521,18 +555,33 @@ class _ProductDetailsState extends State<ProductDetails>
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 46, vertical: 20),
-                              child: Text(
-                                '${controller.productSelected.value.shortDescription}',
-                                style: kThemeData.textTheme.bodyLarge,
+                              child: HtmlWidget(
+                                controller.productSelected.value
+                                        .shortDescription ??
+                                    '',
+                                enableCaching: true,
+                                textStyle: kThemeData.textTheme.bodyLarge,
                               ),
                             ); //1st custom tabBarView
                           } else if (_selectedTabbar == 1) {
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 46, vertical: 20),
-                              child: Text(
-                                '${controller.productSelected.value.longDescription}',
-                                style: kThemeData.textTheme.bodyLarge,
+                              child: HtmlWidget(
+                                controller.productSelected.value
+                                        .longDescription ??
+                                    '',
+                                enableCaching: true,
+                                onTapUrl: (tappedUrl) async {
+                                  Uri url = Uri.parse(tappedUrl);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                    return true;
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                                textStyle: kThemeData.textTheme.bodyLarge,
                               ),
                             ); //1st/2nd tabView
                           } else {

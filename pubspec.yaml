@@ -1,14 +1,14 @@
 name: adora_baby
-version: 1.0.1+2
+version: 1.0.4+4
 publish_to: none
 description: A new Flutter project.
 environment: 
-  sdk: '>=2.18.0-394.0.dev <3.0.0'
+  sdk: '>=2.18.0-394.0.dev <3.7.9'
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   get: 4.6.5
   get_cli: ^1.8.1
   floating_frosted_bottom_bar: ^0.0.1
@@ -43,9 +43,10 @@ dependencies:
   timelines: ^0.1.0
   firebase_core: ^2.7.0
   flutter_local_notifications: ^13.0.0
-  firebase_messaging: ^14.2.5
-  path_provider: ^2.0.13
+  firebase_messaging: ^14.4.0
+  path_provider: ^2.0.14
   url_launcher: ^6.1.10
+  flutter_widget_from_html_core: any
 
 
 dev_dependencies: 

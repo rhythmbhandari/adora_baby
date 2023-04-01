@@ -371,7 +371,9 @@ class HotSalesView extends GetView<ShopController> {
                                                             child: Center(
                                                               child:
                                                                   Image.network(
-                                                                controller
+                                                                    controller.hotSalesFiltered[index].productImages.isEmpty
+                                                                        ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                                                        :controller
                                                                     .hotSalesFiltered[
                                                                         index]
                                                                     .productImages[

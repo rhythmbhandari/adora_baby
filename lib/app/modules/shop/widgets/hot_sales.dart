@@ -129,8 +129,7 @@ class ProductCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        controller.productSelected.value =
-        controller.hotSales[index];
+        controller.productSelected.value = controller.hotSales[index];
         Get.toNamed(Routes.PRODUCT_DETAILS);
       },
       child: Container(
@@ -157,7 +156,9 @@ class ProductCards extends StatelessWidget {
                   margin: EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
                     child: Image.network(
-                      controller.hotSales[index].productImages[0].name,
+                      controller.hotSales[index].productImages.isEmpty
+                          ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                          : controller.hotSales[index].productImages[0].name,
                       height: Get.height * 0.16,
                     ),
                   ),
@@ -206,8 +207,7 @@ class ProductCards extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    getBrandName(controller.hotSales[index]
-                        .categories),
+                    getBrandName(controller.hotSales[index].categories),
                     maxLines: 1,
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),

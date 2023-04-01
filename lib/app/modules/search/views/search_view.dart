@@ -380,7 +380,9 @@ class SearchView extends GetView<ShopController> {
                                                             child: Center(
                                                               child:
                                                                   Image.network(
-                                                                controller
+                                                                    controller.allProductsSearched[index].productImages.isEmpty
+                                                                        ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                                                        :controller
                                                                     .allProductsSearched[
                                                                         index]
                                                                     .productImages[

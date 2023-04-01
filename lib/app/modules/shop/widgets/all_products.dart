@@ -100,7 +100,9 @@ class AllProducts extends StatelessWidget {
                                             EdgeInsets.only(top: 12, bottom: 8),
                                         child: Center(
                                           child: Image.network(
-                                            '${controller.allProducts[index].productImages[0].name}',
+                                            controller.allProducts[index].productImages.isEmpty
+                                                ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                                                :'${controller.allProducts[index].productImages[0].name}',
                                             height: Get.height * 0.16,
                                           ),
                                         ),

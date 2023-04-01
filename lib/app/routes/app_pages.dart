@@ -1,3 +1,4 @@
+import 'package:adora_baby/app/modules/auth/views/login_view.dart';
 import 'package:adora_baby/app/modules/cart/views/add_address_view.dart';
 import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PHONE,
-      page: () => const PhoneView(),
+      page: () => LoginView(),
       binding: AuthBinding(),
     ),
     GetPage(
