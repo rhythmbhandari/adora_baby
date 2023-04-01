@@ -84,7 +84,6 @@ class CheckOutRepository {
             .map((i) => AddressModel.fromJson(i))
             .toList();
         storage.saveCityId(address[0].city.id);
-
         return address;
       }
       return [];

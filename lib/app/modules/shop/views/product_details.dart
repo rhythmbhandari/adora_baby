@@ -45,12 +45,27 @@ class _ProductDetailsState extends State<ProductDetails>
 
   TabController? _controller;
   int _selectedTabbar = 0;
+  List<ProductImage?> sortedImages = [];
 
   @override
   void initState() {
     super.initState();
     _controller = TabController(length: 3, vsync: this);
     _controller?.addListener(_handleTabSelection);
+
+    sortedImages = (controller.productSelected.value.productImages ?? [])
+      ..sort((a, b) {
+        final aFeatured = a?.isFeaturedImage ?? false;
+        final bFeatured = b?.isFeaturedImage ?? false;
+        if (aFeatured == bFeatured) {
+          return 0;
+        } else if (aFeatured) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+
     controller.counter.value = 1;
   }
 
@@ -238,9 +253,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                     // onPageChanged: callbackFunction,
                                     scrollDirection: Axis.horizontal,
                                   ),
-                                  items: controller
-                                      .productSelected.value.productImages
-                                      ?.map((i) {
+                                  items: sortedImages
+                                      .map((i) {
                                     return Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 18),
