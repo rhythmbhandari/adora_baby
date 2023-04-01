@@ -13,6 +13,7 @@ import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
 import '../../../widgets/cities_dropdown.dart';
 import '../../profile/controllers/profile_controller.dart';
+import '../../profile/views/city_select_screen.dart';
 
 class AddAddressView extends GetView<ProfileController> {
   const AddAddressView({Key? key}) : super(key: key);
@@ -101,19 +102,82 @@ class AddAddressView extends GetView<ProfileController> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Obx(() => AddressDropDown(
-                            onChanged: (value) {
-                              // pController.updateProvince(value!);
-                              if (value != null) {
-                                log('Value is $value');
-                                controller.selectedCity.value =
-                                    value.toString();
-                              }
+
+                        Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              Get.to(CitySelectScreen());
                             },
-                            label: "City",
-                            isAddressSelected: true,
-                            value: controller.selectedCity.value,
-                            addressList: controller.citiesList)),
+                            child: TextField(
+                                cursorColor: AppColors.mainColor,
+                                readOnly: true,
+                                enabled: true,
+                                onTap: ()=>
+                                    Get.to(CitySelectScreen()),
+                                style: kThemeData.textTheme.bodyLarge?.copyWith(
+                                    color: DarkTheme.normal.withOpacity(0.7)),
+
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(33),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 20,
+                                    ),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 1,
+                                          color:
+                                              DarkTheme.normal.withOpacity(0.7),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(33)),
+                                    disabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 1,
+                                          color:
+                                              DarkTheme.normal.withOpacity(0.5),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(33)),
+                                    hintText:  controller.citiesList
+                                        .firstWhere(
+                                            (city) =>
+                                        city.id ==
+                                            controller.selectedCity.value,
+                                        orElse: () =>
+                                            City(city: 'City', id: '0'))
+                                        .city,
+                                    labelStyle: kThemeData.textTheme.bodyLarge?.copyWith(
+                                        color: DarkTheme.normal.withOpacity(0.7)),
+                                    labelText: controller.citiesList
+                                        .firstWhere(
+                                            (city) =>
+                                                city.id ==
+                                                controller.selectedCity.value,
+                                            orElse: () =>
+                                                City(city: 'City', id: '0'))
+                                        .city,
+                                    hintStyle: kThemeData.textTheme.bodyLarge?.copyWith(
+                                        color: DarkTheme.normal.withOpacity(0.7)))),
+                          ),
+                        ),
+                        // Obx(() => AddressDropDown(
+                        //     onChanged: (value) {
+                        //       // pController.updateProvince(value!);
+                        //       if (value != null) {
+                        //         log('Value is $value');
+                        //         controller.selectedCity.value =
+                        //             value.toString();
+                        //       }
+                        //     },
+                        //     label: "City",
+                        //     isAddressSelected: true,
+                        //     value: controller.selectedCity.value,
+                        //     addressList: controller.citiesList)),
                         const SizedBox(
                           height: 20,
                         ),

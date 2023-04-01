@@ -121,6 +121,8 @@ class ProfileController extends GetxController {
   final RxList addressList = [].obs;
 
   final RxList citiesList = [].obs;
+
+  final RxList filteredCitiesList = [].obs;
   final RxList citiesId = [].obs;
 
   TextEditingController fullNameController = TextEditingController();
@@ -129,6 +131,7 @@ class ProfileController extends GetxController {
   TextEditingController babyNameController = TextEditingController();
   TextEditingController babyDobController = TextEditingController();
   TextEditingController specialNoteController = TextEditingController();
+  TextEditingController searchCitiesController = TextEditingController();
 
   String? _dob;
 
@@ -405,17 +408,32 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<bool> getCities() async {
+  Future<void> onRefreshCategories(RefreshController refreshController) async {
+    try {
+      await getCities(
+        isRefresh: true,
+      ).then(
+        (_) => refreshController.refreshCompleted(),
+      );
+    } catch (e) {
+      refreshController.refreshFailed();
+      await Future.delayed(const Duration(milliseconds: 0000)).then(
+        (value) => refreshController.refreshToIdle(),
+      );
+    }
+  }
+
+  Future<bool> getCities({bool isRefresh = false}) async {
     try {
       showSearching(progressBarStatusAddAddress);
       final response = await CartRepository.getCities();
       if (response.isNotEmpty) {
-        // for (var listItem in response) {
-        //   citiesList.add(listItem);
-        //   // citiesId.add(listItem.id);
-        // }
         citiesList.value = response;
-        selectedCity.value = citiesList[0].id;
+        filteredCitiesList.value = response;
+        filteredCitiesList.refresh();
+        if (!isRefresh) {
+          // selectedCity.value = citiesList[0].id;
+        }
         completeLoading(progressBarStatusAddAddress, false);
         return true;
       } else {

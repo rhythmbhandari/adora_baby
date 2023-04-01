@@ -131,7 +131,7 @@ class CartRepository {
   }
 
   static Future<List<Cities>> getCities() async {
-    const url = '$BASE_URL/city/?limit=-1';
+    const url = '$BASE_URL/city/all/';
 
     final response = await DioHelper.getRequest(
         url, true, await SecureStorage.returnHeaderWithToken());
