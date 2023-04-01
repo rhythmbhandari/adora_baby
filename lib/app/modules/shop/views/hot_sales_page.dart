@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../data/models/hot_sales_model.dart';
 import '../../../data/repositories/shop_respository.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
@@ -373,12 +374,10 @@ class HotSalesView extends GetView<ShopController> {
                                                                   Image.network(
                                                                     controller.hotSalesFiltered[index].productImages.isEmpty
                                                                         ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                                                        :controller
-                                                                    .hotSalesFiltered[
-                                                                        index]
-                                                                    .productImages[
-                                                                        0]
-                                                                    .name,
+                                                                        : '${controller.hotSalesFiltered[index].productImages?.firstWhere(
+                                                                              (image) => image?.isFeaturedImage != null && image?.isFeaturedImage == true,
+                                                                              orElse: () => ProductImage(name: 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
+                                                                            ).name ?? ''}',
                                                                 height:
                                                                     Get.height *
                                                                         0.25,

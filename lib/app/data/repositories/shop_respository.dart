@@ -33,6 +33,21 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      hotSales.sort((a, b) {
+        // Check if either productImages is null, treat it as having no featured image
+        bool aHasFeatured = a.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
+        bool bHasFeatured = b.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
+
+        // Sort by whether there is a featured image, then by the name
+        if (aHasFeatured && !bHasFeatured) {
+          return -1;
+        } else if (!aHasFeatured && bHasFeatured) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       log('Reached here');
       return hotSales;
     }

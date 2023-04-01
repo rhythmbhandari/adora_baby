@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../data/models/hot_sales_model.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
 import '../views/getBrandName.dart';
@@ -158,7 +159,14 @@ class ProductCards extends StatelessWidget {
                     child: Image.network(
                       controller.hotSales[index].productImages.isEmpty
                           ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                          : controller.hotSales[index].productImages[0].name,
+                          : '${controller.hotSales[index].productImages?.firstWhere(
+                                (image) =>
+                                    image?.isFeaturedImage != null &&
+                                    image?.isFeaturedImage == true,
+                                orElse: () => ProductImage(
+                                    name:
+                                        'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
+                              ).name ?? ''}',
                       height: Get.height * 0.16,
                     ),
                   ),

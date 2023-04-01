@@ -572,8 +572,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                         .longDescription ??
                                     '',
                                 enableCaching: true,
-                                onTapUrl: (tappedUrl) async {
-                                  Uri url = Uri.parse(tappedUrl);
+                                onTapUrl: (urlLauncher) async {
+                                  Uri url = Uri.parse(urlLauncher);
                                   if (await canLaunchUrl(url)) {
                                     await launchUrl(url);
                                     return true;

@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../data/models/hot_sales_model.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
@@ -324,31 +325,36 @@ class AllProductsView extends GetView<ShopController> {
                                                     onTap: () {
                                                       controller.productSelected
                                                           .value = controller
-                                                          .allProductsFiltered[
-                                                      index];
+                                                              .allProductsFiltered[
+                                                          index];
                                                       Get.toNamed(
-                                                          Routes
-                                                              .PRODUCT_DETAILS,);
+                                                        Routes.PRODUCT_DETAILS,
+                                                      );
                                                     },
                                                     child: Container(
                                                       padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10),
+                                                          const EdgeInsets.only(
+                                                              top: 10),
                                                       margin: EdgeInsets.only(
                                                           left: 36,
                                                           right: 36,
                                                           bottom: 16),
-                                                      alignment: Alignment.center,
+                                                      alignment:
+                                                          Alignment.center,
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           border: Border.all(
                                                               color: const Color
-                                                                  .fromRGBO(192,
-                                                                  144, 254, 0.25)),
+                                                                      .fromRGBO(
+                                                                  192,
+                                                                  144,
+                                                                  254,
+                                                                  0.25)),
                                                           boxShadow: [
                                                             BoxShadow(
                                                               color: Colors.grey
-                                                                  .withOpacity(0.5),
+                                                                  .withOpacity(
+                                                                      0.5),
                                                               spreadRadius: 1,
                                                               blurRadius: 2,
                                                               offset: Offset(0,
@@ -356,54 +362,59 @@ class AllProductsView extends GetView<ShopController> {
                                                             ),
                                                           ],
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              15)),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15)),
                                                       child: Column(
                                                         children: [
                                                           Stack(
                                                             children: [
                                                               Container(
-                                                                margin:
-                                                                EdgeInsets.only(
-                                                                    top: 12,
-                                                                    bottom: 8),
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top: 12,
+                                                                        bottom:
+                                                                            8),
                                                                 child: Center(
-                                                                  child:
-                                                                  Image.network(
-                                                                    controller.allProductsFiltered[index].productImages.isEmpty
+                                                                  child: Image
+                                                                      .network(
+                                                                    controller
+                                                                            .allProductsFiltered[index]
+                                                                            .productImages
+                                                                            .isEmpty
                                                                         ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                                                        :controller
-                                                                        .allProductsFiltered[
-                                                                    index]
-                                                                        .productImages[
-                                                                    0]
-                                                                        .name,
+                                                                        : '${controller.allProductsFiltered[index].productImages?.firstWhere(
+                                                                              (image) => image?.isFeaturedImage != null && image?.isFeaturedImage == true,
+                                                                              orElse: () => ProductImage(name: 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
+                                                                            ).name ?? ''}',
                                                                     height:
-                                                                    Get.height *
-                                                                        0.25,
+                                                                        Get.height *
+                                                                            0.25,
                                                                   ),
                                                                 ),
                                                               ),
                                                               Container(
                                                                 padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    top: 2,
-                                                                    bottom: 2,
-                                                                    left: 6,
-                                                                    right: 6),
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 2,
+                                                                        bottom:
+                                                                            2,
+                                                                        left: 6,
+                                                                        right:
+                                                                            6),
                                                                 margin: EdgeInsets
                                                                     .symmetric(
-                                                                    horizontal:
-                                                                    8),
+                                                                        horizontal:
+                                                                            8),
                                                                 decoration:
-                                                                BoxDecoration(
+                                                                    BoxDecoration(
                                                                   borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      20),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
                                                                   gradient:
-                                                                  const LinearGradient(
+                                                                      const LinearGradient(
                                                                     begin: Alignment
                                                                         .topRight,
                                                                     end: Alignment
@@ -416,74 +427,74 @@ class AllProductsView extends GetView<ShopController> {
                                                                     ],
                                                                   ),
                                                                 ),
-                                                                child: const Text(
+                                                                child:
+                                                                    const Text(
                                                                   "Sale!",
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .white,
                                                                       fontFamily:
-                                                                      "Poppins",
-                                                                      fontSize: 16,
+                                                                          "Poppins",
+                                                                      fontSize:
+                                                                          16,
                                                                       fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
+                                                                          FontWeight
+                                                                              .w400,
                                                                       fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
+                                                                          FontStyle
+                                                                              .normal,
                                                                       letterSpacing:
-                                                                      0.04),
+                                                                          0.04),
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                           Container(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 13,
-                                                                right: 13),
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 13,
+                                                                    right: 13),
                                                             width: Get.width,
                                                             decoration: const BoxDecoration(
                                                                 color: Color
                                                                     .fromRGBO(
-                                                                    243,
-                                                                    234,
-                                                                    249,
-                                                                    1),
+                                                                        243,
+                                                                        234,
+                                                                        249,
+                                                                        1),
                                                                 borderRadius: BorderRadius.only(
                                                                     bottomRight:
-                                                                    Radius
-                                                                        .circular(
-                                                                        15),
-                                                                    bottomLeft: Radius
-                                                                        .circular(
-                                                                        15))),
+                                                                        Radius.circular(
+                                                                            15),
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            15))),
                                                             child: Column(
                                                               mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
+                                                                  MainAxisAlignment
+                                                                      .start,
                                                               crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 SizedBox(
                                                                   height: 8,
                                                                 ),
                                                                 Text(
-
                                                                   getBrandName(controller
-                                                                    .allProductsFiltered[
-                                                                index]
+                                                                      .allProductsFiltered[
+                                                                          index]
                                                                       .categories),
                                                                   maxLines: 1,
                                                                   style: kThemeData
                                                                       .textTheme
                                                                       .labelSmall
                                                                       ?.copyWith(
-                                                                      color: AppColors
-                                                                          .secondary700,
-                                                                      fontSize:
-                                                                      12),
+                                                                          color: AppColors
+                                                                              .secondary700,
+                                                                          fontSize:
+                                                                              12),
                                                                 ),
                                                                 SizedBox(
                                                                   height: 4,
@@ -491,121 +502,112 @@ class AllProductsView extends GetView<ShopController> {
                                                                 Text(
                                                                   controller
                                                                       .allProductsFiltered[
-                                                                  index]
+                                                                          index]
                                                                       .name,
                                                                   maxLines: 2,
                                                                   style: kThemeData
                                                                       .textTheme
                                                                       .bodyMedium
                                                                       ?.copyWith(
-                                                                      color: AppColors
-                                                                          .primary700,
-                                                                      fontSize:
-                                                                      14),
+                                                                          color: AppColors
+                                                                              .primary700,
+                                                                          fontSize:
+                                                                              14),
                                                                 ),
                                                                 SizedBox(
                                                                   height: 8,
                                                                 ),
-                                                                RatingBar.builder(
-                                                                  initialRating:
-                                                                  controller
+                                                                RatingBar
+                                                                    .builder(
+                                                                  initialRating: controller
                                                                       .allProductsFiltered[
-                                                                  index]
+                                                                          index]
                                                                       .rating
                                                                       .gradeAvg,
                                                                   ignoreGestures:
-                                                                  true,
+                                                                      true,
                                                                   itemSize: 12,
                                                                   direction: Axis
                                                                       .horizontal,
                                                                   allowHalfRating:
-                                                                  true,
+                                                                      true,
                                                                   glow: false,
                                                                   itemCount: 5,
                                                                   itemPadding: EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal:
-                                                                      0.0),
+                                                                          horizontal:
+                                                                              0.0),
                                                                   itemBuilder:
                                                                       (context,
-                                                                      _) =>
-                                                                      GradientIcon(
-                                                                        Icons.star,
-                                                                        10.0,
-                                                                        LinearGradient(
-                                                                          colors: <
-                                                                              Color>[
-                                                                            Color
-                                                                                .fromRGBO(
-                                                                                127,
-                                                                                0,
-                                                                                255,
-                                                                                1),
-                                                                            Color
-                                                                                .fromRGBO(
-                                                                                255,
-                                                                                0,
-                                                                                255,
-                                                                                1)
-                                                                          ],
-                                                                          begin: Alignment
-                                                                              .topLeft,
-                                                                          end: Alignment
-                                                                              .bottomRight,
-                                                                        ),
-                                                                      ),
+                                                                              _) =>
+                                                                          GradientIcon(
+                                                                    Icons.star,
+                                                                    10.0,
+                                                                    LinearGradient(
+                                                                      colors: <
+                                                                          Color>[
+                                                                        Color.fromRGBO(
+                                                                            127,
+                                                                            0,
+                                                                            255,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            0,
+                                                                            255,
+                                                                            1)
+                                                                      ],
+                                                                      begin: Alignment
+                                                                          .topLeft,
+                                                                      end: Alignment
+                                                                          .bottomRight,
+                                                                    ),
+                                                                  ),
                                                                   onRatingUpdate:
                                                                       (rating) {
-                                                                    print(rating);
+                                                                    print(
+                                                                        rating);
                                                                   },
                                                                 ),
                                                                 SizedBox(
                                                                   height: 8,
                                                                 ),
-                                                                controller
-                                                                    .allProductsFiltered[
-                                                                index]
-                                                                    .salePrice !=
-                                                                    0 && controller.allProductsFiltered[index].salePrice != null
+                                                                controller.allProductsFiltered[index].salePrice !=
+                                                                            0 &&
+                                                                        controller.allProductsFiltered[index].salePrice !=
+                                                                            null
                                                                     ? Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      child:
-                                                                      Text(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            child:
+                                                                                Text(
+                                                                              "Rs. ${controller.allProductsFiltered[index].regularPrice}",
+                                                                              maxLines: 2,
+                                                                              style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "Rs. ${controller.allProductsFiltered[index].salePrice}",
+                                                                            maxLines:
+                                                                                2,
+                                                                            style:
+                                                                                kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                20,
+                                                                          )
+                                                                        ],
+                                                                      )
+                                                                    : Text(
                                                                         "Rs. ${controller.allProductsFiltered[index].regularPrice}",
                                                                         maxLines:
-                                                                        2,
+                                                                            2,
                                                                         style: kThemeData
                                                                             .textTheme
                                                                             .bodyMedium
-                                                                            ?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                                            ?.copyWith(color: DarkTheme.normal),
                                                                       ),
-                                                                    ),
-                                                                    Text(
-                                                                      "Rs. ${controller.allProductsFiltered[index].salePrice}",
-                                                                      maxLines:
-                                                                      2,
-                                                                      style: kThemeData
-                                                                          .textTheme
-                                                                          .bodyMedium
-                                                                          ?.copyWith(color: DarkTheme.normal),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width:
-                                                                      20,
-                                                                    )
-                                                                  ],
-                                                                )
-                                                                    : Text(
-                                                                  "Rs. ${controller.allProductsFiltered[index].regularPrice}",
-                                                                  maxLines: 2,
-                                                                  style: kThemeData
-                                                                      .textTheme
-                                                                      .bodyMedium
-                                                                      ?.copyWith(
-                                                                      color:
-                                                                      DarkTheme.normal),
-                                                                ),
                                                                 SizedBox(
                                                                   height: 8,
                                                                 ),
@@ -616,8 +618,7 @@ class AllProductsView extends GetView<ShopController> {
                                                       ),
                                                     ),
                                                   ))
-                                      : EmptyWidget(
-                                      isSearched: true))
+                                      : EmptyWidget(isSearched: true))
                                 ],
                               ),
                             ),
