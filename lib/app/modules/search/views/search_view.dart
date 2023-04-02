@@ -44,9 +44,32 @@ class SearchView extends GetView<ShopController> {
   void _onLoading() async {
     // monitor network fetch
     try {
-      await controller
-          .searchProducts(false)
-          .then((value) => _refreshControllerSearch.loadComplete());
+      if (controller.selectedStages.value == 10) {
+        await controller
+            .searchProducts(false,
+                isOrdered: true,
+                ordering: controller.selectedFilter.value == 1
+                    ? 'regular_price'
+                    : '-regular_price',
+                isSearch: true,
+                searchKeyword: controller.searchController.text.trim())
+            .then((value) => _refreshControllerSearch.loadComplete());
+      } else {
+        controller
+            .searchProducts(
+              false,
+              isOrdered: true,
+              ordering: controller.selectedFilter.value == 1
+                  ? 'regular_price'
+                  : '-regular_price',
+              isSearch: true,
+              searchKeyword: controller.searchController.text.trim(),
+              isFilter: true,
+              filterId:
+                  controller.stagesList[controller.selectedStages.value].id,
+            )
+            .then((value) => _refreshControllerSearch.loadComplete());
+      }
     } catch (error) {
       _refreshControllerSearch.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
@@ -347,9 +370,10 @@ class SearchView extends GetView<ShopController> {
                                                           const EdgeInsets.only(
                                                               top: 10),
                                                       margin: EdgeInsets.only(
-                                                          left: 36,
-                                                          right: 36,
-                                                          bottom: 16),
+                                                        left: 36,
+                                                        right: 36,
+                                                        bottom: 16,
+                                                      ),
                                                       alignment:
                                                           Alignment.center,
                                                       decoration: BoxDecoration(
@@ -461,12 +485,13 @@ class SearchView extends GetView<ShopController> {
                                                             ],
                                                           ),
                                                           Container(
+                                                            width:
+                                                                Get.width * 2,
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
                                                                     left: 13,
                                                                     right: 13),
-                                                            width: Get.width,
                                                             decoration: const BoxDecoration(
                                                                 color: Color
                                                                     .fromRGBO(
