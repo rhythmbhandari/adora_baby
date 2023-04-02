@@ -328,7 +328,7 @@ class HomeView extends GetView<HomeController> {
                   GestureDetector(
                     onTap: () async {
                       Uri url = Uri.parse(
-                          'https://www.google.com/search?q=adora+baby+terms+and+condition');
+                          'https://adora.baby/privacy-policy/');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(url);
                       } else {
