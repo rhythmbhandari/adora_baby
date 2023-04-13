@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../data/models/cart_model.dart';
 import '../controllers/cart_controller.dart';
 
 class CartCardWidget extends StatelessWidget {
@@ -71,8 +72,25 @@ class CartCardWidget extends StatelessWidget {
                 ),
                 // height: Get.height * 0.18,
                 width: Get.width * 0.35,
-                child: Image.network(controller
-                    .cartList[index].product!.productImages![0]!.name!)),
+                child: Image.network(
+                  (controller.cartList[index].product?.productImages?.isEmpty
+                      ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                      : '${controller.cartList[index].product.productImages?.firstWhere(
+                                (image) =>
+                                    image?.isFeaturedImage != null &&
+                                    image?.isFeaturedImage == true,
+                                orElse: () => ProductImage(
+                                  name:
+                                      'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                  id: '',
+                                  product: '',
+                                  isFeaturedImage: true,
+                                ),
+                              ).name ?? ''}' ??
+                          ''),
+                  // controller
+                  // .cartList[index].product!.productImages![0]!.name!
+                )),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,19 +133,17 @@ class CartCardWidget extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            final status =
-                            await getController.removeFromCartPressed(index);
-                            if(status){
-
-                            }else{
+                            final status = await getController
+                                .removeFromCartPressed(index);
+                            if (status) {
+                            } else {
                               var snackBar = SnackBar(
                                 elevation: 0,
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: Colors.red,
-                                duration:
-                                const Duration(milliseconds: 2000),
-                                content: Text(
-                                    controller.authError.toUpperCase()),
+                                duration: const Duration(milliseconds: 2000),
+                                content:
+                                    Text(controller.authError.toUpperCase()),
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
@@ -170,17 +186,15 @@ class CartCardWidget extends StatelessWidget {
                           onTap: () async {
                             final status =
                                 await getController.addToCartPressed(index);
-                            if(status){
-
-                            }else{
+                            if (status) {
+                            } else {
                               var snackBar = SnackBar(
                                 elevation: 0,
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: Colors.red,
-                                duration:
-                                const Duration(milliseconds: 2000),
-                                content: Text(
-                                    controller.authError.toUpperCase()),
+                                duration: const Duration(milliseconds: 2000),
+                                content:
+                                    Text(controller.authError.toUpperCase()),
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);

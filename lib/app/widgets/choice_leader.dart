@@ -1,6 +1,9 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../config/app_colors.dart';
 
 class ChoiceLeader extends StatefulWidget {
   const ChoiceLeader({Key? key}) : super(key: key);
@@ -128,6 +131,12 @@ class ChoiceLeaderState extends State<ChoiceLeader> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter ChipsChoice'),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary500, // You can use this as well
+          statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+          statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.help_outline),

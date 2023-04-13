@@ -350,7 +350,10 @@ class CartController extends GetxController {
     String aNum = altPhoneController.text.trim();
     String note = notesController.text.trim();
     final ProfileController profileController = Get.find();
-    String selectedAddress = profileController.selectedCity.value;
+    AddressModel? selectedAddress = profileController.addressList
+        .firstWhere((address) => address.checked, orElse: () => null);
+
+    log('Selected Address is $selectedAddress');
 
     bool isValid = true;
     if (fName.isEmpty) {
@@ -373,7 +376,7 @@ class CartController extends GetxController {
       isValid = false;
       authError.value = 'Alternate numbers should be 10 digit.'.tr;
       return isValid;
-    } else if (profileController.selectedCity.isEmpty) {
+    } else if (selectedAddress == null) {
       isValid = false;
       authError.value = 'Please select an address.'.tr;
       return isValid;
@@ -387,7 +390,7 @@ class CartController extends GetxController {
       fName,
       pNum,
       aNum,
-      selectedAddress,
+      selectedAddress.id,
       note,
       cartList,
     );
@@ -465,6 +468,7 @@ class CartController extends GetxController {
       checkoutModel.value = status;
       return true;
     } catch (e) {
+      log('Error is $e');
       authError.value = e.toString();
       return false;
     }

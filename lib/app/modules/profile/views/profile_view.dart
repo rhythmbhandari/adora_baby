@@ -4,6 +4,7 @@ import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -37,6 +38,12 @@ class ProfileView extends GetView<ProfileController> {
             appBar: AppBar(
               backgroundColor: LightTheme.white,
               elevation: 0,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: AppColors.primary500, // You can use this as well
+                statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+                statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+
+              ),
             ),
             body: SafeArea(
                 child: Container(

@@ -41,12 +41,15 @@ class CheckOutRepository {
 
         return checkoutModel;
       } else {
+
+        log('Error is ==== $response is');
         return Future.error('$response');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
+      log('Caught error is $e');
       return Future.error(e.toString());
     }
   }

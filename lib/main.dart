@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -46,6 +48,14 @@ Future<void> main() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     LocalNotification.showNotification(message);
   });
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primary500, // You can use this as well
+      statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+      statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+    ),
+  );
 
 
   runApp(

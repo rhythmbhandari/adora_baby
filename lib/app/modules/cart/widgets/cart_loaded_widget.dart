@@ -203,6 +203,7 @@ class CartLoadedWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Container(
                         color: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 56.0),

@@ -43,7 +43,7 @@ class CancelOrderDialog extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: 0.01 * Get.height, right: 0.014 * Get.height),
-                  child: Text("No, Continue Using the App",
+                  child: Text("No",
                       style: Get.theme.textTheme.labelSmall?.copyWith(
                           color: DarkTheme.darkNormal,
                           fontSize: 12,
@@ -62,7 +62,7 @@ class CancelOrderDialog extends StatelessWidget {
               Navigator.pop(context, true);
             },
             child: Text(
-              "Yes, I'll come back later",
+              "Yes",
               style: Get.theme.textTheme.labelSmall?.copyWith(
                   color: DarkTheme.darkNormal,
                   fontSize: 12,

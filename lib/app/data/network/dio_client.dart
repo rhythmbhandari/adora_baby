@@ -125,7 +125,6 @@ class DioHelper {
       return Future.error('Connection timed');
     } on DioError catch (e) {
       if (e.response?.data != null) {
-        log('Error is ${e.response?.data}');
         if (e.response!.data[0] is String) {
           return Future.error('${e.response!.data[0]}');
         } else if (e.response!.data.entries.toString().contains('{')) {
@@ -216,11 +215,15 @@ class DioHelper {
         'Connection timed',
       );
     } on DioError catch (e) {
+
+      log('Error is === ${e}');
       if (e.response?.statusCode == 401) {
         if (isLogout) {
           return true;
         }
         return false;
+      }else if (e.response?.statusCode == 500) {
+        return Future.error('Server error - 500, Please try again later');
       } else if (e.response?.data != null) {
         log('Error is ${e.response?.data}');
         if (e.response!.data[0] is String) {

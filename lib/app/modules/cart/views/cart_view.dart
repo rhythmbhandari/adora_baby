@@ -1,14 +1,12 @@
 import 'dart:developer';
 
-import 'package:adora_baby/app/modules/cart/widgets/item_card.dart';
-import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../../main.dart';
 import '../../../config/app_colors.dart';
@@ -18,7 +16,6 @@ import '../../shop/widgets/auth_progress_indicator.dart';
 import '../controllers/cart_controller.dart';
 import '../widgets/cart_loaded_widget.dart';
 import '../widgets/custom_error_widget.dart';
-import '../widgets/empty_widget.dart';
 import '../widgets/internet_error_widget.dart';
 
 class CartView extends GetView<CartController> {
@@ -35,6 +32,12 @@ class CartView extends GetView<CartController> {
           appBar: AppBar(
             backgroundColor: LightTheme.white,
             elevation: 0,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: AppColors.primary500, // You can use this as well
+              statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+              statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
+
+            ),
           ),
           body: SafeArea(
             child: Container(
