@@ -32,11 +32,11 @@ class AllProductsView extends GetView<ShopController> {
       controller.selectedFilter.value = 0;
       controller.searchController.text = "";
       await controller
-          .getAllProductsFiltered(true)
+          .getAllProductsFiltered(true, isOrdered: true)
           .then((value) => _refreshControllerAllProducts.refreshCompleted());
     } catch (error) {
       _refreshControllerAllProducts.refreshFailed();
-      await Future.delayed(Duration(milliseconds: 0000))
+      await Future.delayed(const Duration(milliseconds: 0000))
           .then((value) => _refreshControllerAllProducts.refreshToIdle());
     }
   }
@@ -44,12 +44,35 @@ class AllProductsView extends GetView<ShopController> {
   void _onLoading() async {
     // monitor network fetch
     try {
-      await controller
-          .getAllProductsFiltered(false)
-          .then((value) => _refreshControllerAllProducts.loadComplete());
+      if (controller.selectedStages.value == 10) {
+        await controller
+            .getAllProductsFiltered(false,
+            isOrdered: true,
+            ordering: controller.selectedFilter.value == 1
+                ? 'regular_price'
+                : '-regular_price',
+            isSearch: true,
+            searchKeyword: controller.searchController.text.trim())
+            .then((value) => _refreshControllerAllProducts.loadComplete());
+      } else {
+        controller
+            .getAllProductsFiltered(
+          false,
+          isOrdered: true,
+          ordering: controller.selectedFilter.value == 1
+              ? 'regular_price'
+              : '-regular_price',
+          isSearch: true,
+          searchKeyword: controller.searchController.text.trim(),
+          isFilter: true,
+          filterId:
+          controller.stagesList[controller.selectedStages.value].id,
+        )
+            .then((value) => _refreshControllerAllProducts.loadComplete());
+      }
     } catch (error) {
       _refreshControllerAllProducts.loadFailed();
-      await Future.delayed(Duration(milliseconds: 0000))
+      await Future.delayed(const Duration(milliseconds: 0000))
           .then((value) => _refreshControllerAllProducts.loadComplete());
     }
   }
@@ -94,7 +117,7 @@ class AllProductsView extends GetView<ShopController> {
                                 color: Colors.black,
                               )),
                         ),
-                        Expanded(flex: 2, child: SizedBox()),
+                        const Expanded(flex: 2, child: SizedBox()),
                         Container(
                           alignment: Alignment.center,
                           child: Text(
@@ -103,7 +126,7 @@ class AllProductsView extends GetView<ShopController> {
                                 ?.copyWith(color: DarkTheme.dark),
                           ),
                         ),
-                        Expanded(flex: 3, child: SizedBox()),
+                        const Expanded(flex: 3, child: SizedBox()),
                       ],
                     ),
                   ),
@@ -114,17 +137,18 @@ class AllProductsView extends GetView<ShopController> {
                     child: Stack(
                       children: [
                         SmartRefresher(
-                          physics: AlwaysScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           enablePullDown: true,
                           enablePullUp: true,
                           header: ClassicHeader(
                             refreshStyle: RefreshStyle.Follow,
-                            releaseIcon: SizedBox(
+                            releaseIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child: const CupertinoActivityIndicator()),
-                            failedIcon: Icon(Icons.error, color: Colors.grey),
-                            idleIcon: SizedBox(
+                                child: CupertinoActivityIndicator()),
+                            failedIcon:
+                                const Icon(Icons.error, color: Colors.grey),
+                            idleIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
                                 child: CupertinoActivityIndicator
@@ -140,27 +164,28 @@ class AllProductsView extends GetView<ShopController> {
                             failedText: '',
                             completeText: '',
                             refreshingText: '',
-                            refreshingIcon: SizedBox(
+                            refreshingIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child: const CupertinoActivityIndicator()),
+                                child: CupertinoActivityIndicator()),
                           ),
                           footer: ClassicFooter(
                             // refreshStyle: RefreshStyle.Follow,
                             canLoadingText: '',
                             loadStyle: LoadStyle.ShowWhenLoading,
                             noDataText: '',
-                            noMoreIcon: SizedBox(
+                            noMoreIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
                                 child: Icon(Icons.expand_circle_down,
                                     color: Colors.red)),
-                            canLoadingIcon: SizedBox(
+                            canLoadingIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child: const CupertinoActivityIndicator()),
-                            failedIcon: Icon(Icons.error, color: Colors.grey),
-                            idleIcon: SizedBox(
+                                child: CupertinoActivityIndicator()),
+                            failedIcon:
+                                const Icon(Icons.error, color: Colors.grey),
+                            idleIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
                                 child: CupertinoActivityIndicator
@@ -174,23 +199,23 @@ class AllProductsView extends GetView<ShopController> {
                             idleText: '',
                             failedText: '',
                             loadingText: '',
-                            loadingIcon: SizedBox(
+                            loadingIcon: const SizedBox(
                                 width: 25.0,
                                 height: 25.0,
-                                child: const CupertinoActivityIndicator()),
+                                child: CupertinoActivityIndicator()),
                           ),
                           controller: _refreshControllerAllProducts,
                           onRefresh: _onRefresh,
                           onLoading: _onLoading,
                           child: Container(
-                            color: Color.fromRGBO(
+                            color: const Color.fromRGBO(
                               250,
                               245,
                               252,
                               1,
                             ),
                             child: SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               child: Column(
                                 children: [
                                   Padding(
@@ -210,7 +235,7 @@ class AllProductsView extends GetView<ShopController> {
                                         hintStyle: kThemeData
                                             .textTheme.bodyLarge
                                             ?.copyWith(
-                                                color: Color(0xffAF98A8)),
+                                                color: const Color(0xffAF98A8)),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                                 horizontal: 24, vertical: 18),
@@ -264,7 +289,7 @@ class AllProductsView extends GetView<ShopController> {
                                             children: [
                                               SvgPicture.asset(
                                                   "assets/images/filter-search.svg"),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 11,
                                               ),
                                               const Text(
@@ -288,7 +313,7 @@ class AllProductsView extends GetView<ShopController> {
                                               children: [
                                                 SvgPicture.asset(
                                                     "assets/images/sort.svg"),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 11,
                                                 ),
                                                 const Text(
@@ -307,14 +332,14 @@ class AllProductsView extends GetView<ShopController> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 18,
                                   ),
                                   Obx(() => controller
                                           .allProductsFiltered.isNotEmpty
                                       ? ListView.builder(
                                           physics:
-                                              NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: controller
                                               .allProductsFiltered.length,
@@ -335,10 +360,11 @@ class AllProductsView extends GetView<ShopController> {
                                                       padding:
                                                           const EdgeInsets.only(
                                                               top: 10),
-                                                      margin: EdgeInsets.only(
-                                                          left: 36,
-                                                          right: 36,
-                                                          bottom: 16),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 36,
+                                                              right: 36,
+                                                              bottom: 16),
                                                       alignment:
                                                           Alignment.center,
                                                       decoration: BoxDecoration(
@@ -357,7 +383,8 @@ class AllProductsView extends GetView<ShopController> {
                                                                       0.5),
                                                               spreadRadius: 1,
                                                               blurRadius: 2,
-                                                              offset: Offset(0,
+                                                              offset: const Offset(
+                                                                  0,
                                                                   2), // changes position of shadow
                                                             ),
                                                           ],
@@ -370,8 +397,9 @@ class AllProductsView extends GetView<ShopController> {
                                                           Stack(
                                                             children: [
                                                               Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top: 12,
                                                                         bottom:
                                                                             8),
@@ -393,60 +421,60 @@ class AllProductsView extends GetView<ShopController> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top: 2,
-                                                                        bottom:
-                                                                            2,
-                                                                        left: 6,
-                                                                        right:
-                                                                            6),
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  gradient:
-                                                                      const LinearGradient(
-                                                                    begin: Alignment
-                                                                        .topRight,
-                                                                    end: Alignment
-                                                                        .bottomLeft,
-                                                                    colors: [
-                                                                      AppColors
-                                                                          .linear2,
-                                                                      AppColors
-                                                                          .linear1,
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Text(
-                                                                  "Sale!",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontFamily:
-                                                                          "Poppins",
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      letterSpacing:
-                                                                          0.04),
-                                                                ),
-                                                              ),
+                                                              controller.allProductsFiltered[index].salePrice !=
+                                                                          0 &&
+                                                                      controller
+                                                                              .allProductsFiltered[index]
+                                                                              .salePrice !=
+                                                                          null
+                                                                  ? Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              2,
+                                                                          bottom:
+                                                                              2,
+                                                                          left:
+                                                                              6,
+                                                                          right:
+                                                                              6),
+                                                                      margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              8),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                        gradient:
+                                                                            const LinearGradient(
+                                                                          begin:
+                                                                              Alignment.topRight,
+                                                                          end: Alignment
+                                                                              .bottomLeft,
+                                                                          colors: [
+                                                                            AppColors.linear2,
+                                                                            AppColors.linear1,
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          const Text(
+                                                                        "Sale!",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            fontFamily:
+                                                                                "Poppins",
+                                                                            fontSize:
+                                                                                16,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            fontStyle: FontStyle.normal,
+                                                                            letterSpacing: 0.04),
+                                                                      ),
+                                                                    )
+                                                                  : Container(),
                                                             ],
                                                           ),
                                                           Container(
@@ -455,7 +483,8 @@ class AllProductsView extends GetView<ShopController> {
                                                                         .only(
                                                                     left: 13,
                                                                     right: 13),
-                                                            width: Get.width,
+                                                            width:
+                                                                Get.width * 1.5,
                                                             decoration: const BoxDecoration(
                                                                 color: Color
                                                                     .fromRGBO(
@@ -478,7 +507,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 8,
                                                                 ),
                                                                 Text(
@@ -496,7 +525,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                           fontSize:
                                                                               12),
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 4,
                                                                 ),
                                                                 Text(
@@ -514,7 +543,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                           fontSize:
                                                                               14),
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 8,
                                                                 ),
                                                                 RatingBar
@@ -533,17 +562,17 @@ class AllProductsView extends GetView<ShopController> {
                                                                       true,
                                                                   glow: false,
                                                                   itemCount: 5,
-                                                                  itemPadding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              0.0),
+                                                                  itemPadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          0.0),
                                                                   itemBuilder:
                                                                       (context,
                                                                               _) =>
                                                                           GradientIcon(
                                                                     Icons.star,
                                                                     10.0,
-                                                                    LinearGradient(
+                                                                    const LinearGradient(
                                                                       colors: <
                                                                           Color>[
                                                                         Color.fromRGBO(
@@ -569,7 +598,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                         rating);
                                                                   },
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 8,
                                                                 ),
                                                                 controller.allProductsFiltered[index].salePrice !=
@@ -593,7 +622,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                             style:
                                                                                 kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
                                                                           ),
-                                                                          SizedBox(
+                                                                          const SizedBox(
                                                                             width:
                                                                                 20,
                                                                           )
@@ -608,7 +637,7 @@ class AllProductsView extends GetView<ShopController> {
                                                                             .bodyMedium
                                                                             ?.copyWith(color: DarkTheme.normal),
                                                                       ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 8,
                                                                 ),
                                                               ],
@@ -648,7 +677,7 @@ class AllProductsView extends GetView<ShopController> {
                   controller.selectedFilter.value = index;
                 },
                 child: Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 32,
                     right: 32,
                     top: 24,
@@ -666,7 +695,7 @@ class AllProductsView extends GetView<ShopController> {
                                 ?.copyWith(color: DarkTheme.dark),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 32,
                         ),
                       ] else
@@ -685,7 +714,7 @@ class AllProductsView extends GetView<ShopController> {
                               Container(
                                 height: 35,
                                 width: 35,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: Color.fromRGBO(
                                       243,
                                       234,
@@ -705,7 +734,7 @@ class AllProductsView extends GetView<ShopController> {
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: AppColors.primary500,
                                                 shape: BoxShape.circle),
                                           ),
@@ -718,7 +747,7 @@ class AllProductsView extends GetView<ShopController> {
                         ],
                       ),
                       if (controller.filtersList.length == index + 1) ...[
-                        SizedBox(
+                        const SizedBox(
                           height: 32,
                         ),
                         ButtonsWidget(
@@ -750,7 +779,7 @@ class AllProductsView extends GetView<ShopController> {
                   controller.selectedStages.value = index;
                 },
                 child: Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 32,
                     right: 32,
                     top: 24,
@@ -768,7 +797,7 @@ class AllProductsView extends GetView<ShopController> {
                                 ?.copyWith(color: DarkTheme.dark),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 32,
                         ),
                       ] else
@@ -787,7 +816,7 @@ class AllProductsView extends GetView<ShopController> {
                               Container(
                                 height: 35,
                                 width: 35,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: Color.fromRGBO(
                                       243,
                                       234,
@@ -807,7 +836,7 @@ class AllProductsView extends GetView<ShopController> {
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: AppColors.primary500,
                                                 shape: BoxShape.circle),
                                           ),
@@ -820,7 +849,7 @@ class AllProductsView extends GetView<ShopController> {
                         ],
                       ),
                       if (controller.stagesList.length == index + 1) ...[
-                        SizedBox(
+                        const SizedBox(
                           height: 32,
                         ),
                         ButtonsWidget(

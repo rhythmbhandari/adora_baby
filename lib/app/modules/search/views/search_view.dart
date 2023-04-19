@@ -32,7 +32,7 @@ class SearchView extends GetView<ShopController> {
       controller.selectedFilter.value = 0;
       controller.searchController.text = "";
       await controller
-          .searchProducts(true)
+          .searchProducts(true, isOrdered: true)
           .then((value) => _refreshControllerSearch.refreshCompleted());
     } catch (error) {
       _refreshControllerSearch.refreshFailed();
@@ -428,7 +428,10 @@ class SearchView extends GetView<ShopController> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Container(
+                                                              controller.allProductsSearched[index].salePrice !=
+                                                                  0 &&
+                                                                  controller.allProductsSearched[index].salePrice !=
+                                                                      null ? Container(
                                                                 padding:
                                                                     const EdgeInsets
                                                                             .only(
@@ -481,7 +484,7 @@ class SearchView extends GetView<ShopController> {
                                                                       letterSpacing:
                                                                           0.04),
                                                                 ),
-                                                              ),
+                                                              ): Container(),
                                                             ],
                                                           ),
                                                           Container(

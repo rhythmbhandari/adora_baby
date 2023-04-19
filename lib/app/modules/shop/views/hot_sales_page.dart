@@ -33,7 +33,11 @@ class HotSalesView extends GetView<ShopController> {
       controller.selectedFilter.value = 0;
       controller.searchController.text = "";
       await controller
-          .getHotSalesFiltered(true)
+          .getHotSalesFiltered(true,
+              isOrdered: true,
+              ordering: controller.selectedFilter.value == 1
+                  ? 'regular_price'
+                  : '-regular_price')
           .then((value) => _refreshControllerHotSales.refreshCompleted());
     } catch (error) {
       _refreshControllerHotSales.refreshFailed();
@@ -45,9 +49,32 @@ class HotSalesView extends GetView<ShopController> {
   void _onLoading() async {
     // monitor network fetch
     try {
-      await controller
-          .getHotSalesFiltered(false)
-          .then((value) => _refreshControllerHotSales.loadComplete());
+      if (controller.selectedStages.value == 10) {
+        await controller
+            .getHotSalesFiltered(false,
+                isOrdered: true,
+                ordering: controller.selectedFilter.value == 1
+                    ? 'regular_price'
+                    : '-regular_price',
+                isSearch: true,
+                searchKeyword: controller.searchController.text.trim())
+            .then((value) => _refreshControllerHotSales.loadComplete());
+      } else {
+        controller
+            .getHotSalesFiltered(
+              false,
+              isOrdered: true,
+              ordering: controller.selectedFilter.value == 1
+                  ? 'regular_price'
+                  : '-regular_price',
+              isSearch: true,
+              searchKeyword: controller.searchController.text.trim(),
+              isFilter: true,
+              filterId:
+                  controller.stagesList[controller.selectedStages.value].id,
+            )
+            .then((value) => _refreshControllerHotSales.loadComplete());
+      }
     } catch (error) {
       _refreshControllerHotSales.loadFailed();
       await Future.delayed(Duration(milliseconds: 0000))
@@ -319,269 +346,289 @@ class HotSalesView extends GetView<ShopController> {
                                           shrinkWrap: true,
                                           itemCount: controller
                                               .hotSalesFiltered.length,
-                                          itemBuilder: (BuildContext context,
-                                                  int index) =>
-                                              GestureDetector(
-                                                onTap: () {
-                                                  controller.productSelected
-                                                          .value =
-                                                      controller
+                                          itemBuilder:
+                                              (BuildContext context,
+                                                      int index) =>
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      controller.productSelected
+                                                          .value = controller
                                                               .hotSalesFiltered[
                                                           index];
-                                                  Get.toNamed(
-                                                    Routes.PRODUCT_DETAILS,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10),
-                                                  margin: EdgeInsets.only(
-                                                      left: 36,
-                                                      right: 36,
-                                                      bottom: 16),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      border: Border.all(
-                                                          color: const Color
-                                                                  .fromRGBO(192,
-                                                              144, 254, 0.25)),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 1,
-                                                          blurRadius: 2,
-                                                          offset: Offset(0,
-                                                              2), // changes position of shadow
-                                                        ),
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15)),
-                                                  child: Column(
-                                                    children: [
-                                                      Stack(
+                                                      Get.toNamed(
+                                                        Routes.PRODUCT_DETAILS,
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
+                                                      margin: EdgeInsets.only(
+                                                          left: 36,
+                                                          right: 36,
+                                                          bottom: 16),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border.all(
+                                                              color: const Color
+                                                                      .fromRGBO(
+                                                                  192,
+                                                                  144,
+                                                                  254,
+                                                                  0.25)),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              spreadRadius: 1,
+                                                              blurRadius: 2,
+                                                              offset: Offset(0,
+                                                                  2), // changes position of shadow
+                                                            ),
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15)),
+                                                      child: Column(
                                                         children: [
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    top: 12,
-                                                                    bottom: 8),
-                                                            child: Center(
-                                                              child:
-                                                                  Image.network(
-                                                                    controller.hotSalesFiltered[index].productImages.isEmpty
+                                                          Stack(
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top: 12,
+                                                                        bottom:
+                                                                            8),
+                                                                child: Center(
+                                                                  child: Image
+                                                                      .network(
+                                                                    controller
+                                                                            .hotSalesFiltered[index]
+                                                                            .productImages
+                                                                            .isEmpty
                                                                         ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                                                                         : '${controller.hotSalesFiltered[index].productImages?.firstWhere(
                                                                               (image) => image?.isFeaturedImage != null && image?.isFeaturedImage == true,
                                                                               orElse: () => ProductImage(name: 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
                                                                             ).name ?? ''}',
-                                                                height:
-                                                                    Get.height *
-                                                                        0.25,
+                                                                    height:
+                                                                        Get.height *
+                                                                            0.25,
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 2,
+                                                                        bottom:
+                                                                            2,
+                                                                        left: 6,
+                                                                        right:
+                                                                            6),
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            8),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  gradient:
+                                                                      const LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topRight,
+                                                                    end: Alignment
+                                                                        .bottomLeft,
+                                                                    colors: [
+                                                                      AppColors
+                                                                          .linear2,
+                                                                      AppColors
+                                                                          .linear1,
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  "Sale!",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontFamily:
+                                                                          "Poppins",
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      letterSpacing:
+                                                                          0.04),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                           Container(
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
-                                                                    top: 2,
-                                                                    bottom: 2,
-                                                                    left: 6,
-                                                                    right: 6),
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        8),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              gradient:
-                                                                  const LinearGradient(
-                                                                begin: Alignment
-                                                                    .topRight,
-                                                                end: Alignment
-                                                                    .bottomLeft,
-                                                                colors: [
-                                                                  AppColors
-                                                                      .linear2,
-                                                                  AppColors
-                                                                      .linear1,
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            child: const Text(
-                                                              "Sale!",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontFamily:
-                                                                      "Poppins",
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  letterSpacing:
-                                                                      0.04),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 13,
-                                                                right: 13),
-                                                        width: Get.width,
-                                                        decoration: const BoxDecoration(
-                                                            color: Color
-                                                                .fromRGBO(
-                                                                    243,
-                                                                    234,
-                                                                    249,
-                                                                    1),
-                                                            borderRadius: BorderRadius.only(
-                                                                bottomRight:
-                                                                    Radius
-                                                                        .circular(
+                                                                    left: 13,
+                                                                    right: 13),
+                                                            width:
+                                                                Get.width * 1.5,
+                                                            decoration: const BoxDecoration(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        243,
+                                                                        234,
+                                                                        249,
+                                                                        1),
+                                                                borderRadius: BorderRadius.only(
+                                                                    bottomRight:
+                                                                        Radius.circular(
                                                                             15),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        15))),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            Text(
-                                                              getBrandName(controller
-                                                                  .hotSalesFiltered[
-                                                              index]
-                                                                  .categories),
-                                                              maxLines: 1,
-                                                              style: kThemeData
-                                                                  .textTheme
-                                                                  .labelSmall
-                                                                  ?.copyWith(
-                                                                      color: AppColors
-                                                                          .secondary700,
-                                                                      fontSize:
-                                                                          12),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 4,
-                                                            ),
-                                                            Text(
-                                                              controller
-                                                                  .hotSalesFiltered[
-                                                                      index]
-                                                                  .name,
-                                                              maxLines: 2,
-                                                              style: kThemeData
-                                                                  .textTheme
-                                                                  .bodyMedium
-                                                                  ?.copyWith(
-                                                                      color: AppColors
-                                                                          .primary700,
-                                                                      fontSize:
-                                                                          14),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            RatingBar.builder(
-                                                              initialRating:
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            15))),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                                Text(
+                                                                  getBrandName(controller
+                                                                      .hotSalesFiltered[
+                                                                          index]
+                                                                      .categories),
+                                                                  maxLines: 1,
+                                                                  style: kThemeData
+                                                                      .textTheme
+                                                                      .labelSmall
+                                                                      ?.copyWith(
+                                                                          color: AppColors
+                                                                              .secondary700,
+                                                                          fontSize:
+                                                                              12),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 4,
+                                                                ),
+                                                                Text(
                                                                   controller
+                                                                      .hotSalesFiltered[
+                                                                          index]
+                                                                      .name,
+                                                                  maxLines: 2,
+                                                                  style: kThemeData
+                                                                      .textTheme
+                                                                      .bodyMedium
+                                                                      ?.copyWith(
+                                                                          color: AppColors
+                                                                              .primary700,
+                                                                          fontSize:
+                                                                              14),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                                RatingBar
+                                                                    .builder(
+                                                                  initialRating: controller
                                                                       .hotSalesFiltered[
                                                                           index]
                                                                       .rating
                                                                       .gradeAvg,
-                                                              ignoreGestures:
-                                                                  true,
-                                                              itemSize: 12,
-                                                              direction: Axis
-                                                                  .horizontal,
-                                                              allowHalfRating:
-                                                                  true,
-                                                              glow: false,
-                                                              itemCount: 5,
-                                                              itemPadding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          0.0),
-                                                              itemBuilder:
-                                                                  (context,
-                                                                          _) =>
-                                                                      GradientIcon(
-                                                                Icons.star,
-                                                                10.0,
-                                                                LinearGradient(
-                                                                  colors: <
-                                                                      Color>[
-                                                                    Color
-                                                                        .fromRGBO(
+                                                                  ignoreGestures:
+                                                                      true,
+                                                                  itemSize: 12,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  glow: false,
+                                                                  itemCount: 5,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              0.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          GradientIcon(
+                                                                    Icons.star,
+                                                                    10.0,
+                                                                    LinearGradient(
+                                                                      colors: <
+                                                                          Color>[
+                                                                        Color.fromRGBO(
                                                                             127,
                                                                             0,
                                                                             255,
                                                                             1),
-                                                                    Color
-                                                                        .fromRGBO(
+                                                                        Color.fromRGBO(
                                                                             255,
                                                                             0,
                                                                             255,
                                                                             1)
-                                                                  ],
-                                                                  begin: Alignment
-                                                                      .topLeft,
-                                                                  end: Alignment
-                                                                      .bottomRight,
+                                                                      ],
+                                                                      begin: Alignment
+                                                                          .topLeft,
+                                                                      end: Alignment
+                                                                          .bottomRight,
+                                                                    ),
+                                                                  ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    print(
+                                                                        rating);
+                                                                  },
                                                                 ),
-                                                              ),
-                                                              onRatingUpdate:
-                                                                  (rating) {
-                                                                print(rating);
-                                                              },
-                                                            ),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            controller
-                                                                        .hotSalesFiltered[
-                                                                            index]
-                                                                        .salePrice !=
-                                                                    0
-                                                                ? Row(
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child:
-                                                                            Text(
-                                                                          "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
-                                                                          maxLines:
-                                                                              2,
-                                                                          style: kThemeData
-                                                                              .textTheme
-                                                                              .bodyMedium
-                                                                              ?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        "Rs. ${controller.hotSalesFiltered[index].salePrice}",
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                                controller.hotSalesFiltered[index]
+                                                                            .salePrice !=
+                                                                        0
+                                                                    ? Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            child:
+                                                                                Text(
+                                                                              "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
+                                                                              maxLines: 2,
+                                                                              style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "Rs. ${controller.hotSalesFiltered[index].salePrice}",
+                                                                            maxLines:
+                                                                                2,
+                                                                            style:
+                                                                                kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                20,
+                                                                          )
+                                                                        ],
+                                                                      )
+                                                                    : Text(
+                                                                        "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
                                                                         maxLines:
                                                                             2,
                                                                         style: kThemeData
@@ -589,34 +636,17 @@ class HotSalesView extends GetView<ShopController> {
                                                                             .bodyMedium
                                                                             ?.copyWith(color: DarkTheme.normal),
                                                                       ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            20,
-                                                                      )
-                                                                    ],
-                                                                  )
-                                                                : Text(
-                                                                    "Rs. ${controller.hotSalesFiltered[index].regularPrice}",
-                                                                    maxLines: 2,
-                                                                    style: kThemeData
-                                                                        .textTheme
-                                                                        .bodyMedium
-                                                                        ?.copyWith(
-                                                                            color:
-                                                                                DarkTheme.normal),
-                                                                  ),
-                                                            SizedBox(
-                                                              height: 8,
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ))
-                                      :  EmptyWidget(
-                                      isSearched: true))
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ))
+                                      : EmptyWidget(isSearched: true))
                                 ],
                               ),
                             ),

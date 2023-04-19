@@ -296,12 +296,14 @@ class AuthRepository {
       if (response.statusCode == 200) {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
-        print(decodedResponse["token"]["access"]);
         if (!decodedResponse["baby_stage"]) {
           return Future.error('Baby stage incomplete');
         }
         return true;
       } else {
+        if (response.body.toString().contains('null')) {
+          return Future.error('Server Error');
+        }
         return Future.error('${decodedResponse["error"]}');
       }
     } on SocketException {

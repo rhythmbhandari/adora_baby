@@ -168,7 +168,7 @@ class LoginView extends GetView<AuthController> {
                           ? () async {
                               try {
                                 controller.progressBarStatusLogin.value = true;
-                                if (await controller.validateLogin()) {
+                                if (controller.validateLogin()) {
                                   final status = await controller.login();
                                   if (!status) {
                                     controller.progressBarStatusLogin.value =

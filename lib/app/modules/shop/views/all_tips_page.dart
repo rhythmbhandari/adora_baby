@@ -1,20 +1,13 @@
-import 'dart:developer';
 
-import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
-import '../../../routes/app_pages.dart';
-import '../../../widgets/gradient_icon.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../controllers/shop_controller.dart';
 
@@ -31,7 +24,7 @@ class MoreTips extends GetView<ShopController> {
           .then((value) => _refreshControllerTips.refreshCompleted());
     } catch (error) {
       _refreshControllerTips.refreshFailed();
-      await Future.delayed(Duration(milliseconds: 0000))
+      await Future.delayed(const Duration(milliseconds: 0000))
           .then((value) => _refreshControllerTips.refreshToIdle());
     }
   }
@@ -43,7 +36,7 @@ class MoreTips extends GetView<ShopController> {
           .then((value) => _refreshControllerTips.loadComplete());
     } catch (error) {
       _refreshControllerTips.loadFailed();
-      await Future.delayed(Duration(milliseconds: 0000))
+      await Future.delayed(const Duration(milliseconds: 0000))
           .then((value) => _refreshControllerTips.loadComplete());
     }
     // monitor network fetch
@@ -63,7 +56,7 @@ class MoreTips extends GetView<ShopController> {
           body: SafeArea(
             bottom: false,
             child: Container(
-              color: Color.fromRGBO(
+              color: const Color.fromRGBO(
                 250,
                 245,
                 252,
@@ -93,7 +86,7 @@ class MoreTips extends GetView<ShopController> {
                                   color: Colors.black,
                                 )),
                           ),
-                          Expanded(flex: 2, child: SizedBox()),
+                          const Expanded(flex: 2, child: SizedBox()),
                           Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -102,7 +95,7 @@ class MoreTips extends GetView<ShopController> {
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
                           ),
-                          Expanded(flex: 3, child: SizedBox()),
+                          const Expanded(flex: 3, child: SizedBox()),
                         ],
                       ),
                     ),
@@ -113,17 +106,17 @@ class MoreTips extends GetView<ShopController> {
                       child: Stack(
                         children: [
                           SmartRefresher(
-                            physics: AlwaysScrollableScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             enablePullDown: true,
                             enablePullUp: true,
                             header: ClassicHeader(
                               refreshStyle: RefreshStyle.Follow,
-                              releaseIcon: SizedBox(
+                              releaseIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child: const CupertinoActivityIndicator()),
-                              failedIcon: Icon(Icons.error, color: Colors.grey),
-                              idleIcon: SizedBox(
+                                  child: CupertinoActivityIndicator()),
+                              failedIcon: const Icon(Icons.error, color: Colors.grey),
+                              idleIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
                                   child: CupertinoActivityIndicator
@@ -139,27 +132,27 @@ class MoreTips extends GetView<ShopController> {
                               failedText: '',
                               completeText: '',
                               refreshingText: '',
-                              refreshingIcon: SizedBox(
+                              refreshingIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child: const CupertinoActivityIndicator()),
+                                  child: CupertinoActivityIndicator()),
                             ),
                             footer: ClassicFooter(
                               // refreshStyle: RefreshStyle.Follow,
                               canLoadingText: '',
                               loadStyle: LoadStyle.ShowWhenLoading,
                               noDataText: '',
-                              noMoreIcon: SizedBox(
+                              noMoreIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
                                   child: Icon(Icons.expand_circle_down,
                                       color: Colors.red)),
-                              canLoadingIcon: SizedBox(
+                              canLoadingIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child: const CupertinoActivityIndicator()),
-                              failedIcon: Icon(Icons.error, color: Colors.grey),
-                              idleIcon: SizedBox(
+                                  child: CupertinoActivityIndicator()),
+                              failedIcon: const Icon(Icons.error, color: Colors.grey),
+                              idleIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
                                   child: CupertinoActivityIndicator
@@ -173,29 +166,29 @@ class MoreTips extends GetView<ShopController> {
                               idleText: '',
                               failedText: '',
                               loadingText: '',
-                              loadingIcon: SizedBox(
+                              loadingIcon: const SizedBox(
                                   width: 25.0,
                                   height: 25.0,
-                                  child: const CupertinoActivityIndicator()),
+                                  child: CupertinoActivityIndicator()),
                             ),
                             controller: _refreshControllerTips,
                             onRefresh: _onRefresh,
                             onLoading: _onLoading,
                             child: Container(
-                              color: Color.fromRGBO(
+                              color: const Color.fromRGBO(
                                 250,
                                 245,
                                 252,
                                 1,
                               ),
                               child: SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 child: Obx(() => controller
                                         .tipsListFiltered.isNotEmpty
                                     ? ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 32, horizontal: 32),
                                         itemCount:
                                             controller.tipsListFiltered.length,
@@ -219,39 +212,37 @@ class MoreTips extends GetView<ShopController> {
                                                           .withOpacity(0.5),
                                                       spreadRadius: 1,
                                                       blurRadius: 2,
-                                                      offset: Offset(0,
+                                                      offset: const Offset(0,
                                                           2), // changes position of shadow
                                                     ),
                                                   ],
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           30)),
-                                              child: Container(
-                                                // padding: EdgeInsets.symmetric(horizontal: 18),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
-                                                  child: Container(
-                                                    height: Get.height * 0.4,
-                                                    width: Get.width,
-                                                    child: CachedNetworkImage(
-                                                      fit: BoxFit.fill,
-                                                      imageUrl:
-                                                          '${controller.tipsList[index].picture}',
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          Container(
-                                                              height:
-                                                                  Get.height *
-                                                                      0.4,
-                                                              child: Center(
-                                                                  child:
-                                                                      CircularProgressIndicator())),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Icon(Icons.error),
-                                                    ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        30.0),
+                                                child: SizedBox(
+                                                  height: Get.height * 0.4,
+                                                  width: Get.width * 1.5,
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.fill,
+                                                    imageUrl:
+                                                        '${controller.tipsList[index].picture}',
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        SizedBox(
+                                                            height:
+                                                                Get.height *
+                                                                    0.4,
+                                                            width: Get.width,
+                                                            child: const Center(
+                                                                child:
+                                                                    CircularProgressIndicator())),
+                                                    errorWidget: (context,
+                                                            url, error) =>
+                                                        const Icon(Icons.error),
                                                   ),
                                                 ),
                                               ),

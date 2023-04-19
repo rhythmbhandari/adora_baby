@@ -73,8 +73,6 @@ class ShopController extends GetxController {
   final selectedFilter = 0.obs;
 
   final filtersList = [
-    // 'Recently Added',
-    // 'Sort by Popularity',
     ' Sort by Price: High to Low',
     'Sort by Price: Low to High'
   ].obs;
@@ -125,7 +123,7 @@ class ShopController extends GetxController {
     await Future.wait(
       [
         getTrendingImages(),
-        getHotSales(true),
+        getHotSales(true, ),
         getAllProducts(true),
         getStages(),
         getTips(true, true),
@@ -149,7 +147,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds:0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -166,7 +164,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -175,7 +173,7 @@ class ShopController extends GetxController {
   Future<void> getHotSales(bool isRefresh) async {
     try {
       showProgressBar();
-      String keyword = '?page=1';
+      String keyword = '?page=1&ordering=-regular_price';
 
       await ShopRepository.fetchHotSales(keyword)
           .then((value) => {
@@ -193,7 +191,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -238,7 +236,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
             (value) => hideProgressBar(),
       );
     }
@@ -250,7 +248,7 @@ class ShopController extends GetxController {
       String searchKeyword = '',
       String filterId = '',
       bool isOrdered = false,
-      String ordering = 'regular_price'}) async {
+      String ordering = '-regular_price'}) async {
     try {
       showProgressBar();
       if (isSearch || isOrdered || isFilter) {
@@ -269,7 +267,8 @@ class ShopController extends GetxController {
                     if (value.isEmpty)
                       {hotSalesFiltered.value = [].obs, hotSalesIndex.value = 2}
                     else
-                      {hotSalesFiltered.value = value, hotSalesIndex.value = 2}
+                      {log('hehe'),
+                        hotSalesFiltered.value = value, hotSalesIndex.value = 2}
                   }
                 else
                   {hotSalesFiltered.addAll(value), hotSalesIndex.value++}
@@ -278,7 +277,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -290,7 +289,7 @@ class ShopController extends GetxController {
       String searchKeyword = '',
       String filterId = '',
       bool isOrdered = false,
-      String ordering = 'regular_price'}) async {
+      String ordering = '-regular_price'}) async {
     try {
       showProgressBar();
       if (isSearch || isOrdered || isFilter) {
@@ -328,7 +327,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -337,7 +336,7 @@ class ShopController extends GetxController {
   Future<void> getAllProducts(bool isRefresh) async {
     try {
       showProgressBar();
-      String keyword = '?page=1';
+      String keyword = '?page=1&ordering=-regular_price';
 
       await ShopRepository.fetchAllProducts(keyword)
           .then((value) => {
@@ -355,7 +354,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -394,7 +393,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -406,7 +405,7 @@ class ShopController extends GetxController {
       String searchKeyword = '',
       String filterId = '',
       bool isOrdered = false,
-      String ordering = 'regular_price'}) async {
+      String ordering = '-regular_price'}) async {
     try {
       showProgressBar();
       if (isSearch || isOrdered || isFilter) {
@@ -440,7 +439,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds: 2)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }

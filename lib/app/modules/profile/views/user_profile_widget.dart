@@ -191,13 +191,18 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                           ),
                         )
                       : Expanded(
-                          child: Text(
-                            controller.user.value.accountAddress?[0]
-                                    ['nearest_landmark'] ??
-                                'Set your Home Address.',
-                            maxLines: 2,
-                            style: kThemeData.textTheme.bodyLarge
-                                ?.copyWith(color: DarkTheme.normal),
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.to(() => const EditProfile());
+                            },
+                            child: Text(
+                              controller.user.value.accountAddress?[0]
+                                      ['nearest_landmark'] ??
+                                  'Set your Home Address.',
+                              maxLines: 2,
+                              style: kThemeData.textTheme.bodyLarge
+                                  ?.copyWith(color: DarkTheme.normal),
+                            ),
                           ),
                         ),
                 ],
