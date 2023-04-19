@@ -32,30 +32,34 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-    ),
+        name: _Paths.HOME,
+        page: () => HomeView(),
+        binding: HomeBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     // GetPage(
     //   name: _Paths.PROFILE,
     //   page: () => ProfileView(),
     //   binding: ProfileBinding(),
     // ),
     GetPage(
-      name: _Paths.OTP,
-      page: () => const OtpView(),
-      binding: AuthBinding(),
-    ),
+        name: _Paths.OTP,
+        page: () => const OtpView(),
+        binding: AuthBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.PHONE,
-      page: () => LoginView(),
-      binding: AuthBinding(),
-    ),
+        name: _Paths.PHONE,
+        page: () => LoginView(),
+        binding: AuthBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.SEARCH,
-      page: () => SearchView(),
-      binding: SearchBinding(),
-    ),
+        name: _Paths.SEARCH,
+        page: () => SearchView(),
+        binding: SearchBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -67,30 +71,37 @@ class AppPages {
       binding: WalkthroughBinding(),
     ),
     GetPage(
-      name: _Paths.SHOP,
-      page: () => ShopView(),
-      binding: ShopBinding(),
-    ),
+        name: _Paths.SHOP,
+        page: () => ShopView(),
+        binding: ShopBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.CART,
-      page: () => CartView(),
-      binding: CartBinding(),
-    ),
+        name: _Paths.CART,
+        page: () => CartView(),
+        binding: CartBinding(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.PRODUCT_DETAILS,
-      page: () => const ProductDetails(),
-    ),
+        name: _Paths.PRODUCT_DETAILS,
+        page: () => const ProductDetails(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.PERSONAL_INFORMATION,
-      page: () => PersonalInfoView(),
-    ),
+        name: _Paths.PERSONAL_INFORMATION,
+        page: () => PersonalInfoView(),
+        transition: Transition.rightToLeftWithFade //transition effect
+
+        ),
     GetPage(
-      name: _Paths.ADD_ADDRESS,
-      page: () => const AddAddressView(),
-    ),
+        name: _Paths.ADD_ADDRESS,
+        page: () => const AddAddressView(),
+        transition: Transition.rightToLeftWithFade //
+        ),
     GetPage(
-      name: _Paths.CHECKOUT,
-      page: () => const CheckOutView(),
-    ),
+        name: _Paths.CHECKOUT,
+        page: () => const CheckOutView(),
+        transition: Transition.rightToLeftWithFade //
+        ),
   ];
 }

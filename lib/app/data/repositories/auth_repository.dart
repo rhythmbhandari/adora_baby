@@ -31,8 +31,7 @@ class AuthRepository {
         print('Response is $response');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -83,8 +82,7 @@ class AuthRepository {
         print('Response is $response');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -106,8 +104,7 @@ class AuthRepository {
       if (response.statusCode == 201) {
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -168,8 +165,7 @@ class AuthRepository {
         print('Response is $response');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -200,8 +196,7 @@ class AuthRepository {
         print('Response is $decodedResponse');
         return Future.error('${decodedResponse["data"]}');
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -227,8 +222,7 @@ class AuthRepository {
         print('Response is $decodedResponse');
         return Future.error('${decodedResponse["data"]}');
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -251,7 +245,7 @@ class AuthRepository {
         print(response.body);
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');
       }
     } on SocketException {
       return Future.error(
@@ -276,8 +270,7 @@ class AuthRepository {
         print(response.body);
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -304,8 +297,7 @@ class AuthRepository {
         if (response.body.toString().contains('null')) {
           return Future.error('Server Error');
         }
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');

@@ -169,8 +169,7 @@ class CheckOutRepository {
         print('Response is ${response.statusCode}.');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -191,8 +190,7 @@ class CheckOutRepository {
         print('Response is ${response.statusCode}.');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]}');
-      }
+        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
