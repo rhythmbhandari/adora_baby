@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:adora_baby/app/modules/shop/views/hot_sales_page.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

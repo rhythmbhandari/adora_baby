@@ -7,9 +7,6 @@ import 'package:get/get.dart';
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/checkout_view.dart';
-import '../modules/search/bindings/search_binding.dart';
-import '../modules/search/views/search_view.dart';
-import '../modules/shop/bindings/all_products_binding.dart';
 import '../modules/shop/bindings/shop_binding.dart';
 import '../modules/shop/views/product_details.dart';
 import '../modules/shop/views/shop_view.dart';
@@ -18,8 +15,6 @@ import '../modules/auth/views/otp_view.dart';
 import '../modules/auth/views/phone_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/walkthrough/bindings/walkthrough_binding.dart';
@@ -55,12 +50,6 @@ class AppPages {
         page: () => LoginView(),
         binding: AuthBinding(),
         transition: Transition.noTransition //
-        ),
-    GetPage(
-        name: _Paths.SEARCH,
-        page: () => SearchView(),
-        binding: SearchBinding(),
-        transition: Transition.rightToLeftWithFade //
         ),
     GetPage(
       name: _Paths.SPLASH,

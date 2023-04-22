@@ -1,13 +1,10 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/shop/views/notifications_view.dart';
 import 'package:adora_baby/app/modules/shop/widgets/auth_progress_indicator.dart';
 import 'package:adora_baby/app/widgets/tips_widget.dart';
-import 'package:adora_baby/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -17,12 +14,10 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../routes/app_pages.dart';
-import '../../../utils/secure_storage.dart';
 import '../../../widgets/gradient_icon.dart';
 
 import '../../cart/controllers/cart_controller.dart';
 import '../../profile/views/diamonds_view.dart';
-import '../../search/views/search_view.dart';
 import '../widgets/all_products.dart';
 import '../widgets/hot_sales.dart';
 
