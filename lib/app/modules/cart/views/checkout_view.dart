@@ -238,12 +238,12 @@ class CheckOutView extends GetView<CartController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${SessionManager.instance.user?.diamond ?? 0} Diamonds used',
+                                    'Use ${SessionManager.instance.user?.diamond ?? 0} Diamonds',
                                     style: kThemeData.textTheme.titleMedium
                                         ?.copyWith(color: DarkTheme.darkNormal),
                                   ),
                                   Text(
-                                    'Rs. ${myController.checkoutModel.value.dimondOff ?? 0} off',
+                                    'Get Rs. ${myController.checkoutModel.value.dimondOff ?? 0} off/-',
                                     style: kThemeData.textTheme.bodyMedium
                                         ?.copyWith(color: DarkTheme.darkNormal),
                                   ),
