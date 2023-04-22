@@ -285,7 +285,7 @@ class ShopController extends GetxController {
 
   Future<bool> getIndividualProduct(String id) async {
     try {
-      final hotSale = await ShopRepository.fetchProduct(id);
+      final hotSale = await ShopRepository.fetchIndividualProduct(id);
       productSelected.value = hotSale;
       return true;
     }catch (e){

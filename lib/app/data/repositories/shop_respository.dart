@@ -115,8 +115,8 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
-  static Future<HotSales> fetchProduct(String id) async {
-    final url = '$BASE_URL/shops/$id/';
+  static Future<HotSales> fetchIndividualProduct(String id) async {
+    final url = '$BASE_URL/shops/$id.';
 
     final status = await DioHelper.getRequest(
       url,
@@ -128,9 +128,40 @@ class ShopRepository {
       HotSales hotSale = HotSales.fromJson(
         status,
       );
+      log('Reached here $hotSale');
       return hotSale;
     }
 
+    return Future.error('Error $status');
+  }
+
+  static Future<List<HotSales>> fetchAllProductsNew({
+    required int startIndex,
+    required int limit,
+    String? searchKeyword,
+    String? categories,
+    String? ordering,
+  }) async {
+    final queryParameters = {
+      'search': searchKeyword ?? '',
+      'categories': categories ?? '',
+      'ordering': ordering ?? '',
+      'page': startIndex.toString(),
+      'limit': limit.toString(),
+    };
+
+    final url = '$BASE_URL/shops/?${Uri(queryParameters: queryParameters)}';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+    if (status is Map<dynamic, dynamic>) {
+      List<HotSales> hotSales =
+          (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      return hotSales;
+    }
     return Future.error('Error $status');
   }
 
