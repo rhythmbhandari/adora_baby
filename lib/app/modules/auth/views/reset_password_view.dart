@@ -62,7 +62,7 @@ class ResetPasswordView extends GetView<AuthController> {
                         height: 312,
                         width: double.infinity,
                         child: SvgPicture.asset(
-                            "assets/images/wreset_password.svg"),
+                            "assets/images/reset_password.svg"),
                       ),
                       const SizedBox(
                         height: 20,

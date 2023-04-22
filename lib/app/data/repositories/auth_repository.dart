@@ -47,9 +47,9 @@ class AuthRepository {
 
     try {
 
-      if(phoneNumber == '9869191572'){
-        return true;
-      }
+      // if(phoneNumber == '9869191572'){
+      //   return true;
+      // }
       final response = await http.post(Uri.parse(url), body: body);
 
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;

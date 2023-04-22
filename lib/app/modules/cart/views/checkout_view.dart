@@ -302,7 +302,7 @@ class CheckOutView extends GetView<CartController> {
                                         myController.checkoutModel.value.id,
                                         myController.useDiamondCheckBox.value,
                                         myController.couponController.text
-                                            .trim());
+                                            .trim().toUpperCase());
                                 if (status) {
                                   myController.update(['priceTotal']);
                                   var snackBar = SnackBar(
