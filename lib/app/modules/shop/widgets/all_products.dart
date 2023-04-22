@@ -291,8 +291,7 @@ class AllProducts extends StatelessWidget {
                         child: _buildImage()))),
             GestureDetector(
               onTap: () {
-                Get.to(() => AllProductsView(),
-                    arguments: controller.allProducts);
+                Get.toNamed(Routes.ALLPRODUCTS, arguments: true);
               },
               child: Align(
                 alignment: Alignment.centerRight,

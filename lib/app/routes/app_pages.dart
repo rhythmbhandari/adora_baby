@@ -1,6 +1,7 @@
 import 'package:adora_baby/app/modules/auth/views/login_view.dart';
 import 'package:adora_baby/app/modules/cart/views/add_address_view.dart';
 import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
+import 'package:adora_baby/app/modules/shop/views/all_products_page.dart';
 import 'package:get/get.dart';
 
 import '../modules/cart/bindings/cart_binding.dart';
@@ -8,6 +9,7 @@ import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/checkout_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
+import '../modules/shop/bindings/all_products_binding.dart';
 import '../modules/shop/bindings/shop_binding.dart';
 import '../modules/shop/views/product_details.dart';
 import '../modules/shop/views/shop_view.dart';
@@ -53,7 +55,7 @@ class AppPages {
         page: () => LoginView(),
         binding: AuthBinding(),
         transition: Transition.noTransition //
-    ),
+        ),
     GetPage(
         name: _Paths.SEARCH,
         page: () => SearchView(),
@@ -103,5 +105,10 @@ class AppPages {
         page: () => const CheckOutView(),
         transition: Transition.rightToLeftWithFade //
         ),
+    GetPage(
+        name: _Paths.ALLPRODUCTS,
+        page: () => AllProductsView(),
+        transition: Transition.rightToLeftWithFade,
+        binding: AllProductsBinding()),
   ];
 }

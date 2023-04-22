@@ -1,5 +1,8 @@
+import 'package:adora_baby/app/modules/shop/controllers/all_products_controller.dart';
+import 'package:adora_baby/app/modules/shop/enums/all_filters_enum.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -13,19 +16,21 @@ import '../../cart/widgets/empty_widget.dart';
 import '../controllers/shop_controller.dart';
 import 'getBrandName.dart';
 
-class AllProductsView extends GetView<ShopController> {
-  const AllProductsView({Key? key}) : super(key: key);
+class AllProductsView extends HookWidget {
+  AllProductsView({Key? key}) : super(key: key);
+  
+  final ShopController shopController = Get.find();
 
+  final AllProductsController controller = Get.find();
+  
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) {
-      controller.allProductsFiltered.value = Get.arguments;
-    }
+    final searchController = useTextEditingController();
     return WillPopScope(
       onWillPop: () async {
-        controller.selectedStages.value = 10;
-        controller.selectedFilter.value = 0;
-        controller.searchController.text = "";
+        controller.selectedStages.value = '';
+        controller.selectedFilter.value = AllFilters.high;
+        controller.searchText.value = "";
         return true;
       },
       child: Scaffold(
@@ -46,9 +51,9 @@ class AllProductsView extends GetView<ShopController> {
                           padding: const EdgeInsets.only(left: 30.0),
                           child: GestureDetector(
                               onTap: () {
-                                controller.selectedStages.value = 10;
-                                controller.selectedFilter.value = 0;
-                                controller.searchController.text = "";
+                                controller.selectedStages.value = '';
+                                controller.selectedFilter.value = AllFilters.high;
+                                controller.searchText.value = "";
                                 Get.back();
                               },
                               child: const Icon(
@@ -74,475 +79,485 @@ class AllProductsView extends GetView<ShopController> {
                   ),
 
                   Expanded(
-                    child: RefreshIndicator(
-                      color: AppColors.primary300,
-                      onRefresh: () => Future.sync(
-                            () => controller.pagingController.refresh(),
-                      ),
-                      child: PagedListView<int, HotSales>.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        pagingController: _pagingController,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 20),
-                        builderDelegate: PagedChildBuilderDelegate<HotSales>(
-                          animateTransitions: true,
-                          itemBuilder: (context, item, index) => GestureDetector(
-                            onTap: () {
-
-                            },
-                            child: Container(
-                              color: const Color.fromRGBO(
-                                250,
-                                245,
-                                252,
-                                1,
+                    child: Container(
+                      color: LightTheme.whiteActive,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 32.0, right: 32, top: 33),
+                            child: TextField(
+                              cursorColor: AppColors.mainColor,
+                              autofocus: false,
+                              controller: searchController,
+                              style: kThemeData
+                                  .textTheme.bodyLarge
+                                  ?.copyWith(
+                                  color: DarkTheme.dark),
+                              onSubmitted: (value) =>
+                                  controller.onSearch(value),
+                              decoration: InputDecoration(
+                                hintText: 'Search for Items',
+                                filled: true,
+                                hintStyle: kThemeData
+                                    .textTheme.bodyLarge
+                                    ?.copyWith(
+                                    color: const Color(
+                                        0xffAF98A8)),
+                                contentPadding:
+                                const EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                    vertical: 18),
+                                suffixIcon: GestureDetector(
+                                  onTap: () =>
+                                      controller.onSearch(
+                                          searchController.text
+                                              .trim()),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(
+                                        top: 8.0,
+                                        right: 23,
+                                        bottom: 8),
+                                    child: SvgPicture.asset(
+                                        "assets/images/search-normal.svg"),
+                                  ),
+                                ),
+                                fillColor: Colors.white,
+                                focusedBorder:
+                                OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color: Color
+                                            .fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color:
+                                        Color.fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
+                                enabledBorder:
+                                OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color: Color
+                                            .fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
                               ),
-                              child: SingleChildScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 32.0, right: 32, top: 33),
-                                      child: TextField(
-                                        cursorColor: AppColors.mainColor,
-                                        autofocus: false,
-                                        controller: controller.searchController,
-                                        style: kThemeData.textTheme.bodyLarge
-                                            ?.copyWith(color: DarkTheme.dark),
-                                        onSubmitted: (_) =>
-                                            filterPressed(context),
-                                        decoration: InputDecoration(
-                                          hintText: 'Search for Items',
-                                          filled: true,
-                                          hintStyle: kThemeData
-                                              .textTheme.bodyLarge
-                                              ?.copyWith(
-                                              color: const Color(0xffAF98A8)),
-                                          contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 24, vertical: 18),
-                                          suffixIcon: GestureDetector(
-                                            onTap: () => filterPressed(context),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, right: 23, bottom: 8),
-                                              child: SvgPicture.asset(
-                                                  "assets/images/search-normal.svg"),
-                                            ),
-                                          ),
-                                          fillColor: Colors.white,
-                                          focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(33),
-                                              borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(
-                                                      175, 152, 168, 1))),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(33),
-                                              borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(
-                                                      175, 152, 168, 1))),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(33),
-                                              borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(
-                                                      175, 152, 168, 1))),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 40.0, right: 40),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () =>
+                                      allStages(context),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          "assets/images/filter-search.svg"),
+                                      const SizedBox(
+                                        width: 11,
+                                      ),
+                                      const Text(
+                                        "All Stages",
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(
+                                              241, 149, 157, 1),
+                                          //styleName: Button Text;
+                                          fontFamily: "Poppins",
+                                          fontSize: 16,
+                                          fontWeight:
+                                          FontWeight.w600,
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 40.0, right: 40),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => allStages(context),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                    "assets/images/filter-search.svg"),
-                                                const SizedBox(
-                                                  width: 11,
-                                                ),
-                                                const Text(
-                                                  "All Stages",
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        241, 149, 157, 1),
-                                                    //styleName: Button Text;
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () =>
+                                        mostRecentPressed(
+                                            context),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            "assets/images/sort.svg"),
+                                        const SizedBox(
+                                          width: 11,
+                                        ),
+                                        const Text(
+                                          "Most Recent",
+                                          style: TextStyle(
+                                            color:
+                                            Color.fromRGBO(
+                                                241,
+                                                149,
+                                                157,
+                                                1),
+                                            //styleName: Button Text;
+                                            fontFamily:
+                                            "Poppins",
+                                            fontSize: 16,
+                                            fontWeight:
+                                            FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Expanded(
+                            child: RefreshIndicator(
+                              color: AppColors.primary300,
+                              onRefresh: () => Future.sync(
+                                    () => controller.pagingController.refresh(),
+                              ),
+                              child: PagedListView<int, HotSales>(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                pagingController: controller.pagingController,
+                                padding: const EdgeInsets.symmetric( vertical: 20),
+                                builderDelegate: PagedChildBuilderDelegate<HotSales>(
+                                  animateTransitions: true,
+                                  firstPageErrorIndicatorBuilder:
+                                      (_) => EmptyWidget(
+                                      isSearched: true),
+                                  noItemsFoundIndicatorBuilder: (context) => EmptyWidget(
+                                      isSearched: true),
+                                  noMoreItemsIndicatorBuilder: (context) => const Center(child: Text('All products loaded.')),
+                                  itemBuilder: (context, product, index) =>
+                                      GestureDetector(
+                                        onTap: () {
+                                          shopController
+                                              .productSelected
+                                              .value = product;
+                                          Get.toNamed(
+                                            Routes.PRODUCT_DETAILS,
+                                          );
+                                        },
+                                        child: Container(
+                                          padding:
+                                          const EdgeInsets.only(
+                                              top: 10),
+                                          margin:
+                                          const EdgeInsets.only(
+                                              left: 36,
+                                              right: 36,
+                                              bottom: 16),
+                                          alignment:
+                                          Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: const Color
+                                                      .fromRGBO(
+                                                      192,
+                                                      144,
+                                                      254,
+                                                      0.25)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(
+                                                      0.5),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(
+                                                      0,
+                                                      2), // changes position of shadow
                                                 ),
                                               ],
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                              onTap: () =>
-                                                  mostRecentPressed(context),
-                                              child: Row(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  15)),
+                                          child: Column(
+                                            children: [
+                                              Stack(
                                                 children: [
-                                                  SvgPicture.asset(
-                                                      "assets/images/sort.svg"),
-                                                  const SizedBox(
-                                                    width: 11,
-                                                  ),
-                                                  const Text(
-                                                    "Most Recent",
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          241, 149, 157, 1),
-                                                      //styleName: Button Text;
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 18,
-                                    ),
-                                    Obx(() => controller
-                                        .allProductsFiltered.isNotEmpty
-                                        ? ListView.builder(
-                                        physics:
-                                        const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: controller
-                                            .allProductsFiltered.length,
-                                        itemBuilder:
-                                            (BuildContext context,
-                                            int index) =>
-                                            GestureDetector(
-                                              onTap: () {
-                                                controller.productSelected
-                                                    .value = controller
-                                                    .allProductsFiltered[
-                                                index];
-                                                Get.toNamed(
-                                                  Routes.PRODUCT_DETAILS,
-                                                );
-                                              },
-                                              child: Container(
-                                                padding:
-                                                const EdgeInsets.only(
-                                                    top: 10),
-                                                margin:
-                                                const EdgeInsets.only(
-                                                    left: 36,
-                                                    right: 36,
-                                                    bottom: 16),
-                                                alignment:
-                                                Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: const Color
-                                                            .fromRGBO(
-                                                            192,
-                                                            144,
-                                                            254,
-                                                            0.25)),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(
-                                                            0.5),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        offset: const Offset(
-                                                            0,
-                                                            2), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        15)),
-                                                child: Column(
-                                                  children: [
-                                                    Stack(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              top: 12,
-                                                              bottom:
-                                                              8),
-                                                          child: Center(
-                                                            child: Image
-                                                                .network(
-                                                              controller
-                                                                  .allProductsFiltered[index]
-                                                                  .productImages
-                                                                  .isEmpty
-                                                                  ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                                                  : '${controller.allProductsFiltered[index].productImages?.firstWhere(
-                                                                    (image) => image?.isFeaturedImage != null && image?.isFeaturedImage == true,
-                                                                orElse: () => ProductImage(name: 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
-                                                              ).name ?? ''}',
-                                                              height:
-                                                              Get.height *
-                                                                  0.25,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        controller.allProductsFiltered[index].salePrice !=
-                                                            0 &&
-                                                            controller
-                                                                .allProductsFiltered[index]
-                                                                .salePrice !=
-                                                                null
-                                                            ? Container(
-                                                          padding: const EdgeInsets
-                                                              .only(
-                                                              top:
-                                                              2,
-                                                              bottom:
-                                                              2,
-                                                              left:
-                                                              6,
-                                                              right:
-                                                              6),
-                                                          margin: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal:
-                                                              8),
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            borderRadius:
-                                                            BorderRadius.circular(20),
-                                                            gradient:
-                                                            const LinearGradient(
-                                                              begin:
-                                                              Alignment.topRight,
-                                                              end: Alignment
-                                                                  .bottomLeft,
-                                                              colors: [
-                                                                AppColors.linear2,
-                                                                AppColors.linear1,
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          child:
-                                                          const Text(
-                                                            "Sale!",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontFamily:
-                                                                "Poppins",
-                                                                fontSize:
-                                                                16,
-                                                                fontWeight:
-                                                                FontWeight.w400,
-                                                                fontStyle: FontStyle.normal,
-                                                                letterSpacing: 0.04),
-                                                          ),
+                                                  Container(
+                                                    margin:
+                                                    const EdgeInsets
+                                                        .only(
+                                                        top: 12,
+                                                        bottom:
+                                                        8),
+                                                    child: Center(
+                                                      child: Image
+                                                          .network(
+                                                        product.productImages
+                                                            ?.firstWhere(
+                                                              (image) => image?.isFeaturedImage != null && image?.isFeaturedImage == true,
+                                                          orElse: () => ProductImage(name: 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
                                                         )
-                                                            : Container(),
-                                                      ],
+                                                            ?.name ??
+                                                            'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                                        height:
+                                                        Get.height *
+                                                            0.25,
+                                                      ),
                                                     ),
-                                                    Container(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .only(
-                                                          left: 13,
-                                                          right: 13),
-                                                      width:
-                                                      Get.width * 1.5,
-                                                      decoration: const BoxDecoration(
-                                                          color: Color
-                                                              .fromRGBO(
-                                                              243,
-                                                              234,
-                                                              249,
-                                                              1),
-                                                          borderRadius: BorderRadius.only(
-                                                              bottomRight:
-                                                              Radius.circular(
-                                                                  15),
-                                                              bottomLeft:
-                                                              Radius.circular(
-                                                                  15))),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          const SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          Text(
-                                                            getBrandName(controller
-                                                                .allProductsFiltered[
-                                                            index]
-                                                                .categories),
-                                                            maxLines: 1,
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .labelSmall
-                                                                ?.copyWith(
-                                                                color: AppColors
-                                                                    .secondary700,
-                                                                fontSize:
-                                                                12),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 4,
-                                                          ),
-                                                          Text(
-                                                            controller
-                                                                .allProductsFiltered[
-                                                            index]
-                                                                .name,
-                                                            maxLines: 2,
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .bodyMedium
-                                                                ?.copyWith(
-                                                                color: AppColors
-                                                                    .primary700,
-                                                                fontSize:
-                                                                14),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          RatingBar
-                                                              .builder(
-                                                            initialRating: controller
-                                                                .allProductsFiltered[
-                                                            index]
-                                                                .rating
-                                                                .gradeAvg,
-                                                            ignoreGestures:
-                                                            true,
-                                                            itemSize: 12,
-                                                            direction: Axis
-                                                                .horizontal,
-                                                            allowHalfRating:
-                                                            true,
-                                                            glow: false,
-                                                            itemCount: 5,
-                                                            itemPadding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                0.0),
-                                                            itemBuilder:
-                                                                (context,
-                                                                _) =>
-                                                                GradientIcon(
-                                                                  Icons.star,
-                                                                  10.0,
-                                                                  const LinearGradient(
-                                                                    colors: <
-                                                                        Color>[
-                                                                      Color.fromRGBO(
-                                                                          127,
-                                                                          0,
-                                                                          255,
-                                                                          1),
-                                                                      Color.fromRGBO(
-                                                                          255,
-                                                                          0,
-                                                                          255,
-                                                                          1)
-                                                                    ],
-                                                                    begin: Alignment
-                                                                        .topLeft,
-                                                                    end: Alignment
-                                                                        .bottomRight,
-                                                                  ),
-                                                                ),
-                                                            onRatingUpdate:
-                                                                (rating) {
-                                                              print(
-                                                                  rating);
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          controller.allProductsFiltered[index].salePrice !=
-                                                              0 &&
-                                                              controller.allProductsFiltered[index].salePrice !=
-                                                                  null
-                                                              ? Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child:
-                                                                Text(
-                                                                  "Rs. ${controller.allProductsFiltered[index].regularPrice}",
-                                                                  maxLines: 2,
-                                                                  style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "Rs. ${controller.allProductsFiltered[index].salePrice}",
-                                                                maxLines:
-                                                                2,
-                                                                style:
-                                                                kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
-                                                              ),
-                                                              const SizedBox(
-                                                                width:
-                                                                20,
-                                                              )
-                                                            ],
-                                                          )
-                                                              : Text(
-                                                            "Rs. ${controller.allProductsFiltered[index].regularPrice}",
-                                                            maxLines:
-                                                            2,
-                                                            style: kThemeData
-                                                                .textTheme
-                                                                .bodyMedium
-                                                                ?.copyWith(color: DarkTheme.normal),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 8,
-                                                          ),
+                                                  ),
+                                                  product.salePrice !=
+                                                      0 &&
+                                                      product.salePrice !=
+                                                          null
+                                                      ? Container(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        top:
+                                                        2,
+                                                        bottom:
+                                                        2,
+                                                        left:
+                                                        6,
+                                                        right:
+                                                        6),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal:
+                                                        8),
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(20),
+                                                      gradient:
+                                                      const LinearGradient(
+                                                        begin:
+                                                        Alignment.topRight,
+                                                        end: Alignment
+                                                            .bottomLeft,
+                                                        colors: [
+                                                          AppColors.linear2,
+                                                          AppColors.linear1,
                                                         ],
                                                       ),
+                                                    ),
+                                                    child:
+                                                    const Text(
+                                                      "Sale!",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .white,
+                                                          fontFamily:
+                                                          "Poppins",
+                                                          fontSize:
+                                                          16,
+                                                          fontWeight:
+                                                          FontWeight.w400,
+                                                          fontStyle: FontStyle.normal,
+                                                          letterSpacing: 0.04),
+                                                    ),
+                                                  )
+                                                      : Container(),
+                                                ],
+                                              ),
+                                              Container(
+                                                padding:
+                                                const EdgeInsets
+                                                    .only(
+                                                    left: 13,
+                                                    right: 13),
+                                                width:
+                                                Get.width * 1.5,
+                                                decoration: const BoxDecoration(
+                                                    color: Color
+                                                        .fromRGBO(
+                                                        243,
+                                                        234,
+                                                        249,
+                                                        1),
+                                                    borderRadius: BorderRadius.only(
+                                                        bottomRight:
+                                                        Radius.circular(
+                                                            15),
+                                                        bottomLeft:
+                                                        Radius.circular(
+                                                            15))),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    Text(
+                                                      getBrandName(
+                                                          product
+                                                              .categories),
+                                                      maxLines: 1,
+                                                      style: kThemeData
+                                                          .textTheme
+                                                          .labelSmall
+                                                          ?.copyWith(
+                                                          color: AppColors
+                                                              .secondary700,
+                                                          fontSize:
+                                                          12),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 4,
+                                                    ),
+                                                    Text(
+                                                      product.name ??
+                                                          'N/A',
+                                                      maxLines: 2,
+                                                      style: kThemeData
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                          color: AppColors
+                                                              .primary700,
+                                                          fontSize:
+                                                          14),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    RatingBar
+                                                        .builder(
+                                                      initialRating:
+                                                      product.rating
+                                                          ?.gradeAvg ??
+                                                          0.0,
+                                                      ignoreGestures:
+                                                      true,
+                                                      itemSize: 12,
+                                                      direction: Axis
+                                                          .horizontal,
+                                                      allowHalfRating:
+                                                      true,
+                                                      glow: false,
+                                                      itemCount: 5,
+                                                      itemPadding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal:
+                                                          0.0),
+                                                      itemBuilder:
+                                                          (context,
+                                                          _) =>
+                                                          GradientIcon(
+                                                            Icons.star,
+                                                            10.0,
+                                                            const LinearGradient(
+                                                              colors: <
+                                                                  Color>[
+                                                                Color.fromRGBO(
+                                                                    127,
+                                                                    0,
+                                                                    255,
+                                                                    1),
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    0,
+                                                                    255,
+                                                                    1)
+                                                              ],
+                                                              begin: Alignment
+                                                                  .topLeft,
+                                                              end: Alignment
+                                                                  .bottomRight,
+                                                            ),
+                                                          ),
+                                                      onRatingUpdate:
+                                                          (rating) {
+                                                        print(
+                                                            rating);
+                                                      },
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8,
+                                                    ),
+                                                    product.salePrice !=
+                                                        0 &&
+                                                        product.salePrice !=
+                                                            null
+                                                        ? Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                          Text(
+                                                            "Rs. ${product.regularPrice}",
+                                                            maxLines: 2,
+                                                            style: kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.lightActive, decoration: TextDecoration.lineThrough),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "Rs. ${product.salePrice}",
+                                                          maxLines:
+                                                          2,
+                                                          style:
+                                                          kThemeData.textTheme.bodyMedium?.copyWith(color: DarkTheme.normal),
+                                                        ),
+                                                        const SizedBox(
+                                                          width:
+                                                          20,
+                                                        )
+                                                      ],
                                                     )
+                                                        : Text(
+                                                      "Rs. ${product.regularPrice}",
+                                                      maxLines:
+                                                      2,
+                                                      style: kThemeData
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(color: DarkTheme.normal),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8,
+                                                    ),
                                                   ],
                                                 ),
-                                              ),
-                                            ))
-                                        : EmptyWidget(isSearched: true))
-                                  ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                 ),
+                                // separatorBuilder: (context, index) =>
+                                // const Divider(),
                               ),
-                            )
-                          ),
-                        ),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(
-                              height: 10,
                             ),
-                        // separatorBuilder: (context, index) =>
-                        // const Divider(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -560,7 +575,7 @@ class AllProductsView extends GetView<ShopController> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  controller.selectedFilter.value = index;
+                  controller.selectedFilter.value = AllFilters.values[index];
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -590,7 +605,7 @@ class AllProductsView extends GetView<ShopController> {
                         children: [
                           Expanded(
                             child: Text(
-                              controller.filtersList[index],
+                              AllFilters.values[index].filterName,
                               style: kThemeData.textTheme.bodyLarge
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
@@ -610,7 +625,7 @@ class AllProductsView extends GetView<ShopController> {
                                     shape: BoxShape.circle),
                               ),
                               Obx(
-                                () => controller.selectedFilter.value == index
+                                () => controller.selectedFilter.value == AllFilters.values[index]
                                     ? Positioned(
                                         left: 0,
                                         right: 0,
@@ -632,14 +647,14 @@ class AllProductsView extends GetView<ShopController> {
                           )
                         ],
                       ),
-                      if (controller.filtersList.length == index + 1) ...[
+                      if (AllFilters.values.length == index + 1) ...[
                         const SizedBox(
                           height: 32,
                         ),
                         ButtonsWidget(
                             name: 'Apply Filter',
                             onPressed: () {
-                              filterPressed(context);
+                              controller.onOrderSelect();
                               Navigator.pop(context);
                             })
                       ]
@@ -648,7 +663,7 @@ class AllProductsView extends GetView<ShopController> {
                 ),
               );
             },
-            itemCount: controller.filtersList.length,
+            itemCount: AllFilters.values.length,
           );
         });
   }
@@ -662,7 +677,7 @@ class AllProductsView extends GetView<ShopController> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  controller.selectedStages.value = index;
+                  controller.selectedStages.value = shopController.stagesList[index].id;
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -692,7 +707,7 @@ class AllProductsView extends GetView<ShopController> {
                         children: [
                           Expanded(
                             child: Text(
-                              '${controller.stagesList[index].name}',
+                              '${shopController.stagesList[index].name}',
                               style: kThemeData.textTheme.bodyLarge
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
@@ -712,7 +727,7 @@ class AllProductsView extends GetView<ShopController> {
                                     shape: BoxShape.circle),
                               ),
                               Obx(
-                                () => controller.selectedStages.value == index
+                                () => controller.selectedStages.value == shopController.stagesList[index].id
                                     ? Positioned(
                                         left: 0,
                                         right: 0,
@@ -734,14 +749,14 @@ class AllProductsView extends GetView<ShopController> {
                           )
                         ],
                       ),
-                      if (controller.stagesList.length == index + 1) ...[
+                      if (shopController.stagesList.length == index + 1) ...[
                         const SizedBox(
                           height: 32,
                         ),
                         ButtonsWidget(
                             name: 'Apply Filter',
                             onPressed: () {
-                              stagesPressed(context);
+                              controller.onCategorySelect(controller.selectedStages.value);
                               Navigator.pop(context);
                             })
                       ]
@@ -750,46 +765,8 @@ class AllProductsView extends GetView<ShopController> {
                 ),
               );
             },
-            itemCount: controller.stagesList.length,
+            itemCount: shopController.stagesList.length,
           );
         });
-  }
-
-  void stagesPressed(BuildContext context) {
-    controller.getAllProductsFiltered(
-      true,
-      isFilter: true,
-      filterId: controller.stagesList[controller.selectedStages.value].id,
-      isOrdered: true,
-      isSearch: true,
-      searchKeyword: controller.searchController.text.trim(),
-      ordering: controller.selectedFilter.value == 1
-          ? 'regular_price'
-          : '-regular_price',
-    );
-  }
-
-  void filterPressed(BuildContext context) {
-    if (controller.selectedStages.value == 10) {
-      controller.getAllProductsFiltered(true,
-          isOrdered: true,
-          ordering: controller.selectedFilter.value == 1
-              ? 'regular_price'
-              : '-regular_price',
-          isSearch: true,
-          searchKeyword: controller.searchController.text.trim());
-    } else {
-      controller.getAllProductsFiltered(
-        true,
-        isOrdered: true,
-        ordering: controller.selectedFilter.value == 1
-            ? 'regular_price'
-            : '-regular_price',
-        isSearch: true,
-        searchKeyword: controller.searchController.text.trim(),
-        isFilter: true,
-        filterId: controller.stagesList[controller.selectedStages.value].id,
-      );
-    }
   }
 }

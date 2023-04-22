@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:adora_baby/app/modules/shop/enums/all_filters_enum.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -6,11 +9,11 @@ import '../../../data/repositories/shop_respository.dart';
 
 class AllProductsController extends GetxController {
   final searchText = ''.obs;
-  final selectedCategory = ''.obs;
-  final selectedOrder = ''.obs;
+  final selectedStages = ''.obs;
+  final selectedFilter = Rx<AllFilters>(AllFilters.high);
 
   final pagingController = PagingController<int, HotSales>(
-    firstPageKey: 0,
+    firstPageKey: 1,
   );
 
   @override
@@ -27,8 +30,8 @@ class AllProductsController extends GetxController {
         startIndex: pageKey,
         limit: 10,
         searchKeyword: searchText.value,
-        categories: selectedCategory.value,
-        ordering: selectedOrder.value,
+        categories: selectedStages.value,
+        ordering: selectedFilter.value.filterSend,
       );
       final isLastPage = products.isEmpty;
       if (isLastPage) {
@@ -38,7 +41,11 @@ class AllProductsController extends GetxController {
         pagingController.appendPage(products, nextPageKey);
       }
     } catch (error) {
-      pagingController.error = error;
+      if(error.toString().contains('Invalid page')){
+        pagingController.appendLastPage([]);
+      }else{
+        pagingController.error = error;
+      }
     }
   }
 
@@ -48,12 +55,11 @@ class AllProductsController extends GetxController {
   }
 
   void onCategorySelect(String value) {
-    selectedCategory.value = value;
+    selectedStages.value = value;
     pagingController.refresh();
   }
 
-  void onOrderSelect(String value) {
-    selectedOrder.value = value;
+  void onOrderSelect() {
     pagingController.refresh();
   }
 

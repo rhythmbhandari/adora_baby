@@ -10,8 +10,5 @@ class ShopBinding extends Bindings {
     Get.lazyPut<ShopController>(
       () => ShopController(),
     );
-    Get.lazyPut<AllProductsController>(
-          () => AllProductsController(),
-    );
   }
 }

@@ -48,15 +48,6 @@ class DioHelper {
     try {
       final url = urlInput;
       Dio dio = getDioClient();
-      dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
-        if (error.response?.statusCode == 403 ||
-            error.response?.statusCode == 401) {
-          await refreshToken();
-          // return _retry(error.request);
-        }
-        // return error.response;
-      }));
-
       dio.interceptors.add(
         RetryInterceptor(
           dio: dio,
@@ -116,7 +107,8 @@ class DioHelper {
         }
         return true;
       } else {
-        return Future.error('Server error.');
+        log('Response aaira chha');
+        Future.error('${response.statusMessage}');
       }
     } on SocketException {
       return Future.error(
@@ -124,6 +116,10 @@ class DioHelper {
     } on TimeoutException {
       return Future.error('Connection timed');
     } on DioError catch (e) {
+      log('Dio Error Caught');
+      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+        await refreshToken();
+      }
       if (e.response?.data != null) {
         if (e.response!.data[0] is String) {
           return Future.error('${e.response!.data[0]}');
@@ -215,14 +211,16 @@ class DioHelper {
         'Connection timed',
       );
     } on DioError catch (e) {
-
       log('Error is === ${e}');
+      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+        await refreshToken();
+      }
       if (e.response?.statusCode == 401) {
         if (isLogout) {
           return true;
         }
         return false;
-      }else if (e.response?.statusCode == 500) {
+      } else if (e.response?.statusCode == 500) {
         return Future.error('Server error - 500, Please try again later');
       } else if (e.response?.data != null) {
         log('Error is ${e.response?.data}');
@@ -306,6 +304,9 @@ class DioHelper {
     } on TimeoutException {
       return Future.error('Connection timed');
     } on DioError catch (e) {
+      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+        await refreshToken();
+      }
       if (e.response?.data != null) {
         log('Error is ${e.response?.data}');
         if (e.response!.data[0] is String) {
@@ -411,7 +412,7 @@ class DioHelper {
   }
 
   static Future<void> refreshToken() async {
-    try{
+    try {
       final refreshToken = await storage.readRefreshToken();
       Dio dio = getDioClient();
       const url = '$baseUrl/refresh/';
@@ -422,7 +423,7 @@ class DioHelper {
         storage.saveAccessToken(response.data["access"]);
         storage.saveRefreshToken(response.data["refresh"]);
       }
-    }catch(e){
+    } catch (e) {
       await storage.delete(
         Constants.ACCESS_TOKEN,
       );

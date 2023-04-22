@@ -8,6 +8,7 @@ import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
 
 import 'package:get/get.dart';
 
+import '../../modules/shop/enums/all_filters_enum.dart';
 import '../../widgets/custom_progress_bar.dart';
 import '../models/stages_brands.dart';
 import '../models/tips_model.dart';
@@ -138,31 +139,38 @@ class ShopRepository {
   static Future<List<HotSales>> fetchAllProductsNew({
     required int startIndex,
     required int limit,
-    String? searchKeyword,
-    String? categories,
-    String? ordering,
+    required String searchKeyword,
+    required String categories,
+    required String ordering,
   }) async {
-    final queryParameters = {
-      'search': searchKeyword ?? '',
-      'categories': categories ?? '',
-      'ordering': ordering ?? '',
-      'page': startIndex.toString(),
-      'limit': limit.toString(),
-    };
+    try {
+      final queryParameters = {
+        if (searchKeyword.isNotEmpty) 'search': searchKeyword,
+        if (categories.isNotEmpty) 'categories': categories,
+        if (ordering.isNotEmpty) 'ordering': ordering,
+        'page': startIndex.toString(),
+        'limit': limit.toString(),
+      };
 
-    final url = '$BASE_URL/shops/?${Uri(queryParameters: queryParameters)}';
+      final url = '$BASE_URL/shops/${Uri(queryParameters: queryParameters)}';
 
-    final status = await DioHelper.getRequest(
-      url,
-      true,
-      await SecureStorage.returnHeader(),
-    );
-    if (status is Map<dynamic, dynamic>) {
-      List<HotSales> hotSales =
-          (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
-      return hotSales;
+      final status = await DioHelper.getRequest(
+        url,
+        true,
+        await SecureStorage.returnHeader(),
+      );
+      log('Status is $status');
+
+      if (status is Map<dynamic, dynamic>) {
+        List<HotSales> hotSales =
+            (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+        return hotSales;
+      }else{
+        return Future.error('$status');
+      }
+    } catch (e) {
+      return Future.error('$e');
     }
-    return Future.error('Error $status');
   }
 
   static Future<List<Tips>> fetchTips(String keyword) async {
