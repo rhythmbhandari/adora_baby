@@ -220,7 +220,7 @@ class ShopController extends GetxController {
 
       String keyword = '?page=${isRefresh ? 1 : notificationsIndex.value}';
 
-      await ShopRepository.fetchHotSales(keyword)
+      await ShopRepository.fetchNotifications(keyword)
           .then((value) => {
         if (isRefresh)
           {

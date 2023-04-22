@@ -10,16 +10,16 @@ class ExitDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),),
-          // side: BorderSide(color: AppColors.linear1)),
-      backgroundColor: AppColors.secondary100,
-      title: Text(
-        'Quit?',
-        style: TextStyle(
-            color: Colors.black,
-            // fontFamily: 'WWF',
-            fontSize: 0.03 * Get.height),
+        borderRadius: BorderRadius.circular(30),
       ),
+      // side: BorderSide(color: AppColors.linear1)),
+      backgroundColor: LightTheme.lightNormalActive,
+      title: Text('Are you sure you want to quit?',
+          textAlign: TextAlign.center,
+          style: Get.theme.textTheme.titleMedium?.copyWith(
+              color: DarkTheme.darkNormal,
+              fontSize: 18,
+              fontWeight: FontWeight.w700)),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         GestureDetector(
@@ -35,20 +35,22 @@ class ExitDialog extends StatelessWidget {
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                      AppColors.primary500,
-                      AppColors.secondary500,
+                      AppColors.linear2,
+                      AppColors.linear1,
                     ]),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.only(left:0.01*Get.height,right: 0.014*Get.height),
-                  child: Text(
-                    "NO, CONTINUE USING THE APP",
-                    style: TextStyle(
-                        color: Colors.white, fontFamily: 'Graphik',fontSize: 0.01*Get.height,
-                        fontWeight: FontWeight.w500
-                    ),
+                  padding: EdgeInsets.only(
+                      left: 0.01 * Get.height, right: 0.014 * Get.height),
+                  child: FittedBox(
+                    child: Text("No, Continue Using the App",
+                        maxLines: 1,
+                        style: Get.theme.textTheme.labelSmall?.copyWith(
+                            color: DarkTheme.darkNormal,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400)),
                   ),
                 ),
               ),
@@ -64,7 +66,7 @@ class ExitDialog extends StatelessWidget {
               exit(0);
             },
             child: Text(
-              "YES, I'LL COME BACK LATER.",
+              "Yes, I’ll come back later",
               style: TextStyle(
                   fontSize: 0.014*Get.height,
                   fontWeight: FontWeight.w500,

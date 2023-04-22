@@ -32,6 +32,11 @@ class OtpView extends GetView<AuthController> {
       mode: StopWatchMode.countDown,
       presetMillisecond: StopWatchTimer.getMilliSecFromSecond(60),
     );
+
+    stopWatchTimer.onExecute
+        .add(StopWatchExecute.reset);
+    stopWatchTimer.onExecute
+        .add(StopWatchExecute.start);
     TextEditingController otpController = TextEditingController();
     return WillPopScope(
       onWillPop: () async {

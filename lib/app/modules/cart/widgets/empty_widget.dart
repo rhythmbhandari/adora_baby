@@ -12,9 +12,11 @@ import '../../profile/views/order_history_detail.dart';
 class EmptyWidget extends StatelessWidget {
   EmptyWidget({
     Key? key, this.isSearched = false,
+    this.title = 'No data available.'
   }) : super(key: key);
 
   bool isSearched;
+  String title;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class EmptyWidget extends StatelessWidget {
                 horizontal: 20,
               ),
               child: Text(
-                'No data available.',
+                title,
                 textAlign: TextAlign.center,
                 style: Get.theme.textTheme.headlineMedium?.copyWith(
                   color: DarkTheme.darkLightActive,

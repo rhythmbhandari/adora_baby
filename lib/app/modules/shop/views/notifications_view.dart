@@ -28,11 +28,8 @@ class NotificationsView extends GetView<ShopController> {
   void _onRefresh() async {
     // monitor network fetch
     try {
-      controller.selectedStages.value = 10;
-      controller.selectedFilter.value = 0;
-      controller.searchController.text = "";
       await controller
-          .getHotSalesFiltered(true)
+          .getNotifications(true)
           .then((value) => _refreshControllerNotifications.refreshCompleted());
     } catch (error) {
       _refreshControllerNotifications.refreshFailed();
@@ -45,7 +42,7 @@ class NotificationsView extends GetView<ShopController> {
     // monitor network fetch
     try {
       await controller
-          .getHotSalesFiltered(false)
+          .getNotifications(false)
           .then((value) => _refreshControllerNotifications.loadComplete());
     } catch (error) {
       _refreshControllerNotifications.loadFailed();
@@ -56,14 +53,8 @@ class NotificationsView extends GetView<ShopController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) {
-      controller.hotSalesFiltered.value = Get.arguments;
-    }
     return WillPopScope(
       onWillPop: () async {
-        controller.selectedStages.value = 10;
-        controller.selectedFilter.value = 0;
-        controller.searchController.text = "";
         return true;
       },
       child: Scaffold(
@@ -98,7 +89,7 @@ class NotificationsView extends GetView<ShopController> {
                         Container(
                           alignment: Alignment.center,
                           child: Text(
-                            "Hot Sales",
+                            "Notifications",
                             style: kThemeData.textTheme.displaySmall
                                 ?.copyWith(color: DarkTheme.dark),
                           ),
@@ -190,9 +181,9 @@ class NotificationsView extends GetView<ShopController> {
                               1,
                             ),
                             child: SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               child: Obx(() => controller
-                                      .hotSalesFiltered.isNotEmpty
+                                      .notificationsList.isNotEmpty
                                   ? ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
@@ -484,7 +475,7 @@ class NotificationsView extends GetView<ShopController> {
                                               ),
                                             ),
                                           ))
-                                  : EmptyWidget(isSearched: true)),
+                                  : EmptyWidget(isSearched: true, title: 'No notification available',)),
                             ),
                           ),
                         ),

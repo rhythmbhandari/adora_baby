@@ -252,6 +252,10 @@ class ResetPasswordView extends GetView<AuthController> {
                                       }
                                       controller.progressBarStatusReset.value =
                                           false;
+                                      controller.resetPasswordController.text = '';
+                                      controller.confirmPasswordController.text = '';
+                                      controller.otpController.text = '';
+                                      controller.phoneController.text = '';
                                       var snackBar = SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,

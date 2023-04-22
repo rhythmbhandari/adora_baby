@@ -136,7 +136,7 @@ class NewShopViewBody extends StatelessWidget {
                     height: 40,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 41),
+                    padding: const EdgeInsets.symmetric(horizontal: 41),
                     child: GetBuilder<ProfileController>(
                       id: 'homePageProfile',
                       builder: (value) => Row(
@@ -156,7 +156,7 @@ class NewShopViewBody extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -177,7 +177,7 @@ class NewShopViewBody extends StatelessWidget {
                                           ?.copyWith(
                                               color: DarkTheme.darkNormal),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     GestureDetector(
@@ -186,7 +186,7 @@ class NewShopViewBody extends StatelessWidget {
                                         Get.to(() => const DiamondsView());
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 5,
                                             bottom: 5,
                                             left: 16,
@@ -195,7 +195,7 @@ class NewShopViewBody extends StatelessWidget {
                                         // width: Get.width * 0.2,
                                         // height: 32,
                                         decoration: BoxDecoration(
-                                            gradient: LinearGradient(
+                                            gradient: const LinearGradient(
                                                 begin: Alignment.topLeft,
                                                 end: Alignment.bottomRight,
                                                 colors: [
@@ -217,7 +217,7 @@ class NewShopViewBody extends StatelessWidget {
                                               // height: 0.022 * Get.height,
                                               height: 14,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 4,
                                             ),
                                             Text(
@@ -233,6 +233,18 @@ class NewShopViewBody extends StatelessWidget {
                                           ],
                                         ),
                                       ),
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => NotificationsView());
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/images/message.svg",
+                                          height: 30,
+                                          color: Color(0xff667080)),
                                     ),
                                   ],
                                 ),
@@ -253,7 +265,7 @@ class NewShopViewBody extends StatelessWidget {
                           //     height: 28,
                           //   ),
                           // ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                         ],
@@ -281,7 +293,7 @@ class NewShopViewBody extends StatelessWidget {
                             decoration: InputDecoration(
                               hintText: 'Search for Items',
                               hintStyle: kThemeData.textTheme.bodyLarge
-                                  ?.copyWith(color: Color(0xffAF98A8)),
+                                  ?.copyWith(color: const Color(0xffAF98A8)),
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 18),
                               suffixIcon: Padding(
@@ -319,7 +331,7 @@ class NewShopViewBody extends StatelessWidget {
               color: LightTheme.lightActive,
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 23,
                   ),
                   TrendingImages(controller: controller),
@@ -344,7 +356,7 @@ class NewShopViewBody extends StatelessWidget {
 Widget shimmerHomePage() {
   return Column(
     children: [
-      ShimmerHotSales(),
+      const ShimmerHotSales(),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -365,7 +377,8 @@ Widget shimmerHomePage() {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 2,
-                        offset: Offset(0, 2), // changes position of shadow
+                        offset:
+                            const Offset(0, 2), // changes position of shadow
                       ),
                     ],
                     borderRadius: BorderRadius.circular(15)),
@@ -374,7 +387,7 @@ Widget shimmerHomePage() {
                     Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 12, bottom: 8),
+                          margin: const EdgeInsets.only(top: 12, bottom: 8),
                           child: Center(
                             child: Image.network(
                               "snapshot.data![0][index].productImages[0].name",
@@ -400,7 +413,7 @@ Widget shimmerHomePage() {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Text(
@@ -409,7 +422,7 @@ Widget shimmerHomePage() {
                             style: kThemeData.textTheme.labelSmall?.copyWith(
                                 color: AppColors.secondary700, fontSize: 12),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
                           Text(
@@ -418,7 +431,7 @@ Widget shimmerHomePage() {
                             style: kThemeData.textTheme.bodyMedium?.copyWith(
                                 color: AppColors.primary700, fontSize: 14),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           RatingBar.builder(
@@ -429,11 +442,12 @@ Widget shimmerHomePage() {
                             allowHalfRating: true,
                             glow: false,
                             itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 0.0),
                             itemBuilder: (context, _) => GradientIcon(
                               Icons.star,
                               10.0,
-                              LinearGradient(
+                              const LinearGradient(
                                 colors: <Color>[
                                   Color.fromRGBO(127, 0, 255, 1),
                                   Color.fromRGBO(255, 0, 255, 1)
@@ -446,7 +460,7 @@ Widget shimmerHomePage() {
                               print(rating);
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -468,7 +482,7 @@ Widget shimmerHomePage() {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                         ],
@@ -524,14 +538,14 @@ class ShimmerHotSales extends StatelessWidget {
             padding: const EdgeInsets.only(left: 18),
             child: GridView.count(
               childAspectRatio: 0.6,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               crossAxisCount: 2,
               children: List.generate(
                 4,
                 (index) => Container(
                   padding: const EdgeInsets.only(top: 10),
-                  margin: EdgeInsets.only(right: 18, bottom: 20),
+                  margin: const EdgeInsets.only(right: 18, bottom: 20),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.8),
@@ -561,7 +575,7 @@ class ShimmerHotSales extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(40)),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
             ],
@@ -617,7 +631,7 @@ class ShimmerRecentlyViewed extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.only(top: 10),
-                margin: EdgeInsets.only(right: 18, bottom: 20),
+                margin: const EdgeInsets.only(right: 18, bottom: 20),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.8),
@@ -646,7 +660,7 @@ class ShimmerRecentlyViewed extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(40)),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
             ],
