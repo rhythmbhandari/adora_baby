@@ -19,9 +19,9 @@ class AuthRepository {
     const url = '$BASE_URL/accounts/otp_request/';
     final body = {"phone_number": phoneNumber};
     try {
-      if(phoneNumber == '9869191572'){
-        return true;
-      }
+      // if(phoneNumber == '9869191572'){
+      //   return true;
+      // }
       final response = await http.post(Uri.parse(url), body: body);
 
       log('Response is received ${response.statusCode}');

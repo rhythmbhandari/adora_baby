@@ -7,6 +7,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const OTP = _Paths.OTP;
   static const PHONE = _Paths.PHONE;
+  static const LOGIN = _Paths.LOGIN;
   static const SPLASH = _Paths.SPLASH;
   static const WALKTHROUGH = _Paths.WALKTHROUGH;
   static const SHOP = _Paths.SHOP;
@@ -25,6 +26,7 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const SEARCH = '/search';
   static const PHONE = '/phone';
+  static const LOGIN = '/login';
   static const SPLASH = '/splash';
   static const WALKTHROUGH = '/walkthrough';
   static const SHOP = '/shop';

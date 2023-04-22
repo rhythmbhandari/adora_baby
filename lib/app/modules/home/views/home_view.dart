@@ -308,9 +308,9 @@ class HomeView extends GetView<HomeController> {
                         await storage.delete(
                           Constants.REFRESH_TOKEN,
                         );
-                        Get.offAllNamed(Routes.PHONE);
+                        Get.offAllNamed(Routes.LOGIN);
                       } catch (e) {
-                        Get.offAllNamed(Routes.PHONE);
+                        Get.offAllNamed(Routes.LOGIN);
                       }
                     },
                     leading: SvgPicture.asset(

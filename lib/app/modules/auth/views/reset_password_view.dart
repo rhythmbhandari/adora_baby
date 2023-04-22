@@ -262,7 +262,7 @@ class ResetPasswordView extends GetView<AuthController> {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
-                                      Get.offAndToNamed(Routes.PHONE,
+                                      Get.offAndToNamed(Routes.LOGIN,
                                           arguments: true);
                                     }
                                   } else {

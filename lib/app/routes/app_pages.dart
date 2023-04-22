@@ -37,23 +37,23 @@ class AppPages {
         binding: HomeBinding(),
         transition: Transition.rightToLeftWithFade //
         ),
-    // GetPage(
-    //   name: _Paths.PROFILE,
-    //   page: () => ProfileView(),
-    //   binding: ProfileBinding(),
-    // ),
     GetPage(
         name: _Paths.OTP,
         page: () => const OtpView(),
-        binding: AuthBinding(),
         transition: Transition.rightToLeftWithFade //
         ),
     GetPage(
         name: _Paths.PHONE,
+        page: () => const PhoneView(),
+        binding: AuthBinding(),
+        transition: Transition.noTransition //
+        ),
+    GetPage(
+        name: _Paths.LOGIN,
         page: () => LoginView(),
         binding: AuthBinding(),
-        transition: Transition.rightToLeftWithFade //
-        ),
+        transition: Transition.noTransition //
+    ),
     GetPage(
         name: _Paths.SEARCH,
         page: () => SearchView(),

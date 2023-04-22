@@ -36,12 +36,8 @@ class _MedicalConditionState extends State<MedicalCondition> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return ExitDialog();
-          },
-        );
+        storage.writeData(Constants.LOGGED_IN_STATUS, 'yes');
+        Get.offNamed(Routes.HOME);
         return false;
       },
       child: Scaffold(
@@ -68,19 +64,35 @@ class _MedicalConditionState extends State<MedicalCondition> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              await showDialog<bool>(
-                                context: context,
-                                builder: (context) {
-                                  return ExitDialog();
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  storage.writeData(
+                                      Constants.LOGGED_IN_STATUS, 'yes');
+                                  Get.offNamed(Routes.HOME);
                                 },
-                              );
-                            },
-                            child: SvgPicture.asset(
-                                "assets/images/arrow-left.svg",
-                                height: 22,
-                                color: const Color(0xff667080)),
+                                child: SvgPicture.asset(
+                                    "assets/images/arrow-left.svg",
+                                    height: 22,
+                                    color: const Color(0xff667080)),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  storage.writeData(
+                                      Constants.LOGGED_IN_STATUS, 'yes');
+                                  Get.offNamed(Routes.HOME);
+                                },
+                                child: Text(
+                                  'Skip',
+                                  style:
+                                      kThemeData.textTheme.bodyMedium?.copyWith(
+                                    color: Color.fromRGBO(102, 112, 128, 1),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 28,

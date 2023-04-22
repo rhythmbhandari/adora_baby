@@ -432,7 +432,7 @@ class DioHelper {
       await storage.delete(
         Constants.REFRESH_TOKEN,
       );
-      Get.offAndToNamed(Routes.PHONE);
+      Get.offAndToNamed(Routes.LOGIN);
     }
   }
 }
