@@ -63,16 +63,6 @@ class HotSale extends StatelessWidget {
                               controller.allProducts[index];
                           Get.toNamed(
                             Routes.PRODUCT_DETAILS,
-                            //     arguments: [
-                            //   controller.allProducts[index].name,
-                            //   controller
-                            //       .allProducts[index].productImages[index].name,
-                            //   controller.allProducts[index].reviews[index].grade,
-                            //   controller.allProducts[index].stockAvailable,
-                            //   controller.allProducts[index].regularPrice,
-                            //   controller.allProducts[index].weightInGrams,
-                            //   controller.allProducts[index].bestBy,
-                            // ]
                           );
                         },
                         child: AlignedGridView.count(
@@ -116,7 +106,8 @@ class HotSale extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(() => HotSalesView(), arguments: controller.hotSales);
+                Get.toNamed(Routes.ALLPRODUCTS,
+                    arguments: {'title': 'Hot Sales', 'url': 'shops/hot_sale'},);
               },
               child: Align(
                 alignment: Alignment.centerRight,

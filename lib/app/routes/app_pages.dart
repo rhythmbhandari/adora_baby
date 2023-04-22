@@ -108,7 +108,6 @@ class AppPages {
     GetPage(
         name: _Paths.ALLPRODUCTS,
         page: () => AllProductsView(),
-        transition: Transition.rightToLeftWithFade,
-        binding: AllProductsBinding()),
+        transition: Transition.rightToLeftWithFade,),
   ];
 }

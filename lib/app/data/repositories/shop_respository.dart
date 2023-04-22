@@ -142,6 +142,7 @@ class ShopRepository {
     required String searchKeyword,
     required String categories,
     required String ordering,
+    required String url,
   }) async {
     try {
       final queryParameters = {
@@ -152,10 +153,10 @@ class ShopRepository {
         'limit': limit.toString(),
       };
 
-      final url = '$BASE_URL/shops/${Uri(queryParameters: queryParameters)}';
+      final uri = '$BASE_URL/$url/${Uri(queryParameters: queryParameters)}';
 
       final status = await DioHelper.getRequest(
-        url,
+        uri,
         true,
         await SecureStorage.returnHeader(),
       );

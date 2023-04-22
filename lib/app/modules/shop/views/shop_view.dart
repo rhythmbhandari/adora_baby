@@ -16,6 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/secure_storage.dart';
 import '../../../widgets/gradient_icon.dart';
 
@@ -274,8 +275,8 @@ class NewShopViewBody extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => SearchView(),
-                          arguments: controller.allProducts);
+                      Get.toNamed(Routes.ALLPRODUCTS,
+                          arguments: {'title': 'Search Products', 'url': 'shops'});
                     },
                     child: Hero(
                       tag: 'search',

@@ -291,16 +291,23 @@ class AllProducts extends StatelessWidget {
                         child: _buildImage()))),
             GestureDetector(
               onTap: () {
-                Get.toNamed(Routes.ALLPRODUCTS, arguments: true);
+                Get.toNamed(Routes.ALLPRODUCTS,
+                    arguments: {'title': 'All Products', 'url': 'shops'});
               },
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: EdgeInsets.only(right: 18, bottom: 19),
-                  child: Text(
-                    'See All',
-                    style: kThemeData.textTheme.labelMedium
-                        ?.copyWith(color: AppColors.primary700, fontSize: 16),
+              child: Hero(
+                tag: 'search',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      padding: EdgeInsets.only(right: 18, bottom: 19),
+                      child: Text(
+                        'See All',
+                        style: kThemeData.textTheme.labelMedium
+                            ?.copyWith(color: AppColors.primary700, fontSize: 16),
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -8,6 +8,10 @@ import '../../../data/models/hot_sales_model.dart';
 import '../../../data/repositories/shop_respository.dart';
 
 class AllProductsController extends GetxController {
+  String url;
+
+  AllProductsController({this.url = 'shop/hot_sale'});
+
   final searchText = ''.obs;
   final selectedStages = ''.obs;
   final selectedFilter = Rx<AllFilters>(AllFilters.high);
@@ -32,6 +36,7 @@ class AllProductsController extends GetxController {
         searchKeyword: searchText.value,
         categories: selectedStages.value,
         ordering: selectedFilter.value.filterSend,
+        url: url,
       );
       final isLastPage = products.isEmpty;
       if (isLastPage) {
