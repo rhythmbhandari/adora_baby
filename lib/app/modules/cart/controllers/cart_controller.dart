@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:adora_baby/app/data/models/cart_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
+import 'package:adora_baby/app/data/models/hot_sales_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
+import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:adora_baby/app/widgets/shimmer_widget.dart';
 import 'package:adora_baby/main.dart';

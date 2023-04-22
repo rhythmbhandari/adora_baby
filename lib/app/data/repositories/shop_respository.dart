@@ -35,8 +35,10 @@ class ShopRepository {
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       hotSales.sort((a, b) {
         // Check if either productImages is null, treat it as having no featured image
-        bool aHasFeatured = a.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
-        bool bHasFeatured = b.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
+        bool aHasFeatured =
+            a.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
+        bool bHasFeatured =
+            b.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
 
         // Sort by whether there is a featured image, then by the name
         if (aHasFeatured && !bHasFeatured) {
@@ -66,7 +68,7 @@ class ShopRepository {
 
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
-      (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+          (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       log('Reached here');
       return hotSales;
     }
@@ -113,6 +115,25 @@ class ShopRepository {
     return Future.error('Error $status');
   }
 
+  static Future<HotSales> fetchProduct(String id) async {
+    final url = '$BASE_URL/shops/$id/';
+
+    final status = await DioHelper.getRequest(
+      url,
+      true,
+      await SecureStorage.returnHeader(),
+    );
+    log('Status received is $status');
+    if (status is Map<String, dynamic>) {
+      HotSales hotSale = HotSales.fromJson(
+        status,
+      );
+      return hotSale;
+    }
+
+    return Future.error('Error $status');
+  }
+
   static Future<List<Tips>> fetchTips(String keyword) async {
     final url = '$BASE_URL/tips/$keyword';
 
@@ -124,7 +145,7 @@ class ShopRepository {
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Tips> tips =
-      (status['data'] as List).map((i) => Tips.fromJson(i)).toList();
+          (status['data'] as List).map((i) => Tips.fromJson(i)).toList();
       log('Reached here $tips');
       return tips;
     }
@@ -162,14 +183,13 @@ class ShopRepository {
     log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Filters> stages =
-      (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
+          (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
       log('Reached here $stages');
       return stages;
     }
 
     return Future.error('Error $status');
   }
-
 
   static Future<List<TrendingImages>> fetchTrendingImages() async {
     const url = '$baseUrl/trending-images/?is_active=true';

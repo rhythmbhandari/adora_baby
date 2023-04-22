@@ -283,6 +283,16 @@ class ShopController extends GetxController {
     }
   }
 
+  Future<bool> getIndividualProduct(String id) async {
+    try {
+      final hotSale = await ShopRepository.fetchProduct(id);
+      productSelected.value = hotSale;
+      return true;
+    }catch (e){
+      return false;
+    }
+  }
+
   Future<void> searchProducts(bool isRefresh,
       {bool isFilter = false,
       bool isSearch = false,
