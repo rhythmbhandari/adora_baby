@@ -54,8 +54,9 @@ class HotSale extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Obx(() => controller.hotSales.isNotEmpty
+              padding: const EdgeInsets.all(19.0),
+              child: Obx(
+                () => controller.hotSales.isNotEmpty
                     ? GestureDetector(
                         onTap: () {
                           controller.productSelected.value =
@@ -92,11 +93,27 @@ class HotSale extends StatelessWidget {
                         ))
                     : Container(
                         padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.white,
-                            highlightColor: LightTheme.lightActive,
-                            enabled: true,
-                            child: buildImageHotSales())))),
+                        child: FutureBuilder(
+                          future: Future.delayed(
+                              Duration(seconds: 10), () => 'Timeout Reached'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return Container();
+                            } else {
+                              // return a loading indicator or null here while waiting for the future to complete
+                              return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: LightTheme.lightActive,
+                                enabled: true,
+                                child: buildImageHotSales(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 Get.to(() => HotSalesView(), arguments: controller.hotSales);

@@ -229,7 +229,7 @@ class ResetPasswordView extends GetView<AuthController> {
                                 try {
                                   controller.progressBarStatusReset.value =
                                       true;
-                                  if (await controller
+                                  if (controller
                                       .validateResetPassword()) {
                                     final status =
                                         await controller.resetPasswordStarted();

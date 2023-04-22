@@ -58,7 +58,7 @@ class Product {
         name: json["name"],
         shortName: json["short_name"],
         regularPrice: json["regular_price"].toDouble(),
-        salePrice: json["sale_price"]?.toDouble(),
+        salePrice: (json["sale_price"] != null && json["sale_price"] != 0) ? json["sale_price"]?.toDouble() : null,
         stockAvailable: json["stock_available"],
         productImages: List<ProductImage>.from(
             json["product_images"].map((x) => ProductImage.fromJson(x))),

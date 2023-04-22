@@ -181,10 +181,7 @@ class AuthRepository {
       "password": password,
       "refresh_token": await storage.readRefreshToken()
     });
-    print({
-      "password": password,
-      "refresh_token": await storage.readRefreshToken()
-    });
+
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
@@ -194,7 +191,7 @@ class AuthRepository {
         return true;
       } else if (response.statusCode == 429 || response.statusCode == 401) {
         print('Response is $decodedResponse');
-        return Future.error('${decodedResponse["data"]}');
+        return Future.error('${decodedResponse["data"]}??${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
     } on SocketException {

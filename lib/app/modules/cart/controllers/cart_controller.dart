@@ -159,7 +159,7 @@ class CartController extends GetxController {
             cart.quantity = cart.product.stockQuantity ?? 0;
           }
           cart.product.priceItem = cart.quantity *
-              (cart.product.salePrice ?? cart.product.regularPrice);
+              ((cart.product.salePrice) ??  cart.product.regularPrice );
         }
         completeLoading(progressBarStatusCart, false);
         return true;
