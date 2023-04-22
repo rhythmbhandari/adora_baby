@@ -294,20 +294,14 @@ class AllProducts extends StatelessWidget {
                 Get.toNamed(Routes.ALLPRODUCTS,
                     arguments: {'title': 'All Products', 'url': 'shops'});
               },
-              child: Hero(
-                tag: 'search',
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: EdgeInsets.only(right: 18, bottom: 19),
-                      child: Text(
-                        'See All',
-                        style: kThemeData.textTheme.labelMedium
-                            ?.copyWith(color: AppColors.primary700, fontSize: 16),
-                      ),
-                    ),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: EdgeInsets.only(right: 18, bottom: 19),
+                  child: Text(
+                    'See All',
+                    style: kThemeData.textTheme.labelMedium
+                        ?.copyWith(color: AppColors.primary700, fontSize: 16),
                   ),
                 ),
               ),

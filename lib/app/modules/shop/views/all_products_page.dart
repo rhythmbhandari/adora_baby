@@ -83,94 +83,88 @@ class AllProductsView extends HookWidget {
                       color: LightTheme.whiteActive,
                       child: Column(
                         children: [
-                          Hero(
-                            tag: 'search',
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 32.0, right: 32, top: 33),
-                                child: TextField(
-                                  cursorColor: AppColors.mainColor,
-                                  autofocus: false,
-                                  controller: searchController,
-                                  style: kThemeData
-                                      .textTheme.bodyLarge
-                                      ?.copyWith(
-                                      color: DarkTheme.dark),
-                                  onSubmitted: (value) =>
-                                      controller.onSearch(value),
-                                  decoration: InputDecoration(
-                                    hintText: 'Search for Items',
-                                    filled: true,
-                                    hintStyle: kThemeData
-                                        .textTheme.bodyLarge
-                                        ?.copyWith(
-                                        color: const Color(
-                                            0xffAF98A8)),
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 24,
-                                        vertical: 18),
-                                    suffixIcon: GestureDetector(
-                                      onTap: () =>
-                                          controller.onSearch(
-                                              searchController.text
-                                                  .trim()),
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets.only(
-                                            top: 8.0,
-                                            right: 23,
-                                            bottom: 8),
-                                        child: SvgPicture.asset(
-                                            "assets/images/search-normal.svg"),
-                                      ),
-                                    ),
-                                    fillColor: Colors.white,
-                                    focusedBorder:
-                                    OutlineInputBorder(
-                                        borderRadius:
-                                        BorderRadius
-                                            .circular(33),
-                                        borderSide:
-                                        const BorderSide(
-                                            width: 1,
-                                            color: Color
-                                                .fromRGBO(
-                                                175,
-                                                152,
-                                                168,
-                                                1))),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            33),
-                                        borderSide:
-                                        const BorderSide(
-                                            width: 1,
-                                            color:
-                                            Color.fromRGBO(
-                                                175,
-                                                152,
-                                                168,
-                                                1))),
-                                    enabledBorder:
-                                    OutlineInputBorder(
-                                        borderRadius:
-                                        BorderRadius
-                                            .circular(33),
-                                        borderSide:
-                                        const BorderSide(
-                                            width: 1,
-                                            color: Color
-                                                .fromRGBO(
-                                                175,
-                                                152,
-                                                168,
-                                                1))),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 32.0, right: 32, top: 33),
+                            child: TextField(
+                              cursorColor: AppColors.mainColor,
+                              autofocus: false,
+                              controller: searchController,
+                              style: kThemeData
+                                  .textTheme.bodyLarge
+                                  ?.copyWith(
+                                  color: DarkTheme.dark),
+                              onSubmitted: (value) =>
+                                  controller.onSearch(value),
+                              decoration: InputDecoration(
+                                hintText: 'Search for Items',
+                                filled: true,
+                                hintStyle: kThemeData
+                                    .textTheme.bodyLarge
+                                    ?.copyWith(
+                                    color: const Color(
+                                        0xffAF98A8)),
+                                contentPadding:
+                                const EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                    vertical: 18),
+                                suffixIcon: GestureDetector(
+                                  onTap: () =>
+                                      controller.onSearch(
+                                          searchController.text
+                                              .trim()),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(
+                                        top: 8.0,
+                                        right: 23,
+                                        bottom: 8),
+                                    child: SvgPicture.asset(
+                                        "assets/images/search-normal.svg"),
                                   ),
                                 ),
+                                fillColor: Colors.white,
+                                focusedBorder:
+                                OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color: Color
+                                            .fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color:
+                                        Color.fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
+                                enabledBorder:
+                                OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(33),
+                                    borderSide:
+                                    const BorderSide(
+                                        width: 1,
+                                        color: Color
+                                            .fromRGBO(
+                                            175,
+                                            152,
+                                            168,
+                                            1))),
                               ),
                             ),
                           ),

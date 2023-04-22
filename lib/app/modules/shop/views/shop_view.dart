@@ -273,49 +273,43 @@ class NewShopViewBody extends StatelessWidget {
                       Get.toNamed(Routes.ALLPRODUCTS,
                           arguments: {'title': 'Search Products', 'url': 'shops'});
                     },
-                    child: Hero(
-                      tag: 'search',
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 31.0, right: 31, top: 20),
-                          child: TextField(
-                            cursorColor: AppColors.mainColor,
-                            // focusNode: searchNode,
-                            autofocus: false,
-                            enabled: false,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              hintText: 'Search for Items',
-                              hintStyle: kThemeData.textTheme.bodyLarge
-                                  ?.copyWith(color: const Color(0xffAF98A8)),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 18),
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, right: 23, bottom: 8),
-                                child: SvgPicture.asset(
-                                    "assets/images/search-normal.svg"),
-                              ),
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(33),
-                                  borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Color.fromRGBO(175, 152, 168, 1))),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(33),
-                                  borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Color.fromRGBO(175, 152, 168, 1))),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(33),
-                                  borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Color.fromRGBO(175, 152, 168, 1))),
-                            ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 31.0, right: 31, top: 20),
+                      child: TextField(
+                        cursorColor: AppColors.mainColor,
+                        // focusNode: searchNode,
+                        autofocus: false,
+                        enabled: false,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          hintText: 'Search for Items',
+                          hintStyle: kThemeData.textTheme.bodyLarge
+                              ?.copyWith(color: const Color(0xffAF98A8)),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 18),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8.0, right: 23, bottom: 8),
+                            child: SvgPicture.asset(
+                                "assets/images/search-normal.svg"),
                           ),
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(33),
+                              borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(175, 152, 168, 1))),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(33),
+                              borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(175, 152, 168, 1))),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(33),
+                              borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(175, 152, 168, 1))),
                         ),
                       ),
                     ),

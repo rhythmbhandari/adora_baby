@@ -55,221 +55,225 @@ class CartCardWidget extends StatelessWidget {
           bottom: 30,
         ),
         elevation: 2.5,
-        child: Padding(
-          padding:
-              const EdgeInsets.only(right: 14, top: 20, bottom: 20, left: 14),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GetBuilder<CartController>(
-                id: 'individualCheckbox',
-                builder: (myController) => Transform.scale(
-                  scale: 1.2,
-                  child: SizedBox(
-                    height: 24.0,
-                    width: 24.0,
-                    child: Checkbox(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+        child: Opacity(
+          opacity: (controller.cartList[index].product?.stockAvailable!
+              ? 1: 0.7) ?? 0.7,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(right: 14, top: 20, bottom: 20, left: 14),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GetBuilder<CartController>(
+                  id: 'individualCheckbox',
+                  builder: (myController) => Transform.scale(
+                    scale: 1.2,
+                    child: SizedBox(
+                      height: 24.0,
+                      width: 24.0,
+                      child: Checkbox(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
 
-                      side: const BorderSide(
-                          width: 1, color: DarkTheme.darkLightActive),
-                      focusColor: AppColors.primary500,
-                      // fillColor:
-                      //     MaterialStateProperty
-                      //         .all(DarkTheme
-                      //             .lightActive),
-                      value: myController.cartList[index].checkBox,
-                      onChanged: (bool? val) =>
-                          myController.individualCheckboxPressed(
-                        val,
-                        index,
+                        side: const BorderSide(
+                            width: 1, color: DarkTheme.darkLightActive),
+                        focusColor: AppColors.primary500,
+                        // fillColor:
+                        //     MaterialStateProperty
+                        //         .all(DarkTheme
+                        //             .lightActive),
+                        value: myController.cartList[index].checkBox,
+                        onChanged: (bool? val) =>
+                            myController.individualCheckboxPressed(
+                          val,
+                          index,
+                        ),
                       ),
                     ),
                   ),
+                  // onChanged: (value) => onChanged,
                 ),
-                // onChanged: (value) => onChanged,
-              ),
-              Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  // height: Get.height * 0.18,
-                  width: Get.width * 0.35,
-                  child: Image.network(
-                    (controller.cartList[index].product?.productImages?.isEmpty
-                        ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                        : '${controller.cartList[index].product.productImages?.firstWhere(
-                                  (image) =>
-                                      image?.isFeaturedImage != null &&
-                                      image?.isFeaturedImage == true,
-                                  orElse: () => ProductImage(
-                                    name:
-                                        'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
-                                    id: '',
-                                    product: '',
-                                    isFeaturedImage: true,
-                                  ),
-                                ).name ?? ''}' ??
-                            ''),
-                    // controller
-                    // .cartList[index].product!.productImages![0]!.name!
-                  )),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.cartList[index].product?.shortName
-                              .toString()
-                              .capitalize ??
-                          '',
-                      style: kThemeData.textTheme.bodyMedium?.copyWith(
-                        color: AppColors.secondary700,
+                Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    // height: Get.height * 0.18,
+                    width: Get.width * 0.35,
+                    child: Image.network(
+                      (controller.cartList[index].product?.productImages?.isEmpty
+                          ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
+                          : '${controller.cartList[index].product.productImages?.firstWhere(
+                                    (image) =>
+                                        image?.isFeaturedImage != null &&
+                                        image?.isFeaturedImage == true,
+                                    orElse: () => ProductImage(
+                                      name:
+                                          'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                      id: '',
+                                      product: '',
+                                      isFeaturedImage: true,
+                                    ),
+                                  ).name ?? ''}' ??
+                              ''),
+                      // controller
+                      // .cartList[index].product!.productImages![0]!.name!
+                    )),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.cartList[index].product?.shortName
+                                .toString()
+                                .capitalize ??
+                            '',
+                        style: kThemeData.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.secondary700,
+                        ),
                       ),
-                    ),
-                    Text(
-                      controller.cartList[index].product!.name!,
-                      style: kThemeData.textTheme.titleMedium?.copyWith(
-                        color: AppColors.primary700,
+                      Text(
+                        controller.cartList[index].product!.name!,
+                        style: kThemeData.textTheme.titleMedium?.copyWith(
+                          color: AppColors.primary700,
+                        ),
                       ),
-                    ),
-                    controller.cartList[index].product!.stockAvailable!
-                        ? Text(
-                            "In-Stock",
-                            style: kThemeData.textTheme.titleMedium?.copyWith(
-                              color: AppColors.success700,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          )
-                        : Text(
-                            "Out of stock",
-                            style: kThemeData.textTheme.titleMedium?.copyWith(
-                              color: AppColors.error700,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    GetBuilder<CartController>(
-                      id: 'add_remove_cart',
-                      builder: (getController) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final status = await getController
-                                  .removeFromCartPressed(index);
-                              if (status) {
-                              } else {
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content:
-                                      Text(controller.authError.toUpperCase()),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: DarkTheme.normal)),
-                              child: const Icon(
-                                Icons.remove,
-                                color: DarkTheme.normal,
-                                size: 20,
+                      controller.cartList[index].product!.stockAvailable!
+                          ? Text(
+                              "In-Stock",
+                              style: kThemeData.textTheme.titleMedium?.copyWith(
+                                color: AppColors.success700,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            )
+                          : Text(
+                              "Out of stock",
+                              style: kThemeData.textTheme.titleMedium?.copyWith(
+                                color: AppColors.error700,
+                                fontStyle: FontStyle.italic,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          Container(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                              width: Get.width * 0.15,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: DarkTheme.normal)),
-                              child: Center(
-                                child: Obx(
-                                  () => Text(
-                                      getController.cartList[index].quantity
-                                          .toString(),
-                                      style: kThemeData.textTheme.titleMedium
-                                          ?.copyWith(color: DarkTheme.dark)),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      GetBuilder<CartController>(
+                        id: 'add_remove_cart',
+                        builder: (getController) => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final status = await getController
+                                    .removeFromCartPressed(index);
+                                if (status) {
+                                } else {
+                                  var snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.red,
+                                    duration: const Duration(milliseconds: 2000),
+                                    content:
+                                        Text(controller.authError.toUpperCase()),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: DarkTheme.normal)),
+                                child: const Icon(
+                                  Icons.remove,
+                                  color: DarkTheme.normal,
+                                  size: 20,
                                 ),
-                              )),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              final status =
-                                  await getController.addToCartPressed(index);
-                              if (status) {
-                              } else {
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content:
-                                      Text(controller.authError.toUpperCase()),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: DarkTheme.normal)),
-                              child: const Icon(
-                                Icons.add,
-                                color: DarkTheme.normal,
-                                size: 20,
                               ),
                             ),
-                          ),
-                          const Expanded(
-                            child: SizedBox(),
-                          ),
-                          // SvgPicture.asset(
-                          //   "assets/images/like.svg",
-                          //   height: 24,
-                          //   width: 24,
-                          // )
-                        ],
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Container(
+                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                width: Get.width * 0.15,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: DarkTheme.normal)),
+                                child: Center(
+                                  child: Obx(
+                                    () => Text(
+                                        getController.cartList[index].quantity
+                                            .toString(),
+                                        style: kThemeData.textTheme.titleMedium
+                                            ?.copyWith(color: DarkTheme.dark)),
+                                  ),
+                                )),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                final status =
+                                    await getController.addToCartPressed(index);
+                                if (status) {
+                                } else {
+                                  var snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.red,
+                                    duration: const Duration(milliseconds: 2000),
+                                    content:
+                                        Text(controller.authError.toUpperCase()),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: DarkTheme.normal)),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: DarkTheme.normal,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                            const Expanded(
+                              child: SizedBox(),
+                            ),
+                            // SvgPicture.asset(
+                            //   "assets/images/like.svg",
+                            //   height: 24,
+                            //   width: 24,
+                            // )
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Obx(() => Container(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            "Rs. ${controller.cartList[index].product.priceItem}",
-                            style: const TextStyle(
-                                color: DarkTheme.darkNormal,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16),
-                          ),
-                        ))
-                  ],
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Obx(() => Container(
+                            alignment: Alignment.bottomRight,
+                            child: Text(
+                              "Rs. ${controller.cartList[index].product.priceItem}",
+                              style: const TextStyle(
+                                  color: DarkTheme.darkNormal,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

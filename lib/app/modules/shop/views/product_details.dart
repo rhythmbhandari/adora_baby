@@ -79,6 +79,8 @@ class _ProductDetailsState extends State<ProductDetails>
     super.dispose();
   }
 
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return progressWrap(
@@ -244,10 +246,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                     enableInfiniteScroll: false,
                                     padEnds: false,
                                     onPageChanged: (val, _) {
-                                      // setState(() {
-                                      //   print("new index $val");
-                                      //   carouselController.jumpToPage(val);
-                                      // });
+                                      setState(() {
+                                        _currentIndex = val;
+                                      });
                                     },
                                     // clipBehavior: Clip.antiAlias,
                                     // onPageChanged: callbackFunction,
@@ -291,6 +292,23 @@ class _ProductDetailsState extends State<ProductDetails>
                           //     ),
                           //   ),
                           // ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(sortedImages.length, (index) {
+                              return Container(
+                                width: 8.0,
+                                height: 8.0,
+                                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _currentIndex == index ? AppColors.primary500 : AppColors.primary500.withOpacity(0.5),
+                                ),
+                              );
+                            }),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
