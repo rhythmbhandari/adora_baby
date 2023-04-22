@@ -1,14 +1,11 @@
-import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../data/models/get_address_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
@@ -37,8 +34,8 @@ class OrderConfirmation extends GetView<CartController> {
                     borderRadius: BorderRadius.circular(
                       30,
                     ),
-                    boxShadow: [
-                      const BoxShadow(
+                    boxShadow: const [
+                      BoxShadow(
                         color: Color.fromRGBO(0, 0, 0, 0.1),
                         blurRadius: 0.2,
                         spreadRadius: 1,
@@ -53,13 +50,13 @@ class OrderConfirmation extends GetView<CartController> {
                       width: Get.width * 0.9,
                       height: Get.height * 0.33,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 28,
                     ),
                     Text(
                       "WE ARE ON OUR WAY",
                       style: kThemeData.textTheme.displaySmall?.copyWith(
-                        color: Color.fromRGBO(84, 104, 129, 1),
+                        color: const Color.fromRGBO(84, 104, 129, 1),
                       ),
                     ),
                     const SizedBox(
@@ -68,7 +65,7 @@ class OrderConfirmation extends GetView<CartController> {
                     Text(
                       "Hang Back and Relax!",
                       style: kThemeData.textTheme.bodyLarge?.copyWith(
-                        color: Color.fromRGBO(84, 104, 129, 1),
+                        color: const Color.fromRGBO(84, 104, 129, 1),
                       ),
                     ),
                     const SizedBox(
@@ -78,14 +75,14 @@ class OrderConfirmation extends GetView<CartController> {
                       "Your order will be delivered within 2 business days.",
                       textAlign: TextAlign.center,
                       style: kThemeData.textTheme.bodyLarge?.copyWith(
-                        color: Color.fromRGBO(84, 104, 129, 1),
+                        color: const Color.fromRGBO(84, 104, 129, 1),
                       ),
                     ),
                     SizedBox(
                       height: Get.height * 0.05,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: ButtonsWidget(
                           name: "Track My Order",
                           onPressed: () {

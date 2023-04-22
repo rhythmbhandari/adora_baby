@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../../main.dart';
 import 'package:dio/dio.dart' as d;
@@ -19,16 +16,10 @@ class AuthRepository {
     const url = '$BASE_URL/accounts/otp_request/';
     final body = {"phone_number": phoneNumber};
     try {
-      // if(phoneNumber == '9869191572'){
-      //   return true;
-      // }
       final response = await http.post(Uri.parse(url), body: body);
 
-      log('Response is received ${response.statusCode}');
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      log('Message is received $decodedResponse');
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -46,19 +37,13 @@ class AuthRepository {
     final body = {"phone_number": phoneNumber};
 
     try {
-
-      // if(phoneNumber == '9869191572'){
-      //   return true;
-      // }
       final response = await http.post(Uri.parse(url), body: body);
 
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else {
-        print('Response is $decodedResponse');
         return Future.error(decodedResponse["error"] ?? decodedResponse["detail"] ?? 'Not working');
       }
     } on SocketException {
@@ -79,7 +64,6 @@ class AuthRepository {
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -153,16 +137,12 @@ class AuthRepository {
   static Future<bool> registerBabyName(String fullName, String username,
       String password, String babyName, String dateOfBirth) async {
     const url = '$BASE_URL/accounts/me/';
-    print('Date of Birth $dateOfBirth');
     final body = jsonEncode({"baby_name": babyName, "baby_dob": dateOfBirth});
-    print({"baby_name": babyName, "baby_dob": dateOfBirth});
     try {
       final response = await http.post(Uri.parse(url),
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      print('Decoded response is $decodedResponse');
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -187,10 +167,8 @@ class AuthRepository {
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else if (response.statusCode == 429 || response.statusCode == 401) {
-        print('Response is $decodedResponse');
         return Future.error('${decodedResponse["data"]}??${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -213,10 +191,8 @@ class AuthRepository {
           body: body, headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is $response');
         return true;
       } else if (response.statusCode == 429 || response.statusCode == 401) {
-        print('Response is $decodedResponse');
         return Future.error('${decodedResponse["data"]}');
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -239,7 +215,6 @@ class AuthRepository {
       if (response.statusCode == 200) {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);
-        print(response.body);
         return true;
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');
@@ -259,12 +234,9 @@ class AuthRepository {
 
       final response = await http.post(Uri.parse(url), body: body);
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      print('Response is $decodedResponse');
-      print('Status code is ${response.statusCode}');
       if (response.statusCode == 200) {
         storage.saveAccessToken(decodedResponse["data"]["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["data"]["token"]["refresh"]);
-        print(response.body);
         return true;
       } else {
         return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
@@ -308,7 +280,6 @@ class AuthRepository {
 
     String url = '$BASE_URL/MedicalCategories/';
     final response = await http.get(Uri.parse(url));
-    print('Response is $response');
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     if (response.statusCode == 200) {
       if ((decodedResponse["data"] as List).isNotEmpty) {

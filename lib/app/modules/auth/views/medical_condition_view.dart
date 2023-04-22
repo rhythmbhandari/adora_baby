@@ -1,24 +1,15 @@
-import 'package:adora_baby/app/modules/auth/views/baby_detail_view.dart';
-import 'package:adora_baby/app/modules/home/views/home_view.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/buttons.dart';
-import '../../../widgets/choice_leader.dart';
 import '../../../widgets/custom_progress_bar.dart';
-import '../../../widgets/exit_dialog.dart';
-import '../../../widgets/filter_chip.dart';
 import '../controllers/auth_controllers.dart';
 
 class MedicalCondition extends StatefulWidget {
@@ -88,7 +79,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                   'Skip',
                                   style:
                                       kThemeData.textTheme.bodyMedium?.copyWith(
-                                    color: Color.fromRGBO(102, 112, 128, 1),
+                                    color: const Color.fromRGBO(102, 112, 128, 1),
                                   ),
                                 ),
                               ),
@@ -100,9 +91,6 @@ class _MedicalConditionState extends State<MedicalCondition> {
                           GestureDetector(
                             onTap: () {
                               controller.getMedicalCategories();
-                              if (kDebugMode) {
-                                print('Started');
-                              }
                             },
                             child: Text(
                               'Baby’s Medical Condition',
@@ -127,7 +115,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                     snapshot.data!.isNotEmpty) {
                                   return ListView.builder(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount: controller
                                           .babyMedicalCondition.length,
                                       itemBuilder:
@@ -192,7 +180,7 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                               textDirection: TextDirection.ltr,
                                               wrapped: true,
                                             ),
-                                            SizedBox(height: 10),
+                                            const SizedBox(height: 10),
                                           ],
                                         );
                                       });
@@ -221,15 +209,10 @@ class _MedicalConditionState extends State<MedicalCondition> {
                           const SizedBox(
                             height: 8,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => const ChoiceLeader());
-                            },
-                            child: Text(
-                              'Special Note',
-                              style: kThemeData.textTheme.titleMedium
-                                  ?.copyWith(color: AppColors.primary700),
-                            ),
+                          Text(
+                            'Special Note',
+                            style: kThemeData.textTheme.titleMedium
+                                ?.copyWith(color: AppColors.primary700),
                           ),
                           const SizedBox(
                             height: 16,
@@ -291,7 +274,6 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                     final status =
                                         controller.validateMedicalCondition();
                                     if (status) {
-                                      debugPrint('API Hit');
                                       final response = await controller
                                           .addMedicalCondition();
                                       if (response) {
@@ -318,7 +300,6 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                             .value = false;
                                       }
                                     } else {
-                                      debugPrint('Moving On');
                                       controller
                                           .progressBarStatusCompleteProfile
                                           .value = false;
@@ -370,11 +351,11 @@ Widget _buildImage() {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(33)),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
                 height: 30,
@@ -384,7 +365,7 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -396,7 +377,7 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -408,24 +389,24 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            Expanded(
-                child: const SizedBox(
+            const Expanded(
+                child: SizedBox(
               width: 10,
             )),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
           height: 20,
           width: 150,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(33)),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
                 height: 30,
@@ -435,7 +416,7 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -448,7 +429,7 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -461,8 +442,8 @@ Widget _buildImage() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            Expanded(
-                child: const SizedBox(
+            const Expanded(
+                child: SizedBox(
               width: 10,
             )),
           ],

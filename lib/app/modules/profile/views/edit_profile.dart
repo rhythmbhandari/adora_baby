@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../routes/app_pages.dart';
-import '../../../widgets/custom_progress_bar.dart';
 import '../../cart/widgets/address_widget.dart';
 import '../controllers/profile_controller.dart';
 import 'edit_profile_individual/edit_identification.dart';
@@ -32,9 +31,6 @@ class EditProfile extends GetView<ProfileController> {
                         padding: const EdgeInsets.only(left: 30.0),
                         child: GestureDetector(
                             onTap: () {
-                              // controller.selectedStages.value = 10;
-                              // controller.selectedFilter.value = 0;
-                              // controller.searchController.text = "";
                               Get.back();
                             },
                             child: const Icon(
@@ -42,7 +38,7 @@ class EditProfile extends GetView<ProfileController> {
                               color: Colors.black,
                             )),
                       ),
-                      Expanded(flex: 2, child: SizedBox()),
+                      const Expanded(flex: 2, child: SizedBox()),
                       Container(
                         alignment: Alignment.center,
                         child: Text(
@@ -51,7 +47,7 @@ class EditProfile extends GetView<ProfileController> {
                               ?.copyWith(color: DarkTheme.dark),
                         ),
                       ),
-                      Expanded(flex: 3, child: SizedBox()),
+                      const Expanded(flex: 3, child: SizedBox()),
                     ],
                   ),
                 ),
@@ -59,7 +55,7 @@ class EditProfile extends GetView<ProfileController> {
                   height: Get.height * 0.03,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 32,
                   ),
                   child: Column(
@@ -113,8 +109,8 @@ class EditProfile extends GetView<ProfileController> {
                                     ),
                                     borderRadius: BorderRadius.circular(33)),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 24),
-                                hintStyle: TextStyle(
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -154,8 +150,8 @@ class EditProfile extends GetView<ProfileController> {
                                     ),
                                     borderRadius: BorderRadius.circular(33)),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 24),
-                                hintStyle: TextStyle(
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     fontFamily: 'Poppins',
@@ -230,7 +226,7 @@ class EditProfile extends GetView<ProfileController> {
                                           color: Colors.grey.withOpacity(0.3),
                                           spreadRadius: 1,
                                           blurRadius: 1,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               2), // changes position of shadow
                                         ),
                                       ],
@@ -242,10 +238,10 @@ class EditProfile extends GetView<ProfileController> {
                                       children: [
                                         Image.asset(
                                             "assets/images/location-add.png"),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
-                                        Text("Add New Address" + '\n',
+                                        Text("Add New Address" '\n',
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: kThemeData
@@ -265,7 +261,7 @@ class EditProfile extends GetView<ProfileController> {
                 ),
                 Expanded(child: Container()),
                 Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 32,
                     ),
                     child: ButtonsWidget(

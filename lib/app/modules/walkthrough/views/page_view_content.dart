@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../../config/app_colors.dart';
-import '../controllers/walkthrough_controller.dart';
 import 'walkthrough_content.dart';
 
 class PageViewContent extends StatelessWidget {
   final void Function(int)? onPageChanged;
   final PageController pageController;
 
-  PageViewContent({required this.onPageChanged, required this.pageController});
+  const PageViewContent({super.key, required this.onPageChanged, required this.pageController});
 
   @override
   Widget build(BuildContext context) {

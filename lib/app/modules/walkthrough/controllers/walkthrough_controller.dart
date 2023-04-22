@@ -16,7 +16,7 @@ class WalkthroughController extends GetxController {
   callNextPage(pageController) {
     incrementCurrentIndex();
     pageController.animateToPage(currentIndex,
-        duration: Duration(milliseconds: 800), curve: Curves.ease);
+        duration: const Duration(milliseconds: 800), curve: Curves.ease);
   }
 
   @override

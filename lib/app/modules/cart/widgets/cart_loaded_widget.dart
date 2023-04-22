@@ -1,23 +1,14 @@
-import 'dart:developer';
-
 import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:adora_baby/app/modules/cart/widgets/item_card.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../enums/progress_status.dart';
-import '../../shop/widgets/auth_progress_indicator.dart';
 import '../controllers/cart_controller.dart';
-import '../widgets/custom_error_widget.dart';
-import '../widgets/empty_widget.dart';
-import '../widgets/internet_error_widget.dart';
 import 'cart_shimmer.dart';
 
 class CartLoadedWidget extends StatelessWidget {
@@ -35,11 +26,9 @@ class CartLoadedWidget extends StatelessWidget {
           color: LightTheme.white,
         ),
         margin: const EdgeInsets.symmetric(vertical: 10),
-        // padding: const EdgeInsets.symmetric(
-        //     horizontal: 22, vertical: 34),
         child: Obx(() => controller.cartList.isNotEmpty
             ? SingleChildScrollView(
-              child: Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -73,7 +62,8 @@ class CartLoadedWidget extends StatelessWidget {
                                     scale: 1.2,
                                     child: Checkbox(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
                                         ),
                                         side: const BorderSide(
                                             width: 1,
@@ -108,14 +98,13 @@ class CartLoadedWidget extends StatelessWidget {
 
                                     final removalStatus = await controller
                                         .requestToDeleteCart(carIdList);
-                                    log('Removal status $removalStatus');
                                     if (!removalStatus) {
-                                      var snackBar = SnackBar(
+                                      var snackBar = const SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
                                         duration:
-                                            const Duration(milliseconds: 2000),
+                                            Duration(milliseconds: 2000),
                                         content: Text(
                                             'Could not remove all items from cart.'),
                                       );
@@ -123,12 +112,12 @@ class CartLoadedWidget extends StatelessWidget {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     } else {
-                                      var snackBar = SnackBar(
+                                      var snackBar = const SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: AppColors.success500,
                                         duration:
-                                            const Duration(milliseconds: 2000),
+                                            Duration(milliseconds: 2000),
                                         content: Text(
                                             'Successfully removed items from cart.'),
                                       );
@@ -145,12 +134,12 @@ class CartLoadedWidget extends StatelessWidget {
                                           : true,
                                     );
                                   } else {
-                                    var snackBar = SnackBar(
+                                    var snackBar = const SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: AppColors.secondary500,
                                       duration:
-                                          const Duration(milliseconds: 2000),
+                                          Duration(milliseconds: 2000),
                                       content: Text(
                                           'Please select an item to remove.'),
                                     );
@@ -203,7 +192,6 @@ class CartLoadedWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     Container(
                         color: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 56.0),
@@ -218,8 +206,8 @@ class CartLoadedWidget extends StatelessWidget {
                             ),
                             Obx(() => Text(
                                   "Rs. ${controller.priceCart.value}",
-                                  style:
-                                      kThemeData.textTheme.titleMedium?.copyWith(
+                                  style: kThemeData.textTheme.titleMedium
+                                      ?.copyWith(
                                     color: DarkTheme.darkNormal,
                                     fontSize: 16,
                                   ),
@@ -235,7 +223,7 @@ class CartLoadedWidget extends StatelessWidget {
                           name: "Proceed",
                           onPressed: () {
                             if (controller.priceCart.value == 0.0) {
-                              var snackBar = SnackBar(
+                              var snackBar = const SnackBar(
                                 elevation: 0,
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: Colors.red,
@@ -257,12 +245,12 @@ class CartLoadedWidget extends StatelessWidget {
                               }
                               if (SessionManager.instance.user != null) {
                                 controller.fNameController.text =
-                                    SessionManager.instance.user?.fullName ?? '';
+                                    SessionManager.instance.user?.fullName ??
+                                        '';
                                 controller.phoneController.text =
                                     SessionManager.instance.user?.phoneNumber ??
                                         '';
                               }
-                              log('Cart is ${controller.cartMap}');
                               Get.toNamed(Routes.PERSONAL_INFORMATION);
                             }
                           }),
@@ -272,7 +260,7 @@ class CartLoadedWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-            )
+              )
             : const CartShimmer()));
   }
 }

@@ -1,25 +1,11 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/trending_images.dart';
-import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
-
-import 'package:get/get.dart';
-
-import '../../modules/shop/enums/all_filters_enum.dart';
-import '../../widgets/custom_progress_bar.dart';
 import '../models/stages_brands.dart';
 import '../models/tips_model.dart';
 import '../network/dio_client.dart';
 import '../network/network_helper.dart';
-
 import '../models/hot_sales_model.dart';
-import '../models/stages_brands.dart' as a;
-
 import '../../utils/secure_storage.dart';
-import 'package:http/http.dart' as http;
 
 class ShopRepository {
   static Future<List<HotSales>> fetchHotSales(String keyword) async {
@@ -35,13 +21,10 @@ class ShopRepository {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
       hotSales.sort((a, b) {
-        // Check if either productImages is null, treat it as having no featured image
         bool aHasFeatured =
             a.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
         bool bHasFeatured =
             b.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
-
-        // Sort by whether there is a featured image, then by the name
         if (aHasFeatured && !bHasFeatured) {
           return -1;
         } else if (!aHasFeatured && bHasFeatured) {
@@ -50,8 +33,6 @@ class ShopRepository {
           return 0;
         }
       });
-
-      log('Reached here');
       return hotSales;
     }
 
@@ -70,7 +51,6 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
-      log('Reached here');
       return hotSales;
     }
 
@@ -85,14 +65,11 @@ class ShopRepository {
     final data = response.data;
 
     if (response.statusCode == 200) {
-      print("Response : ${response.data}");
-
       List<HotSales> datas = (response.data["data"] as List)
           .map((i) => HotSales.fromJson(i))
           .toList();
       return datas;
     } else {
-      print(response.statusMessage);
       return Future.error(data['message']);
     }
   }
@@ -105,11 +82,9 @@ class ShopRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
-      log('Reached here $hotSales');
       return hotSales;
     }
 
@@ -124,12 +99,10 @@ class ShopRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<String, dynamic>) {
       HotSales hotSale = HotSales.fromJson(
         status,
       );
-      log('Reached here $hotSale');
       return hotSale;
     }
 
@@ -160,13 +133,12 @@ class ShopRepository {
         true,
         await SecureStorage.returnHeader(),
       );
-      log('Status is $status');
 
       if (status is Map<dynamic, dynamic>) {
         List<HotSales> hotSales =
             (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
         return hotSales;
-      }else{
+      } else {
         return Future.error('$status');
       }
     } catch (e) {
@@ -182,11 +154,9 @@ class ShopRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Tips> tips =
           (status['data'] as List).map((i) => Tips.fromJson(i)).toList();
-      log('Reached here $tips');
       return tips;
     }
 
@@ -201,11 +171,9 @@ class ShopRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Filters> brands =
           (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
-      log('Reached here $brands');
       return brands;
     }
 
@@ -220,11 +188,9 @@ class ShopRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Filters> stages =
           (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
-      log('Reached here $stages');
       return stages;
     }
 

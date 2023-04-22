@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../routes/app_pages.dart';
 import '../../../widgets/custom_progress_bar.dart';
 
 class ChangePassword extends GetView<HomeController> {
@@ -49,7 +48,7 @@ class ChangePassword extends GetView<HomeController> {
                                   color: DarkTheme.darkNormal,
                                 )),
                           ),
-                          SizedBox(),
+                          const SizedBox(),
                         ],
                       ),
                     ),
@@ -57,7 +56,7 @@ class ChangePassword extends GetView<HomeController> {
                       height: Get.height * 0.01,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       child: SingleChildScrollView(
@@ -112,12 +111,12 @@ class ChangePassword extends GetView<HomeController> {
                                           borderRadius: BorderRadius.circular(33),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               width: 1,
                                               color: DarkTheme.darkLighter,
                                             ),
                                             borderRadius: BorderRadius.circular(33)),
-                                        contentPadding: EdgeInsets.symmetric(
+                                        contentPadding: const EdgeInsets.symmetric(
                                             horizontal: 24, vertical: 16),
                                         hintStyle:
                                             kThemeData.textTheme.bodyLarge?.copyWith(
@@ -137,7 +136,7 @@ class ChangePassword extends GetView<HomeController> {
                                                     ? "assets/images/eye.svg"
                                                     : "assets/images/eye-slash.svg",
                                                 height: 22,
-                                                color: Color(0xff667080)),
+                                                color: const Color(0xff667080)),
                                           ),
                                         ),
                                       )),
@@ -172,12 +171,12 @@ class ChangePassword extends GetView<HomeController> {
                                           borderRadius: BorderRadius.circular(33),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               width: 1,
                                               color: DarkTheme.darkLighter,
                                             ),
                                             borderRadius: BorderRadius.circular(33)),
-                                        contentPadding: EdgeInsets.symmetric(
+                                        contentPadding: const EdgeInsets.symmetric(
                                             horizontal: 24, vertical: 16),
                                         hintStyle:
                                             kThemeData.textTheme.bodyLarge?.copyWith(
@@ -197,7 +196,7 @@ class ChangePassword extends GetView<HomeController> {
                                                     ? "assets/images/eye.svg"
                                                     : "assets/images/eye-slash.svg",
                                                 height: 22,
-                                                color: Color(0xff667080)),
+                                                color: const Color(0xff667080)),
                                           ),
                                         ),
                                       )),
@@ -231,12 +230,12 @@ class ChangePassword extends GetView<HomeController> {
                                           borderRadius: BorderRadius.circular(33),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               width: 1,
                                               color: DarkTheme.darkLighter,
                                             ),
                                             borderRadius: BorderRadius.circular(33)),
-                                        contentPadding: EdgeInsets.symmetric(
+                                        contentPadding: const EdgeInsets.symmetric(
                                             horizontal: 24, vertical: 16),
                                         hintStyle:
                                             kThemeData.textTheme.bodyLarge?.copyWith(
@@ -256,7 +255,7 @@ class ChangePassword extends GetView<HomeController> {
                                                     ? "assets/images/eye.svg"
                                                     : "assets/images/eye-slash.svg",
                                                 height: 22,
-                                                color: Color(0xff667080)),
+                                                color: const Color(0xff667080)),
                                           ),
                                         ),
                                       )),
@@ -268,7 +267,7 @@ class ChangePassword extends GetView<HomeController> {
                       height: Get.height * 0.04,
                     ),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                         ),
                         child: ButtonsWidget(
@@ -279,7 +278,7 @@ class ChangePassword extends GetView<HomeController> {
                               try {
                                 controller.progressBarStatusReset.value =
                                 true;
-                                if (await controller
+                                if (controller
                                     .validateResetPassword()) {
                                   final status =
                                   await controller.initiatePasswordChange();
@@ -290,7 +289,7 @@ class ChangePassword extends GetView<HomeController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text(
                                           "${controller.authError.toUpperCase()}"),
                                     );
@@ -299,7 +298,7 @@ class ChangePassword extends GetView<HomeController> {
                                   } else {
                                     controller.progressBarStatusReset.value =
                                     false;
-                                    var snackBar = SnackBar(
+                                    var snackBar = const SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: AppColors.success500,
@@ -316,7 +315,7 @@ class ChangePassword extends GetView<HomeController> {
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: Colors.red,
-                                    duration: Duration(milliseconds: 2000),
+                                    duration: const Duration(milliseconds: 2000),
                                     content: Text("${controller.authError}"),
                                   );
                                   ScaffoldMessenger.of(context)

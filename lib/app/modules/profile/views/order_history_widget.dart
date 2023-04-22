@@ -143,17 +143,17 @@ class OrderHistoryWidgets extends StatelessWidget {
           child: Obx(() {
             switch (progressStatus.value) {
               case ProgressStatus.error:
-                return Container(
+                return SizedBox(
                     height: Get.height * 0.7,
-                    child: FittedBox(child: const CustomErrorWidget()));
+                    child: const FittedBox(child: CustomErrorWidget()));
               case ProgressStatus.internetError:
-                return Container(
+                return SizedBox(
                     height: Get.height * 0.7,
-                    child: FittedBox(child: const InternetErrorWidget()));
+                    child: const FittedBox(child: InternetErrorWidget()));
               case ProgressStatus.empty:
-                return Container(
+                return SizedBox(
                     height: Get.height * 0.7,
-                    child: FittedBox(child: EmptyWidget()));
+                    child: const FittedBox(child: EmptyWidget()));
               case ProgressStatus.idle:
               case ProgressStatus.loading:
               case ProgressStatus.searching:
@@ -167,7 +167,7 @@ class OrderHistoryWidgets extends StatelessWidget {
                             GestureDetector(
                               onTap: () {
                                 controller.selectedOrders.value = list[index];
-                                Get.to(() => OrderHistoryDetail());
+                                Get.to(() => const OrderHistoryDetail());
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(

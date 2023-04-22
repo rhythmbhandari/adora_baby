@@ -1,13 +1,12 @@
 library jwt_decoder;
 
 import 'dart:convert';
-import 'dart:developer';
 
 class JwtDecoder {
   static Map<String, dynamic> decode(String token) {
     final splitToken = token.split(".");
     if (splitToken.length != 3) {
-      throw FormatException('Invalid token');
+      throw const FormatException('Invalid token');
     }
     try {
       final payloadBase64 = splitToken[1];
@@ -17,7 +16,7 @@ class JwtDecoder {
 
       return decodedPayload;
     } catch (error) {
-      throw FormatException('Invalid payload');
+      throw const FormatException('Invalid payload');
     }
   }
 
@@ -31,7 +30,6 @@ class JwtDecoder {
 
   static bool isExpired(String token) {
     final expirationDate = getExpirationDate(token);
-    log('Expiration date is $expirationDate');
     return DateTime.now().isAfter(expirationDate);
   }
 

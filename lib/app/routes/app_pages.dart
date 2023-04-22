@@ -3,7 +3,6 @@ import 'package:adora_baby/app/modules/cart/views/add_address_view.dart';
 import 'package:adora_baby/app/modules/cart/views/personal_info_view.dart';
 import 'package:adora_baby/app/modules/shop/views/all_products_page.dart';
 import 'package:get/get.dart';
-
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/checkout_view.dart';

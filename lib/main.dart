@@ -1,8 +1,6 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +19,6 @@ final storage = StorageManager();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   String messageType = message.data['type'];
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  log(messageType);
 }
 
 
@@ -31,16 +28,10 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  log('$messaging');
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    log('Got a message whilst in the foreground!');
-    log('Message data: ${message.data}');
-
     if (message.notification != null) {
-      log('Message also contained a notification: ${message.notification}');
     }
   });
 
@@ -70,7 +61,6 @@ Future<void> main() async {
           const ResponsiveBreakpoint.autoScale(800, name: TABLET),
           const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
         ],
-        // background: Container(color: Color(0xFFF5F5F5))
       ),
       debugShowCheckedModeBanner: false,
       title: "Application",

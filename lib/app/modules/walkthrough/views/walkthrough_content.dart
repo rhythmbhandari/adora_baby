@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../config/app_colors.dart';
-
 class WalkthroughContent extends StatelessWidget {
   final String heading;
   final String content;
@@ -12,8 +10,8 @@ class WalkthroughContent extends StatelessWidget {
   final Color appColors;
   final double index;
 
-  WalkthroughContent(
-      {required this.heading,
+  const WalkthroughContent(
+      {super.key, required this.heading,
       required this.content,
       this.centerImage = true,
       required this.appColors,
@@ -29,12 +27,9 @@ class WalkthroughContent extends StatelessWidget {
         children: [
           SizedBox(height: Get.height * 0.06),
 
-          Container(
-            // height: Get.height * 0.36,
-            child: SvgPicture.asset(
-              imageUrl,
-              fit: BoxFit.contain,
-            ),
+          SvgPicture.asset(
+            imageUrl,
+            fit: BoxFit.contain,
           ),
           SizedBox(height: Get.height * 0.04),
           Text(
@@ -42,10 +37,10 @@ class WalkthroughContent extends StatelessWidget {
             textAlign: TextAlign.start,
             style: Get.textTheme.displaySmall,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             content,
-            style: Get.textTheme.bodyLarge?.copyWith(color: Color(0xff1D242D)),
+            style: Get.textTheme.bodyLarge?.copyWith(color: const Color(0xff1D242D)),
             textAlign: TextAlign.start,
           ),
         ],
@@ -59,10 +54,10 @@ class WalkthroughContent extends StatelessWidget {
             textAlign: TextAlign.start,
             style: Get.textTheme.displaySmall,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             content,
-            style: Get.textTheme.bodyLarge?.copyWith(color: Color(0xff1D242D)),
+            style: Get.textTheme.bodyLarge?.copyWith(color: const Color(0xff1D242D)),
             textAlign: TextAlign.start,
           ),
           SizedBox(height: Get.height * 0.05),
@@ -72,7 +67,7 @@ class WalkthroughContent extends StatelessWidget {
                   imageUrl,
                   // fit: BoxFit.contain,
                 ))
-              : Container(
+              : SizedBox(
                   height: Get.height * 0.36,
                   child: SvgPicture.asset(
                     imageUrl,

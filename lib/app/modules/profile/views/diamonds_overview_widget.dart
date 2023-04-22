@@ -1,5 +1,4 @@
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
-import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,9 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
-import '../../../utils/date_time_converter.dart';
 import '../../cart/widgets/custom_error_widget.dart';
-import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
 
 class DiamondsOverviewWidget extends StatelessWidget {
@@ -35,12 +32,6 @@ class DiamondsOverviewWidget extends StatelessWidget {
     required this.progressStatus,
   });
 
-  Map<String, double> dataMap = {
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-  };
 
   void _onRefresh() async {
     try {
@@ -70,17 +61,17 @@ class DiamondsOverviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       enablePullDown: true,
       enablePullUp: false,
       header: ClassicHeader(
         refreshStyle: RefreshStyle.Follow,
-        releaseIcon: SizedBox(
+        releaseIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
-        failedIcon: Icon(Icons.error, color: Colors.grey),
-        idleIcon: SizedBox(
+            child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: CupertinoActivityIndicator.partiallyRevealed(
@@ -95,26 +86,26 @@ class DiamondsOverviewWidget extends StatelessWidget {
         failedText: '',
         completeText: '',
         refreshingText: '',
-        refreshingIcon: SizedBox(
+        refreshingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
+            child: CupertinoActivityIndicator()),
       ),
       footer: ClassicFooter(
         // refreshStyle: RefreshStyle.Follow,
         canLoadingText: '',
         loadStyle: LoadStyle.ShowWhenLoading,
         noDataText: '',
-        noMoreIcon: SizedBox(
+        noMoreIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: Icon(Icons.expand_circle_down, color: Colors.red)),
-        canLoadingIcon: SizedBox(
+        canLoadingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
-        failedIcon: Icon(Icons.error, color: Colors.grey),
-        idleIcon: SizedBox(
+            child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: CupertinoActivityIndicator.partiallyRevealed(
@@ -127,35 +118,35 @@ class DiamondsOverviewWidget extends StatelessWidget {
         idleText: '',
         failedText: '',
         loadingText: '',
-        loadingIcon: SizedBox(
+        loadingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
+            child: CupertinoActivityIndicator()),
       ),
       controller: refreshController,
       onRefresh: _onRefresh,
       child: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.only(top: 16),
         child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Obx(() {
               switch (progressStatus.value) {
                 case ProgressStatus.error:
-                  return Container(
+                  return SizedBox(
                       height: Get.height * 0.7,
-                      child: FittedBox(child: const CustomErrorWidget()));
+                      child: const FittedBox(child: CustomErrorWidget()));
                 case ProgressStatus.internetError:
-                  return Container(
+                  return SizedBox(
                       height: Get.height * 0.7,
-                      child: FittedBox(child: const InternetErrorWidget()));
+                      child: const FittedBox(child: InternetErrorWidget()));
                 case ProgressStatus.empty:
                   return Container(
                     height: Get.height * 0.85,
                     margin: EdgeInsets.symmetric(
                       vertical: Get.height * 0.02,
                     ),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
                     child: Column(
@@ -167,7 +158,7 @@ class DiamondsOverviewWidget extends StatelessWidget {
                             // Get.to(TempView());
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 40,
                               vertical: 20,
                             ),
@@ -191,12 +182,12 @@ class DiamondsOverviewWidget extends StatelessWidget {
                           ),
                         ),
 
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 25),
-                          padding: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(horizontal: 25),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 18,
                             vertical: 22,
                           ),
@@ -206,8 +197,8 @@ class DiamondsOverviewWidget extends StatelessWidget {
                                 width: 0.1,
                               ),
                               color: Colors.white,
-                              boxShadow: [
-                                const BoxShadow(
+                              boxShadow: const [
+                                BoxShadow(
                                   color: Color.fromRGBO(0, 0, 0, 0.18),
                                   blurRadius: 3,
                                   spreadRadius: 1,
@@ -227,7 +218,7 @@ class DiamondsOverviewWidget extends StatelessWidget {
                                 height: 22,
                                 // color: const Color(0xff667080),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Expanded(
@@ -310,7 +301,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      SizedBox(
+      const SizedBox(
         height: 60,
       ),
       Stack(
@@ -336,10 +327,10 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               )),
           PieChart(
             dataMap: value,
-            animationDuration: Duration(milliseconds: 800),
+            animationDuration: const Duration(milliseconds: 800),
             chartLegendSpacing: 32,
             chartRadius: MediaQuery.of(context).size.width / 2,
-            colorList: <Color>[
+            colorList: const <Color>[
               Color.fromRGBO(
                 1,
                 125,
@@ -368,7 +359,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               legendTextStyle: kThemeData.textTheme.labelSmall!
                   .copyWith(color: DarkTheme.dark),
             ),
-            chartValuesOptions: ChartValuesOptions(
+            chartValuesOptions: const ChartValuesOptions(
               showChartValueBackground: true,
               showChartValues: false,
               showChartValuesInPercentage: false,
@@ -380,12 +371,12 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
           ),
         ],
       ),
-      SizedBox(
+      const SizedBox(
         height: 60,
       ),
       Container(
-        margin: EdgeInsets.symmetric(horizontal: 25),
-        padding: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 22,
         ),
@@ -395,8 +386,8 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               width: 0.1,
             ),
             color: Colors.white,
-            boxShadow: [
-              const BoxShadow(
+            boxShadow: const [
+              BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.18),
                 blurRadius: 3,
                 spreadRadius: 1,
@@ -416,7 +407,7 @@ Widget pieChartWidget(Map<String, double> value, BuildContext context) {
               height: 22,
               // color: const Color(0xff667080),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(

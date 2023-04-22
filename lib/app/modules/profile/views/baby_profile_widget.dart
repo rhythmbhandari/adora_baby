@@ -43,7 +43,6 @@ void _showPicker(context, c) {
                     Text('Camera'.tr, style: kThemeData.textTheme.bodyMedium),
                 onTap: () async {
                   final status = await Permission.camera.request();
-                  debugPrint('Status is $status');
                   if (status.isGranted) {
                     controller.getImageChild(ImageSource.camera);
                     Navigator.of(context).pop();
@@ -62,8 +61,8 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
   return Obx(() => Container(
       decoration: BoxDecoration(
           color: LightTheme.white, borderRadius: BorderRadius.circular(20)),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-      padding: EdgeInsets.symmetric(horizontal: 33, vertical: 34),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 34),
       child: Stack(
         children: [
           Column(
@@ -75,7 +74,7 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 style: kThemeData.textTheme.displaySmall
                     ?.copyWith(color: DarkTheme.normal),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               GetBuilder<ProfileController>(
@@ -121,7 +120,7 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 style: kThemeData.textTheme.displaySmall
                     ?.copyWith(color: DarkTheme.dark),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Text(
@@ -129,7 +128,7 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 style: kThemeData.textTheme.bodyLarge
                     ?.copyWith(color: DarkTheme.dark),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               controller.selectedTags.isEmpty || controller.selectedMedicalConditions.isEmpty
@@ -143,12 +142,13 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 style: kThemeData.textTheme.bodyLarge
                     ?.copyWith(color: DarkTheme.normal),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
             ],
           ),
           Positioned(
+            right: 0,
             child: GestureDetector(
               onTap: () {
                 Get.to(() => const EditChildProfile());
@@ -158,7 +158,6 @@ Widget babyProfile(ProfileController controller, BuildContext context) {
                 height: 0.027 * Get.height,
               ),
             ),
-            right: 0,
           )
         ],
       )));

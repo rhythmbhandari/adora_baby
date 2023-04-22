@@ -37,7 +37,7 @@ class HomeView extends GetView<HomeController> {
         ),
         key: _scaffoldKey,
         drawerScrimColor: Colors.transparent,
-        endDrawer: Container(
+        endDrawer: SizedBox(
           width: Get.width * 0.85,
           child: Drawer(
             elevation: 0,
@@ -54,7 +54,7 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 24,
                           ),
                           title: Text(
@@ -79,7 +79,7 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           minLeadingWidth: 0,
@@ -103,11 +103,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -2),
+                              const VisualDensity(horizontal: 0, vertical: -2),
                           minLeadingWidth: 0,
                           title: Text(
                             'Notification',
@@ -130,11 +130,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -2),
+                              const VisualDensity(horizontal: 0, vertical: -2),
                           minLeadingWidth: 0,
                           title: Text(
                             'Adora Baby',
@@ -160,11 +160,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -2),
+                              const VisualDensity(horizontal: 0, vertical: -2),
                           minLeadingWidth: 0,
                           title: Text(
                             'Facebook',
@@ -191,11 +191,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -2),
+                              const VisualDensity(horizontal: 0, vertical: -2),
                           minLeadingWidth: 0,
                           title: Text(
                             'Instagram',
@@ -222,11 +222,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -2),
+                              const VisualDensity(horizontal: 0, vertical: -2),
                           minLeadingWidth: 0,
                           title: Text(
                             'Tiktok',
@@ -253,11 +253,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                         ListTile(
                           selectedTileColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -4),
+                              const VisualDensity(horizontal: 0, vertical: -4),
                           minLeadingWidth: 0,
                           title: Text(
                             'Contact Us',
@@ -284,7 +284,7 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: DarkTheme.darkLightActive,
                   ),
                   ListTile(
@@ -293,7 +293,7 @@ class HomeView extends GetView<HomeController> {
                       style: kThemeData.textTheme.bodyLarge
                           ?.copyWith(color: DarkTheme.normal, fontSize: 18),
                     ),
-                    contentPadding: EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 24,
                     ),
                     minLeadingWidth: 0,
@@ -319,10 +319,10 @@ class HomeView extends GetView<HomeController> {
                       color: DarkTheme.normal,
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: DarkTheme.darkLightActive,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   GestureDetector(
@@ -345,7 +345,7 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

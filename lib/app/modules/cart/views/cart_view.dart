@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../main.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
@@ -33,10 +30,12 @@ class CartView extends GetView<CartController> {
             backgroundColor: LightTheme.white,
             elevation: 0,
             systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: AppColors.primary500, // You can use this as well
-              statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
-              statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
-
+              statusBarColor: AppColors.primary500,
+              // You can use this as well
+              statusBarIconBrightness: Brightness.light,
+              // OR Vice Versa for ThemeMode.dark
+              statusBarBrightness:
+                  Brightness.light, // OR Vice Versa for ThemeMode.dark
             ),
           ),
           body: SafeArea(
@@ -45,9 +44,7 @@ class CartView extends GetView<CartController> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () async {
-                      log((await storage.readAccessToken()).toString());
-                    },
+                    onTap: () async {},
                     child: Container(
                       color: LightTheme.white,
                       padding: EdgeInsets.only(
@@ -145,7 +142,7 @@ class CartView extends GetView<CartController> {
                               margin: EdgeInsets.symmetric(
                                 vertical: Get.height * 0.02,
                               ),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
                               ),
                               child: Column(
@@ -157,7 +154,7 @@ class CartView extends GetView<CartController> {
                                       // Get.to(TempView());
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 40,
                                         vertical: 40,
                                       ),

@@ -2,9 +2,7 @@ import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../utils/sp_calculator.dart';
-
-MaterialColor mycolor = MaterialColor(
+MaterialColor myColor = MaterialColor(
   const Color.fromRGBO(174, 5, 233, 1).value,
   const <int, Color>{
     50: Color.fromRGBO(247, 230, 253, 1),
@@ -22,15 +20,12 @@ MaterialColor mycolor = MaterialColor(
 
 final kThemeDataDark = ThemeData.dark();
 
-final kThemeData = ThemeData(primarySwatch: mycolor).copyWith(
+final kThemeData = ThemeData(primarySwatch: myColor).copyWith(
     primaryColor: const Color(0xffAE05E9),
     hintColor: Colors.grey[900],
     splashColor: const Color(0xffAE05E9).withOpacity(0.5),
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.dark,
-      // iconTheme: IconThemeData(
-      //   color: Color(0xff4ebfa3),
-      // ),
     ),
     textTheme: const TextTheme().copyWith(
       //Heading1

@@ -11,7 +11,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../controllers/profile_controller.dart';
-import 'edit_profile.dart';
 import 'edit_profile_individual/edit_medical_condition.dart';
 
 class EditChildProfile extends StatefulWidget {
@@ -42,9 +41,6 @@ class _EditChildProfileState extends State<EditChildProfile> {
                         padding: const EdgeInsets.only(left: 30.0),
                         child: GestureDetector(
                             onTap: () {
-                              // controller.selectedStages.value = 10;
-                              // controller.selectedFilter.value = 0;
-                              // controller.searchController.text = "";
                               Get.back();
                             },
                             child: const Icon(
@@ -52,7 +48,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                               color: Colors.black,
                             )),
                       ),
-                      Expanded(flex: 2, child: SizedBox()),
+                      const Expanded(flex: 2, child: SizedBox()),
                       Container(
                         alignment: Alignment.center,
                         child: Text(
@@ -61,7 +57,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                               ?.copyWith(color: DarkTheme.dark),
                         ),
                       ),
-                      Expanded(flex: 3, child: SizedBox()),
+                      const Expanded(flex: 3, child: SizedBox()),
                     ],
                   ),
                 ),
@@ -71,7 +67,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       child: Column(
@@ -125,8 +121,8 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                         borderRadius:
                                             BorderRadius.circular(33)),
                                     contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 24),
-                                    hintStyle: TextStyle(
+                                        const EdgeInsets.symmetric(horizontal: 24),
+                                    hintStyle: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16,
                                         fontFamily: 'Poppins',
@@ -174,10 +170,10 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                       borderRadius: BorderRadius.circular(33),
                                     ),
                                     suffixIcon: Padding(
-                                      padding: EdgeInsets.all(14),
+                                      padding: const EdgeInsets.all(14),
                                       child: SvgPicture.asset(
                                           "assets/images/calendar.svg",
-                                          color: Color(0xff667080)),
+                                          color: const Color(0xff667080)),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -188,8 +184,8 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                         borderRadius:
                                             BorderRadius.circular(33)),
                                     contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 24),
-                                    hintStyle: TextStyle(
+                                        const EdgeInsets.symmetric(horizontal: 24),
+                                    hintStyle: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16,
                                         fontFamily: 'Poppins',
@@ -206,7 +202,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                       snapshot.data!.isNotEmpty) {
                                     return ListView.builder(
                                         shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         itemCount: controller
                                             .babyMedicalCondition.length,
@@ -307,7 +303,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                                                   wrapped: true,
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                             ],
                                           );
                                         });
@@ -411,7 +407,7 @@ class _EditChildProfileState extends State<EditChildProfile> {
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 32,
                     ),
                     child: ButtonsWidget(
@@ -442,11 +438,11 @@ Widget buildShimmerEdit() {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(33)),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
                 height: 30,
@@ -456,7 +452,7 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -468,7 +464,7 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -480,24 +476,24 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            Expanded(
-                child: const SizedBox(
+            const Expanded(
+                child: SizedBox(
               width: 10,
             )),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
           height: 20,
           width: 150,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(33)),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
                 height: 30,
@@ -507,7 +503,7 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -520,7 +516,7 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -533,8 +529,8 @@ Widget buildShimmerEdit() {
                     borderRadius: BorderRadius.circular(33)),
               ),
             ),
-            Expanded(
-                child: const SizedBox(
+            const Expanded(
+                child: SizedBox(
               width: 10,
             )),
           ],

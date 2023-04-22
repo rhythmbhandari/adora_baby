@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../routes/app_pages.dart';
 import '../../../widgets/buttons.dart';
 import '../../shop/widgets/auth_progress_indicator.dart';
 
@@ -29,7 +28,7 @@ class CheckOutView extends GetView<CartController> {
                   children: [
                     Container(
                       color: LightTheme.white,
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       padding: EdgeInsets.only(
@@ -62,7 +61,7 @@ class CheckOutView extends GetView<CartController> {
                       height: Get.height * 0.04,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: Text(
                         'Payment Method',
                         maxLines: 1,
@@ -72,19 +71,19 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 23,
                           vertical: 24,
                         ),
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                             left: 32, right: 32, top: 16, bottom: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           border:
                               Border.all(color: Colors.black.withOpacity(0.05)),
                           color: Colors.white,
-                          boxShadow: [
-                            const BoxShadow(
+                          boxShadow: const [
+                            BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.1),
                               blurRadius: 0.2,
                               spreadRadius: 1,
@@ -115,7 +114,7 @@ class CheckOutView extends GetView<CartController> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 33,
                             ),
                             SvgPicture.asset(
@@ -123,7 +122,7 @@ class CheckOutView extends GetView<CartController> {
                               // height: 22,
                               // color: Color(0xff667080)
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 33,
                             ),
                             Expanded(
@@ -147,19 +146,19 @@ class CheckOutView extends GetView<CartController> {
                           ],
                         )),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 23,
                           vertical: 24,
                         ),
                         margin:
-                            EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                            const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           border:
                               Border.all(color: Colors.black.withOpacity(0.05)),
                           color: Colors.white,
-                          boxShadow: [
-                            const BoxShadow(
+                          boxShadow: const [
+                            BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.06),
                               blurRadius: 0.2,
                               spreadRadius: 0.5,
@@ -222,14 +221,14 @@ class CheckOutView extends GetView<CartController> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 33,
                             ),
                             SvgPicture.asset(
                                 "assets/images/profile_diamonds.svg",
                                 height: 35,
                                 color: DarkTheme.darkNormal),
-                            SizedBox(
+                            const SizedBox(
                               width: 33,
                             ),
                             Expanded(
@@ -243,7 +242,7 @@ class CheckOutView extends GetView<CartController> {
                                         ?.copyWith(color: DarkTheme.darkNormal),
                                   ),
                                   Text(
-                                    'Get Rs. ${myController.checkoutModel.value.dimondOff ?? 0} off/-',
+                                    'Get Rs. ${myController.checkoutModel.value.dimondOff} off/-',
                                     style: kThemeData.textTheme.bodyMedium
                                         ?.copyWith(color: DarkTheme.darkNormal),
                                   ),
@@ -256,7 +255,7 @@ class CheckOutView extends GetView<CartController> {
                       height: Get.height * 0.02,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: Text(
                         'Applied Coupon',
                         maxLines: 1,
@@ -305,7 +304,7 @@ class CheckOutView extends GetView<CartController> {
                                             .trim().toUpperCase());
                                 if (status) {
                                   myController.update(['priceTotal']);
-                                  var snackBar = SnackBar(
+                                  var snackBar = const SnackBar(
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.success500,
@@ -320,7 +319,7 @@ class CheckOutView extends GetView<CartController> {
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: Colors.red,
-                                    duration: Duration(milliseconds: 2000),
+                                    duration: const Duration(milliseconds: 2000),
                                     content: Text("${myController.authError}"),
                                   );
                                   ScaffoldMessenger.of(context)
@@ -331,7 +330,7 @@ class CheckOutView extends GetView<CartController> {
                                     status);
                               }
                             },
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.all(12),
                               child: Icon(
                                 Icons.arrow_forward_ios,
@@ -342,7 +341,7 @@ class CheckOutView extends GetView<CartController> {
                           ),
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   width: 1, color: AppColors.secondary500),
                               borderRadius: BorderRadius.circular(
                                 33,
@@ -365,7 +364,7 @@ class CheckOutView extends GetView<CartController> {
                     ),
                     Container(
                       height: Get.height * 0.02,
-                      color: Color.fromRGBO(
+                      color: const Color.fromRGBO(
                         250,
                         245,
                         252,
@@ -376,7 +375,7 @@ class CheckOutView extends GetView<CartController> {
                       height: Get.height * 0.04,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 56,
                       ),
                       child: Row(
@@ -397,7 +396,7 @@ class CheckOutView extends GetView<CartController> {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 56, vertical: 5),
+                          const EdgeInsets.symmetric(horizontal: 56, vertical: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -415,7 +414,7 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                      padding: const EdgeInsets.only(left: 56, right: 56, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -433,7 +432,7 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                      padding: const EdgeInsets.only(left: 56, right: 56, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -451,7 +450,7 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 56, right: 56, bottom: 5, top: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -476,7 +475,7 @@ class CheckOutView extends GetView<CartController> {
                       height: 30,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: ButtonsWidget(
                           name: "Confirm",
                           onPressed: () async {

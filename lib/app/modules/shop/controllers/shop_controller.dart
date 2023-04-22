@@ -1,21 +1,13 @@
-import 'dart:developer';
-import 'dart:io';
 
-import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/data/repositories/data_repository.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../main.dart';
 import '../../../data/models/hot_sales_model.dart';
 import '../../../data/models/reviews.dart';
-import '../../../data/models/stages_brands.dart';
 import '../../../data/repositories/cart_repository.dart';
-import '../../../widgets/buttons.dart';
-import '../../../widgets/radio_buttons.dart';
 import '../../../enums/progress_status.dart';
-import '../../profile/controllers/profile_controller.dart';
 
 class ShopController extends GetxController {
   var stagesValue = "true".obs;
@@ -98,7 +90,6 @@ class ShopController extends GetxController {
   hideErrorBar() => progressStatus.value = ProgressStatus.idle;
 
   incrementCounter(int stockQuantity) {
-    log('Pressed');
     if (counter.value > 0) {
       if (counter.value < stockQuantity) {
         counter.value++;
@@ -131,10 +122,6 @@ class ShopController extends GetxController {
     );
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   Future<void> getTrendingImages() async {
     try {
@@ -202,14 +189,12 @@ class ShopController extends GetxController {
       final response =
       await DataRepository.fetchReviews(productSelected.value.id ?? '');
 
-      log('Response is $response');
       if (response.isNotEmpty) {
         return response;
       } else {
         return [];
       }
     } catch (e) {
-      log('Error is $e');
       return [];
     }
   }
@@ -242,47 +227,6 @@ class ShopController extends GetxController {
     }
   }
 
-  Future<void> getHotSalesFiltered(bool isRefresh,
-      {bool isFilter = false,
-      bool isSearch = false,
-      String searchKeyword = '',
-      String filterId = '',
-      bool isOrdered = false,
-      String ordering = '-regular_price'}) async {
-    try {
-      showProgressBar();
-      if (isSearch || isOrdered || isFilter) {
-        progressStatus.value = ProgressStatus.searching;
-      }
-
-      String keyword = '?page=${isRefresh ? 1 : hotSalesIndex.value}';
-      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-      await ShopRepository.fetchHotSales(keyword)
-          .then((value) => {
-                if (isRefresh & (isSearch || isOrdered || isFilter))
-                  {
-                    if (value.isEmpty)
-                      {hotSalesFiltered.value = [].obs, hotSalesIndex.value = 2}
-                    else
-                      {log('hehe'),
-                        hotSalesFiltered.value = value, hotSalesIndex.value = 2}
-                  }
-                else
-                  {hotSalesFiltered.addAll(value), hotSalesIndex.value++}
-              })
-          .then((value) => hideProgressBar());
-    } catch (error) {
-      authError.value = error.toString();
-      showErrorBar();
-      Future.delayed(const Duration(seconds: 0)).then(
-        (value) => hideProgressBar(),
-      );
-    }
-  }
-
   Future<bool> getIndividualProduct(String id) async {
     try {
       final hotSale = await ShopRepository.fetchIndividualProduct(id);
@@ -290,56 +234,6 @@ class ShopController extends GetxController {
       return true;
     }catch (e){
       return false;
-    }
-  }
-
-  Future<void> searchProducts(bool isRefresh,
-      {bool isFilter = false,
-      bool isSearch = false,
-      String searchKeyword = '',
-      String filterId = '',
-      bool isOrdered = false,
-      String ordering = '-regular_price'}) async {
-    try {
-      showProgressBar();
-      if (isSearch || isOrdered || isFilter) {
-        progressStatus.value = ProgressStatus.searching;
-      }
-
-      String keyword =
-          '?page=${isRefresh ? 1 : allProductsSearchedIndex.value}';
-      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-      await ShopRepository.fetchAllProducts(keyword)
-          .then((value) => {
-                if (isRefresh & (isSearch || isOrdered || isFilter))
-                  {
-                    if (value.isEmpty)
-                      {
-                        allProductsSearched.value = [].obs,
-                        allProductsSearchedIndex.value = 2
-                      }
-                    else
-                      {
-                        allProductsSearched.value = value,
-                        allProductsSearchedIndex.value = 2
-                      }
-                  }
-                else
-                  {
-                    allProductsSearched.addAll(value),
-                    allProductsSearchedIndex.value++
-                  }
-              })
-          .then((value) => hideProgressBar());
-    } catch (error) {
-      authError.value = error.toString();
-      showErrorBar();
-      Future.delayed(const Duration(seconds: 0)).then(
-        (value) => hideProgressBar(),
-      );
     }
   }
 
@@ -398,52 +292,6 @@ class ShopController extends GetxController {
                     tipsListFiltered.addAll(value),
                     tipsIndex.value++,
                   }
-              })
-          .then((value) => hideProgressBar());
-    } catch (error) {
-      authError.value = error.toString();
-      showErrorBar();
-      Future.delayed(const Duration(seconds: 0)).then(
-        (value) => hideProgressBar(),
-      );
-    }
-  }
-
-  Future<void> getAllProductsFiltered(bool isRefresh,
-      {bool isFilter = false,
-      bool isSearch = false,
-      String searchKeyword = '',
-      String filterId = '',
-      bool isOrdered = false,
-      String ordering = '-regular_price'}) async {
-    try {
-      showProgressBar();
-      if (isSearch || isOrdered || isFilter) {
-        progressStatus.value = ProgressStatus.searching;
-      }
-
-      String keyword = '?page=${isRefresh ? 1 : allProductsIndex.value}';
-      keyword = '$keyword${isSearch ? '&search=$searchKeyword' : ''}';
-      keyword = '$keyword${isFilter ? '&categories=$filterId' : ''}';
-      keyword = '$keyword${isOrdered ? '&ordering=$ordering' : ''}';
-
-      await ShopRepository.fetchAllProducts(keyword)
-          .then((value) => {
-                if (isRefresh & (isSearch || isOrdered || isFilter))
-                  {
-                    if (value.isEmpty)
-                      {
-                        allProductsFiltered.value = [].obs,
-                        allProductsIndex.value = 2
-                      }
-                    else
-                      {
-                        allProductsFiltered.value = value,
-                        allProductsIndex.value = 2
-                      }
-                  }
-                else
-                  {allProductsFiltered.addAll(value), allProductsIndex.value++}
               })
           .then((value) => hideProgressBar());
     } catch (error) {

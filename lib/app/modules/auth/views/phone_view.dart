@@ -1,6 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/login_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +15,6 @@ class PhoneView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -83,8 +81,8 @@ class PhoneView extends GetView<AuthController> {
                                     ),
                                     borderRadius: BorderRadius.circular(33)),
                                 hintText: 'Phone Number',
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 24),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
                                 hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -100,8 +98,7 @@ class PhoneView extends GetView<AuthController> {
                               ? () async {
                                   try {
                                     controller.progressBarStatus.value = true;
-                                    if (await controller
-                                        .validatePhoneNumber()) {
+                                    if (controller.validatePhoneNumber()) {
                                       final status = await controller
                                           .requestOtpFromServer();
                                       if (!status) {
@@ -111,17 +108,14 @@ class PhoneView extends GetView<AuthController> {
                                           elevation: 0,
                                           behavior: SnackBarBehavior.floating,
                                           backgroundColor: Colors.red,
-                                          duration:
-                                              const Duration(milliseconds: 2000),
-                                          content: Text(
-                                              controller.authError.toUpperCase()),
+                                          duration: const Duration(
+                                              milliseconds: 2000),
+                                          content: Text(controller.authError
+                                              .toUpperCase()),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
                                       } else {
-                                        if (kDebugMode) {
-                                          print("success");
-                                        }
                                         controller.progressBarStatus.value =
                                             false;
                                         Get.toNamed(Routes.OTP,
@@ -132,7 +126,8 @@ class PhoneView extends GetView<AuthController> {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
-                                        duration: const Duration(milliseconds: 2000),
+                                        duration:
+                                            const Duration(milliseconds: 2000),
                                         content:
                                             Text("${controller.authError}"),
                                       );
@@ -164,8 +159,9 @@ class PhoneView extends GetView<AuthController> {
                                   letterSpacing: 0.08),
                             ),
                             GestureDetector(
-                              onTap: (){
-                                Get.to(() => LoginView(), preventDuplicates: true);
+                              onTap: () {
+                                Get.to(() => LoginView(),
+                                    preventDuplicates: true);
                               },
                               child: Text(
                                 "Login",

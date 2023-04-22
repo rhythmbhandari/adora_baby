@@ -1,5 +1,4 @@
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
-import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +11,6 @@ import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
 import '../../../utils/date_time_converter.dart';
 import '../../cart/widgets/custom_error_widget.dart';
-import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
 
 class DiamondsStatementWidget extends StatelessWidget {
@@ -64,7 +62,7 @@ class DiamondsStatementWidget extends StatelessWidget {
           .then((value) => refreshController.loadComplete());
     } catch (error) {
       refreshController.loadNoData();
-      await Future.delayed(Duration(milliseconds: 0000))
+      await Future.delayed(const Duration(milliseconds: 0000))
           .then((value) => refreshController.refreshToIdle());
     }
   }
@@ -72,17 +70,17 @@ class DiamondsStatementWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       enablePullDown: true,
       enablePullUp: true,
       header: ClassicHeader(
         refreshStyle: RefreshStyle.Follow,
-        releaseIcon: SizedBox(
+        releaseIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
-        failedIcon: Icon(Icons.error, color: Colors.grey),
-        idleIcon: SizedBox(
+            child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: CupertinoActivityIndicator.partiallyRevealed(
@@ -97,26 +95,26 @@ class DiamondsStatementWidget extends StatelessWidget {
         failedText: '',
         completeText: '',
         refreshingText: '',
-        refreshingIcon: SizedBox(
+        refreshingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
+            child: CupertinoActivityIndicator()),
       ),
       footer: ClassicFooter(
         // refreshStyle: RefreshStyle.Follow,
         canLoadingText: '',
         loadStyle: LoadStyle.ShowWhenLoading,
         noDataText: '',
-        noMoreIcon: SizedBox(
+        noMoreIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: Icon(Icons.expand_circle_down, color: Colors.red)),
-        canLoadingIcon: SizedBox(
+        canLoadingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
-        failedIcon: Icon(Icons.error, color: Colors.grey),
-        idleIcon: SizedBox(
+            child: CupertinoActivityIndicator()),
+        failedIcon: const Icon(Icons.error, color: Colors.grey),
+        idleIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
             child: CupertinoActivityIndicator.partiallyRevealed(
@@ -129,36 +127,36 @@ class DiamondsStatementWidget extends StatelessWidget {
         idleText: '',
         failedText: '',
         loadingText: '',
-        loadingIcon: SizedBox(
+        loadingIcon: const SizedBox(
             width: 25.0,
             height: 25.0,
-            child: const CupertinoActivityIndicator()),
+            child: CupertinoActivityIndicator()),
       ),
       controller: refreshController,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       child: Container(
           color: Colors.white,
-          padding: EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.only(top: 16),
           child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: Obx(() {
                 switch (progressStatus.value) {
                   case ProgressStatus.error:
-                    return Container(
+                    return SizedBox(
                         height: Get.height * 0.7,
-                        child: FittedBox(child: const CustomErrorWidget()));
+                        child: const FittedBox(child: CustomErrorWidget()));
                   case ProgressStatus.internetError:
-                    return Container(
+                    return SizedBox(
                         height: Get.height * 0.7,
-                        child: FittedBox(child: const InternetErrorWidget()));
+                        child: const FittedBox(child: InternetErrorWidget()));
                   case ProgressStatus.empty:
                     return Container(
                       height: Get.height * 0.85,
                       margin: EdgeInsets.symmetric(
                         vertical: Get.height * 0.02,
                       ),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
                       child: Column(
@@ -170,7 +168,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                               // Get.to(TempView());
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 40,
                                 vertical: 20,
                               ),
@@ -202,15 +200,15 @@ class DiamondsStatementWidget extends StatelessWidget {
                   case ProgressStatus.success:
                     return list.isNotEmpty
                         ? ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: list.length,
                             separatorBuilder: (context, index) {
                               return Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: 6,
                                 ),
-                                child: Divider(
+                                child: const Divider(
                                   color: Color(
                                     0xffAF98A8,
                                   ),
@@ -220,7 +218,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                             },
                             itemBuilder: (BuildContext context, int index) =>
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     horizontal: 27.5,
                                   ),
                                   child: Row(
@@ -246,7 +244,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                                 color: DarkTheme.darkNormal,
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5,
                                             ),
                                             Text(
@@ -257,7 +255,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                                 color: AppColors.primary600,
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5,
                                             ),
                                             Text(
@@ -272,11 +270,11 @@ class DiamondsStatementWidget extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 20,
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 15,
                                           vertical: 13,
                                         ),
@@ -286,7 +284,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                                   .toString()
                                                   .toLowerCase()
                                                   .contains('earned')
-                                              ? Color(0xff017D1D)
+                                              ? const Color(0xff017D1D)
                                               : AppColors.error700,
                                           borderRadius: BorderRadius.circular(
                                             20,
@@ -298,7 +296,7 @@ class DiamondsStatementWidget extends StatelessWidget {
                                               "assets/images/profile_diamonds.svg",
                                               // height: 0.022 * Get.height,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 8,
                                             ),
                                             Text(

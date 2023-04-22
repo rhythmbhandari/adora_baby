@@ -1,17 +1,17 @@
-import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 
 class CancelOrderDialog extends StatelessWidget {
+  const CancelOrderDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      // side: BorderSide(color: AppColors.linear1)),
       backgroundColor: LightTheme.lightNormalActive,
       title: Text('Are you sure you want to cancel this order?',
           textAlign: TextAlign.center,
@@ -30,7 +30,7 @@ class CancelOrderDialog extends StatelessWidget {
               height: 0.05 * Get.height,
               width: 0.6 * Get.width,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [

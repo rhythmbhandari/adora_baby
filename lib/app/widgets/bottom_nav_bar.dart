@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/cart/views/cart_view.dart';
 import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:floating_frosted_bottom_bar/app/frosted_bottom_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +45,6 @@ class _MyHomePageState extends State<BottomNavBar>
   void initState() {
     currentPage = 0;
     controller.isRedirected.listen((p0) {
-      log('Reached');
-      log('It is $p0');
       if (p0 != 3) {
         tabController.index = p0;
       }
@@ -92,18 +87,17 @@ class _MyHomePageState extends State<BottomNavBar>
         duration: const Duration(milliseconds: 10),
         hideOnScroll: false,
         body: (context, controller) => TabBarView(
-                controller: tabController,
-                dragStartBehavior: DragStartBehavior.down,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  // Text("home"),
-                  // Text("moments"),
-                  ShopView(),
-                  CartView(),
-                  ProfileView(widget.scaffoldKey)
-                ]),
+              controller: tabController,
+              dragStartBehavior: DragStartBehavior.down,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                ShopView(),
+                CartView(),
+                ProfileView(widget.scaffoldKey)
+              ],
+            ),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -116,9 +110,7 @@ class _MyHomePageState extends State<BottomNavBar>
           child: TabBar(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             controller: tabController,
-            onTap: (value) {
-              log('Value is $value');
-            },
+            onTap: (value) {},
             indicator: const DotIndicator(),
             tabs: [
               // currentPage == 0

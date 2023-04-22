@@ -1,12 +1,11 @@
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ThreeDotIndicator extends StatelessWidget {
   final int positionIndex, currentIndex;
 
   const ThreeDotIndicator(
-      {required this.currentIndex, required this.positionIndex});
+      {super.key, required this.currentIndex, required this.positionIndex});
 
   @override
   Widget build(BuildContext context) {

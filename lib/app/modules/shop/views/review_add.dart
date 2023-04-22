@@ -80,7 +80,7 @@ class AddReview extends GetView<ShopController> {
                       color: LightTheme.whiteActive,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 40,
                         vertical: 24,
                       ),
@@ -94,7 +94,7 @@ class AddReview extends GetView<ShopController> {
                               color: AppColors.primary700,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           RatingBar.builder(
@@ -105,11 +105,11 @@ class AddReview extends GetView<ShopController> {
                             allowHalfRating: false,
                             glow: false,
                             itemCount: 5,
-                            itemPadding: EdgeInsets.only(right: 30.0),
+                            itemPadding: const EdgeInsets.only(right: 30.0),
                             itemBuilder: (context, _) => GradientIcon(
                               Icons.star,
                               26.0,
-                              LinearGradient(
+                              const LinearGradient(
                                 colors: <Color>[
                                   Color.fromRGBO(127, 0, 255, 1),
                                   Color.fromRGBO(255, 0, 255, 1)
@@ -122,7 +122,7 @@ class AddReview extends GetView<ShopController> {
                               controller.ratingsReview.value = rating;
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           Text(
@@ -131,7 +131,7 @@ class AddReview extends GetView<ShopController> {
                               color: AppColors.primary700,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           TextField(
@@ -147,7 +147,7 @@ class AddReview extends GetView<ShopController> {
                               hintText: 'Input Value',
                               hintStyle:
                                   kThemeData.textTheme.bodyLarge?.copyWith(
-                                      color: Color.fromRGBO(
+                                      color: const Color.fromRGBO(
                                 175,
                                 152,
                                 168,
@@ -173,65 +173,58 @@ class AddReview extends GetView<ShopController> {
                                       color: Color.fromRGBO(175, 152, 168, 1))),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 32,
                           ),
-                          Container(
-                            child: GestureDetector(
-                              onTap: () async {
-                                try {
-                                  controller.showProgressBarReview();
-                                  final status = await controller
-                                      .initiateReview('${product.id}');
-                                  if (status) {
-                                    controller.countingReview.value++;
-                                    const snackBar = SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text(
-                                        'Review posted successfully.',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    );
-                                    controller.update(['reviewId']);
-                                    Get.back();
-                                    controller.reviewController.text = '';
-                                    controller.ratingsReview.value = 0.0;
+                          GestureDetector(
+                            onTap: () async {
+                              try {
+                                controller.showProgressBarReview();
+                                final status = await controller
+                                    .initiateReview('${product.id}');
+                                if (status) {
+                                  controller.countingReview.value++;
+                                  const snackBar = SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text(
+                                      'Review posted successfully.',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                  controller.update(['reviewId']);
+                                  Get.back();
+                                  controller.reviewController.text = '';
+                                  controller.ratingsReview.value = 0.0;
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                } else {
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                      controller.authError.value,
+                                      style: const TextStyle(color: Colors.white),
+                                    ),
+                                  );
 
-                                    // Find the ScaffoldMessenger in the widget tree
-                                    // and use it to show a SnackBar.
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  } else {
-                                    final snackBar = SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text(
-                                        controller.authError.value,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    );
-
-                                    // Find the ScaffoldMessenger in the widget tree
-                                    // and use it to show a SnackBar.
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-
-                                  controller.hideProgressBarReview();
-                                } catch (e) {
-                                  controller.hideProgressBarReview();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
                                 }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 20, bottom: 20, left: 90, right: 90),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary500,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Center(
-                                  child: Text("Post",
-                                      style: kThemeData.textTheme.labelMedium),
-                                ),
+
+                                controller.hideProgressBarReview();
+                              } catch (e) {
+                                controller.hideProgressBarReview();
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 90, right: 90),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary500,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Text("Post",
+                                    style: kThemeData.textTheme.labelMedium),
                               ),
                             ),
                           )

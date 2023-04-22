@@ -73,14 +73,14 @@ class NetworkHelper {
   }
 
   static Future<dynamic> postHttpRequest(String uri, body,
-      {headers: headers}) async {
+      {headers = headers}) async {
     Uri url = Uri.parse(uri);
     http.Response response = await http.post(url, body: body, headers: headers);
     return jsonDecode(response.body);
   }
 
    Future<dynamic> multipartRequest(url, FormData formData, header) async {
-    Dio dio = new Dio();
+    Dio dio = Dio();
     final response = await dio.post(url,
         data: formData,
         options: Options(

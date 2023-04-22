@@ -1,22 +1,17 @@
-import 'package:adora_baby/app/modules/profile/views/diamonds_view.dart';
-import 'package:adora_baby/app/modules/profile/views/order_history.dart';
-import 'package:adora_baby/app/modules/shop/views/temp_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
-import '../../../config/app_theme.dart';
-import '../../profile/views/order_history_detail.dart';
 
 class EmptyWidget extends StatelessWidget {
-  EmptyWidget({
+  const EmptyWidget({
     Key? key, this.isSearched = false,
     this.title = 'No data available.'
   }) : super(key: key);
 
-  bool isSearched;
-  String title;
+  final bool isSearched;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +40,7 @@ class EmptyWidget extends StatelessWidget {
               // Get.to(TempView());
             },
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 20,
               ),
               child: Text(

@@ -1,12 +1,7 @@
-import 'dart:developer';
-
-import 'package:adora_baby/app/data/models/get_address_model.dart';
-import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
@@ -31,7 +26,7 @@ class PersonalInfoView extends GetView<CartController> {
                 child: Column(children: [
                   Container(
                     color: LightTheme.white,
-                    margin: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(
                       horizontal: 32,
                     ),
                     padding: EdgeInsets.only(
@@ -249,7 +244,7 @@ class PersonalInfoView extends GetView<CartController> {
                                           color: Colors.grey.withOpacity(0.3),
                                           spreadRadius: 1,
                                           blurRadius: 1,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               2), // changes position of shadow
                                         ),
                                       ],
@@ -261,10 +256,10 @@ class PersonalInfoView extends GetView<CartController> {
                                       children: [
                                         Image.asset(
                                             "assets/images/location-add.png"),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
-                                        Text("Add New Address" + '\n',
+                                        Text("Add New Address" '\n',
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: kThemeData
@@ -288,7 +283,7 @@ class PersonalInfoView extends GetView<CartController> {
                     height: 16,
                   ),
                   Container(
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 22,
                       ),
@@ -327,7 +322,7 @@ class PersonalInfoView extends GetView<CartController> {
                               hintText: 'Type anything specific to your child',
                               hintStyle: kThemeData.textTheme.bodyLarge
                                   ?.copyWith(
-                                      color: Color.fromRGBO(178, 187, 198, 1)),
+                                      color: const Color.fromRGBO(178, 187, 198, 1)),
                             ),
                           ),
                           const SizedBox(
@@ -373,7 +368,6 @@ class PersonalInfoView extends GetView<CartController> {
                                     Get.offNamed(Routes.CHECKOUT);
                                   }
                                 } catch (e) {
-                                  log('Error is $e');
                                   controller.completeLoading(
                                       controller.progressBarStatusInformation,
                                       false);

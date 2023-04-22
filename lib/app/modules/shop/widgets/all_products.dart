@@ -1,11 +1,5 @@
-import 'dart:developer';
 
-import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
-import 'package:adora_baby/app/data/repositories/shop_respository.dart';
-import 'package:adora_baby/app/modules/shop/views/all_products_page.dart';
 import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -15,7 +9,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
-import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../controllers/shop_controller.dart';
 import '../views/getBrandName.dart';
@@ -27,7 +20,6 @@ class AllProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var index = 0;
     return Padding(
       padding:
           const EdgeInsets.only(left: 30.0, right: 30, top: 10, bottom: 15),
@@ -41,7 +33,6 @@ class AllProducts extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                log('Parsed is ${controller.allProducts}');
               },
               child: const Center(
                 child: Text(
@@ -65,7 +56,7 @@ class AllProducts extends StatelessWidget {
                         crossAxisSpacing: 20,
                         shrinkWrap: true,
                         itemCount: controller.allProducts.length,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -86,7 +77,7 @@ class AllProducts extends StatelessWidget {
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 1,
                                       blurRadius: 2,
-                                      offset: Offset(
+                                      offset: const Offset(
                                           0, 2), // changes position of shadow
                                     ),
                                   ],
@@ -97,7 +88,7 @@ class AllProducts extends StatelessWidget {
                                     children: [
                                       Container(
                                         margin:
-                                            EdgeInsets.only(top: 12, bottom: 8),
+                                            const EdgeInsets.only(top: 12, bottom: 8),
                                         child: Center(
                                           child: Image.network(
                                             controller.allProducts[index]
@@ -126,7 +117,7 @@ class AllProducts extends StatelessWidget {
                                                   bottom: 2,
                                                   left: 6,
                                                   right: 6),
-                                              margin: EdgeInsets.symmetric(
+                                              margin: const EdgeInsets.symmetric(
                                                   horizontal: 8),
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -168,7 +159,7 @@ class AllProducts extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Text(
@@ -182,7 +173,7 @@ class AllProducts extends StatelessWidget {
                                                   color: AppColors.secondary700,
                                                   fontSize: 12),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 4,
                                         ),
                                         Text(
@@ -193,7 +184,7 @@ class AllProducts extends StatelessWidget {
                                                   color: AppColors.primary700,
                                                   fontSize: 14),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         RatingBar.builder(
@@ -210,13 +201,13 @@ class AllProducts extends StatelessWidget {
                                           allowHalfRating: true,
                                           glow: false,
                                           itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(
+                                          itemPadding: const EdgeInsets.symmetric(
                                               horizontal: 0.0),
                                           itemBuilder: (context, _) =>
                                               GradientIcon(
                                             Icons.star,
                                             10.0,
-                                            LinearGradient(
+                                            const LinearGradient(
                                               colors: <Color>[
                                                 Color.fromRGBO(127, 0, 255, 1),
                                                 Color.fromRGBO(255, 0, 255, 1)
@@ -226,10 +217,9 @@ class AllProducts extends StatelessWidget {
                                             ),
                                           ),
                                           onRatingUpdate: (rating) {
-                                            print(rating);
                                           },
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         controller.allProducts[index]
@@ -272,7 +262,7 @@ class AllProducts extends StatelessWidget {
                                                         color:
                                                             DarkTheme.normal),
                                               ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                       ],
@@ -297,7 +287,7 @@ class AllProducts extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  padding: EdgeInsets.only(right: 18, bottom: 19),
+                  padding: const EdgeInsets.only(right: 18, bottom: 19),
                   child: Text(
                     'See All',
                     style: kThemeData.textTheme.labelMedium
@@ -316,14 +306,14 @@ class AllProducts extends StatelessWidget {
 Widget _buildImage() {
   return GridView.count(
     childAspectRatio: 0.6,
-    physics: NeverScrollableScrollPhysics(),
+    physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     crossAxisCount: 2,
     children: List.generate(
       4,
       (index) => Container(
         padding: const EdgeInsets.only(top: 10),
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.white,

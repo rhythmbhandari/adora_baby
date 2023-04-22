@@ -1,9 +1,7 @@
-import 'dart:convert';
 
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/app_colors.dart';
@@ -42,9 +40,6 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                             padding: const EdgeInsets.only(left: 30.0),
                             child: GestureDetector(
                                 onTap: () {
-                                  // controller.selectedStages.value = 10;
-                                  // controller.selectedFilter.value = 0;
-                                  // controller.searchController.text = "";
                                   Get.back();
                                 },
                                 child: const Icon(
@@ -52,7 +47,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                   color: Colors.black,
                                 )),
                           ),
-                          Expanded(flex: 2, child: SizedBox()),
+                          const Expanded(flex: 2, child: SizedBox()),
                           Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -61,7 +56,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
                           ),
-                          Expanded(flex: 3, child: SizedBox()),
+                          const Expanded(flex: 3, child: SizedBox()),
                         ],
                       ),
                     ),
@@ -69,7 +64,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                       height: Get.height * 0.03,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       child: FutureBuilder<List>(
@@ -80,7 +75,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                 snapshot.data!.isNotEmpty) {
                               return ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.zero,
                                   itemCount:
                                       controller.babyMedicalCondition.length,
@@ -142,7 +137,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                           textDirection: TextDirection.ltr,
                                           wrapped: true,
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     );
                                   });
@@ -171,7 +166,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                     ),
                     Expanded(child: Container()),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                         ),
                         child: ButtonsWidget(
@@ -179,7 +174,7 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                             onPressed: () async {
                               final status = await controller.addMedicalCondition();
                               if (status) {
-                                var snackBar = SnackBar(
+                                var snackBar = const SnackBar(
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: AppColors.success500,
@@ -194,9 +189,9 @@ class _EditMedicalConditionState extends State<EditMedicalCondition> {
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: AppColors.error500,
-                                  duration: Duration(milliseconds: 2000),
+                                  duration: const Duration(milliseconds: 2000),
                                   content: Text(
-                                      "${controller.authError.toUpperCase()}"),
+                                      controller.authError.toUpperCase()),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);

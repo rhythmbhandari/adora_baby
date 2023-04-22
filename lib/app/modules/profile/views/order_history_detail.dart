@@ -1,36 +1,21 @@
-import 'dart:developer';
 
-import 'package:adora_baby/app/modules/cart/widgets/empty_widget.dart';
-import 'package:adora_baby/app/modules/cart/widgets/internet_error_widget.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/cancel_order_dialog.dart';
 import 'package:adora_baby/app/modules/profile/views/tracking_view.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:timelines/timelines.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../data/models/order_logs_model.dart';
-import '../../../enums/progress_status.dart';
-import '../../../routes/app_pages.dart';
-import '../../../utils/date_time_converter.dart';
-import '../../../widgets/buttons.dart';
-import '../../../widgets/gradient_icon.dart';
 import '../../shop/views/getBrandName.dart';
-import 'package_delivery_tracking.dart';
 
 class OrderHistoryDetail extends GetView<ProfileController> {
-  OrderHistoryDetail({Key? key}) : super(key: key);
+  const OrderHistoryDetail({Key? key}) : super(key: key);
 
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +43,6 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                     padding: const EdgeInsets.only(left: 30.0),
                                     child: GestureDetector(
                                         onTap: () {
-                                          // controller.selectedStages.value = 10;
-                                          // controller.selectedFilter.value = 0;
-                                          // controller.searchController.text = "";
                                           Get.back();
                                         },
                                         child: const Icon(
@@ -68,7 +50,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           color: Colors.black,
                                         )),
                                   ),
-                                  Expanded(flex: 2, child: SizedBox()),
+                                  const Expanded(flex: 2, child: SizedBox()),
                                   Container(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -77,13 +59,13 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           ?.copyWith(color: DarkTheme.dark),
                                     ),
                                   ),
-                                  Expanded(flex: 3, child: SizedBox()),
+                                  const Expanded(flex: 3, child: SizedBox()),
                                 ],
                               ),
                             ),
                             Container(
                               height: Get.height * 0.02,
-                              color: Color.fromRGBO(
+                              color: const Color.fromRGBO(
                                 250,
                                 245,
                                 252,
@@ -92,7 +74,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                             ),
                             Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                 top: 16,
                                 left: 34,
                                 bottom: 40,
@@ -109,7 +91,6 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                               child: NestedScrollView(
                                 headerSliverBuilder:
                                     (context, innerBoxIsScrolled) => [
-                                  // The flexible app bar with the tabs
                                   SliverAppBar(
                                     backgroundColor: Colors.white,
                                     flexibleSpace: TabBar(
@@ -132,7 +113,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                         indicatorSize:
                                             TabBarIndicatorSize.label,
                                         indicatorWeight: 2,
-                                        tabs: [
+                                        tabs: const [
                                           Tab(text: 'Details'),
                                           Tab(text: 'Track My Order'),
                                         ]),
@@ -144,7 +125,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                   SliverToBoxAdapter(
                                     child: Container(
                                       height: 2,
-                                      color: Color.fromRGBO(
+                                      color: const Color.fromRGBO(
                                         250,
                                         245,
                                         252,
@@ -157,7 +138,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                 body: TabBarView(
                                   children: [
                                     SingleChildScrollView(
-                                      key: new PageStorageKey('details'),
+                                      key: const PageStorageKey('details'),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -174,11 +155,11 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                       .length;
                                               i++)
                                             Container(
-                                              padding: EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: EdgeInsets.symmetric(
+                                              margin: const EdgeInsets.symmetric(
                                                   horizontal: 23, vertical: 16),
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -187,8 +168,8 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     color: Colors.black
                                                         .withOpacity(0.05)),
                                                 color: Colors.white,
-                                                boxShadow: [
-                                                  const BoxShadow(
+                                                boxShadow: const [
+                                                  BoxShadow(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.25),
                                                     blurRadius: 0.5,
@@ -246,7 +227,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                                 .primary700,
                                                           ),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 20,
                                                         ),
                                                         Container(
@@ -289,7 +270,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           ),
                                           Container(
                                             height: Get.height * 0.02,
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                               250,
                                               245,
                                               252,
@@ -300,7 +281,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             height: Get.height * 0.02,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 32),
                                             child: Text(
                                               'Payment Method',
@@ -313,11 +294,11 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                              padding: EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: EdgeInsets.symmetric(
+                                              margin: const EdgeInsets.symmetric(
                                                   horizontal: 32, vertical: 16),
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -326,8 +307,8 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     color: Colors.black
                                                         .withOpacity(0.05)),
                                                 color: Colors.white,
-                                                boxShadow: [
-                                                  const BoxShadow(
+                                                boxShadow: const [
+                                                  BoxShadow(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.06),
                                                     blurRadius: 0.2,
@@ -339,7 +320,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               ),
                                               child: Row(
                                                 children: [
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 33,
                                                   ),
                                                   SvgPicture.asset(
@@ -347,7 +328,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     // height: 22,
                                                     // color: Color(0xff667080)
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 33,
                                                   ),
                                                   Expanded(
@@ -385,11 +366,11 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                 ],
                                               )),
                                           Container(
-                                              padding: EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: EdgeInsets.symmetric(
+                                              margin: const EdgeInsets.symmetric(
                                                   horizontal: 32, vertical: 0),
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -398,8 +379,8 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     color: Colors.black
                                                         .withOpacity(0.05)),
                                                 color: Colors.white,
-                                                boxShadow: [
-                                                  const BoxShadow(
+                                                boxShadow: const [
+                                                  BoxShadow(
                                                     color: Color.fromRGBO(
                                                         0, 0, 0, 0.06),
                                                     blurRadius: 0.2,
@@ -411,14 +392,14 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               ),
                                               child: Row(
                                                 children: [
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 33,
                                                   ),
                                                   SvgPicture.asset(
                                                       "assets/images/profile_diamonds.svg",
                                                       height: 35,
                                                       color: DarkTheme.dark),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 33,
                                                   ),
                                                   Expanded(
@@ -459,7 +440,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             height: Get.height * 0.02,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 32),
                                             child: Text(
                                               'Applied Coupon',
@@ -492,7 +473,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                           false
                                                       ? '${controller.selectedOrders.value.checkOut?.couponCode ?? 'N/A'}'
                                                       : 'N/A'),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 16,
                                                       fontFamily: 'Poppins',
                                                       fontWeight:
@@ -507,14 +488,14 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                         horizontal: 30,
                                                         vertical: 8),
                                                 suffixIcon: Padding(
-                                                  padding: EdgeInsets.all(12),
+                                                  padding: const EdgeInsets.all(12),
                                                   child: SvgPicture.asset(
                                                       "assets/images/tag.svg",
                                                       color: DarkTheme.dark),
                                                 ),
                                                 fillColor: Colors.white,
                                                 border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                                    borderSide: const BorderSide(
                                                         width: 1,
                                                         color: AppColors
                                                             .secondary500),
@@ -530,7 +511,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           ),
                                           Container(
                                             height: Get.height * 0.02,
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                               250,
                                               245,
                                               252,
@@ -541,7 +522,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             height: Get.height * 0.02,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                               horizontal: 56,
                                             ),
                                             child: Row(
@@ -569,7 +550,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 56, vertical: 5),
                                             child: Row(
                                               mainAxisAlignment:
@@ -596,7 +577,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 left: 56, right: 56, bottom: 5),
                                             child: Row(
                                               mainAxisAlignment:
@@ -623,7 +604,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 left: 56, right: 56, bottom: 5),
                                             child: Row(
                                               mainAxisAlignment:
@@ -650,7 +631,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 left: 56,
                                                 right: 56,
                                                 bottom: 5,
@@ -684,7 +665,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                           ),
                                           Container(
                                             height: Get.height * 0.04,
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                               250,
                                               245,
                                               252,
@@ -696,11 +677,11 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                   .toLowerCase()
                                                   .contains('order')
                                               ? Container(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                     left: 32,
                                                     right: 32,
                                                   ),
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                     250,
                                                     245,
                                                     252,
@@ -769,7 +750,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                   .contains('order')
                                               ? Container(
                                                   height: Get.height * 0.03,
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                     250,
                                                     245,
                                                     252,
@@ -787,7 +768,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                         await showDialog<bool>(
                                                       context: context,
                                                       builder: (context) {
-                                                        return CancelOrderDialog();
+                                                        return const CancelOrderDialog();
                                                       },
                                                     );
                                                     if (status != null) {
@@ -811,11 +792,11 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                                     .floating,
                                                             backgroundColor:
                                                                 Colors.red,
-                                                            duration: Duration(
+                                                            duration: const Duration(
                                                                 milliseconds:
                                                                     2000),
                                                             content: Text(
-                                                                "${controller.authError.toUpperCase()}"),
+                                                                controller.authError.toUpperCase()),
                                                           );
                                                           ScaffoldMessenger.of(
                                                                   context)
@@ -826,7 +807,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                               .progressBarStatusOrderDetails
                                                               .value = false;
                                                           var snackBar =
-                                                              SnackBar(
+                                                              const SnackBar(
                                                             elevation: 0,
                                                             behavior:
                                                                 SnackBarBehavior
@@ -862,7 +843,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                     }
                                                   },
                                                   child: Container(
-                                                    color: Color.fromRGBO(
+                                                    color: const Color.fromRGBO(
                                                       250,
                                                       245,
                                                       252,
@@ -886,7 +867,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                               : Container(),
                                           Container(
                                             height: Get.height * 0.06,
-                                            color: Color.fromRGBO(
+                                            color: const Color.fromRGBO(
                                               250,
                                               245,
                                               252,
@@ -896,7 +877,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                         ],
                                       ),
                                     ),
-                                    TrackingView(),
+                                    const TrackingView(),
                                     // PackageDeliveryTrackingPage(),
                                   ],
                                 ),

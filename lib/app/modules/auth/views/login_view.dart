@@ -2,7 +2,6 @@ import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/baby_detail_view.dart';
 import 'package:adora_baby/app/modules/auth/views/forget_password_view.dart';
 import 'package:adora_baby/app/modules/auth/views/phone_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -115,14 +114,14 @@ class LoginView extends GetView<AuthController> {
                               },
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       width: 1,
                                       color: Colors.transparent,
                                     ),
                                     borderRadius: BorderRadius.circular(33),
                                   ),
                                   disabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       width: 1,
                                       color: Colors.transparent,
                                     ),
@@ -149,9 +148,9 @@ class LoginView extends GetView<AuthController> {
                                       color: DarkTheme.darkNormal,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 24, vertical: 12),
-                                  hintStyle: TextStyle(
+                                  hintStyle: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
                                       fontFamily: 'Poppins',
@@ -177,21 +176,17 @@ class LoginView extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text(
-                                          "${controller.authError.toUpperCase()}"),
+                                          controller.authError.toUpperCase()),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
-                                    print('Controller ${controller.authError}');
                                     if (controller.authError
                                         .contains('stage incomplete')) {
                                       Get.to(() => BabyDetails());
                                     }
                                   } else {
-                                    if (kDebugMode) {
-                                      print("success");
-                                    }
                                     controller.progressBarStatusLogin.value =
                                         false;
                                     storage.writeData(
@@ -204,7 +199,7 @@ class LoginView extends GetView<AuthController> {
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: Colors.red,
-                                    duration: Duration(milliseconds: 2000),
+                                    duration: const Duration(milliseconds: 2000),
                                     content: Text("${controller.authError}"),
                                   );
                                   ScaffoldMessenger.of(context)
@@ -264,7 +259,7 @@ class LoginView extends GetView<AuthController> {
                         Text(
                           "Don't have an account yet? ",
                           style: Get.textTheme.bodyMedium
-                              ?.copyWith(color: Color.fromRGBO(78, 26, 61, 1)),
+                              ?.copyWith(color: const Color.fromRGBO(78, 26, 61, 1)),
                         ),
                         GestureDetector(
                           onTap: () {

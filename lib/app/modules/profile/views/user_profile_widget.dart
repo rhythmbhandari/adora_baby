@@ -43,7 +43,6 @@ void _showPicker(context, controller) {
                     Text('Camera'.tr, style: kThemeData.textTheme.bodyMedium),
                 onTap: () async {
                   final status = await Permission.camera.request();
-                  debugPrint('Status is $status');
                   if (status.isGranted) {
                     controller.getImage(ImageSource.camera);
                     Navigator.of(context).pop();
@@ -62,8 +61,8 @@ Widget userProfile(ProfileController controller, BuildContext context) {
   return Obx(() => Container(
       decoration: BoxDecoration(
           color: LightTheme.white, borderRadius: BorderRadius.circular(20)),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      padding: EdgeInsets.symmetric(horizontal: 33, vertical: 34),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 34),
       child: Stack(
         children: [
           Column(
@@ -113,7 +112,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                     style: kThemeData.textTheme.displaySmall
                         ?.copyWith(color: DarkTheme.dark),
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               GestureDetector(
@@ -122,7 +121,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                   Get.to(() => const DiamondsView());
                 },
                 child: Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 10,
                     bottom: 10,
                     left: 10,
@@ -131,7 +130,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                   // margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
                   // width: Get.width * 0.2,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
@@ -147,7 +146,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                         "assets/images/profile_diamonds.svg",
                         // height: 0.022 * Get.height,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Flexible(
@@ -163,7 +162,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
@@ -172,7 +171,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                     "assets/images/profile_home.svg",
                     height: 0.027 * Get.height,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   controller.user.value.accountAddress == null ||
@@ -207,7 +206,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                         ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
@@ -216,7 +215,7 @@ Widget userProfile(ProfileController controller, BuildContext context) {
                     "assets/images/profile_call.svg",
                     height: 0.027 * Get.height,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   Expanded(

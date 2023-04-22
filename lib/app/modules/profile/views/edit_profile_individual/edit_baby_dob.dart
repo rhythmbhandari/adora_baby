@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:adora_baby/app/modules/profile/views/edit_child_profile.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -53,7 +52,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                     color: Colors.black,
                                   )),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            const Expanded(flex: 2, child: SizedBox()),
                             Container(
                               alignment: Alignment.center,
                               child: Text(
@@ -62,7 +61,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                     ?.copyWith(color: DarkTheme.dark),
                               ),
                             ),
-                            Expanded(flex: 3, child: SizedBox()),
+                            const Expanded(flex: 3, child: SizedBox()),
                           ],
                         ),
                       ),
@@ -70,7 +69,7 @@ class EditBabyDob extends GetView<ProfileController> {
                         height: Get.height * 0.03,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                         ),
                         child: Column(
@@ -114,7 +113,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                       showTitleActions: true,
                                       maxTime: DateTime.now(),
                                       minTime: DateTime.now()
-                                          .subtract(Duration(days: 365 * 18)),
+                                          .subtract(const Duration(days: 365 * 18)),
                                       onConfirm: (date) {
                                         String formattedDate =
                                             DateFormat('yyyy-MM-dd')
@@ -144,14 +143,14 @@ class EditBabyDob extends GetView<ProfileController> {
                                           borderRadius:
                                               BorderRadius.circular(33)),
                                       suffixIcon: Padding(
-                                        padding: EdgeInsets.all(14),
+                                        padding: const EdgeInsets.all(14),
                                         child: SvgPicture.asset(
                                             "assets/images/calendar.svg",
-                                            color: Color(0xff667080)),
+                                            color: const Color(0xff667080)),
                                       ),
                                       contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 24),
-                                      hintStyle: TextStyle(
+                                          const EdgeInsets.symmetric(horizontal: 24),
+                                      hintStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
                                           fontFamily: 'Poppins',
@@ -165,7 +164,7 @@ class EditBabyDob extends GetView<ProfileController> {
                       ),
                       Expanded(child: Container()),
                       Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 32,
                           ),
                           child: ButtonsWidget(
@@ -181,7 +180,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                         controller.babyDobController.text.trim()
                                   }));
                                   if (status) {
-                                    var snackBar = SnackBar(
+                                    var snackBar = const SnackBar(
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: AppColors.success500,
@@ -197,7 +196,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: AppColors.error500,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text(
                                           "${controller.authError.toUpperCase()}"),
                                     );
@@ -205,7 +204,7 @@ class EditBabyDob extends GetView<ProfileController> {
                                         .showSnackBar(snackBar);
                                   }
                                 } else {
-                                  var snackBar = SnackBar(
+                                  var snackBar = const SnackBar(
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.error500,

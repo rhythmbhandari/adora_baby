@@ -12,6 +12,8 @@ import 'three_dot_indicator.dart';
 class WalkthroughView extends GetView<WalkthroughController> {
   final PageController _pageController = PageController();
 
+  WalkthroughView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,7 @@ class WalkthroughView extends GetView<WalkthroughController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset("assets/images/arrow-left.svg",
-                      height: 22, color: Color(0xff667080)),
+                      height: 22, color: const Color(0xff667080)),
                   Obx(() => controller.currentIndex != 2
                       ? GestureDetector(
                           onTap: () {
@@ -35,7 +37,7 @@ class WalkthroughView extends GetView<WalkthroughController> {
                           child: Text(
                             'Skip',
                             style: Get.textTheme.bodyMedium
-                                ?.copyWith(color: Color(0xff667080)),
+                                ?.copyWith(color: const Color(0xff667080)),
                           ),
                         )
                       : Container()),
@@ -56,15 +58,15 @@ class WalkthroughView extends GetView<WalkthroughController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       dotsIndicator(0),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       dotsIndicator(1),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       dotsIndicator(2),
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: AppColors.primary400),
                     child: Obx(() => controller.currentIndex != 2
                         ? GestureDetector(

@@ -10,7 +10,7 @@ class FilterChipWidget extends StatefulWidget {
   final String chipType;
 
 
-  const FilterChipWidget({required this.chipName, required this.index, required this.chipType});
+  const FilterChipWidget({super.key, required this.chipName, required this.index, required this.chipType});
 
   @override
   _FilterChipWidgetState createState() => _FilterChipWidgetState();
@@ -23,15 +23,10 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // if(widget.chipType == '1'){
-    //   boolList = authController.boolList;
-    // }else{
-    //   boolList = authController.boolList1;
-    // }
     return Obx(() => Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(right: 3),
+          padding: const EdgeInsets.only(right: 3),
           child: FilterChip(
                 showCheckmark: false,
                 checkmarkColor: AppColors.success500,
@@ -42,8 +37,8 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                     side: boolList[widget.index]
-                        ? BorderSide(color: AppColors.primary400)
-                        : BorderSide(color: DarkTheme.lighter)),
+                        ? const BorderSide(color: AppColors.primary400)
+                        : const BorderSide(color: DarkTheme.lighter)),
                 backgroundColor: Colors.white,
                 selectedColor: AppColors.primary400,
                 // selectedColor: Colors.red,
@@ -53,7 +48,6 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
                     currentFocus.unfocus();
                   }
                   boolList[widget.index] = isSelected;
-                  print(isSelected);
                 },
               ),
         ),
@@ -61,7 +55,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
             ? Positioned(
           top: 0,
           right: 0,
-          child: Container(
+          child: SizedBox(
             // margin: EdgeInsets.all(8),
             height: 18,
             width: 18,
@@ -74,7 +68,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
                     ? AppColors.primary600
                     : AppColors.secondary100,
                 shape: BoxShape.circle,
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
@@ -83,7 +77,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
                     ]),
               ),
               child: boolList[widget.index]
-                  ? Icon(
+                  ? const Icon(
                 Icons.done,
                 size: 16,
                 color: Colors.white,
@@ -92,7 +86,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
             ),
           ),
         )
-            : Container(
+            : const SizedBox(
           height: 0,
           width: 0,
         ),

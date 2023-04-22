@@ -1,8 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/username_view.dart';
-import 'package:adora_baby/app/modules/home/views/home_view.dart';
-import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,12 +29,10 @@ class OtpView extends GetView<AuthController> {
       mode: StopWatchMode.countDown,
       presetMillisecond: StopWatchTimer.getMilliSecFromSecond(60),
     );
-
     stopWatchTimer.onExecute
         .add(StopWatchExecute.reset);
     stopWatchTimer.onExecute
         .add(StopWatchExecute.start);
-    TextEditingController otpController = TextEditingController();
     return WillPopScope(
       onWillPop: () async {
         if (controller.resetPassword.value) {
@@ -221,13 +216,13 @@ class OtpView extends GetView<AuthController> {
                               GestureDetector(
                                   onTap: () async {
                                     if (stopWatchTimer.isRunning) {
-                                      var snackBar = SnackBar(
+                                      var snackBar = const SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.fixed,
                                         backgroundColor: AppColors.mainColor,
                                         duration:
-                                            const Duration(milliseconds: 2000),
-                                        content: const Text(
+                                            Duration(milliseconds: 2000),
+                                        content: Text(
                                             'Please wait for 1 minute'),
                                       );
                                       ScaffoldMessenger.of(context)
@@ -238,10 +233,10 @@ class OtpView extends GetView<AuthController> {
                                       stopWatchTimer.onExecute
                                           .add(StopWatchExecute.start);
                                       if (controller.resetPassword.value) {
-                                        final status = await controller
+                                        await controller
                                             .requestResetPassword();
                                       } else {
-                                        final status = await controller
+                                        await controller
                                             .requestOtpFromServer();
                                       }
                                     }

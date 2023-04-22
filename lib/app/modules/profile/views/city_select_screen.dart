@@ -1,27 +1,21 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
-import '../../../enums/progress_status.dart';
-import '../../cart/widgets/custom_error_widget.dart';
-import '../../cart/widgets/empty_widget.dart';
-import '../../cart/widgets/internet_error_widget.dart';
 import '../controllers/profile_controller.dart';
 
 class CitySelectScreen extends GetView<ProfileController> {
-  CitySelectScreen({Key? key}) : super(key: key);
+  const CitySelectScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final RefreshController _refreshControllerCity =
+    final RefreshController refreshControllerCity =
         RefreshController(initialRefresh: false);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(250, 248, 244, 1),
+      backgroundColor: const Color.fromRGBO(250, 248, 244, 1),
       body: SafeArea(
         child: Obx(
           () => Column(
@@ -29,7 +23,7 @@ class CitySelectScreen extends GetView<ProfileController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 32,
                   vertical: 20,
                 ),
@@ -46,7 +40,7 @@ class CitySelectScreen extends GetView<ProfileController> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Expanded(
@@ -55,16 +49,16 @@ class CitySelectScreen extends GetView<ProfileController> {
                           color: Colors.white.withOpacity(0.8),
                           borderRadius: BorderRadius.circular(33),
                           border: Border.all(
-                            color: Color.fromRGBO(84, 104, 129, 1)
+                            color: const Color.fromRGBO(84, 104, 129, 1)
                                 .withOpacity(0.4),
                           ),
                         ),
                         child: TextField(
-                          cursorColor: Color.fromRGBO(84, 104, 129, 1),
+                          cursorColor: const Color.fromRGBO(84, 104, 129, 1),
                           // focusNode: searchNode,
                           autofocus: false,
                           style: Get.theme.textTheme.bodyLarge?.copyWith(
-                            color: Color.fromRGBO(84, 104, 129, 1),
+                            color: const Color.fromRGBO(84, 104, 129, 1),
                           ),
                           onSubmitted: (_) => searchSubCategory1(),
                           onChanged: (_) => searchSubCategory1(),
@@ -72,7 +66,7 @@ class CitySelectScreen extends GetView<ProfileController> {
                           decoration: InputDecoration(
                             hintText: 'Search',
                             hintStyle: Get.theme.textTheme.bodyLarge?.copyWith(
-                              color: Color.fromRGBO(84, 104, 129, 1),
+                              color: const Color.fromRGBO(84, 104, 129, 1),
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
@@ -93,13 +87,13 @@ class CitySelectScreen extends GetView<ProfileController> {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: AppColors.secondary50,
                 height: 8,
                 thickness: 8,
               ),
               Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 34,
                     top: 10,
                     bottom: 10,
@@ -107,11 +101,11 @@ class CitySelectScreen extends GetView<ProfileController> {
                   child: Text(
                     'Select City',
                     style: Get.theme.textTheme.bodyLarge?.copyWith(
-                        color: Color.fromRGBO(84, 104, 129, 1),
+                        color: const Color.fromRGBO(84, 104, 129, 1),
                         fontSize: 26,
                         fontWeight: FontWeight.w600),
                   )),
-              Divider(
+              const Divider(
                 color: AppColors.primary50,
                 height: 1,
                 thickness: 1,
@@ -173,14 +167,14 @@ class CitySelectScreen extends GetView<ProfileController> {
                         height: 25.0,
                         child: CupertinoActivityIndicator()),
                   ),
-                  controller: _refreshControllerCity,
+                  controller: refreshControllerCity,
                   onRefresh: () => controller.onRefreshCategories(
-                    _refreshControllerCity,
+                    refreshControllerCity,
                   ),
                   child: ListView.builder(
                       // physics: const NeverScrollableScrollPhysics(),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                          const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                       itemCount: controller.filteredCitiesList.length,
                       itemBuilder: (context, int index) {
                         return GestureDetector(
@@ -192,7 +186,7 @@ class CitySelectScreen extends GetView<ProfileController> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 12),
-                            margin: EdgeInsets.only(bottom: 12),
+                            margin: const EdgeInsets.only(bottom: 12),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
@@ -213,7 +207,7 @@ class CitySelectScreen extends GetView<ProfileController> {
                                   style: Get.theme.textTheme.bodyLarge
                                       ?.copyWith(
                                           color:
-                                              Color.fromRGBO(84, 104, 129, 1),
+                                              const Color.fromRGBO(84, 104, 129, 1),
                                           fontSize: 24,
                                           fontWeight: FontWeight.w500),
                                 )
@@ -236,9 +230,7 @@ class CitySelectScreen extends GetView<ProfileController> {
 
     final str = controller.searchCitiesController.text;
     if (nepali.hasMatch(str)) {
-      log('nepali');
     } else {
-      log('english');
     }
     if (controller.searchCitiesController.text != '') {
       controller.filteredCitiesList.value = controller.citiesList

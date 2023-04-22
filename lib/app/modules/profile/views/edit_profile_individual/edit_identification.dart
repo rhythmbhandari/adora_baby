@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/app_colors.dart';
@@ -33,9 +32,6 @@ class EditIdentification extends GetView<ProfileController> {
                             padding: const EdgeInsets.only(left: 30.0),
                             child: GestureDetector(
                                 onTap: () {
-                                  // controller.selectedStages.value = 10;
-                                  // controller.selectedFilter.value = 0;
-                                  // controller.searchController.text = "";
                                   Get.back();
                                 },
                                 child: const Icon(
@@ -43,7 +39,7 @@ class EditIdentification extends GetView<ProfileController> {
                                   color: Colors.black,
                                 )),
                           ),
-                          Expanded(flex: 2, child: SizedBox()),
+                          const Expanded(flex: 2, child: SizedBox()),
                           Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -52,7 +48,7 @@ class EditIdentification extends GetView<ProfileController> {
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
                           ),
-                          Expanded(flex: 3, child: SizedBox()),
+                          const Expanded(flex: 3, child: SizedBox()),
                         ],
                       ),
                     ),
@@ -60,7 +56,7 @@ class EditIdentification extends GetView<ProfileController> {
                       height: Get.height * 0.03,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       child: Column(
@@ -100,8 +96,8 @@ class EditIdentification extends GetView<ProfileController> {
                                         borderRadius:
                                             BorderRadius.circular(33)),
                                     contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 24),
-                                    hintStyle: TextStyle(
+                                        const EdgeInsets.symmetric(horizontal: 24),
+                                    hintStyle: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16,
                                         fontFamily: 'Poppins',
@@ -114,7 +110,7 @@ class EditIdentification extends GetView<ProfileController> {
                     ),
                     Expanded(child: Container()),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                         ),
                         child: ButtonsWidget(
@@ -130,7 +126,7 @@ class EditIdentification extends GetView<ProfileController> {
                                       controller.fullNameController.text.trim()
                                 }));
                                 if (status) {
-                                  var snackBar = SnackBar(
+                                  var snackBar = const SnackBar(
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.success500,
@@ -145,15 +141,15 @@ class EditIdentification extends GetView<ProfileController> {
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.error500,
-                                    duration: Duration(milliseconds: 2000),
+                                    duration: const Duration(milliseconds: 2000),
                                     content: Text(
-                                        "${controller.authError.toUpperCase()}"),
+                                        controller.authError.toUpperCase()),
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }
                               } else {
-                                var snackBar = SnackBar(
+                                var snackBar = const SnackBar(
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: AppColors.error500,

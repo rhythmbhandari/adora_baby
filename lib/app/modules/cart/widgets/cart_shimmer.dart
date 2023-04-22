@@ -24,7 +24,7 @@ Widget _buildImageCart() {
     physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     crossAxisCount: 1,
-    padding: EdgeInsets.symmetric(
+    padding: const EdgeInsets.symmetric(
       vertical: 10,
     ),
     children: List.generate(

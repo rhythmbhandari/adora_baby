@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
@@ -9,10 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../main.dart';
-import '../../../config/constants.dart';
 import '../../../enums/progress_status.dart';
-import '../../../routes/app_pages.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
@@ -61,13 +57,13 @@ class ProfileView extends GetView<ProfileController> {
                         const SizedBox(
                           width: 35,
                         ),
-                        Expanded(flex: 5, child: SizedBox()),
+                        const Expanded(flex: 5, child: SizedBox()),
                         Text(
                           'Profile',
                           style: kThemeData.textTheme.displaySmall
                               ?.copyWith(color: DarkTheme.normal),
                         ),
-                        Expanded(flex: 4, child: SizedBox()),
+                        const Expanded(flex: 4, child: SizedBox()),
                         GestureDetector(
                             onTap: () async {
                               // try {
@@ -86,8 +82,8 @@ class ProfileView extends GetView<ProfileController> {
                               // }
                               scaffoldKey.currentState!.openEndDrawer();
                             },
-                            child: Icon(Icons.menu)),
-                        SizedBox(
+                            child: const Icon(Icons.menu)),
+                        const SizedBox(
                           width: 35,
                         )
                       ],
@@ -170,7 +166,7 @@ class ProfileView extends GetView<ProfileController> {
                           case ProgressStatus.internetError:
                             return const InternetErrorWidget();
                           case ProgressStatus.empty:
-                            return EmptyWidget();
+                            return const EmptyWidget();
                           case ProgressStatus.idle:
                           case ProgressStatus.loading:
                           case ProgressStatus.searching:

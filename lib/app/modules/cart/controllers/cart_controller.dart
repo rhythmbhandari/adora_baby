@@ -1,29 +1,17 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:adora_baby/app/data/models/cart_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
-import 'package:adora_baby/app/data/models/hot_sales_model.dart';
 import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/data/repositories/checkout_repositories.dart';
-import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
-import 'package:adora_baby/app/widgets/shimmer_widget.dart';
 import 'package:adora_baby/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../data/models/checkout_model.dart';
-import '../../../data/models/get_carts_model.dart' as g;
-import '../../../data/models/get_city_model.dart' as c;
-import '../../../data/models/get_orders_model.dart' as o;
-import '../../../data/models/get_single_order_model.dart' as s;
 import '../../../enums/progress_status.dart';
 import '../../profile/controllers/profile_controller.dart';
 
 class CartController extends GetxController {
-  //TODO: Implement ProfileController
-
   TextEditingController idController = TextEditingController();
   TextEditingController fNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -111,19 +99,6 @@ class CartController extends GetxController {
 
   final useDiamondCheckBox = false.obs;
 
-  final counter = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].obs;
-  final value = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ].obs;
   final tappedIndex = 0.obs;
   final selected = false.obs;
   var sum = 0.obs;
@@ -206,7 +181,6 @@ class CartController extends GetxController {
         final status = await requestUpdateToCart(
             cartList[index].id, cartList[index].quantity);
         if (status) {
-          log('Cart Map $cartMap');
           cartList.refresh();
           update(['add_remove_cart'], true);
           await calculatePriceItem(index);
@@ -259,7 +233,6 @@ class CartController extends GetxController {
         if (status) {
           await calculatePriceItem(index);
           await calculateGrandTotal(cartList);
-          log('Cart Map $cartMap');
           cartList.refresh();
           update(['add_remove_cart'], true);
           completeLoading(
@@ -327,24 +300,6 @@ class CartController extends GetxController {
     );
   }
 
-  Future<bool> requestAddToCart(String name) async {
-    TextEditingController quantityController =
-        TextEditingController(text: counter[index].toString());
-
-    try {
-      final status = await CartRepository.addToCart(
-          name.toString(), quantityController.text.trim());
-
-      if (status) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      authError.value = '$error';
-      return false;
-    }
-  }
 
   Future<bool> validatePersonalInfo() async {
     String fName = fNameController.text.trim();
@@ -354,8 +309,6 @@ class CartController extends GetxController {
     final ProfileController profileController = Get.find();
     AddressModel? selectedAddress = profileController.addressList
         .firstWhere((address) => address.checked, orElse: () => null);
-
-    log('Selected Address is $selectedAddress');
 
     bool isValid = true;
     if (fName.isEmpty) {
@@ -387,7 +340,6 @@ class CartController extends GetxController {
     for (var e in cartMap.entries) {
       cartList.add(e.value['id']);
     }
-    log('Cart List is $cartList');
     final status = await requestToCheckOut(
       fName,
       pNum,
@@ -438,23 +390,6 @@ class CartController extends GetxController {
     }
   }
 
-  // Future<c.Datum> requestGetAllCities() async {
-  //   try {
-  //     final response =
-  //         await CheckOutRepository.getAllCities().catchError((error) {
-  //       authError.value = error;
-  //       return false;
-  //     });
-  //
-  //     if (response.isNotEmpty) {
-  //       return response;
-  //     } else {
-  //       return [];
-  //     }
-  //   } catch (e) {
-  //     return [];
-  //   }
-  // }
 
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
       String altPhone, String address, String notes, List cartList) async {
@@ -470,38 +405,7 @@ class CartController extends GetxController {
       checkoutModel.value = status;
       return true;
     } catch (e) {
-      log('Error is $e');
       authError.value = e.toString();
-      return false;
-    }
-  }
-
-  Future<List<AddressModel>> requestGetAddress() async {
-    try {
-      final response = await CheckOutRepository.getAddress();
-
-      if (response.isNotEmpty) {
-        return response;
-      } else {
-        return [];
-      }
-    } catch (error) {
-      authError.value = '$error';
-      return [];
-    }
-  }
-
-  Future<bool> requestToDeleteAddress(String id) async {
-    try {
-      final status = await CheckOutRepository.deleteAddress(id.trim());
-
-      if (status) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      authError.value = '$error';
       return false;
     }
   }
@@ -522,21 +426,6 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> requestToRemoveCheckOut(String id) async {
-    try {
-      final status = await CheckOutRepository.removeCheckout(id.trim());
-
-      if (status) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      authError.value = '$error';
-      return false;
-    }
-  }
-
   Future<bool> requestToPlaceOrder() async {
     try {
       final status =
@@ -553,44 +442,4 @@ class CartController extends GetxController {
     }
   }
 
-  Future<List<o.Datum>> requestGetOrders() async {
-    try {
-      final response = await CheckOutRepository.getOrders();
-
-      if (response.isNotEmpty) {
-        return response;
-      } else {
-        return [];
-      }
-    } catch (error) {
-      authError.value = '$error';
-      return [];
-    }
-  }
-
-  Future<List<s.GetSingleOrder>> requestGetSingleOrder(String id) async {
-    try {
-      final response = await CheckOutRepository.getSingleOrder(id);
-      if (response.isNotEmpty) {
-        return response;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
-
-  Future<bool> requestUpdateCheckOut(
-      String id, bool isDiamondUsed, String couponCode) async {
-    try {
-      final response = await CheckOutRepository.updateCheckOut(
-          id, isDiamondUsed, couponCode);
-      checkoutModel.value = response;
-      return true;
-    } catch (error) {
-      authError.value = error.toString();
-      return false;
-    }
-  }
 }

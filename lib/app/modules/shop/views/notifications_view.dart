@@ -1,17 +1,14 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
-import '../../../data/repositories/shop_respository.dart';
 import '../../../enums/progress_status.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/buttons.dart';
@@ -414,7 +411,6 @@ class NotificationsView extends GetView<ShopController> {
                                                           ),
                                                           onRatingUpdate:
                                                               (rating) {
-                                                            print(rating);
                                                           },
                                                         ),
                                                         SizedBox(
@@ -489,247 +485,5 @@ class NotificationsView extends GetView<ShopController> {
                 ]),
           )),
     );
-  }
-
-  void mostRecentPressed(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  controller.selectedFilter.value = index;
-                },
-                child: Container(
-                  padding: EdgeInsets.only(
-                    left: 32,
-                    right: 32,
-                    top: 24,
-                    bottom: 24,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (index == 0) ...[
-                        Center(
-                          child: Text(
-                            'Filters',
-                            style: kThemeData.textTheme.displaySmall
-                                ?.copyWith(color: DarkTheme.dark),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                      ] else
-                        ...[],
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              controller.filtersList[index],
-                              style: kThemeData.textTheme.bodyLarge
-                                  ?.copyWith(color: DarkTheme.dark),
-                            ),
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(
-                                      243,
-                                      234,
-                                      249,
-                                      1,
-                                    ),
-                                    shape: BoxShape.circle),
-                              ),
-                              Obx(
-                                () => controller.selectedFilter.value == index
-                                    ? Positioned(
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        top: 0,
-                                        child: Center(
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.primary500,
-                                                shape: BoxShape.circle),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      if (controller.filtersList.length == index + 1) ...[
-                        SizedBox(
-                          height: 32,
-                        ),
-                        ButtonsWidget(
-                            name: 'Apply Filter',
-                            onPressed: () {
-                              filterPressed(context);
-                              Navigator.pop(context);
-                            })
-                      ]
-                    ],
-                  ),
-                ),
-              );
-            },
-            itemCount: controller.filtersList.length,
-          );
-        });
-  }
-
-  void allStages(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  controller.selectedStages.value = index;
-                },
-                child: Container(
-                  padding: EdgeInsets.only(
-                    left: 32,
-                    right: 32,
-                    top: 24,
-                    bottom: 24,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (index == 0) ...[
-                        Center(
-                          child: Text(
-                            'Stages',
-                            style: kThemeData.textTheme.displaySmall
-                                ?.copyWith(color: DarkTheme.dark),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                      ] else
-                        ...[],
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${controller.stagesList[index].name}',
-                              style: kThemeData.textTheme.bodyLarge
-                                  ?.copyWith(color: DarkTheme.dark),
-                            ),
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(
-                                      243,
-                                      234,
-                                      249,
-                                      1,
-                                    ),
-                                    shape: BoxShape.circle),
-                              ),
-                              Obx(
-                                () => controller.selectedStages.value == index
-                                    ? Positioned(
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        top: 0,
-                                        child: Center(
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.primary500,
-                                                shape: BoxShape.circle),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      if (controller.stagesList.length == index + 1) ...[
-                        SizedBox(
-                          height: 32,
-                        ),
-                        ButtonsWidget(
-                            name: 'Apply Filter',
-                            onPressed: () {
-                              stagesPressed(context);
-                              Navigator.pop(context);
-                            })
-                      ]
-                    ],
-                  ),
-                ),
-              );
-            },
-            itemCount: controller.stagesList.length,
-          );
-        });
-  }
-
-  void stagesPressed(BuildContext context) {
-    controller.getHotSalesFiltered(
-      true,
-      isFilter: true,
-      filterId: controller.stagesList[controller.selectedStages.value].id,
-      isOrdered: true,
-      isSearch: true,
-      searchKeyword: controller.searchController.text.trim(),
-      ordering: controller.selectedFilter.value == 1
-          ? 'regular_price'
-          : '-regular_price',
-    );
-  }
-
-  void filterPressed(BuildContext context) {
-    if (controller.selectedStages.value == 10) {
-      controller.getHotSalesFiltered(true,
-          isOrdered: true,
-          ordering: controller.selectedFilter.value == 1
-              ? 'regular_price'
-              : '-regular_price',
-          isSearch: true,
-          searchKeyword: controller.searchController.text.trim());
-    } else {
-      controller.getHotSalesFiltered(
-        true,
-        isOrdered: true,
-        ordering: controller.selectedFilter.value == 1
-            ? 'regular_price'
-            : '-regular_price',
-        isSearch: true,
-        searchKeyword: controller.searchController.text.trim(),
-        isFilter: true,
-        filterId: controller.stagesList[controller.selectedStages.value].id,
-      );
-    }
   }
 }

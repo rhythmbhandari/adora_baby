@@ -1,5 +1,4 @@
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
-import 'package:adora_baby/app/modules/shop/controllers/all_products_controller.dart';
 import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
 import 'package:get/get.dart';
 

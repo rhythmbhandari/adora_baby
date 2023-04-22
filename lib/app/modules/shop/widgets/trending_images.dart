@@ -29,8 +29,8 @@ class _TrendingImagesState extends State<TrendingImages> {
                 options: CarouselOptions(
                   height: Get.height * 0.22,
                   autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   enlargeCenterPage: true,
                   viewportFraction: 1,
@@ -41,21 +41,19 @@ class _TrendingImagesState extends State<TrendingImages> {
                       _currentIndex = val;
                     });
                   },
-                  // clipBehavior: Clip.antiAlias,
-                  // onPageChanged: callbackFunction,
                   scrollDirection: Axis.horizontal,
                 ),
                 items: widget.controller.trendingImagesList.map((i) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),
                       child: CachedNetworkImage(
                         fit: BoxFit.fill,
                         imageUrl: '${i.name}',
                         placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                       ),
                     ),
                   );
@@ -70,7 +68,7 @@ class _TrendingImagesState extends State<TrendingImages> {
                 return Container(
                   width: 8.0,
                   height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
+                  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == index ? AppColors.primary500 : AppColors.primary500.withOpacity(0.5),
@@ -81,7 +79,7 @@ class _TrendingImagesState extends State<TrendingImages> {
           ],
         )
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Shimmer.fromColors(
                 baseColor: Colors.white,
                 highlightColor: LightTheme.lightActive,

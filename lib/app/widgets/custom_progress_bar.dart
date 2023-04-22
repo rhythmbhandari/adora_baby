@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../config/app_colors.dart';
 
 class CustomProgressBar extends StatelessWidget {
-  bool isBlack;
+ final bool isBlack;
 
-  CustomProgressBar({
+  const CustomProgressBar({super.key,
     this.isBlack = false,
   });
 
@@ -19,8 +18,8 @@ class CustomProgressBar extends StatelessWidget {
       height: size.height,
       width: size.width,
       color: isBlack
-          ? Color(0xff181818).withOpacity(1)
-          : Color(0xff181818).withOpacity(0.75),
+          ? const Color(0xff181818).withOpacity(1)
+          : const Color(0xff181818).withOpacity(0.75),
       child: Center(
         child: SizedBox(
             height: 0.2 * Get.height,

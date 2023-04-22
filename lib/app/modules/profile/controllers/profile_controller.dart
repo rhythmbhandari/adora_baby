@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:adora_baby/app/data/models/user_model.dart';
 import 'package:adora_baby/app/enums/date_type.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../../data/models/order_logs_model.dart';
 import '../../../data/models/orders_model.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -18,11 +15,8 @@ import '../../../data/repositories/checkout_repositories.dart';
 import '../../../data/repositories/data_repository.dart';
 import '../../../data/repositories/session_manager.dart';
 import '../../../enums/progress_status.dart';
-import '../../../utils/date_time_converter.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
-
   final count = 0.obs;
 
   final authError = ''.obs;
@@ -213,7 +207,6 @@ class ProfileController extends GetxController {
 
     for (var condition in babyMedicalCondition) {
       for (int i = 0; i < condition[2].length; i++) {
-        log('J is ${condition[1][i]}');
         if (selectedTags.contains(condition[2][i])) {
           selectedMedicalConditions.add(condition[1][i]);
         }
@@ -238,7 +231,7 @@ class ProfileController extends GetxController {
       final image = await imagePicker.pickImage(source: imageSource);
       cropPickedImage(image!.path);
     } catch (e) {
-      debugPrint('Exception caught $e');
+      return;
     }
   }
 
@@ -266,7 +259,7 @@ class ProfileController extends GetxController {
       final imageChilds = await imagePicker.pickImage(source: imageSource);
       cropPickedImageChild(imageChilds!.path);
     } catch (e) {
-      debugPrint('Exception caught $e');
+      return;
     }
   }
 
@@ -315,7 +308,6 @@ class ProfileController extends GetxController {
         getCities(),
       ],
     );
-    log('Status is $status');
     if (status.contains(false)) {
       completeLoading(progressStatus, false);
     } else {
@@ -455,7 +447,6 @@ class ProfileController extends GetxController {
     try {
       showSearching(progressBarStatusEditProfile);
       final response = await CheckOutRepository.getAddress();
-      log('Address response is $response');
       if (response.isNotEmpty) {
         addressList.value = response;
         addressList[0].checked = true;
@@ -469,7 +460,6 @@ class ProfileController extends GetxController {
         return true;
       }
     } catch (e) {
-      log('Error is === $e');
       showError(
         progressBarStatusEditProfile,
       );
@@ -588,7 +578,6 @@ class ProfileController extends GetxController {
         "Diamonds Earned": diamondsEarned,
         "Diamonds Spent": diamondsSpent,
       };
-      log('Earned ${dataMapMonth['Diamonds Earned']}');
     }
   }
 
@@ -608,7 +597,6 @@ class ProfileController extends GetxController {
         "Diamonds Earned": diamondsEarned,
         "Diamonds Spent": diamondsSpent,
       };
-      log('Earned ${dataMapHalfMonth['Diamonds Earned']}');
     }
   }
 
@@ -628,19 +616,9 @@ class ProfileController extends GetxController {
         "Diamonds Earned": diamondsEarned,
         "Diamonds Spent": diamondsSpent,
       };
-      log('Earned ${dataMap['Diamonds Earned']}');
     }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void scroll(double position, ScrollController scrollController) {
     scrollController.jumpTo(position);
@@ -649,10 +627,10 @@ class ProfileController extends GetxController {
   void animateTab(double position, ScrollController scrollController) {
     if (position == 3.0) {
       scrollController.animateTo(position + 55,
-          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
     } else {
       scrollController.animateTo(position,
-          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
     }
   }
 
@@ -696,7 +674,7 @@ class ProfileController extends GetxController {
     RxInt currentPageOrder,
   ) {
     pageController.value.animateToPage(currentPageOrder.value,
-        duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+        duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 
   Future<void> getUserDetails() async {
@@ -783,7 +761,6 @@ class ProfileController extends GetxController {
           );
     } catch (error) {
       authError.value = error.toString();
-      log('Auth Error is $authError');
       showError(
         progressStatus,
       );
@@ -859,7 +836,6 @@ class ProfileController extends GetxController {
           );
     } catch (error) {
       authError.value = error.toString();
-      log('Auth Error is ${authError}');
       showError(
         progressStatus,
       );
@@ -880,8 +856,6 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       authError.value = e.toString();
-      log('Auth Error is ${authError}');
-
       progressBarStatusOrderDetails.value = false;
       return false;
     }
@@ -908,14 +882,12 @@ class ProfileController extends GetxController {
       final response =
           await DataRepository.fetchOrderLogs(selectedOrders.value.id ?? '');
 
-      log('Response is $response');
       if (response.isNotEmpty) {
         return response;
       } else {
         return [];
       }
     } catch (e) {
-      log('Error is $e');
       return [];
     }
   }

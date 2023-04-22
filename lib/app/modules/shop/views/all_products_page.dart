@@ -498,8 +498,6 @@ class AllProductsView extends HookWidget {
                                                           ),
                                                       onRatingUpdate:
                                                           (rating) {
-                                                        print(
-                                                            rating);
                                                       },
                                                     ),
                                                     const SizedBox(

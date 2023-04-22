@@ -19,7 +19,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
     with TickerProviderStateMixin {
   final ProfileController controller = Get.find();
 
-  List<RefreshController> _refreshController = [
+  final List<RefreshController> _refreshController = [
     RefreshController(),
     RefreshController(),
     RefreshController(),
@@ -32,6 +32,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
 
   @override
   void initState() {
+    super.initState();
     tabController = TabController(
       initialIndex: 0,
       length: 3,
@@ -43,10 +44,6 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // controller.selectedStages.value = 10;
-        // controller.selectedFilter.value = 0;
-        // controller.searchController.text = "";
-        // return true;
         controller.updateSelectedBookingPage(
           DateType.WEEK,
           controller.pageController,
@@ -73,9 +70,6 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                       padding: const EdgeInsets.only(left: 30.0),
                       child: GestureDetector(
                           onTap: () {
-                            // controller.selectedStages.value = 10;
-                            // controller.selectedFilter.value = 0;
-                            // controller.searchController.text = "";
                             controller.updateSelectedBookingPage(
                               DateType.WEEK,
                               controller.pageController,
@@ -89,7 +83,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                             color: Colors.black,
                           )),
                     ),
-                    Expanded(flex: 2, child: SizedBox()),
+                    const Expanded(flex: 2, child: SizedBox()),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
@@ -98,13 +92,13 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                             ?.copyWith(color: DarkTheme.dark),
                       ),
                     ),
-                    Expanded(flex: 3, child: SizedBox()),
+                    const Expanded(flex: 3, child: SizedBox()),
                   ],
                 ),
               ),
               Container(
                 height: Get.height * 0.02,
-                color: Color.fromRGBO(
+                color: const Color.fromRGBO(
                   250,
                   245,
                   252,
@@ -119,7 +113,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                     controller: scrollControllerOrderHistory,
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 27, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 27, vertical: 20),
                       child: Row(
                         children: [
                           GestureDetector(
@@ -136,7 +130,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 22,
                                 vertical: 8,
                               ),
@@ -164,7 +158,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                             ),
                           ),
-                          SizedBox(width: 11),
+                          const SizedBox(width: 11),
                           GestureDetector(
                             onTap: () {
                               controller.updateSelectedBookingPage(
@@ -177,7 +171,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                   1, scrollControllerOrderHistory);
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 22,
                                 vertical: 8,
                               ),
@@ -205,7 +199,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                             ),
                           ),
-                          SizedBox(width: 11),
+                          const SizedBox(width: 11),
                           GestureDetector(
                             onTap: () {
                               controller.updateSelectedBookingPage(
@@ -218,7 +212,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                                   2, scrollControllerOrderHistory);
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 22,
                                 vertical: 8,
                               ),
@@ -246,7 +240,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                               ),
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                         ],
                       ),
                     ),
@@ -258,7 +252,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView>
                 child: Obx(
                   () => PageView.builder(
                     controller: controller.pageController.value,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, pageViewIndex) {
                       return OrderHistoryWidgets(

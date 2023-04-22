@@ -1,31 +1,21 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/data/models/hot_sales_model.dart';
-import 'package:adora_baby/app/data/repositories/cart_repository.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/modules/shop/controllers/shop_controller.dart';
-import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:get/get.dart';
-import 'package:html/parser.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../main.dart';
 import '../../../config/app_theme.dart';
-import '../../../config/constants.dart';
 import '../../../data/models/reviews.dart';
-import '../../../routes/app_pages.dart';
-import '../../../widgets/bottom_nav_bar.dart';
 import '../../../widgets/gradient_icon.dart';
-import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
 import 'getBrandName.dart';
 import 'review_add.dart';
@@ -44,7 +34,7 @@ class _ProductDetailsState extends State<ProductDetails>
   CarouselController carouselController = CarouselController();
 
   TabController? _controller;
-  int _selectedTabbar = 0;
+  int _selectedTabBar = 0;
   List<ProductImage?> sortedImages = [];
 
   @override
@@ -116,7 +106,6 @@ class _ProductDetailsState extends State<ProductDetails>
                           Center(
                             child: GestureDetector(
                               onTap: () {
-                                log('it is ${controller.productSelected.value.id}');
                               },
                               child: Text(
                                 "Product Detail",
@@ -180,7 +169,6 @@ class _ProductDetailsState extends State<ProductDetails>
                               ),
                             ),
                             onRatingUpdate: (rating) {
-                              print(rating);
                             },
                           ),
                           const SizedBox(
@@ -195,7 +183,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                         229, 159, 164, 1))),
                             child: Text(
                               "${controller.productSelected.value.categories![0]?.name}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 16,
                                   fontStyle: FontStyle.italic,
@@ -211,7 +199,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   false
                               ? Container(
                                   height: Get.height * 0.32,
-                                  margin: EdgeInsets.symmetric(
+                                  margin: const EdgeInsets.symmetric(
                                     vertical: 20,
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -301,7 +289,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               return Container(
                                 width: 8.0,
                                 height: 8.0,
-                                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: _currentIndex == index ? AppColors.primary500 : AppColors.primary500.withOpacity(0.5),
@@ -382,11 +370,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           controller.productSelected.value.weightInGrams != null
                               ? Text(
-                                  'Weight: ' +
-                                      controller
-                                          .productSelected.value.weightInGrams
-                                          .toString() +
-                                      ' grams',
+                                  'Weight: ${controller
+                                          .productSelected.value.weightInGrams} grams',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: "Poppins",
@@ -498,19 +483,16 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    log(controller
-                                        .productSelected.value.stockQuantity
-                                        .toString());
                                     if (myController.counter.value ==
                                         (controller.productSelected.value
                                                 .stockQuantity ??
                                             1)) {
-                                      var snackBar = SnackBar(
+                                      var snackBar = const SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: AppColors.secondary500,
                                         duration:
-                                            const Duration(milliseconds: 2000),
+                                            Duration(milliseconds: 2000),
                                         content:
                                             Text("No more stock available."),
                                       );
@@ -558,9 +540,8 @@ class _ProductDetailsState extends State<ProductDetails>
                       child: Column(children: [
                         TabBar(
                           onTap: (index) {
-                            print(index);
                             setState(() {
-                              _selectedTabbar = index;
+                              _selectedTabBar = index;
                             });
                           },
                           indicatorColor: Colors.black,
@@ -570,20 +551,20 @@ class _ProductDetailsState extends State<ProductDetails>
                           labelColor: Colors.black,
                           labelStyle: kThemeData.textTheme.labelMedium
                               ?.copyWith(color: DarkTheme.normal),
-                          tabs: [
-                            const Tab(
+                          tabs: const [
+                            Tab(
                               text: "Overview",
                             ),
-                            const Tab(
+                            Tab(
                               text: "Details",
                             ),
-                            const Tab(
+                            Tab(
                               text: "Reviews",
                             ),
                           ],
                         ),
                         Builder(builder: (_) {
-                          if (_selectedTabbar == 0) {
+                          if (_selectedTabBar == 0) {
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 46, vertical: 20),
@@ -595,7 +576,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 textStyle: kThemeData.textTheme.bodyLarge,
                               ),
                             ); //1st custom tabBarView
-                          } else if (_selectedTabbar == 1) {
+                          } else if (_selectedTabBar == 1) {
                             return Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 46, vertical: 20),
@@ -625,7 +606,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   TextField(
                                     cursorColor: AppColors.mainColor,
                                     onTap: () {
-                                      Get.to(() => AddReview(),
+                                      Get.to(() => const AddReview(),
                                           arguments:
                                               controller.productSelected.value);
                                     },
@@ -637,7 +618,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       hintText: 'Add Review',
                                       hintStyle: kThemeData.textTheme.bodyLarge
                                           ?.copyWith(
-                                              color: Color.fromRGBO(
+                                              color: const Color.fromRGBO(
                                         175,
                                         152,
                                         168,
@@ -679,7 +660,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   175, 152, 168, 1))),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 23,
                                   ),
                                   GetBuilder<ShopController>(
@@ -749,9 +730,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                               .height *
                                                                           0.06,
                                                                       imageUrl:
-                                                                          '${snapshot.data?[index].createdBy?.profilePhoto['name']}' ??
-                                                                              'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
-                                                                      placeholder: (context,
+                                                                          '${snapshot.data?[index].createdBy?.profilePhoto['name']}', placeholder: (context,
                                                                               url) =>
                                                                           const Center(
                                                                               child: CircularProgressIndicator()),
@@ -831,8 +810,6 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                   ),
                                                                   onRatingUpdate:
                                                                       (rating) {
-                                                                    print(
-                                                                        rating);
                                                                   },
                                                                 ),
                                                               ],
@@ -902,29 +879,18 @@ class _ProductDetailsState extends State<ProductDetails>
                         try {
                           final CartController cartController = Get.find();
                           cartController.cart();
-
-                          // final HomeController homeController = Get.find();
-                          //
-                          // homeController.isRedirected.value = 1;
-                          // Get.until(
-                          //   (route) => route.settings.name == Routes.HOME,
-                          // );
-
-                        } catch (e) {}
-                        // Find the ScaffoldMessenger in the widget tree
-                        // and use it to show a SnackBar.
+                        } catch (e) {
+                          return;
+                        }
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         final snackBar = SnackBar(
                           backgroundColor: Colors.red,
                           content: Text(
                             controller.authError.value,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         );
-
-                        // Find the ScaffoldMessenger in the widget tree
-                        // and use it to show a SnackBar.
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
 

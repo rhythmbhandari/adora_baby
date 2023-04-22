@@ -30,25 +30,6 @@ class LocalNotification {
     await file.writeAsBytes(response.bodyBytes);
     return filePath;
   }
-
-  // NotificationDetails _buildDetails(String title, String body, String? picturePath, bool showBigPicture) {
-  //   final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //     _channel.id,
-  //     _channel.name,
-  //     channelDescription: _channel.description,
-  //     styleInformation: _buildBigPictureStyleInformation(title, body, picturePath, showBigPicture),
-  //     importance: _channel.importance,
-  //     icon: "notification_icon",
-  //   );
-  //   final IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails(
-  //     attachments: [if (picturePath != null) IOSNotificationAttachment(picturePath)],
-  //   );
-  //   final NotificationDetails details = NotificationDetails(
-  //     android: androidPlatformChannelSpecifics,
-  //     iOS: iOSPlatformChannelSpecifics,
-  //   );
-  //   return details;
-  // }
   static BigPictureStyleInformation? _buildBigPictureStyleInformation(
     String title,
     String body,

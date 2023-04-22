@@ -1,7 +1,4 @@
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/app/modules/auth/views/login_view.dart';
-import 'package:adora_baby/app/modules/auth/views/reset_password_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +14,6 @@ class ForgetPasswordView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController phoneController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -35,7 +31,7 @@ class ForgetPasswordView extends GetView<AuthController> {
                         Get.back();
                       },
                       child: SvgPicture.asset("assets/images/arrow-left.svg",
-                          height: 22, color: Color(0xff667080)),
+                          height: 22, color: const Color(0xff667080)),
                     ),
                     const SizedBox(
                       height: 10,
@@ -97,7 +93,7 @@ class ForgetPasswordView extends GetView<AuthController> {
                           ? () async {
                         try {
                           controller.progressBarStatus.value = true;
-                          if (await controller
+                          if (controller
                               .validatePhoneNumber()) {
                             final status = await controller
                                 .requestResetPassword();
@@ -109,16 +105,13 @@ class ForgetPasswordView extends GetView<AuthController> {
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: Colors.red,
                                 duration:
-                                Duration(milliseconds: 2000),
+                                const Duration(milliseconds: 2000),
                                 content: Text(
-                                    "${controller.authError.toUpperCase()}"),
+                                    controller.authError.toUpperCase()),
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             } else {
-                              if (kDebugMode) {
-                                print("success");
-                              }
                               controller.progressBarStatus.value =
                               false;
                               Get.toNamed(Routes.OTP,
@@ -129,7 +122,7 @@ class ForgetPasswordView extends GetView<AuthController> {
                               elevation: 0,
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Colors.red,
-                              duration: Duration(milliseconds: 2000),
+                              duration: const Duration(milliseconds: 2000),
                               content:
                               Text("${controller.authError}"),
                             );

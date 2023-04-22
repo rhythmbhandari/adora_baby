@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class SplashContainer extends StatelessWidget {
+  const SplashContainer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(

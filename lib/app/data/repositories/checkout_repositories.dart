@@ -1,23 +1,19 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/checkout_model.dart';
 import 'package:adora_baby/app/data/models/get_address_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../main.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
-import '../models/get_city_model.dart' as c;
 import '../models/get_single_order_model.dart';
 import '../network/dio_client.dart';
 import '../models/get_orders_model.dart' as o;
 
 class CheckOutRepository {
-  //personal info
   static Future<CheckoutModel> checkout(String fullName, String phoneNumber,
       String altPhone, String address, String notes, List cartList) async {
     const url = '$BASE_URL/checkout/';
@@ -41,15 +37,12 @@ class CheckOutRepository {
 
         return checkoutModel;
       } else {
-
-        log('Error is ==== $response is');
         return Future.error('$response');
       }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      log('Caught error is $e');
       return Future.error(e.toString());
     }
   }
@@ -61,7 +54,6 @@ class CheckOutRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<AddressModel> cities = (status['data'] as List)
           .map((i) => AddressModel.fromJson(i))
@@ -81,7 +73,6 @@ class CheckOutRepository {
         true,
         await SecureStorage.returnHeader(),
       );
-      log('Status received is  === address $status');
       if (status is Map<dynamic, dynamic>) {
         List<AddressModel> address = (status['data'] as List)
             .map((i) => AddressModel.fromJson(i))
@@ -101,12 +92,6 @@ class CheckOutRepository {
       String addressName, String city, String landmark, bool isPrimary) async {
     const url = '$BASE_URL/address/';
     final body = jsonEncode({
-      "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
-      "city": city,
-      "nearest_landmark": landmark.characters.take(49).toString(),
-      "address": addressName,
-    });
-    print({
       "address_type": isPrimary ? 'PRIMARY' : 'SECONDARY',
       "city": city,
       "nearest_landmark": landmark.characters.take(49).toString(),
@@ -166,10 +151,11 @@ class CheckOutRepository {
           headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}.');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
+        return Future.error(
+            '${decodedResponse["error"] ?? decodedResponse["detail"] ?? 'Server Error'}');
+      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -187,10 +173,11 @@ class CheckOutRepository {
           headers: await SecureStorage.returnHeaderWithToken());
       var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       if (response.statusCode == 200) {
-        print('Response is ${response.statusCode}.');
         return true;
       } else {
-        return Future.error('${decodedResponse["error"]??decodedResponse["detail"]??'Server Error'}');      }
+        return Future.error(
+            '${decodedResponse["error"] ?? decodedResponse["detail"] ?? 'Server Error'}');
+      }
     } on SocketException {
       return Future.error(
           'Please check your internet connection and try again.');
@@ -229,7 +216,6 @@ class CheckOutRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<o.Datum> orders =
           (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
@@ -247,7 +233,6 @@ class CheckOutRepository {
       true,
       await SecureStorage.returnHeader(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<GetSingleOrder> singleOrder = (status['data'] as List)
           .map((i) => GetSingleOrder.fromJson(i))
@@ -263,23 +248,15 @@ class CheckOutRepository {
       String id, bool isDiamondUsed, String couponApplied) async {
     var url = '$BASE_URL/checkout/$id/';
 
-    final body = {
-      "is_dimond_use": isDiamondUsed,
-      "coupon_code": couponApplied
-    };
-    log('huh');
+    final body = {"is_dimond_use": isDiamondUsed, "coupon_code": couponApplied};
 
     try {
       final response = await DioHelper.putRequest(
           url, body, true, await SecureStorage.returnHeaderWithToken());
-      log('Respons is $response');
       if (response is Map<String, dynamic>) {
-        log('here');
         CheckoutModel checkoutModel = CheckoutModel.fromJson(
           response,
         );
-
-        log('parsed');
         return checkoutModel;
       } else {
         return Future.error('$response');

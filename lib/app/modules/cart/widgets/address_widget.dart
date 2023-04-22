@@ -6,11 +6,10 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../profile/controllers/profile_controller.dart';
-import '../controllers/cart_controller.dart';
 
 Widget buildAddressWidget(ProfileController controller) {
   final cards = <Widget>[];
-  Widget FeaturedCard;
+  Widget featuredCard;
 
   if (controller != null) {
     for (int index = 0; index < controller.addressList.length; index++) {
@@ -46,7 +45,7 @@ Widget buildAddressWidget(ProfileController controller) {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 1,
-                    offset: Offset(0, 2), // changes position of shadow
+                    offset: const Offset(0, 2), // changes position of shadow
                   ),
                 ],
                 borderRadius: BorderRadius.circular(
@@ -81,7 +80,7 @@ Widget buildAddressWidget(ProfileController controller) {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
@@ -89,14 +88,14 @@ Widget buildAddressWidget(ProfileController controller) {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text(myController.addressList[index].addressType,
                             maxLines: 1,
                             style: kThemeData.textTheme.titleMedium
                                 ?.copyWith(color: DarkTheme.darkNormal)),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
@@ -130,7 +129,7 @@ Widget buildAddressWidget(ProfileController controller) {
                       Get.toNamed(Routes.ADD_ADDRESS, arguments: [true, myController.addressList[index].id, false]);
                     },
                     child: Container(
-                      padding: EdgeInsets.only(right: 10, left: 10),
+                      padding: const EdgeInsets.only(right: 10, left: 10),
                       child: SvgPicture.asset(
                         "assets/images/profile_edit.svg",
                         height: 24,
@@ -144,8 +143,8 @@ Widget buildAddressWidget(ProfileController controller) {
         ),
       ));
     }
-    FeaturedCard = Container(
-      padding: EdgeInsets.only(top: 16, bottom: 16),
+    featuredCard = Container(
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -153,14 +152,14 @@ Widget buildAddressWidget(ProfileController controller) {
             scrollDirection: Axis.horizontal,
             child: Row(children: cards),
           ),
-          SizedBox(
+          const SizedBox(
             height: 0,
           ),
         ],
       ),
     );
   } else {
-    FeaturedCard = Container();
+    featuredCard = Container();
   }
-  return FeaturedCard;
+  return featuredCard;
 }

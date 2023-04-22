@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adora_baby/app/utils/date_time_converter.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,11 @@ class TrackingView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      key: new PageStorageKey('track_my_order'),
+      key: const PageStorageKey('track_my_order'),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 24,
               left: 35,
               right: 35,
@@ -51,13 +50,13 @@ class TrackingView extends GetView<ProfileController> {
                     color: DarkTheme.darkNormal,
                   ),
                 ),
-                SizedBox(),
-                SizedBox()
+                const SizedBox(),
+                const SizedBox()
               ],
             ),
           ),
           Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 25,
                 right: 35,
                 top: 30,
@@ -66,11 +65,10 @@ class TrackingView extends GetView<ProfileController> {
               child: FutureBuilder<List<OrderLogsModel>>(
                 future: controller.initiateTrackOrder(),
                 builder: (context, snapshot) {
-                  log('Snapshot is ${snapshot.data}');
                   if (snapshot.hasData) {
                     if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                       return DefaultTextStyle(
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xff9b9b9b),
                           fontSize: 12.5,
                         ),
@@ -79,12 +77,12 @@ class TrackingView extends GetView<ProfileController> {
                           child: FixedTimeline.tileBuilder(
                             theme: TimelineThemeData(
                               nodePosition: 0,
-                              color: Color(0xff989898),
-                              indicatorTheme: IndicatorThemeData(
+                              color: const Color(0xff989898),
+                              indicatorTheme: const IndicatorThemeData(
                                 position: 0.3,
                                 size: 20.0,
                               ),
-                              connectorTheme: ConnectorThemeData(
+                              connectorTheme: const ConnectorThemeData(
                                 space: 59,
                                 thickness: 2,
                               ),
@@ -94,13 +92,13 @@ class TrackingView extends GetView<ProfileController> {
                               itemCount: snapshot.data?.length ?? 0,
                               contentsBuilder: (_, index) {
                                 return Container(
-                                  padding: EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.only(bottom: 20),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 32,
                                       ),
                                       SizedBox(
@@ -142,7 +140,7 @@ class TrackingView extends GetView<ProfileController> {
                                                         : SvgPicture.asset(
                                                             "assets/images/canceled.svg"),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       Expanded(
@@ -311,18 +309,18 @@ class TrackingView extends GetView<ProfileController> {
                                         .toString()
                                         .toLowerCase()
                                         .contains('hold')) {
-                                  return OutlinedDotIndicator(
+                                  return const OutlinedDotIndicator(
                                     color: AppColors.error500,
                                     borderWidth: 1.5,
                                   );
                                 } else if (index ==
                                     (snapshot.data?.length ?? 0)) {
-                                  return OutlinedDotIndicator(
+                                  return const OutlinedDotIndicator(
                                     color: DarkTheme.darkNormal,
                                     borderWidth: 1.5,
                                   );
                                 } else {
-                                  return DotIndicator(
+                                  return const DotIndicator(
                                     color: AppColors.success300,
                                     child: Icon(
                                       Icons.check,
@@ -332,46 +330,43 @@ class TrackingView extends GetView<ProfileController> {
                                   );
                                 }
                               },
-                              connectorBuilder: (_, index, ___) => Container(
-                                // height: 50,
-                                child: SolidLineConnector(
-                                  thickness: 2,
-                                  color: (snapshot.data?[index].orderStatus ??
-                                                  '')
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains('canceled') ||
-                                          (snapshot.data?[index].orderStatus ??
-                                                  '')
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains('terminated') ||
-                                          (snapshot.data?[index].orderStatus ??
-                                                  '')
-                                              .toString()
-                                              .toLowerCase()
-                                              .contains('hold')
-                                      ? AppColors.error500
-                                      : AppColors.success300,
-                                ),
+                              connectorBuilder: (_, index, ___) => SolidLineConnector(
+                                thickness: 2,
+                                color: (snapshot.data?[index].orderStatus ??
+                                                '')
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains('canceled') ||
+                                        (snapshot.data?[index].orderStatus ??
+                                                '')
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains('terminated') ||
+                                        (snapshot.data?[index].orderStatus ??
+                                                '')
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains('hold')
+                                    ? AppColors.error500
+                                    : AppColors.success300,
                               ),
                             ),
                           ),
                         ),
                       );
                     } else {
-                      return Container(
+                      return SizedBox(
                           height: Get.height * 0.6,
-                          child: FittedBox(child: EmptyWidget()));
+                          child: const FittedBox(child: EmptyWidget()));
                     }
                   } else if (snapshot.hasError) {
-                    return Container(
+                    return SizedBox(
                         height: Get.height * 0.6,
-                        child: FittedBox(child: InternetErrorWidget()));
+                        child: const FittedBox(child: InternetErrorWidget()));
                   }
-                  return Container(
+                  return SizedBox(
                       height: Get.height * 0.6,
-                      child: FittedBox(child: InternetErrorWidget()));
+                      child: const FittedBox(child: InternetErrorWidget()));
                 },
               )),
         ],

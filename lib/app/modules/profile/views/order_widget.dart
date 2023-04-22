@@ -1,27 +1,15 @@
-import 'dart:developer';
 
-import 'package:adora_baby/app/modules/auth/controllers/auth_controllers.dart';
-import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
-import 'package:adora_baby/app/routes/app_pages.dart';
-import 'package:adora_baby/app/modules/shop/widgets/hot_sales.dart';
 import 'package:adora_baby/app/utils/date_time_converter.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
-import '../../../data/models/hot_sales_model.dart';
-import '../../../data/models/orders_model.dart';
 import '../../../enums/progress_status.dart';
-import '../../../widgets/gradient_icon.dart';
-import '../../cart/widgets/cart_loaded_widget.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
@@ -73,7 +61,7 @@ class OrderWidget extends StatelessWidget {
                 case ProgressStatus.empty:
                   return SizedBox(
                     height: Get.height * 0.3,
-                    child: FittedBox(child: EmptyWidget()),
+                    child: const FittedBox(child: EmptyWidget()),
                   );
                 case ProgressStatus.idle:
                 case ProgressStatus.loading:
@@ -173,15 +161,14 @@ Widget _buildImage() {
 
 Widget _buildFeaturedCards(ProfileController controller) {
   final cards = <Widget>[];
-  Widget FeaturedCard;
+  Widget featuredCard;
 
   if (controller != null) {
     for (int i = 0; i < controller.ordersList.length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           controller.selectedOrders.value = controller.ordersList[i];
-          log('the value is ${controller.selectedOrders.value.id}');
-          Get.to(() => OrderHistoryDetail());
+          Get.to(() => const OrderHistoryDetail());
         },
         child: Container(
           padding: const EdgeInsets.only(top: 10),
@@ -215,7 +202,6 @@ Widget _buildFeaturedCards(ProfileController controller) {
             children: [
               GestureDetector(
                 onTap: (){
-                  log(controller.ordersList[i].status);
                 },
                 child: Container(
                   padding: const EdgeInsets.only(left: 19, top: 10),
@@ -393,7 +379,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
         ),
       ));
     }
-    FeaturedCard = Container(
+    featuredCard = Container(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -425,62 +411,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
       ),
     );
   } else {
-    FeaturedCard = Container();
+    featuredCard = Container();
   }
-  return FeaturedCard;
+  return featuredCard;
 }
 
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
-// import 'package:get/get.dart';
-//
-// import '../../../config/app_colors.dart';
-// import '../../../config/app_theme.dart';
-// import '../controllers/profile_controller.dart';
-
-// Widget ordersWidget(ProfileController controller, BuildContext context) {
-//   return Container(
-//       decoration: BoxDecoration(
-//           color: LightTheme.white, borderRadius: BorderRadius.circular(20)),
-//       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-//       padding: EdgeInsets.symmetric(horizontal: 33, vertical: 34),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Text(
-//             'My Orders',
-//             style: kThemeData.textTheme.displaySmall
-//                 ?.copyWith(color: DarkTheme.normal),
-//           ),
-//           SizedBox(
-//             height: 30,
-//           ),
-//           ListView.builder(
-//             itemCount: 2,
-//             shrinkWrap: true,
-//             // padding:
-//             // EdgeInsets.only(top: 60, left: 32, bottom: 21),
-//             scrollDirection: Axis.horizontal,
-//             itemBuilder: (context, index) {
-//               return Container(
-//                 width: 200,
-//                 padding: EdgeInsets.only(right: 8),
-//                 decoration: BoxDecoration(
-//                     color: AppColors.secondary500,
-//                     border: Border.all(color: Colors.transparent)),
-//                 child: Center(
-//                   child: Text('hshs',
-//                       style: kThemeData.textTheme.bodyLarge
-//                           ?.copyWith(color: Colors.red)),
-//                 ),
-//               );
-//             },
-//           ),
-//           SizedBox(
-//             height: 12,
-//           ),
-//         ],
-//       ));
-// }

@@ -2,18 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:adora_baby/app/data/models/stages_brands.dart';
-import 'package:adora_baby/app/data/models/get_carts_model.dart' as a;
 import 'package:adora_baby/app/data/network/dio_client.dart';
-import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
-import 'package:adora_baby/app/widgets/shimmer_widget.dart';
-import 'package:adora_baby/main.dart';
-import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
-import '../../config/app_colors.dart';
 import '../../config/constants.dart';
-import 'package:http/http.dart' as http;
 
 import '../../utils/secure_storage.dart';
 import '../models/cart_model.dart';
@@ -28,11 +19,8 @@ class CartRepository {
       final response = await DioHelper.postRequest(
           url, body, false, await SecureStorage.returnHeaderWithToken());
       if (response) {
-        print('Response is hehehe $response');
         return true;
       } else {
-        print(response.statusCode);
-
         return Future.error('Error');
       }
     } on SocketException {
@@ -83,7 +71,6 @@ class CartRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      log('Error is $e');
       return Future.error('$e');
     }
   }
@@ -119,13 +106,11 @@ class CartRepository {
     final data = response.data;
 
     if (response.statusCode == 200) {
-      log("Response : ${response.data}");
       List<CartModel> cartList = (response.data["data"] as List)
           .map((i) => CartModel.fromJson(i))
           .toList();
       return cartList;
     } else {
-      log(response.statusMessage ?? '');
       return Future.error(data['message']);
     }
   }
@@ -137,13 +122,10 @@ class CartRepository {
         url, true, await SecureStorage.returnHeaderWithToken());
 
     if (response is Map<dynamic, dynamic>) {
-      log("Response : ${response['data']}");
-      List<Cities> citiesList = (response["data"] as List)
-          .map((i) => Cities.fromJson(i))
-          .toList();
+      List<Cities> citiesList =
+          (response["data"] as List).map((i) => Cities.fromJson(i)).toList();
       return citiesList;
     } else {
-      log(response.statusMessage ?? '');
       return Future.error(response['message']);
     }
   }

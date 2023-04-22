@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
-import '../../../config/app_theme.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   const CustomErrorWidget({
@@ -17,7 +16,7 @@ class CustomErrorWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         vertical: Get.height * 0.02,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: LightTheme.white,
       ),
       child: Column(
@@ -33,7 +32,7 @@ class CustomErrorWidget extends StatelessWidget {
             height: 37,
           ),
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
             child: Text(

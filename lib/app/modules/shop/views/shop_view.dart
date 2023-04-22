@@ -240,27 +240,13 @@ class NewShopViewBody extends StatelessWidget {
                                       child: SvgPicture.asset(
                                           "assets/images/message.svg",
                                           height: 30,
-                                          color: Color(0xff667080)),
+                                          color: const Color(0xff667080)),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                          // SizedBox(
-                          //   width: 8,
-                          // ),
-                          // GestureDetector(
-                          //   onTap: () async {
-                          //     log((await storage.readAccessToken()).toString());
-                          //   },
-                          //   child: SvgPicture.asset(
-                          //     "assets/images/message.svg",
-                          //     // height: 0.022 * Get.height,
-                          //     // color: Colors.red,
-                          //     height: 28,
-                          //   ),
-                          // ),
                           const SizedBox(
                             width: 16,
                           ),
@@ -447,7 +433,6 @@ Widget shimmerHomePage() {
                               ),
                             ),
                             onRatingUpdate: (rating) {
-                              print(rating);
                             },
                           ),
                           const SizedBox(

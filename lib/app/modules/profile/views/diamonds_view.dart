@@ -8,7 +8,6 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import 'diamonds_overview_widget.dart';
 import 'diamonds_statement_widget.dart';
-import 'order_history_widget.dart';
 
 class DiamondsView extends StatefulWidget {
   const DiamondsView({Key? key}) : super(key: key);
@@ -21,13 +20,13 @@ class _DiamondsViewState extends State<DiamondsView>
     with TickerProviderStateMixin {
   final ProfileController controller = Get.find();
 
-  List<RefreshController> _refreshControllerStatement = [
+  final List<RefreshController> _refreshControllerStatement = [
     RefreshController(),
     RefreshController(),
     RefreshController(),
   ];
 
-  List<RefreshController> _refreshControllerOverview = [
+  final List<RefreshController> _refreshControllerOverview = [
     RefreshController(),
     RefreshController(),
     RefreshController(),
@@ -43,6 +42,7 @@ class _DiamondsViewState extends State<DiamondsView>
 
   @override
   void initState() {
+    super.initState();
     tabController = TabController(
       initialIndex: 0,
       length: 3,
@@ -66,10 +66,6 @@ class _DiamondsViewState extends State<DiamondsView>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // controller.selectedStages.value = 10;
-        // controller.selectedFilter.value = 0;
-        // controller.searchController.text = "";
-        // return true;
         if (controller.pageControllerOverview.value.hasClients) {
           controller.updateSelectedBookingPage(
             DateType.WEEK,
@@ -98,9 +94,6 @@ class _DiamondsViewState extends State<DiamondsView>
                       padding: const EdgeInsets.only(left: 30.0),
                       child: GestureDetector(
                           onTap: () {
-                            // controller.selectedStages.value = 10;
-                            // controller.selectedFilter.value = 0;
-                            // controller.searchController.text = "";
                             if (controller
                                 .pageControllerOverview.value.hasClients) {
                               controller.updateSelectedBookingPage(
@@ -117,7 +110,7 @@ class _DiamondsViewState extends State<DiamondsView>
                             color: Colors.black,
                           )),
                     ),
-                    Expanded(flex: 2, child: SizedBox()),
+                    const Expanded(flex: 2, child: SizedBox()),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
@@ -126,13 +119,13 @@ class _DiamondsViewState extends State<DiamondsView>
                             ?.copyWith(color: DarkTheme.dark),
                       ),
                     ),
-                    Expanded(flex: 3, child: SizedBox()),
+                    const Expanded(flex: 3, child: SizedBox()),
                   ],
                 ),
               ),
               Container(
                 height: Get.height * 0.02,
-                color: Color.fromRGBO(
+                color: const Color.fromRGBO(
                   250,
                   245,
                   252,
@@ -150,18 +143,18 @@ class _DiamondsViewState extends State<DiamondsView>
                     ),
                     isScrollable: true,
                     indicatorSize: TabBarIndicatorSize.tab,
-                    labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                    unselectedLabelColor: Color.fromRGBO(175, 152, 168, 1),
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+                    unselectedLabelColor: const Color.fromRGBO(175, 152, 168, 1),
                     unselectedLabelStyle:
                         kThemeData.textTheme.labelMedium?.copyWith(
                       fontSize: 18,
                     ),
                     labelColor: DarkTheme.darkNormal,
                     indicatorColor: DarkTheme.darkNormal,
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     controller: tabControllerMain,
                     indicatorWeight: 2.5,
-                    tabs: [
+                    tabs: const [
                       Tab(
                         text: 'Overview',
                       ),
@@ -172,7 +165,7 @@ class _DiamondsViewState extends State<DiamondsView>
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 height: 0,
                 color: Color(
                   0xffAF98A8,
@@ -181,7 +174,7 @@ class _DiamondsViewState extends State<DiamondsView>
               ),
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 27,
                   vertical: 16,
                 ),
@@ -201,7 +194,7 @@ class _DiamondsViewState extends State<DiamondsView>
                               scrollDirection: Axis.horizontal,
                               controller: scrollControllerOverview,
                               child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 27, vertical: 0),
                                 child: Row(
                                   children: [
@@ -217,7 +210,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             0, scrollControllerOverview);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -252,7 +245,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 11),
+                                    const SizedBox(width: 11),
                                     GestureDetector(
                                       onTap: () {
                                         controller.updateSelectedBookingPage(
@@ -265,7 +258,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             1, scrollControllerOverview);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -300,7 +293,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 11),
+                                    const SizedBox(width: 11),
                                     GestureDetector(
                                       onTap: () {
                                         controller.updateSelectedBookingPage(
@@ -313,7 +306,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             2, scrollControllerOverview);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -348,7 +341,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 20),
+                                    const SizedBox(width: 20),
                                   ],
                                 ),
                               ),
@@ -361,7 +354,7 @@ class _DiamondsViewState extends State<DiamondsView>
                             () => PageView.builder(
                               controller:
                                   controller.pageControllerOverview.value,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: 3,
                               itemBuilder: (context, pageViewIndex) {
                                 return DiamondsOverviewWidget(
@@ -394,7 +387,7 @@ class _DiamondsViewState extends State<DiamondsView>
                               scrollDirection: Axis.horizontal,
                               controller: scrollControllerStatement,
                               child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 27, vertical: 0),
                                 child: Row(
                                   children: [
@@ -410,7 +403,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             0, scrollControllerStatement);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -446,7 +439,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 11),
+                                    const SizedBox(width: 11),
                                     GestureDetector(
                                       onTap: () {
                                         controller.updateSelectedBookingPage(
@@ -459,7 +452,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             1, scrollControllerStatement);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -495,7 +488,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 11),
+                                    const SizedBox(width: 11),
                                     GestureDetector(
                                       onTap: () {
                                         controller.updateSelectedBookingPage(
@@ -508,7 +501,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                             2, scrollControllerStatement);
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: 22,
                                           vertical: 8,
                                         ),
@@ -544,7 +537,7 @@ class _DiamondsViewState extends State<DiamondsView>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 20),
+                                    const SizedBox(width: 20),
                                   ],
                                 ),
                               ),
@@ -557,7 +550,7 @@ class _DiamondsViewState extends State<DiamondsView>
                             () => PageView.builder(
                               controller:
                                   controller.pageControllerStatement.value,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: 3,
                               itemBuilder: (context, pageViewIndex) {
                                 return DiamondsStatementWidget(

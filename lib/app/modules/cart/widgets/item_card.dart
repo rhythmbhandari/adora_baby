@@ -57,7 +57,7 @@ class CartCardWidget extends StatelessWidget {
         elevation: 2.5,
         child: Opacity(
           opacity: (controller.cartList[index].product?.stockAvailable!
-              ? 1: 0.7) ?? 0.7,
+              ? 1: 0.7),
           child: Padding(
             padding:
                 const EdgeInsets.only(right: 14, top: 20, bottom: 20, left: 14),
@@ -115,10 +115,7 @@ class CartCardWidget extends StatelessWidget {
                                       product: '',
                                       isFeaturedImage: true,
                                     ),
-                                  ).name ?? ''}' ??
-                              ''),
-                      // controller
-                      // .cartList[index].product!.productImages![0]!.name!
+                                  ).name ?? ''}'),
                     )),
                 Expanded(
                   child: Column(

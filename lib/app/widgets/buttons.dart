@@ -1,6 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../config/app_colors.dart';
 

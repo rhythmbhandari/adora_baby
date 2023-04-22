@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:adora_baby/app/data/models/diamonds.dart';
-
 import '../../config/constants.dart';
 import '../../utils/secure_storage.dart';
 import '../models/order_logs_model.dart';
@@ -21,7 +18,6 @@ class DataRepository {
       true,
       await SecureStorage.returnHeaderWithToken(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       try {
         Users user = Users.fromJson(
@@ -30,10 +26,9 @@ class DataRepository {
         SessionManager.instance.setUser(
           user,
         );
-        log('Reached here $user');
         return true;
       } catch (e) {
-        log('Error is $e');
+        return false;
       }
     }
     return false;
@@ -48,7 +43,6 @@ class DataRepository {
       false,
       await SecureStorage.returnHeaderWithToken(),
     );
-    log('Status received is $status');
     if (status) {
       return true;
     }
@@ -63,7 +57,6 @@ class DataRepository {
       true,
       await SecureStorage.returnHeaderWithToken(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Orders> orders = (status['data'] as List)
           .map(
@@ -72,7 +65,6 @@ class DataRepository {
             ),
           )
           .toList();
-      log('Reached here $orders');
       return orders;
     }
     return Future.error('Server error.');
@@ -86,7 +78,6 @@ class DataRepository {
       true,
       await SecureStorage.returnHeaderWithToken(),
     );
-    log('Status received is $status');
     if (status is Map<dynamic, dynamic>) {
       List<Diamonds> orders = (status['data'] as List)
           .map(
@@ -95,7 +86,6 @@ class DataRepository {
             ),
           )
           .toList();
-      log('Reached here $orders');
       return orders;
     }
     return Future.error('Server error.');
@@ -110,7 +100,6 @@ class DataRepository {
       await SecureStorage.returnHeaderWithToken(),
     );
     if (status is List) {
-      log('Status received is $status');
       List<OrderLogsModel> orders = (status)
           .map(
             (i) => OrderLogsModel.fromJson(
@@ -118,7 +107,6 @@ class DataRepository {
         ),
       )
           .toList();
-      log('Reached here $orders');
       return orders;
     }
     return Future.error('Server error.');
@@ -140,7 +128,6 @@ class DataRepository {
         ),
       )
           .toList();
-      log('Reached here $review');
       return review;
     }
     return Future.error('Could not fetch');

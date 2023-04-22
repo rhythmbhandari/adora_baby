@@ -1,22 +1,17 @@
-import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../data/repositories/auth_repository.dart';
 
 class AuthController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
-
   TextEditingController fullNameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController babyNameController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController specialNoteController = TextEditingController();
-
   TextEditingController loginPhoneController = TextEditingController();
-
   TextEditingController loginPasswordController = TextEditingController();
 
   TextEditingController resetPasswordController = TextEditingController();
@@ -141,7 +136,6 @@ class AuthController extends GetxController {
     // }
 
     bool isValid = true;
-    print('Selected Tags is ${selectedTags.isEmpty}');
     if (selectedTags.isEmpty && specialNote.value == "") {
       isValid = false;
     }
@@ -371,7 +365,6 @@ class AuthController extends GetxController {
     try {
       final status = await AuthRepository.verifyReset(
           phoneController.text.trim(), otpController.text.trim());
-      print('Reset status is $status');
       if (status) {
         return true;
       } else {
@@ -401,8 +394,7 @@ class AuthController extends GetxController {
 
   Future<List> getMedicalCategories() async {
     try {
-      final response =
-          await AuthRepository.fetchMedicalCategories();
+      final response = await AuthRepository.fetchMedicalCategories();
 
       if (response.isNotEmpty) {
         babyMedicalCondition.value = response;

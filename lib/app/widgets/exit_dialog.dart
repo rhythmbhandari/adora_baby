@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../config/app_colors.dart';
 
 class ExitDialog extends StatelessWidget {
+  const ExitDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

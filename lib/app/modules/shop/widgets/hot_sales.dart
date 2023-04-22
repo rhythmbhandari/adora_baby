@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:adora_baby/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -37,7 +36,6 @@ class HotSale extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                log('Hot Sales is ${controller.hotSales}');
               },
               child: const Center(
                 child: Text(
@@ -72,7 +70,7 @@ class HotSale extends StatelessWidget {
                           itemCount: controller.hotSales.length >= 4
                               ? 4
                               : controller.hotSales.length,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ProductCards(
                               controller: controller,
@@ -81,10 +79,10 @@ class HotSale extends StatelessWidget {
                           },
                         ))
                     : Container(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: FutureBuilder(
                           future: Future.delayed(
-                              Duration(seconds: 10), () => 'Timeout Reached'),
+                              const Duration(seconds: 10), () => 'Timeout Reached'),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
@@ -111,7 +109,7 @@ class HotSale extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  padding: EdgeInsets.only(right: 18, bottom: 19),
+                  padding: const EdgeInsets.only(right: 18, bottom: 19),
                   child: Text(
                     'See All',
                     style: kThemeData.textTheme.labelMedium
@@ -128,10 +126,10 @@ class HotSale extends StatelessWidget {
 }
 
 class ProductCards extends StatelessWidget {
-  int index;
+  final int index;
   final ShopController controller;
 
-  ProductCards({super.key, required this.index, required this.controller});
+  const ProductCards({super.key, required this.index, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +150,7 @@ class ProductCards extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 1,
                 blurRadius: 2,
-                offset: Offset(0, 2), // changes position of shadow
+                offset: const Offset(0, 2), // changes position of shadow
               ),
             ],
             borderRadius: BorderRadius.circular(15)),
@@ -161,7 +159,7 @@ class ProductCards extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 12, bottom: 8),
+                  margin: const EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
                     child: Image.network(
                       controller.hotSales[index].productImages.isEmpty
@@ -181,7 +179,7 @@ class ProductCards extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(
                       top: 2, bottom: 2, left: 6, right: 6),
-                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     gradient: const LinearGradient(
@@ -218,7 +216,7 @@ class ProductCards extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
@@ -227,7 +225,7 @@ class ProductCards extends StatelessWidget {
                     style: kThemeData.textTheme.labelSmall
                         ?.copyWith(color: AppColors.secondary700, fontSize: 12),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   Text(
@@ -236,7 +234,7 @@ class ProductCards extends StatelessWidget {
                     style: kThemeData.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.primary700, fontSize: 14),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   RatingBar.builder(
@@ -247,11 +245,11 @@ class ProductCards extends StatelessWidget {
                     allowHalfRating: true,
                     glow: false,
                     itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
                     itemBuilder: (context, _) => GradientIcon(
                       Icons.star,
                       10.0,
-                      LinearGradient(
+                      const LinearGradient(
                         colors: <Color>[
                           Color.fromRGBO(127, 0, 255, 1),
                           Color.fromRGBO(255, 0, 255, 1)
@@ -261,10 +259,9 @@ class ProductCards extends StatelessWidget {
                       ),
                     ),
                     onRatingUpdate: (rating) {
-                      print(rating);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -285,7 +282,7 @@ class ProductCards extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                 ],
@@ -301,14 +298,14 @@ class ProductCards extends StatelessWidget {
 Widget buildImageHotSales() {
   return GridView.count(
     childAspectRatio: 0.6,
-    physics: NeverScrollableScrollPhysics(),
+    physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     crossAxisCount: 2,
     children: List.generate(
       4,
       (index) => Container(
         padding: const EdgeInsets.only(top: 10),
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.white,

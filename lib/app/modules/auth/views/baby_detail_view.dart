@@ -1,9 +1,6 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/medical_condition_view.dart';
-import 'package:adora_baby/app/modules/auth/views/username_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -38,7 +35,7 @@ class BabyDetails extends GetView<AuthController> {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    Hero(
+                    const Hero(
                       tag: 'progress',
                       child: LinearProgressIndicator(
                         backgroundColor: Colors.transparent,
@@ -67,7 +64,7 @@ class BabyDetails extends GetView<AuthController> {
                             child: SvgPicture.asset(
                                 "assets/images/arrow-left.svg",
                                 height: 22,
-                                color: Color(0xff667080)),
+                                color: const Color(0xff667080)),
                           ),
                           const SizedBox(
                             height: 13,
@@ -117,8 +114,8 @@ class BabyDetails extends GetView<AuthController> {
                                       ),
                                       borderRadius: BorderRadius.circular(33)),
                                   contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 24),
-                                  hintStyle: TextStyle(
+                                      const EdgeInsets.symmetric(horizontal: 24),
+                                  hintStyle: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
                                       fontFamily: 'Poppins',
@@ -150,7 +147,7 @@ class BabyDetails extends GetView<AuthController> {
                                   showTitleActions: true,
                                   maxTime: DateTime.now(),
                                   minTime: DateTime.now()
-                                      .subtract(Duration(days: 365 * 18)),
+                                      .subtract(const Duration(days: 365 * 18)),
                                   onConfirm: (date) {
                                     String formattedDate =
                                         DateFormat('yyyy-MM-dd').format(date);
@@ -164,12 +161,12 @@ class BabyDetails extends GetView<AuthController> {
                                 );
                               },
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 24, vertical: 12),
                                 hintStyle: Get.textTheme.bodyLarge?.copyWith(
-                                    color: Color.fromRGBO(178, 187, 198, 1)),
+                                    color: const Color.fromRGBO(178, 187, 198, 1)),
                                 labelStyle: Get.textTheme.bodyLarge?.copyWith(
-                                    color: Color.fromRGBO(178, 187, 198, 1)),
+                                    color: const Color.fromRGBO(178, 187, 198, 1)),
                                 // floatingLabelBehavior: FloatingLabelBehavior
                                 //     .never,
                                 hintText: "Date of Birth",
@@ -186,12 +183,12 @@ class BabyDetails extends GetView<AuthController> {
                                     borderRadius: BorderRadius.circular(33)),
                                 border: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Color(0xff828282)),
+                                      const BorderSide(color: Color(0xff828282)),
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                                 disabledBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Color(0xff828282)),
+                                      const BorderSide(color: Color(0xff828282)),
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                               )),
@@ -212,9 +209,9 @@ class BabyDetails extends GetView<AuthController> {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
-                                        duration: Duration(milliseconds: 2000),
+                                        duration: const Duration(milliseconds: 2000),
                                         content: Text(
-                                            "${controller.authError.toUpperCase()}"),
+                                            controller.authError.toUpperCase()),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
@@ -229,7 +226,7 @@ class BabyDetails extends GetView<AuthController> {
                                         controller.progressBarBabyDetail.value =
                                             false;
                                       } else {
-                                        var snackBar = SnackBar(
+                                        var snackBar = const SnackBar(
                                           elevation: 0,
                                           behavior: SnackBarBehavior.floating,
                                           backgroundColor: Colors.red,

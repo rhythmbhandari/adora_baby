@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_theme.dart';
 import '../../../../widgets/custom_progress_bar.dart';
@@ -35,9 +31,6 @@ class EditSpecialNotes extends GetView<ProfileController> {
                             padding: const EdgeInsets.only(left: 30.0),
                             child: GestureDetector(
                                 onTap: () {
-                                  // controller.selectedStages.value = 10;
-                                  // controller.selectedFilter.value = 0;
-                                  // controller.searchController.text = "";
                                   Get.back();
                                 },
                                 child: const Icon(
@@ -45,7 +38,7 @@ class EditSpecialNotes extends GetView<ProfileController> {
                                   color: Colors.black,
                                 )),
                           ),
-                          Expanded(flex: 2, child: SizedBox()),
+                          const Expanded(flex: 2, child: SizedBox()),
                           Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -54,7 +47,7 @@ class EditSpecialNotes extends GetView<ProfileController> {
                                   ?.copyWith(color: DarkTheme.dark),
                             ),
                           ),
-                          Expanded(flex: 3, child: SizedBox()),
+                          const Expanded(flex: 3, child: SizedBox()),
                         ],
                       ),
                     ),
@@ -62,7 +55,7 @@ class EditSpecialNotes extends GetView<ProfileController> {
                       height: Get.height * 0.03,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                       ),
                       child: Column(
@@ -128,7 +121,7 @@ class EditSpecialNotes extends GetView<ProfileController> {
                     ),
                     Expanded(child: Container()),
                     Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                         ),
                         child: ButtonsWidget(
@@ -144,7 +137,7 @@ class EditSpecialNotes extends GetView<ProfileController> {
                                       controller.specialNoteController.text.trim()
                                     }));
                                 if (status) {
-                                  var snackBar = SnackBar(
+                                  var snackBar = const SnackBar(
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.success500,
@@ -159,15 +152,15 @@ class EditSpecialNotes extends GetView<ProfileController> {
                                     elevation: 0,
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: AppColors.error500,
-                                    duration: Duration(milliseconds: 2000),
+                                    duration: const Duration(milliseconds: 2000),
                                     content: Text(
-                                        "${controller.authError.toUpperCase()}"),
+                                        controller.authError.toUpperCase()),
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }
                               } else {
-                                var snackBar = SnackBar(
+                                var snackBar = const SnackBar(
                                   elevation: 0,
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: AppColors.error500,

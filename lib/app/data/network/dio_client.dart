@@ -1,27 +1,44 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/route_manager.dart';
-
-import '../../../main.dart';
 import '../../config/constants.dart';
-import '../../routes/app_pages.dart';
 import '../../utils/logging.dart';
+import 'error_handler.dart';
 
 class DioHelper {
-  static Dio getDioClient() {
-    return Dio(BaseOptions(
-        baseUrl: baseUrl, connectTimeout: 5000, receiveTimeout: 3000))
-      ..interceptors.add(
-        PrettyDioLogger(),
-      );
+  static final DioHelper _instance = DioHelper._internal();
+
+  static final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+    ),
+  )..interceptors.addAll([
+      PrettyDioLogger(),
+      RetryInterceptor(
+        dio: Dio(),
+        logPrint: print,
+        retries: 2,
+        retryDelays: const [
+          Duration(seconds: 1),
+          Duration(seconds: 2),
+          Duration(seconds: 3),
+          Duration(seconds: 4),
+        ],
+      ),
+      DioCacheInterceptor(
+        options: cacheOptions,
+      ),
+    ]);
+
+  factory DioHelper() {
+    return _instance;
   }
+
+  DioHelper._internal();
 
   static final cacheOptions = CacheOptions(
     store: MemCacheStore(),
@@ -47,59 +64,17 @@ class DioHelper {
   ) async {
     try {
       final url = urlInput;
-      Dio dio = getDioClient();
-      dio.interceptors.add(
-        RetryInterceptor(
-          dio: dio,
-          logPrint: print,
-          retries: 2,
-          retryDelays: const [
-            Duration(
-              seconds: 1,
-            ),
-            Duration(
-              seconds: 2,
-            ),
-            Duration(
-              seconds: 3,
-            ),
-            Duration(
-              seconds: 4,
-            ),
-          ],
-        ),
-      );
 
-      dio.interceptors.add(
-        DioCacheInterceptor(
-          options: cacheOptions,
-        ),
-      );
       Options options = Options(
         headers: headers,
         responseType: ResponseType.json,
       );
-      final response = await dio
-          .get(
-        url,
-        options: options,
-      )
-          .timeout(
-        const Duration(
-          seconds: 10,
+      final response = await ErrorHandler.executeWithTimeout(
+        () => _dio.get(
+          url,
+          options: options,
         ),
-        onTimeout: () {
-          return Response(
-            data: {
-              'status': '408',
-              'message': '405 Error',
-            },
-            statusCode: 408,
-            requestOptions: RequestOptions(
-              path: url,
-            ),
-          );
-        },
+        url,
       );
       if (response.statusCode == 200) {
         if (returnResponse) {
@@ -107,34 +82,15 @@ class DioHelper {
         }
         return true;
       } else {
-        log('Response aaira chha');
         Future.error('${response.statusMessage}');
       }
     } on SocketException {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return ErrorHandler.handleSocketException();
     } on TimeoutException {
-      return Future.error('Connection timed');
+      return ErrorHandler.handleTimeoutException();
     } on DioError catch (e) {
-      log('Dio Error Caught');
-      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
-        await refreshToken();
-      }
-      if (e.response?.data != null) {
-        if (e.response!.data[0] is String) {
-          return Future.error('${e.response!.data[0]}');
-        } else if (e.response!.data.entries.toString().contains('{')) {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
-        } else {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first]}');
-        }
-      } else {
-        return Future.error('Server error. Please try again later!');
-      }
+      return ErrorHandler.handleDioError(e);
     } catch (e) {
-      debugPrint('Catched error is $e');
       return Future.error('Exception is $e');
     }
   }
@@ -148,52 +104,21 @@ class DioHelper {
   }) async {
     try {
       final url = urlInput;
-      Dio dio = getDioClient();
-      dio.interceptors.add(
-        RetryInterceptor(
-          dio: dio,
-          logPrint: print,
-          retries: 2,
-          retryDelays: const [
-            Duration(
-              seconds: 1,
-            ),
-            Duration(
-              seconds: 2,
-            ),
-            Duration(
-              seconds: 3,
-            ),
-            Duration(
-              seconds: 4,
-            ),
-          ],
-        ),
-      );
+
       Options options = Options(
         headers: headers,
         responseType: ResponseType.json,
       );
-      final response = await dio
-          .post(
+
+      final response = await ErrorHandler.executeWithTimeout(
+        () => _dio.post(
+          url,
+          data: decodedBody,
+          options: options,
+        ),
         url,
-        options: options,
-        data: decodedBody,
-      )
-          .timeout(
-              const Duration(
-                seconds: 10,
-              ), onTimeout: () {
-        return Response(
-          data: {'status': '405', 'message': '405 Error'},
-          statusCode: 405,
-          requestOptions: RequestOptions(
-            path: url,
-          ),
-        );
-      });
-      debugPrint('Response is $response');
-      debugPrint('Status code is ${response.statusCode}');
+      );
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (returnResponse) {
           return response.data;
@@ -203,43 +128,13 @@ class DioHelper {
         return Future.error(response.data);
       }
     } on SocketException {
-      return Future.error(
-        'Please check your internet connection and try again.',
-      );
+      return ErrorHandler.handleSocketException();
     } on TimeoutException {
-      return Future.error(
-        'Connection timed',
-      );
+      return ErrorHandler.handleTimeoutException();
     } on DioError catch (e) {
-      log('Error is === ${e}');
-      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
-        await refreshToken();
-      }
-      if (e.response?.statusCode == 401) {
-        if (isLogout) {
-          return true;
-        }
-        return false;
-      } else if (e.response?.statusCode == 500) {
-        return Future.error('Server error - 500, Please try again later');
-      } else if (e.response?.data != null) {
-        log('Error is ${e.response?.data}');
-        if (e.response!.data[0] is String) {
-          return Future.error('${e.response!.data[0]}');
-        } else if (e.response!.data.entries.toString().contains('{')) {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
-        } else {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first]}');
-        }
-      } else {
-        return Future.error('Server error. Please try again later!');
-      }
+      return ErrorHandler.handleDioError(e);
     } catch (e) {
-      return Future.error(
-        'Exception is $e',
-      );
+      return Future.error('Exception is $e');
     }
   }
 
@@ -247,82 +142,29 @@ class DioHelper {
       bool returnResponse, Map<String, String> headers) async {
     try {
       final url = urlInput;
-      Dio dio = getDioClient();
-      dio.interceptors.add(
-        RetryInterceptor(
-          dio: dio,
-          logPrint: print, // specify log function (optional)
-          retries: 2, // retry count (optional)
-          retryDelays: const [
-            // set delays between retries (optional)
-            Duration(
-              seconds: 1,
-            ), // wait 1 sec before the first retry
-            Duration(
-              seconds: 2,
-            ), // wait 2 sec before the second retry
-            Duration(
-              seconds: 3,
-            ), // wait 3 sec before the third retry
-            Duration(
-              seconds: 4,
-            ), // wait 4 sec before the fourth retry
-          ],
-        ),
-      );
       Options options =
           Options(headers: headers, responseType: ResponseType.json);
 
-      final response = await dio
-          .patch(
+      final response = await ErrorHandler.executeWithTimeout(
+        () => _dio.patch(
+          url,
+          data: decodedBody,
+          options: options,
+        ),
         url,
-        data: decodedBody,
-        options: options,
-      )
-          .timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          return Response(
-            data: {'status': '405', 'message': '405 Error'},
-            statusCode: 405,
-            requestOptions: RequestOptions(
-              path: url,
-            ),
-          );
-        },
       );
-      debugPrint('Response is $response');
-      debugPrint('Status code is ${response.statusCode}');
       if (response.statusCode == 200) {
         return true;
       } else {
         return Future.error('Server error.');
       }
     } on SocketException {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return ErrorHandler.handleSocketException();
     } on TimeoutException {
-      return Future.error('Connection timed');
+      return ErrorHandler.handleTimeoutException();
     } on DioError catch (e) {
-      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
-        await refreshToken();
-      }
-      if (e.response?.data != null) {
-        log('Error is ${e.response?.data}');
-        if (e.response!.data[0] is String) {
-          return Future.error('${e.response!.data[0]}');
-        } else if (e.response!.data.entries.toString().contains('{')) {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
-        } else {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first]}');
-        }
-      } else {
-        return Future.error('Server error. Please try again later!');
-      }
+      return ErrorHandler.handleDioError(e);
     } catch (e) {
-      print('Reched here === $e');
       return Future.error('Exception is $e');
     }
   }
@@ -331,52 +173,18 @@ class DioHelper {
       bool returnResponse, Map<String, String> headers) async {
     try {
       final url = urlInput;
-      Dio dio = getDioClient();
-      dio.interceptors.add(
-        RetryInterceptor(
-          dio: dio,
-          logPrint: print, // specify log function (optional)
-          retries: 2, // retry count (optional)
-          retryDelays: const [
-            // set delays between retries (optional)
-            Duration(
-              seconds: 1,
-            ), // wait 1 sec before the first retry
-            Duration(
-              seconds: 2,
-            ), // wait 2 sec before the second retry
-            Duration(
-              seconds: 3,
-            ), // wait 3 sec before the third retry
-            Duration(
-              seconds: 4,
-            ), // wait 4 sec before the fourth retry
-          ],
-        ),
-      );
+
       Options options =
           Options(headers: headers, responseType: ResponseType.json);
 
-      final response = await dio
-          .put(
+      final response = await ErrorHandler.executeWithTimeout(
+        () => _dio.put(
+          url,
+          data: decodedBody,
+          options: options,
+        ),
         url,
-        data: decodedBody,
-        options: options,
-      )
-          .timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          return Response(
-            data: {'status': '405', 'message': '405 Error'},
-            statusCode: 405,
-            requestOptions: RequestOptions(
-              path: url,
-            ),
-          );
-        },
       );
-      debugPrint('Response is $response');
-      debugPrint('Status code is ${response.statusCode}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (returnResponse) {
           return response.data;
@@ -386,54 +194,13 @@ class DioHelper {
         return Future.error('Server error.');
       }
     } on SocketException {
-      return Future.error(
-          'Please check your internet connection and try again.');
+      return ErrorHandler.handleSocketException();
     } on TimeoutException {
-      return Future.error('Connection timed');
+      return ErrorHandler.handleTimeoutException();
     } on DioError catch (e) {
-      if (e.response?.data != null) {
-        log('Error is ${e.response?.data}');
-        if (e.response!.data[0] is String) {
-          return Future.error('${e.response!.data[0]}');
-        } else if (e.response!.data.entries.toString().contains('{')) {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first].entries.toList()[0].value.join(',')}');
-        } else {
-          return Future.error(
-              '${e.response!.data[e.response!.data.keys.first]}');
-        }
-      } else {
-        return Future.error('Server error. Please try again later!');
-      }
+      return ErrorHandler.handleDioError(e);
     } catch (e) {
-      print('Reched here === $e');
       return Future.error('Exception is $e');
-    }
-  }
-
-  static Future<void> refreshToken() async {
-    try {
-      final refreshToken = await storage.readRefreshToken();
-      Dio dio = getDioClient();
-      const url = '$baseUrl/refresh/';
-      final body = jsonEncode({'refresh': refreshToken});
-      final response = await dio.post(url, data: body);
-
-      if (response.statusCode == 200) {
-        storage.saveAccessToken(response.data["access"]);
-        storage.saveRefreshToken(response.data["refresh"]);
-      }
-    } catch (e) {
-      await storage.delete(
-        Constants.ACCESS_TOKEN,
-      );
-      await storage.delete(
-        Constants.LOGGED_IN_STATUS,
-      );
-      await storage.delete(
-        Constants.REFRESH_TOKEN,
-      );
-      Get.offAndToNamed(Routes.LOGIN);
     }
   }
 }

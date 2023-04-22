@@ -1,8 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
-import 'package:adora_baby/app/modules/auth/views/login_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
@@ -15,8 +12,8 @@ import '../controllers/auth_controllers.dart';
 class ResetPasswordView extends GetView<AuthController> {
   ResetPasswordView({super.key});
 
-  final FocusNode resetPaswordNode = FocusNode();
-  final FocusNode confirmPaswordNode = FocusNode();
+  final FocusNode resetPasswordNode = FocusNode();
+  final FocusNode confirmPasswordNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +50,7 @@ class ResetPasswordView extends GetView<AuthController> {
                           );
                         },
                         child: SvgPicture.asset("assets/images/arrow-left.svg",
-                            height: 22, color: Color(0xff667080)),
+                            height: 22, color: const Color(0xff667080)),
                       ),
                       const SizedBox(
                         height: 30,
@@ -85,28 +82,25 @@ class ResetPasswordView extends GetView<AuthController> {
                                 borderRadius: BorderRadius.circular(33)),
                             child: TextField(
                                 controller: controller.resetPasswordController,
-                                // inputFormatters: [
-                                //   LengthLimitingTextInputFormatter(22),
-                                // ],
-                                focusNode: resetPaswordNode,
+                                focusNode: resetPasswordNode,
                                 obscureText: controller
                                     .resetPasswordInvisibleLogin.value,
                                 keyboardType: TextInputType.visiblePassword,
                                 cursorColor: AppColors.mainColor,
                                 style: kThemeData.textTheme.bodyLarge,
                                 onSubmitted: (_) {
-                                  node.requestFocus(confirmPaswordNode);
+                                  node.requestFocus(confirmPasswordNode);
                                 },
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         width: 1,
                                         color: Colors.transparent,
                                       ),
                                       borderRadius: BorderRadius.circular(33),
                                     ),
                                     disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         width: 1,
                                         color: Colors.transparent,
                                       ),
@@ -137,9 +131,9 @@ class ResetPasswordView extends GetView<AuthController> {
                                         color: DarkTheme.darkNormal,
                                       ),
                                     ),
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 12),
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16,
                                         fontFamily: 'Poppins',
@@ -157,10 +151,7 @@ class ResetPasswordView extends GetView<AuthController> {
                             child: TextField(
                                 controller:
                                     controller.confirmPasswordController,
-                                // inputFormatters: [
-                                //   LengthLimitingTextInputFormatter(22),
-                                // ],
-                                focusNode: confirmPaswordNode,
+                                focusNode: confirmPasswordNode,
                                 obscureText: controller
                                     .confirmPasswordInvisibleLogin.value,
                                 keyboardType: TextInputType.visiblePassword,
@@ -171,14 +162,14 @@ class ResetPasswordView extends GetView<AuthController> {
                                 },
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         width: 1,
                                         color: Colors.transparent,
                                       ),
                                       borderRadius: BorderRadius.circular(33),
                                     ),
                                     disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         width: 1,
                                         color: Colors.transparent,
                                       ),
@@ -209,9 +200,9 @@ class ResetPasswordView extends GetView<AuthController> {
                                         color: DarkTheme.darkNormal,
                                       ),
                                     ),
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 12),
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16,
                                         fontFamily: 'Poppins',
@@ -240,23 +231,20 @@ class ResetPasswordView extends GetView<AuthController> {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
-                                        duration: Duration(milliseconds: 2000),
+                                        duration: const Duration(milliseconds: 2000),
                                         content: Text(
-                                            "${controller.authError.toUpperCase()}"),
+                                            controller.authError.toUpperCase()),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     } else {
-                                      if (kDebugMode) {
-                                        print("success");
-                                      }
                                       controller.progressBarStatusReset.value =
                                           false;
                                       controller.resetPasswordController.text = '';
                                       controller.confirmPasswordController.text = '';
                                       controller.otpController.text = '';
                                       controller.phoneController.text = '';
-                                      var snackBar = SnackBar(
+                                      var snackBar = const SnackBar(
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: AppColors.success500,
@@ -274,7 +262,7 @@ class ResetPasswordView extends GetView<AuthController> {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.red,
-                                      duration: Duration(milliseconds: 2000),
+                                      duration: const Duration(milliseconds: 2000),
                                       content: Text("${controller.authError}"),
                                     );
                                     ScaffoldMessenger.of(context)

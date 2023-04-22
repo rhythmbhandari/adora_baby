@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class ProceedButton extends StatelessWidget {
   final void Function() onPressed;
 
-  ProceedButton({required this.onPressed});
+  const ProceedButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ProceedButton extends StatelessWidget {
           ),
         ),
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
         backgroundColor:
             MaterialStateProperty.all<Color>(Get.theme.primaryColor),
@@ -28,7 +28,7 @@ class ProceedButton extends StatelessWidget {
         style: Get.textTheme.headline5
             ?.copyWith(fontSize: 14, color: Colors.white),
       ),
-      label: Icon(
+      label: const Icon(
         Icons.arrow_forward,
         color: Colors.white,
       ),
