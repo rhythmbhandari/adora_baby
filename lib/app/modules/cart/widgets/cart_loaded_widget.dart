@@ -86,7 +86,9 @@ class CartLoadedWidget extends StatelessWidget {
                           GestureDetector(
                               onTap: () async {
                                 try {
-                                  if (controller.priceCart.value != 0.0) {
+                                  if (controller.priceCart.value != 0.0 ||
+                                      controller.cartList.any((element) =>
+                                          element.checkBox == true)) {
                                     controller.showLoading(
                                         controller.progressBarStatusCart);
                                     var carIdList = [];
@@ -103,8 +105,7 @@ class CartLoadedWidget extends StatelessWidget {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: Colors.red,
-                                        duration:
-                                            Duration(milliseconds: 2000),
+                                        duration: Duration(milliseconds: 2000),
                                         content: Text(
                                             'Could not remove all items from cart.'),
                                       );
@@ -116,8 +117,7 @@ class CartLoadedWidget extends StatelessWidget {
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: AppColors.success500,
-                                        duration:
-                                            Duration(milliseconds: 2000),
+                                        duration: Duration(milliseconds: 2000),
                                         content: Text(
                                             'Successfully removed items from cart.'),
                                       );
@@ -138,8 +138,7 @@ class CartLoadedWidget extends StatelessWidget {
                                       elevation: 0,
                                       behavior: SnackBarBehavior.floating,
                                       backgroundColor: AppColors.secondary500,
-                                      duration:
-                                          Duration(milliseconds: 2000),
+                                      duration: Duration(milliseconds: 2000),
                                       content: Text(
                                           'Please select an item to remove.'),
                                     );

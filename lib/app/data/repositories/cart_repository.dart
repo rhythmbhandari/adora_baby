@@ -106,6 +106,7 @@ class CartRepository {
     final data = response.data;
 
     if (response.statusCode == 200) {
+      log('Response is $response');
       List<CartModel> cartList = (response.data["data"] as List)
           .map((i) => CartModel.fromJson(i))
           .toList();

@@ -136,7 +136,12 @@ class CartController extends GetxController {
             cart.quantity = cart.product.stockQuantity ?? 0;
           }
           cart.product.priceItem = cart.quantity *
-              ((cart.product.salePrice) ??  cart.product.regularPrice );
+              ((cart.product.salePrice) ?? cart.product.regularPrice);
+
+          if (cart.product.stockQuantity == 0) {
+            cart.quantity = 1;
+            // cart.product.priceItem = 0;
+          }
         }
         completeLoading(progressBarStatusCart, false);
         return true;
@@ -161,8 +166,10 @@ class CartController extends GetxController {
       var tempPrice = 0.0;
       for (final cart in cartTempList) {
         if (cart.checkBox) {
-          tempPrice += cart.quantity *
-              (cart.product.salePrice ?? cart.product.regularPrice);
+          if (cart.product.stockAvailable) {
+            tempPrice += cart.quantity *
+                (cart.product.salePrice ?? cart.product.regularPrice);
+          }
         }
       }
       priceCart.value = tempPrice;
@@ -300,7 +307,6 @@ class CartController extends GetxController {
     );
   }
 
-
   Future<bool> validatePersonalInfo() async {
     String fName = fNameController.text.trim();
     String pNum = phoneController.text.trim();
@@ -390,7 +396,6 @@ class CartController extends GetxController {
     }
   }
 
-
   Future<bool> requestToCheckOut(String fullName, String phoneNumber,
       String altPhone, String address, String notes, List cartList) async {
     try {
@@ -441,5 +446,4 @@ class CartController extends GetxController {
       return false;
     }
   }
-
 }
