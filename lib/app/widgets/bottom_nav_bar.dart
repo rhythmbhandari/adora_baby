@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/modules/cart/views/cart_view.dart';
 import 'package:adora_baby/app/modules/profile/views/profile_view.dart';
 import 'package:adora_baby/app/modules/shop/views/shop_view.dart';
@@ -25,6 +26,7 @@ class _MyHomePageState extends State<BottomNavBar>
   late TabController tabController;
   late int currentPage;
   final HomeController controller = Get.find();
+  final CartController _cartController = Get.find();
 
   final List<Widget> text = [
     Text(
@@ -129,9 +131,43 @@ class _MyHomePageState extends State<BottomNavBar>
                       images: "assets/images/shop.svg",
                     ),
               currentPage == 1
-                  ? text[1]
-                  : const TabsIcon(
-                      images: "assets/images/shopping-cart.svg",
+                  ? Stack(
+                      children: [
+                        Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(child: Text(''))),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+                          child: text[1],
+                        ),
+                      ],
+                    )
+                  : Stack(
+                      children: [
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.error500
+                            ),
+                            child: Obx(
+                              () => Text(
+                                '${_cartController.cartList.length}',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 3.0, top: 8),
+                          child: const TabsIcon(
+                            images: "assets/images/shopping-cart.svg",
+                          ),
+                        ),
+                      ],
                     ),
               currentPage == 2
                   ? text[2]

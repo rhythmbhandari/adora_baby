@@ -92,7 +92,7 @@ class ShopRepository {
   }
 
   static Future<HotSales> fetchIndividualProduct(String id) async {
-    final url = '$BASE_URL/shops/$id.';
+    final url = '$BASE_URL/shops/$id/';
 
     final status = await DioHelper.getRequest(
       url,

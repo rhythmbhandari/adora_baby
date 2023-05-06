@@ -1,4 +1,3 @@
-
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/data/models/hot_sales_model.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
@@ -15,7 +14,9 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../config/app_theme.dart';
 import '../../../data/models/reviews.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
+import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
 import 'getBrandName.dart';
 import 'review_add.dart';
@@ -32,6 +33,9 @@ class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin {
   final ShopController controller = Get.find();
   CarouselController carouselController = CarouselController();
+  final CartController _cartController = Get.find();
+  final HomeController homeController = Get.find();
+
 
   TabController? _controller;
   int _selectedTabBar = 0;
@@ -103,15 +107,63 @@ class _ProductDetailsState extends State<ProductDetails>
                           const SizedBox(
                             width: 60,
                           ),
-                          Center(
-                            child: GestureDetector(
-                              onTap: () {
-                              },
-                              child: Text(
-                                "Product Detail",
-                                style: kThemeData.textTheme.displaySmall,
+
+                          Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "Product Detail",
+                                  style: kThemeData.textTheme.displaySmall,
+                                ),
                               ),
                             ),
+                          ),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              Get.until(
+                                      (route) => route.settings.name == Routes.HOME);
+                              homeController.isRedirected.value = 1;
+                            },
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0, right: 8),
+                                  child: SvgPicture.asset(
+                                    "assets/images/shopping-cart.svg",
+                                    height: 24,
+                                    width: 24,
+                                    color: DarkTheme.darkNormal,
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.error500),
+                                    child: Obx(
+                                          () => Text(
+                                        '${_cartController.cartList.length}',
+                                            style: TextStyle(
+                                              fontSize: 8,
+                                              color: Colors.white
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 36,
                           ),
                         ],
                       ),
@@ -168,8 +220,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 end: Alignment.bottomRight,
                               ),
                             ),
-                            onRatingUpdate: (rating) {
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                           const SizedBox(
                             height: 10,
@@ -242,8 +293,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     // onPageChanged: callbackFunction,
                                     scrollDirection: Axis.horizontal,
                                   ),
-                                  items: sortedImages
-                                      .map((i) {
+                                  items: sortedImages.map((i) {
                                     return Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 18),
@@ -285,14 +335,18 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(sortedImages.length, (index) {
+                            children:
+                                List.generate(sortedImages.length, (index) {
                               return Container(
                                 width: 8.0,
                                 height: 8.0,
-                                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2.0),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: _currentIndex == index ? AppColors.primary500 : AppColors.primary500.withOpacity(0.5),
+                                  color: _currentIndex == index
+                                      ? AppColors.primary500
+                                      : AppColors.primary500.withOpacity(0.5),
                                 ),
                               );
                             }),
@@ -370,8 +424,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           controller.productSelected.value.weightInGrams != null
                               ? Text(
-                                  'Weight: ${controller
-                                          .productSelected.value.weightInGrams} grams',
+                                  'Weight: ${controller.productSelected.value.weightInGrams} grams',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: "Poppins",
@@ -491,8 +544,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                         elevation: 0,
                                         behavior: SnackBarBehavior.floating,
                                         backgroundColor: AppColors.secondary500,
-                                        duration:
-                                            Duration(milliseconds: 2000),
+                                        duration: Duration(milliseconds: 2000),
                                         content:
                                             Text("No more stock available."),
                                       );
@@ -730,7 +782,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                               .height *
                                                                           0.06,
                                                                       imageUrl:
-                                                                          '${snapshot.data?[index].createdBy?.profilePhoto['name']}', placeholder: (context,
+                                                                          '${snapshot.data?[index].createdBy?.profilePhoto['name']}',
+                                                                      placeholder: (context,
                                                                               url) =>
                                                                           const Center(
                                                                               child: CircularProgressIndicator()),
@@ -809,8 +862,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                                     ),
                                                                   ),
                                                                   onRatingUpdate:
-                                                                      (rating) {
-                                                                  },
+                                                                      (rating) {},
                                                                 ),
                                                               ],
                                                             ),
