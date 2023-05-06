@@ -10,8 +10,10 @@ import '../../utils/logging.dart';
 
 class ErrorHandler {
   static Future<dynamic> handleDioError(DioError e) async {
-    if (e.response?.statusCode == 403 || e.response?.statusCode == 401 ) {
-      await refreshToken();
+    if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+      if (e.requestOptions.headers.containsKey('Authorization')) {
+        await refreshToken();
+      }
     }
     if (e.response?.data != null) {
       if (e.response!.data[0] is String) {
@@ -66,7 +68,9 @@ class ErrorHandler {
     }
   }
 
-  static Future<Response> executeWithTimeout(Future<Response> Function() function, String url, {int seconds = 10}) async {
+  static Future<Response> executeWithTimeout(
+      Future<Response> Function() function, String url,
+      {int seconds = 10}) async {
     return await function().timeout(
       Duration(seconds: seconds),
       onTimeout: () {

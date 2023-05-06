@@ -104,17 +104,17 @@ class PhoneView extends GetView<AuthController> {
                                       if (!status) {
                                         controller.progressBarStatus.value =
                                             false;
-                                        var snackBar = SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2000),
-                                          content: Text(controller.authError
-                                              .toUpperCase()),
-                                        );
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
+                                          ..clearSnackBars()
+                                          ..showSnackBar(SnackBar(
+                                            elevation: 0,
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.red,
+                                            duration: const Duration(
+                                                milliseconds: 2000),
+                                            content: Text(controller.authError
+                                                .toUpperCase()),
+                                          ));
                                       } else {
                                         controller.progressBarStatus.value =
                                             false;

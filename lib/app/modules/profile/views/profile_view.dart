@@ -1,4 +1,3 @@
-
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../enums/progress_status.dart';
+import '../../../widgets/awesome_snackbar/content_type.dart';
+import '../../../widgets/awesome_snackbar/snack_bar.dart';
+import '../../../widgets/custom_snack_bar.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
@@ -25,7 +27,6 @@ class ProfileView extends GetView<ProfileController> {
       RefreshController(initialRefresh: false);
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-
   @override
   Widget build(BuildContext context) {
     return progressWrap(
@@ -35,10 +36,12 @@ class ProfileView extends GetView<ProfileController> {
               backgroundColor: LightTheme.white,
               elevation: 0,
               systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarColor: AppColors.primary500, // You can use this as well
-                statusBarIconBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
-                statusBarBrightness: Brightness.light, // OR Vice Versa for ThemeMode.dark
-
+                statusBarColor: AppColors.primary500,
+                // You can use this as well
+                statusBarIconBrightness: Brightness.light,
+                // OR Vice Versa for ThemeMode.dark
+                statusBarBrightness:
+                    Brightness.light, // OR Vice Versa for ThemeMode.dark
               ),
             ),
             body: SafeArea(
@@ -58,28 +61,50 @@ class ProfileView extends GetView<ProfileController> {
                           width: 35,
                         ),
                         const Expanded(flex: 5, child: SizedBox()),
-                        Text(
-                          'Profile',
-                          style: kThemeData.textTheme.displaySmall
-                              ?.copyWith(color: DarkTheme.normal),
+                        GestureDetector(
+                          onTap: () {
+                            final materialBanner = MaterialBanner(
+                              /// need to set following properties for best effect of awesome_snackbar_content
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              forceActionsBelow: true,
+                              content: AwesomeSnackbarContent(
+                                title: 'Oh Hey!!',
+                                message:
+                                'This is an example error message that will be shown in the body of materialBanner!',
+
+                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                contentType: SnackContentType.success,
+                                // to configure for material banner
+                                inMaterialBanner: true,
+                              ),
+                              actions: const [SizedBox.shrink()],
+                            );
+
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentMaterialBanner()
+                              ..showMaterialBanner(materialBanner);
+                            // ScaffoldMessenger.of(context)
+                            //   ..clearMaterialBanners()
+                            //   ..showMaterialBanner(
+                            //     CustomBanner(
+                            //       message: 'Hello, world!',
+                            //       onPressed: () {
+                            //         ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                            //       },
+                            //     ),
+                            //
+                            //   );
+                          },
+                          child: Text(
+                            'Profile',
+                            style: kThemeData.textTheme.displaySmall
+                                ?.copyWith(color: DarkTheme.normal),
+                          ),
                         ),
                         const Expanded(flex: 4, child: SizedBox()),
                         GestureDetector(
                             onTap: () async {
-                              // try {
-                              //   await storage.delete(
-                              //     Constants.ACCESS_TOKEN,
-                              //   );
-                              //   await storage.delete(
-                              //     Constants.LOGGED_IN_STATUS,
-                              //   );
-                              //   await storage.delete(
-                              //     Constants.REFRESH_TOKEN,
-                              //   );
-                              //   Get.offAllNamed(Routes.PHONE);
-                              // } catch (e) {
-                              //   Get.offAllNamed(Routes.PHONE);
-                              // }
                               scaffoldKey.currentState!.openEndDrawer();
                             },
                             child: const Icon(Icons.menu)),

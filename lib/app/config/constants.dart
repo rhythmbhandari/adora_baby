@@ -1,11 +1,11 @@
 //Development
-// const BASE_URL = 'http://u2oahdyqvltyu7rb.adora.baby:8000/api/v1';
-
-// const baseUrl = 'http://u2oahdyqvltyu7rb.adora.baby:8000/api/v1';
-
+const BASE_URL = 'http://u2oahdyqvltyu7rb.adora.baby:8000/api/v1';
+//
+const baseUrl = 'http://u2oahdyqvltyu7rb.adora.baby:8000/api/v1';
+//
 //Production
-const BASE_URL = 'https://7ncjortthar3cyw3viog.adora.baby/api/v1';
-const baseUrl = 'https://7ncjortthar3cyw3viog.adora.baby/api/v1';
+// const BASE_URL = 'https://7ncjortthar3cyw3viog.adora.baby/api/v1';
+// const baseUrl = 'https://7ncjortthar3cyw3viog.adora.baby/api/v1';
 
 
 class Constants {

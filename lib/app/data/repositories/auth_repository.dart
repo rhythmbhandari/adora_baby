@@ -233,7 +233,7 @@ class AuthRepository {
         url,
         body,
         true,
-        await SecureStorage.returnHeaderWithToken(),
+        await SecureStorage.returnHeader(),
       );
       if (response is Map<String, dynamic>) {
         storage.saveAccessToken(response["token"]["access"]);
