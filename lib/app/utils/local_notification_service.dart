@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:adora_baby/app/data/network/dio_client.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
+import 'secure_storage.dart';
 
 class LocalNotification {
   static final FlutterLocalNotificationsPlugin _notiPlugin =
@@ -25,11 +29,18 @@ class LocalNotification {
     if (url == null) return null;
     final Directory directory = await getApplicationDocumentsDirectory();
     final String filePath = '${directory.path}/$fileName';
-    final http.Response response = await http.get(Uri.parse(url));
+    final Dio dio = Dio();
+    final Response<List<int>?> response = await dio.get<List<int>>(
+      url,
+      options: Options(responseType: ResponseType.bytes),
+    );
+    final List<int> data = response.data ?? [];
     final File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
+    await file.writeAsBytes(data);
     return filePath;
   }
+
+
   static BigPictureStyleInformation? _buildBigPictureStyleInformation(
     String title,
     String body,

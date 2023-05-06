@@ -45,7 +45,7 @@ class ShopRepository {
     final status = await DioHelper.getRequest(
       url,
       true,
-      await SecureStorage.returnHeader(),
+      await SecureStorage.returnHeaderWithToken(),
     );
 
     if (status is Map<dynamic, dynamic>) {
@@ -152,7 +152,7 @@ class ShopRepository {
     final status = await DioHelper.getRequest(
       url,
       true,
-      await SecureStorage.returnHeader(),
+      await SecureStorage.returnHeaderWithToken(),
     );
     if (status is Map<dynamic, dynamic>) {
       List<Tips> tips =

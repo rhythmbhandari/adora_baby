@@ -10,7 +10,7 @@ import '../../utils/logging.dart';
 
 class ErrorHandler {
   static Future<dynamic> handleDioError(DioError e) async {
-    if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+    if (e.response?.statusCode == 403 || e.response?.statusCode == 401 ) {
       await refreshToken();
     }
     if (e.response?.data != null) {

@@ -71,7 +71,7 @@ class CheckOutRepository {
       final status = await DioHelper.getRequest(
         url,
         true,
-        await SecureStorage.returnHeader(),
+        await SecureStorage.returnHeaderWithToken(),
       );
       if (status is Map<dynamic, dynamic>) {
         List<AddressModel> address = (status['data'] as List)
@@ -165,27 +165,7 @@ class CheckOutRepository {
     }
   }
 
-  static Future<bool> removeCheckout(String id) async {
-    var url = '$BASE_URL/checkout/$id';
 
-    try {
-      final response = await http.post(Uri.parse(url),
-          headers: await SecureStorage.returnHeaderWithToken());
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return Future.error(
-            '${decodedResponse["error"] ?? decodedResponse["detail"] ?? 'Server Error'}');
-      }
-    } on SocketException {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    }
-  }
 
   //checkout
   static Future<bool> placeOrder(String id) async {
@@ -209,40 +189,6 @@ class CheckOutRepository {
     }
   }
 
-  static Future<List<o.Datum>> getOrders() async {
-    const url = '$BASE_URL/Order/';
-    final status = await DioHelper.getRequest(
-      url,
-      true,
-      await SecureStorage.returnHeader(),
-    );
-    if (status is Map<dynamic, dynamic>) {
-      List<o.Datum> orders =
-          (status['data'] as List).map((i) => o.Datum.fromJson(i)).toList();
-
-      return orders;
-    }
-
-    return Future.error('Error $status');
-  }
-
-  static Future<List<GetSingleOrder>> getSingleOrder(String id) async {
-    var url = '$BASE_URL/Order/$id';
-    final status = await DioHelper.getRequest(
-      url,
-      true,
-      await SecureStorage.returnHeader(),
-    );
-    if (status is Map<dynamic, dynamic>) {
-      List<GetSingleOrder> singleOrder = (status['data'] as List)
-          .map((i) => GetSingleOrder.fromJson(i))
-          .toList();
-
-      return singleOrder;
-    }
-
-    return Future.error('Error $status');
-  }
 
   static Future<CheckoutModel> updateCheckOut(
       String id, bool isDiamondUsed, String couponApplied) async {

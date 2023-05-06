@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
+import 'package:flutter/foundation.dart';
 import '../../config/constants.dart';
 import '../../utils/logging.dart';
 import 'error_handler.dart';
@@ -17,10 +18,17 @@ class DioHelper {
       receiveTimeout: 3000,
     ),
   )..interceptors.addAll([
-      PrettyDioLogger(),
+      PrettyDioLogger(
+        requestHeader: true,
+        logPrint: (o) => debugPrint(
+          o.toString(),
+        ),
+      ),
       RetryInterceptor(
         dio: Dio(),
-        logPrint: print,
+        logPrint: (o) => debugPrint(
+          o.toString(),
+        ),
         retries: 2,
         retryDelays: const [
           Duration(seconds: 1),
