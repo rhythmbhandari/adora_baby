@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/config/app_colors.dart';
 import 'package:adora_baby/app/config/app_theme.dart';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +11,8 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../enums/progress_status.dart';
-import '../../../widgets/awesome_snackbar/content_type.dart';
-import '../../../widgets/awesome_snackbar/snack_bar.dart';
-import '../../../widgets/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
@@ -63,29 +65,20 @@ class ProfileView extends GetView<ProfileController> {
                         const Expanded(flex: 5, child: SizedBox()),
                         GestureDetector(
                           onTap: () {
-                            final materialBanner = MaterialBanner(
-                              /// need to set following properties for best effect of awesome_snackbar_content
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              forceActionsBelow: true,
-                              content: AwesomeSnackbarContent(
-                                title: 'Oh Hey!!',
+                            showTopSnackBar(
+                              Overlay.of(context)!,
+                              CustomSnackBar.info(
                                 message:
-                                'This is an example error message that will be shown in the body of materialBanner!',
-
-                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                contentType: SnackContentType.success,
-                                // to configure for material banner
-                                inMaterialBanner: true,
+                                "There is some information. You need to do something with that",
+                                borderRadius: BorderRadius.circular(22),
+                                textStyle: TextStyle(
+                                  color: Colors.black
+                                ),
                               ),
-                              actions: const [SizedBox.shrink()],
+                              displayDuration: Duration(seconds: 50)
                             );
 
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentMaterialBanner()
-                              ..showMaterialBanner(materialBanner);
-                            // ScaffoldMessenger.of(context)
-                            //   ..clearMaterialBanners()
+
                             //   ..showMaterialBanner(
                             //     CustomBanner(
                             //       message: 'Hello, world!',
