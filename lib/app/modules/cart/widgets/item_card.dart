@@ -4,6 +4,8 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/cart_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../shop/controllers/shop_controller.dart';
 import '../controllers/cart_controller.dart';
 
@@ -31,14 +33,15 @@ class CartCardWidget extends StatelessWidget {
               Routes.PRODUCT_DETAILS,
             );
           } else {
-            var snackBar = const SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.red,
-              duration: Duration(milliseconds: 2000),
-              content: Text('Could not load product. Try again!'),
+            showTopSnackBar(
+              Overlay.of(context)!,
+              CustomSnackBar.error(
+                message: 'Could not load product. Try again!',
+              ),
+              displayDuration: const Duration(
+                seconds: 3,
+              ),
             );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
           controller.completeLoading(controller.progressBarStatusCart, false);
         } catch (e) {
@@ -56,8 +59,8 @@ class CartCardWidget extends StatelessWidget {
         ),
         elevation: 2.5,
         child: Opacity(
-          opacity: (controller.cartList[index].product?.stockAvailable!
-              ? 1: 0.7),
+          opacity:
+              (controller.cartList[index].product?.stockAvailable! ? 1 : 0.7),
           child: Padding(
             padding:
                 const EdgeInsets.only(right: 14, top: 20, bottom: 20, left: 14),
@@ -102,20 +105,21 @@ class CartCardWidget extends StatelessWidget {
                     // height: Get.height * 0.18,
                     width: Get.width * 0.35,
                     child: Image.network(
-                      (controller.cartList[index].product?.productImages?.isEmpty
+                      (controller
+                              .cartList[index].product?.productImages?.isEmpty
                           ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                           : '${controller.cartList[index].product.productImages?.firstWhere(
-                                    (image) =>
-                                        image?.isFeaturedImage != null &&
-                                        image?.isFeaturedImage == true,
-                                    orElse: () => ProductImage(
-                                      name:
-                                          'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
-                                      id: '',
-                                      product: '',
-                                      isFeaturedImage: true,
-                                    ),
-                                  ).name ?? ''}'),
+                                (image) =>
+                                    image?.isFeaturedImage != null &&
+                                    image?.isFeaturedImage == true,
+                                orElse: () => ProductImage(
+                                  name:
+                                      'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                  id: '',
+                                  product: '',
+                                  isFeaturedImage: true,
+                                ),
+                              ).name ?? ''}'),
                     )),
                 Expanded(
                   child: Column(
@@ -166,23 +170,24 @@ class CartCardWidget extends StatelessWidget {
                                     .removeFromCartPressed(index);
                                 if (status) {
                                 } else {
-                                  var snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(milliseconds: 2000),
-                                    content:
-                                        Text(controller.authError.toUpperCase()),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.warning(
+                                      message:
+                                      controller.authError.toUpperCase(),
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: DarkTheme.normal)),
+                                    border:
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.remove,
                                   color: DarkTheme.normal,
@@ -194,11 +199,13 @@ class CartCardWidget extends StatelessWidget {
                               width: 14,
                             ),
                             Container(
-                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 width: Get.width * 0.15,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: DarkTheme.normal)),
+                                    border:
+                                        Border.all(color: DarkTheme.normal)),
                                 child: Center(
                                   child: Obx(
                                     () => Text(
@@ -217,23 +224,24 @@ class CartCardWidget extends StatelessWidget {
                                     await getController.addToCartPressed(index);
                                 if (status) {
                                 } else {
-                                  var snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(milliseconds: 2000),
-                                    content:
-                                        Text(controller.authError.toUpperCase()),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.error(
+                                      message:
+                                      '${controller.authError.toUpperCase()}',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: DarkTheme.normal)),
+                                    border:
+                                        Border.all(color: DarkTheme.normal)),
                                 child: const Icon(
                                   Icons.add,
                                   color: DarkTheme.normal,

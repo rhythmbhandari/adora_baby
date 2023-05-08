@@ -15,6 +15,8 @@ import 'package:share_plus/share_plus.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/reviews.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../../home/controllers/home_controller.dart';
 import '../widgets/auth_progress_indicator.dart';
@@ -35,7 +37,6 @@ class _ProductDetailsState extends State<ProductDetails>
   CarouselController carouselController = CarouselController();
   final CartController _cartController = Get.find();
   final HomeController homeController = Get.find();
-
 
   TabController? _controller;
   int _selectedTabBar = 0;
@@ -107,7 +108,6 @@ class _ProductDetailsState extends State<ProductDetails>
                           const SizedBox(
                             width: 60,
                           ),
-
                           Expanded(
                             child: Center(
                               child: GestureDetector(
@@ -123,15 +123,16 @@ class _ProductDetailsState extends State<ProductDetails>
                             width: 40,
                           ),
                           GestureDetector(
-                            onTap: (){
-                              Get.until(
-                                      (route) => route.settings.name == Routes.HOME);
+                            onTap: () {
+                              Get.until((route) =>
+                                  route.settings.name == Routes.HOME);
                               homeController.isRedirected.value = 1;
                             },
                             child: Stack(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8.0, right: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 8.0, right: 8),
                                   child: SvgPicture.asset(
                                     "assets/images/shopping-cart.svg",
                                     height: 24,
@@ -149,12 +150,10 @@ class _ProductDetailsState extends State<ProductDetails>
                                         shape: BoxShape.circle,
                                         color: AppColors.error500),
                                     child: Obx(
-                                          () => Text(
+                                      () => Text(
                                         '${_cartController.cartList.length}',
-                                            style: TextStyle(
-                                              fontSize: 8,
-                                              color: Colors.white
-                                            ),
+                                        style: TextStyle(
+                                            fontSize: 8, color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -540,16 +539,15 @@ class _ProductDetailsState extends State<ProductDetails>
                                         (controller.productSelected.value
                                                 .stockQuantity ??
                                             1)) {
-                                      var snackBar = const SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: AppColors.secondary500,
-                                        duration: Duration(milliseconds: 2000),
-                                        content:
-                                            Text("No more stock available."),
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        const CustomSnackBar.info(
+                                          message: 'No more stock available',
+                                        ),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
                                       );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
                                     } else {
                                       myController.incrementCounter(controller
                                               .productSelected
@@ -921,11 +919,13 @@ class _ProductDetailsState extends State<ProductDetails>
                       final status = await controller.requestAddToCart(
                           '${controller.productSelected.value.id}');
                       if (status) {
-                        const snackBar = SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text(
-                            'Added to the cart successfully!',
-                            style: TextStyle(color: Colors.white),
+                        showTopSnackBar(
+                          Overlay.of(context)!,
+                          CustomSnackBar.success(
+                            message: 'Successfully added to cart!',
+                          ),
+                          displayDuration: const Duration(
+                            seconds: 3,
                           ),
                         );
                         try {
@@ -934,16 +934,16 @@ class _ProductDetailsState extends State<ProductDetails>
                         } catch (e) {
                           return;
                         }
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            controller.authError.value,
-                            style: const TextStyle(color: Colors.white),
+                        showTopSnackBar(
+                          Overlay.of(context)!,
+                          CustomSnackBar.warning(
+                            message: '${controller.authError.toUpperCase()}',
+                          ),
+                          displayDuration: const Duration(
+                            seconds: 3,
                           ),
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
 
                       controller.hideProgressBarDetail();

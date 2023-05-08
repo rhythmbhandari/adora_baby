@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/exit_dialog.dart';
@@ -155,17 +157,16 @@ class OtpView extends GetView<AuthController> {
                                       final status = await controller
                                           .verifyResetPassword();
                                       if (!status) {
-                                        var snackBar = SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2000),
-                                          content: Text(controller.authError
-                                              .toUpperCase()),
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.error(
+                                            message:
+                                            controller.authError.toUpperCase(),
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
                                         );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       } else {
@@ -178,17 +179,16 @@ class OtpView extends GetView<AuthController> {
                                           .verifyOtpFromServer();
 
                                       if (!status) {
-                                        var snackBar = SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2000),
-                                          content: Text(controller.authError
-                                              .toUpperCase()),
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.error(
+                                            message:
+                                            controller.authError.toUpperCase(),
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
                                         );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
                                         controller.progressBarStatusOtp.value =
                                             false;
                                       } else {
@@ -216,17 +216,16 @@ class OtpView extends GetView<AuthController> {
                               GestureDetector(
                                   onTap: () async {
                                     if (stopWatchTimer.isRunning) {
-                                      var snackBar = const SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.fixed,
-                                        backgroundColor: AppColors.mainColor,
-                                        duration:
-                                            Duration(milliseconds: 2000),
-                                        content: Text(
-                                            'Please wait for 1 minute'),
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        CustomSnackBar.info(
+                                          message:
+                                          'Please wait for 1 minute',
+                                        ),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
                                       );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
                                     } else {
                                       stopWatchTimer.onExecute
                                           .add(StopWatchExecute.reset);
@@ -235,9 +234,29 @@ class OtpView extends GetView<AuthController> {
                                       if (controller.resetPassword.value) {
                                         await controller
                                             .requestResetPassword();
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.success(
+                                            message:
+                                            'Otp sent',
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
+                                        );
                                       } else {
                                         await controller
                                             .requestOtpFromServer();
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.success(
+                                            message:
+                                            'Otp sent',
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
+                                        );
                                       }
                                     }
                                   },

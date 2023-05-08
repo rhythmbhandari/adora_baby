@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/custom_progress_bar.dart';
 
 class ChangePassword extends GetView<HomeController> {
@@ -285,41 +287,42 @@ class ChangePassword extends GetView<HomeController> {
                                   if (!status) {
                                     controller.progressBarStatusReset.value =
                                     false;
-                                    var snackBar = SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.red,
-                                      duration: const Duration(milliseconds: 2000),
-                                      content: Text(
-                                          "${controller.authError.toUpperCase()}"),
+                                    showTopSnackBar(
+                                      Overlay.of(context)!,
+                                      CustomSnackBar.error(
+                                        message:
+                                        '${controller.authError.toUpperCase()}',
+                                      ),
+                                      displayDuration: const Duration(
+                                        seconds: 3,
+                                      ),
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                   } else {
                                     controller.progressBarStatusReset.value =
                                     false;
-                                    var snackBar = const SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: AppColors.success500,
-                                      duration: Duration(milliseconds: 2000),
-                                      content: Text(
-                                          "Successfully changed password."),
+                                    showTopSnackBar(
+                                      Overlay.of(context)!,
+                                      CustomSnackBar.success(
+                                        message:
+                                        'Successfully changed password.',
+                                      ),
+                                      displayDuration: const Duration(
+                                        seconds: 3,
+                                      ),
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                     Get.back();
                                   }
                                 } else {
-                                  var snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(milliseconds: 2000),
-                                    content: Text("${controller.authError}"),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.warning(
+                                      message:
+                                      '${controller.authError.toUpperCase()}',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                   controller.progressBarStatusReset.value =
                                   false;
                                 }

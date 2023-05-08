@@ -42,7 +42,11 @@ class AppColors {
 
   static const Color error700 = Color.fromRGBO(164, 36, 36, 1);
 
+
+  static const Color error900 = Color.fromRGBO(97, 21, 21, 1);
+
   static const Color warning500 = Color.fromRGBO(231, 125, 54, 1);
+  static const Color warning900 = Color.fromRGBO(97, 53, 23, 1);
 }
 
 class LightTheme {

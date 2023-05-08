@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../../shop/widgets/auth_progress_indicator.dart';
 import '../controllers/cart_controller.dart';
@@ -340,31 +342,30 @@ class PersonalInfoView extends GetView<CartController> {
                                     controller.completeLoading(
                                         controller.progressBarStatusInformation,
                                         false);
-                                    var snackBar = SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.red,
-                                      duration:
-                                          const Duration(milliseconds: 2000),
-                                      content: Text(
-                                          controller.authError.toUpperCase()),
+                                    showTopSnackBar(
+                                      Overlay.of(context)!,
+                                      CustomSnackBar.error(
+                                        message:
+                                        '${controller.authError.toUpperCase()}',
+                                      ),
+                                      displayDuration: const Duration(
+                                        seconds: 3,
+                                      ),
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                   } else {
                                     controller.completeLoading(
                                         controller.progressBarStatusInformation,
                                         false);
-                                    var snackBar = SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.green,
-                                      duration:
-                                          const Duration(milliseconds: 2000),
-                                      content: Text("Success!".toUpperCase()),
+                                    showTopSnackBar(
+                                      Overlay.of(context)!,
+                                      CustomSnackBar.success(
+                                        message:
+                                        'Success',
+                                      ),
+                                      displayDuration: const Duration(
+                                        seconds: 3,
+                                      ),
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                     Get.offNamed(Routes.CHECKOUT);
                                   }
                                 } catch (e) {

@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../controllers/cart_controller.dart';
 import 'cart_shimmer.dart';
 
@@ -101,29 +103,26 @@ class CartLoadedWidget extends StatelessWidget {
                                     final removalStatus = await controller
                                         .requestToDeleteCart(carIdList);
                                     if (!removalStatus) {
-                                      var snackBar = const SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.red,
-                                        duration: Duration(milliseconds: 2000),
-                                        content: Text(
-                                            'Could not remove all items from cart.'),
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        CustomSnackBar.error(
+                                            message:
+                                                'Could not remove all items from cart'),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
                                       );
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
                                     } else {
-                                      var snackBar = const SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: AppColors.success500,
-                                        duration: Duration(milliseconds: 2000),
-                                        content: Text(
-                                            'Successfully removed items from cart.'),
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        CustomSnackBar.success(
+                                          message:
+                                              'Successfully removed items from cart.',
+                                        ),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
                                       );
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
                                     }
                                     await controller.cart();
                                     controller.priceCart.value = 0.0;
@@ -134,17 +133,16 @@ class CartLoadedWidget extends StatelessWidget {
                                           : true,
                                     );
                                   } else {
-                                    var snackBar = const SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: AppColors.secondary500,
-                                      duration: Duration(milliseconds: 2000),
-                                      content: Text(
-                                          'Please select an item to remove.'),
+                                    showTopSnackBar(
+                                      Overlay.of(context)!,
+                                      CustomSnackBar.info(
+                                        message:
+                                            'Please select an item to remove.',
+                                      ),
+                                      displayDuration: const Duration(
+                                        seconds: 3,
+                                      ),
                                     );
-
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                   }
                                 } catch (e) {
                                   controller.completeLoading(
@@ -222,16 +220,15 @@ class CartLoadedWidget extends StatelessWidget {
                           name: "Proceed",
                           onPressed: () {
                             if (controller.priceCart.value == 0.0) {
-                              var snackBar = const SnackBar(
-                                elevation: 0,
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.red,
-                                duration: Duration(milliseconds: 2000),
-                                content:
-                                    Text("Please select an item to checkout."),
+                              showTopSnackBar(
+                                Overlay.of(context)!,
+                                CustomSnackBar.info(
+                                  message: 'Please select an item to checkout.',
+                                ),
+                                displayDuration: const Duration(
+                                  seconds: 3,
+                                ),
                               );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
                             } else {
                               controller.cartMap.clear();
                               for (final cart in controller.cartList) {

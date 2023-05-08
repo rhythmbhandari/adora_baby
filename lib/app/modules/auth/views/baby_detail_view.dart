@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../config/app_colors.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../../../widgets/exit_dialog.dart';
@@ -205,16 +207,16 @@ class BabyDetails extends GetView<AuthController> {
                                     final status =
                                         await controller.validateBabyDetail();
                                     if (!status) {
-                                      var snackBar = SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.red,
-                                        duration: const Duration(milliseconds: 2000),
-                                        content: Text(
-                                            controller.authError.toUpperCase()),
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        CustomSnackBar.warning(
+                                          message:
+                                          '${controller.authError.toUpperCase()}',
+                                        ),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
                                       );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
                                       controller.progressBarBabyDetail.value =
                                           false;
                                     } else {
@@ -226,16 +228,16 @@ class BabyDetails extends GetView<AuthController> {
                                         controller.progressBarBabyDetail.value =
                                             false;
                                       } else {
-                                        var snackBar = const SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration:
-                                              Duration(milliseconds: 2000),
-                                          content: Text("Please try again!"),
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.error(
+                                            message:
+                                            controller.authError.toUpperCase() ?? 'Please try again',
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
                                         );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
                                         controller.progressBarBabyDetail.value =
                                             false;
                                       }

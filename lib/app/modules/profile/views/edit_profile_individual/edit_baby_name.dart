@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import '../../../../config/app_colors.dart';
 import '../../../../config/app_theme.dart';
+import '../../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../../widgets/custom_progress_bar.dart';
 import '../../controllers/profile_controller.dart';
 
@@ -129,38 +131,40 @@ class EditBabyName extends GetView<ProfileController> {
                                       controller.babyNameController.text.trim()
                                     }));
                                 if (status) {
-                                  var snackBar = const SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: AppColors.success500,
-                                    duration: Duration(milliseconds: 2000),
-                                    content: Text("Successfully updated."),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.success(
+                                      message:
+                                      'Successfully updated.',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                   Get.back();
                                 } else {
-                                  var snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: AppColors.error500,
-                                    duration: const Duration(milliseconds: 2000),
-                                    content: Text(
-                                        "${controller.authError.toUpperCase()}"),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.error(
+                                      message:
+                                      '${controller.authError.toUpperCase()}',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                               } else {
-                                var snackBar = const SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: AppColors.error500,
-                                  duration: Duration(milliseconds: 2000),
-                                  content: Text("Please enter baby name."),
+                                showTopSnackBar(
+                                  Overlay.of(context)!,
+                                  CustomSnackBar.warning(
+                                    message:
+                                    'Please enter baby name.',
+                                  ),
+                                  displayDuration: const Duration(
+                                    seconds: 3,
+                                  ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               }
                             })),
                     SizedBox(

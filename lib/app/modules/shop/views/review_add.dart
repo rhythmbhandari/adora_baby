@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../widgets/auth_progress_indicator.dart';
 
@@ -184,30 +186,31 @@ class AddReview extends GetView<ShopController> {
                                     .initiateReview('${product.id}');
                                 if (status) {
                                   controller.countingReview.value++;
-                                  const snackBar = SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text(
-                                      'Review posted successfully.',
-                                      style: TextStyle(color: Colors.white),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.success(
+                                      message:
+                                      'Review posted sucessfully.',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
                                     ),
                                   );
                                   controller.update(['reviewId']);
                                   Get.back();
                                   controller.reviewController.text = '';
                                   controller.ratingsReview.value = 0.0;
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 } else {
-                                  final snackBar = SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content: Text(
-                                      controller.authError.value,
-                                      style: const TextStyle(color: Colors.white),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.error(
+                                      message:
+                                      '${controller.authError.toUpperCase()}',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
                                     ),
                                   );
-
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
 
                                 controller.hideProgressBarReview();

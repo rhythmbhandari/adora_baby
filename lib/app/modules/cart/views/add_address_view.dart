@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/get_address_model.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../../profile/views/city_select_screen.dart';
 
@@ -252,16 +254,16 @@ class AddAddressView extends GetView<ProfileController> {
                                 controller.completeLoading(
                                     controller.progressBarStatusAddAddress,
                                     false);
-                                var snackBar = const SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: AppColors.success500,
-                                  duration: Duration(milliseconds: 2000),
-                                  content:
-                                      Text('Successfully added your address.'),
+                                showTopSnackBar(
+                                  Overlay.of(context)!,
+                                  CustomSnackBar.success(
+                                    message:
+                                    'Successfully added your address.',
+                                  ),
+                                  displayDuration: const Duration(
+                                    seconds: 3,
+                                  ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                                 controller.cityController.text = '';
                                 controller.addNameController.text = '';
                                 controller.landMarkController.text = '';
@@ -271,16 +273,16 @@ class AddAddressView extends GetView<ProfileController> {
                                 controller.completeLoading(
                                     controller.progressBarStatusAddAddress,
                                     false);
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: AppColors.warning500,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content:
-                                      Text(controller.authError.toUpperCase()),
+                                showTopSnackBar(
+                                  Overlay.of(context)!,
+                                  CustomSnackBar.warning(
+                                    message:
+                                    '${controller.authError.toUpperCase()}',
+                                  ),
+                                  displayDuration: const Duration(
+                                    seconds: 3,
+                                  ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               }
                             } catch (e) {
                               controller.completeLoading(

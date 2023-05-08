@@ -8,6 +8,8 @@ import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../config/constants.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
@@ -284,17 +286,16 @@ class _MedicalConditionState extends State<MedicalCondition> {
                                             Constants.LOGGED_IN_STATUS, 'yes');
                                         Get.offNamed(Routes.HOME);
                                       } else {
-                                        var snackBar = SnackBar(
-                                          elevation: 0,
-                                          behavior: SnackBarBehavior.floating,
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2000),
-                                          content:
-                                              Text("${controller.authError}"),
+                                        showTopSnackBar(
+                                          Overlay.of(context)!,
+                                          CustomSnackBar.error(
+                                            message:
+                                            controller.authError.toUpperCase(),
+                                          ),
+                                          displayDuration: const Duration(
+                                            seconds: 3,
+                                          ),
                                         );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
                                         controller
                                             .progressBarStatusCompleteProfile
                                             .value = false;

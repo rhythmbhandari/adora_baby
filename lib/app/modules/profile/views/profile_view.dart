@@ -67,27 +67,14 @@ class ProfileView extends GetView<ProfileController> {
                           onTap: () {
                             showTopSnackBar(
                               Overlay.of(context)!,
-                              CustomSnackBar.info(
+                              CustomSnackBar.error(
                                 message:
-                                "There is some information. You need to do something with that",
-                                borderRadius: BorderRadius.circular(22),
-                                textStyle: TextStyle(
-                                  color: Colors.black
-                                ),
+                                    "There is some information. You need to do something with that There is some information. You need to do something with that",
                               ),
-                              displayDuration: Duration(seconds: 50)
+                              displayDuration: Duration(
+                                seconds: 3,
+                              ),
                             );
-
-
-                            //   ..showMaterialBanner(
-                            //     CustomBanner(
-                            //       message: 'Hello, world!',
-                            //       onPressed: () {
-                            //         ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                            //       },
-                            //     ),
-                            //
-                            //   );
                           },
                           child: Text(
                             'Profile',

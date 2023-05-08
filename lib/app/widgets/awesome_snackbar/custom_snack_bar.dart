@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../config/app_colors.dart';
 
@@ -10,46 +11,69 @@ class CustomSnackBar extends StatefulWidget {
     Key? key,
     required this.message,
     this.messagePadding = const EdgeInsets.symmetric(horizontal: 24),
-    this.icon = const Icon(
-      Icons.sentiment_very_satisfied,
-      color: Color(0x15000000),
-      size: 120,
-    ),
+    this.icon = successSvg,
     this.textStyle = const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
-      color: Colors.white,
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: AppColors.success900,
+        fontFamily: 'Poppins'
     ),
-    this.maxLines = 2,
+    this.maxLines = 3,
     this.iconRotationAngle = 32,
     this.iconPositionTop = -10,
     this.iconPositionLeft = -8,
-    this.backgroundColor = const Color(0xff00E676),
+    this.backgroundColor = const Color.fromRGBO(203, 244, 161, 1),
     this.boxShadow = kDefaultBoxShadow,
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
   }) : super(key: key);
 
+  const CustomSnackBar.warning({
+    Key? key,
+    required this.message,
+    this.messagePadding = const EdgeInsets.symmetric(horizontal: 24),
+    this.icon = warningSvg,
+    this.textStyle = const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: AppColors.warning500,
+        fontFamily: 'Poppins'
+    ),
+    this.maxLines = 3,
+    this.iconRotationAngle = 32,
+    this.iconPositionTop = -10,
+    this.iconPositionLeft = -8,
+    this.backgroundColor = const Color.fromRGBO(244, 195, 163, 1),
+    this.boxShadow = kDefaultBoxShadow,
+    this.borderRadius = kDefaultBorderRadius,
+    this.textScaleFactor = 1.0,
+    this.textAlign = TextAlign.center,
+  }) : super(key: key);
+
+  static const String warningSvg = 'assets/images/warning-circle-noti.svg';
+  static const String successSvg = 'assets/images/tick-circle.svg';
+  static const String errorSvg = 'assets/images/close-circle-noti.svg';
+  static const String infoSvg= 'assets/images/info-circle-noti.svg';
+
+
+
   const CustomSnackBar.info({
     Key? key,
     required this.message,
     this.messagePadding = const EdgeInsets.symmetric(horizontal: 24),
-    this.icon = const Icon(
-      Icons.sentiment_neutral,
-      color: Color(0x15000000),
-      size: 60,
-    ),
+    this.icon = infoSvg,
     this.textStyle = const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
-      color: Colors.white,
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: AppColors.error900,
+        fontFamily: 'Poppins'
     ),
-    this.maxLines = 2,
+    this.maxLines = 3,
     this.iconRotationAngle = 32,
     this.iconPositionTop = -10,
     this.iconPositionLeft = -8,
-    this.backgroundColor = const Color(0xff2196F3),
+    this.backgroundColor = const Color.fromRGBO(218, 140, 245, 1),
     this.boxShadow = kDefaultBoxShadow,
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
@@ -60,29 +84,28 @@ class CustomSnackBar extends StatefulWidget {
     Key? key,
     required this.message,
     this.messagePadding = const EdgeInsets.symmetric(horizontal: 24),
-    this.icon = const Icon(
-      Icons.error_outline,
-      color: Color(0x15000000),
-      size: 120,
-    ),
+    this.icon = errorSvg,
     this.textStyle = const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
-      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: AppColors.error900,
+      fontFamily: 'Poppins'
     ),
-    this.maxLines = 2,
+    this.maxLines = 3,
     this.iconRotationAngle = 32,
     this.iconPositionTop = -10,
     this.iconPositionLeft = -8,
-    this.backgroundColor = const Color(0xffff5252),
+    this.backgroundColor = const Color.fromRGBO(244, 161, 161, 1),
     this.boxShadow = kDefaultBoxShadow,
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
   }) : super(key: key);
 
+
+
   final String message;
-  final Widget icon;
+  final String icon;
   final Color backgroundColor;
   final TextStyle textStyle;
   final int maxLines;
@@ -110,37 +133,54 @@ class CustomSnackBarState extends State<CustomSnackBar> {
         color: Colors.white,
         borderRadius: widget.borderRadius,
         boxShadow: widget.boxShadow,
-        border:  Border.all(
-          color: widget.backgroundColor, width: 1),
+        border: Border.all(color: widget.backgroundColor, width: 1),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          widget.icon,
+          SvgPicture.asset(
+            widget.icon,
+            height: 60,
+            width: 60,
+          ),
           Expanded(
-            child: Center(
-              child: Padding(
-                padding: widget.messagePadding,
-                child: Text(
-                  widget.message,
-                  style: theme.textTheme.bodyText2?.merge(widget.textStyle),
-                  textAlign: widget.textAlign,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: widget.maxLines,
-                  textScaleFactor: widget.textScaleFactor,
-                ),
+            child: Padding(
+              padding: widget.messagePadding,
+              child: Text(
+                '${widget.message}',
+                style: theme.textTheme.bodyText2?.merge(widget.textStyle),
+                textAlign: widget.textAlign,
+                overflow: TextOverflow.ellipsis,
+                maxLines: widget.maxLines,
+                textScaleFactor: widget.textScaleFactor,
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: const Icon(
-              Icons.circle_notifications_sharp,
-              color: Color(0x15000000),
-              size: 20,
-            ),
+          Column(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: SvgPicture.asset(
+                  'assets/images/close-circle.svg',
+                  height: 24,
+                  width: 24,
+                ),
+              ),
+              Container(
+                alignment: Alignment.topCenter,
+                child: SvgPicture.asset(
+                  'assets/images/close-circle.svg',
+                  color: Colors.transparent,
+                  height: 24,
+                  width: 24,
+                ),
+              ),
+            ],
           ),
+          Container(),
         ],
-      ),
+      )
     );
   }
 }
@@ -154,4 +194,4 @@ const kDefaultBoxShadow = [
   ),
 ];
 
-const kDefaultBorderRadius = BorderRadius.all(Radius.circular(12));
+const kDefaultBorderRadius = BorderRadius.all(Radius.circular(25));

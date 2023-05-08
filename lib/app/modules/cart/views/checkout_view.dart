@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../shop/widgets/auth_progress_indicator.dart';
 
@@ -304,26 +306,27 @@ class CheckOutView extends GetView<CartController> {
                                             .trim().toUpperCase());
                                 if (status) {
                                   myController.update(['priceTotal']);
-                                  var snackBar = const SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: AppColors.success500,
-                                    duration: Duration(milliseconds: 2000),
-                                    content: Text(
-                                        "Coupon code applied succesfully."),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.success(
+                                      message:
+                                      'Coupon code applied successfully',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 } else {
-                                  var snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(milliseconds: 2000),
-                                    content: Text("${myController.authError}"),
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.error(
+                                      message:
+                                      '${controller.authError.toUpperCase()}',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                                 myController.completeLoading(
                                     myController.progressBarStatusCheckout,
@@ -488,30 +491,30 @@ class CheckOutView extends GetView<CartController> {
                                 myController.completeLoading(
                                     myController.progressBarStatusCheckout,
                                     false);
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.red,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content:
-                                      Text(myController.authError.toUpperCase()),
+                                showTopSnackBar(
+                                  Overlay.of(context)!,
+                                  CustomSnackBar.error(
+                                    message:
+                                    '${controller.authError.toUpperCase()}',
+                                  ),
+                                  displayDuration: const Duration(
+                                    seconds: 3,
+                                  ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               } else {
                                 myController.completeLoading(
                                     myController.progressBarStatusCheckout,
                                     false);
-                                var snackBar = SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.green,
-                                  duration: const Duration(milliseconds: 2000),
-                                  content: Text("Successfully placed order!"
-                                      .toUpperCase()),
+                                showTopSnackBar(
+                                  Overlay.of(context)!,
+                                  CustomSnackBar.success(
+                                    message:
+                                    'Successfully placed order!',
+                                  ),
+                                  displayDuration: const Duration(
+                                    seconds: 3,
+                                  ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                                 myController.cart();
                                 myController.priceCart.value = 0.0;
                                 Get.to(() => const OrderConfirmation());

@@ -1,4 +1,3 @@
-
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/cancel_order_dialog.dart';
 import 'package:adora_baby/app/modules/profile/views/tracking_view.dart';
@@ -11,11 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
+import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../shop/views/getBrandName.dart';
 
 class OrderHistoryDetail extends GetView<ProfileController> {
   const OrderHistoryDetail({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -155,12 +155,15 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                       .length;
                                               i++)
                                             Container(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 23, vertical: 16),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 23,
+                                                      vertical: 16),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -206,7 +209,13 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          getBrandName(controller.selectedOrders.value.checkOut?.cart?[i]?.product?.categories),
+                                                          getBrandName(controller
+                                                              .selectedOrders
+                                                              .value
+                                                              .checkOut
+                                                              ?.cart?[i]
+                                                              ?.product
+                                                              ?.categories),
                                                           maxLines: 1,
                                                           style: kThemeData
                                                               .textTheme
@@ -294,12 +303,15 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                             ),
                                           ),
                                           Container(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 32, vertical: 16),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 32,
+                                                      vertical: 16),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
@@ -366,12 +378,15 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                 ],
                                               )),
                                           Container(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 23,
                                                 vertical: 24,
                                               ),
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 32, vertical: 0),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 32,
+                                                      vertical: 0),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
@@ -488,17 +503,19 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                         horizontal: 30,
                                                         vertical: 8),
                                                 suffixIcon: Padding(
-                                                  padding: const EdgeInsets.all(12),
+                                                  padding:
+                                                      const EdgeInsets.all(12),
                                                   child: SvgPicture.asset(
                                                       "assets/images/tag.svg",
                                                       color: DarkTheme.dark),
                                                 ),
                                                 fillColor: Colors.white,
                                                 border: OutlineInputBorder(
-                                                    borderSide: const BorderSide(
-                                                        width: 1,
-                                                        color: AppColors
-                                                            .secondary500),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            width: 1,
+                                                            color: AppColors
+                                                                .secondary500),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       33,
@@ -677,7 +694,8 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                   .toLowerCase()
                                                   .contains('order')
                                               ? Container(
-                                                  padding: const EdgeInsets.only(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                     left: 32,
                                                     right: 32,
                                                   ),
@@ -784,47 +802,33 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                           controller
                                                               .progressBarStatusOrderDetails
                                                               .value = false;
-                                                          var snackBar =
-                                                              SnackBar(
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            duration: const Duration(
-                                                                milliseconds:
-                                                                    2000),
-                                                            content: Text(
-                                                                controller.authError.toUpperCase()),
+                                                          showTopSnackBar(
+                                                            Overlay.of(
+                                                                context)!,
+                                                            CustomSnackBar
+                                                                .error(
+                                                              message:
+                                                                  '${controller.authError.toUpperCase()}',
+                                                            ),
+                                                            displayDuration:
+                                                                const Duration(
+                                                              seconds: 3,
+                                                            ),
                                                           );
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  snackBar);
                                                         } else {
                                                           controller
                                                               .progressBarStatusOrderDetails
                                                               .value = false;
-                                                          var snackBar =
-                                                              const SnackBar(
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                            backgroundColor:
-                                                                AppColors
-                                                                    .success500,
-                                                            duration: Duration(
-                                                                milliseconds:
-                                                                    2000),
-                                                            content: Text(
-                                                                "Order successfully cancelled."),
+                                                          showTopSnackBar(
+                                                            Overlay.of(context)!,
+                                                            CustomSnackBar.error(
+                                                              message:
+                                                              'Order successfully cancelled',
+                                                            ),
+                                                            displayDuration: const Duration(
+                                                              seconds: 3,
+                                                            ),
                                                           );
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  snackBar);
                                                           Get.back();
                                                           controller
                                                               .getOrderList(
