@@ -18,12 +18,12 @@ class DioHelper {
       receiveTimeout: 3000,
     ),
   )..interceptors.addAll([
-      PrettyDioLogger(
-        requestHeader: true,
-        logPrint: (o) => debugPrint(
-          o.toString(),
-        ),
-      ),
+      // PrettyDioLogger(
+      //   requestHeader: true,
+      //   logPrint: (o) => debugPrint(
+      //     o.toString(),
+      //   ),
+      // ),
       RetryInterceptor(
         dio: Dio(),
         logPrint: (o) => debugPrint(
