@@ -81,183 +81,126 @@ class _ProductDetailsState extends State<ProductDetails>
     return progressWrap(
       Scaffold(
         backgroundColor: LightTheme.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          title: Center(
+            child: GestureDetector(
+              onTap: () {},
+              child: Text(
+                "Product Detail",
+                style: kThemeData.textTheme.displaySmall,
+              ),
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Stack(
             children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 88,
-                      color: Colors.white,
-                      child: Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 10,
+                    color: LightTheme.whiteActive,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+
+                      child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30.0),
-                            child: GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.black,
-                                )),
-                          ),
-                          const SizedBox(
-                            width: 60,
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  "Product Detail",
-                                  style: kThemeData.textTheme.displaySmall,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.until((route) =>
-                                  route.settings.name == Routes.HOME);
-                              homeController.isRedirected.value = 1;
-                            },
-                            child: Stack(
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 30),
+                            color: Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8.0, right: 8),
-                                  child: SvgPicture.asset(
-                                    "assets/images/shopping-cart.svg",
-                                    height: 24,
-                                    width: 24,
-                                    color: DarkTheme.darkNormal,
-                                  ),
+                                Text(
+                                  getBrandName(
+                                      controller.productSelected.value.categories),
+                                  maxLines: 1,
+                                  style: kThemeData.textTheme.labelSmall?.copyWith(
+                                      color: AppColors.secondary700, fontSize: 12),
                                 ),
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Obx(
-                                        () => Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: _cartController.cartList.isEmpty
-                                            ? Colors.transparent
-                                            : AppColors.error500),
-                                    child: _cartController.cartList.isEmpty
-                                          ? Text(
-                                              '',
-                                              style: TextStyle(
-                                                  fontSize: 8,
-                                                  color: Colors.white),
-                                            )
-                                          : Text(
-                                              '${_cartController.cartList.length}',
-                                              style: TextStyle(
-                                                  fontSize: 8,
-                                                  color: Colors.white),
-                                            ),
+                                Text(
+                                  '${controller.productSelected.value.name}',
+                                  style: kThemeData.textTheme.displaySmall
+                                      ?.copyWith(color: AppColors.primary700),
+                                ),
+                                const SizedBox(
+                                  height: 17.39,
+                                ),
+                                RatingBar.builder(
+                                  initialRating:
+                                  controller.productSelected.value.rating ==
+                                      null
+                                      ? 0.0
+                                      : controller.productSelected.value.rating!
+                                      .gradeAvg,
+                                  ignoreGestures: true,
+                                  itemSize: 17,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  glow: false,
+                                  itemCount: 5,
+                                  itemPadding:
+                                  const EdgeInsets.symmetric(horizontal: 0.0),
+                                  itemBuilder: (context, _) => GradientIcon(
+                                    Icons.star,
+                                    10.0,
+                                    const LinearGradient(
+                                      colors: <Color>[
+                                        Color.fromRGBO(127, 0, 255, 1),
+                                        Color.fromRGBO(255, 0, 255, 1)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
                                     ),
                                   ),
+                                  onRatingUpdate: (rating) {},
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 36,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 10,
-                      color: LightTheme.whiteActive,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 30),
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getBrandName(
-                                controller.productSelected.value.categories),
-                            maxLines: 1,
-                            style: kThemeData.textTheme.labelSmall?.copyWith(
-                                color: AppColors.secondary700, fontSize: 12),
-                          ),
-                          Text(
-                            '${controller.productSelected.value.name}',
-                            style: kThemeData.textTheme.displaySmall
-                                ?.copyWith(color: AppColors.primary700),
-                          ),
-                          const SizedBox(
-                            height: 17.39,
-                          ),
-                          RatingBar.builder(
-                            initialRating:
-                                controller.productSelected.value.rating == null
-                                    ? 0.0
-                                    : controller
-                                        .productSelected.value.rating!.gradeAvg,
-                            ignoreGestures: true,
-                            itemSize: 17,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            glow: false,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
-                            itemBuilder: (context, _) => GradientIcon(
-                              Icons.star,
-                              10.0,
-                              const LinearGradient(
-                                colors: <Color>[
-                                  Color.fromRGBO(127, 0, 255, 1),
-                                  Color.fromRGBO(255, 0, 255, 1)
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                            onRatingUpdate: (rating) {},
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: const Color.fromRGBO(
-                                        229, 159, 164, 1))),
-                            child: Text(
-                              "${controller.productSelected.value.categories![0]?.name}",
-                              style: const TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 16,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color.fromRGBO(151, 121, 142, 1)),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          controller.productSelected.value.productImages
-                                      ?.isEmpty ??
-                                  false
-                              ? Container(
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              229, 159, 164, 1))),
+                                  child: Text(
+                                    "${controller.productSelected.value.categories![0]?.name}",
+                                    style: const TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 16,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromRGBO(151, 121, 142, 1)),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                controller.productSelected.value.productImages
+                                    ?.isEmpty ??
+                                    false
+                                    ? Container(
                                   height: Get.height * 0.32,
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 20,
@@ -269,24 +212,24 @@ class _ProductDetailsState extends State<ProductDetails>
                                     child: CachedNetworkImage(
                                       fit: BoxFit.cover,
                                       imageUrl:
-                                          'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
+                                      'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png',
                                       placeholder: (context, url) =>
-                                          const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
+                                      const Center(
+                                          child:
+                                          CircularProgressIndicator()),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                      const Icon(Icons.error),
                                     ),
                                   ),
                                 )
-                              : CarouselSlider(
+                                    : CarouselSlider(
                                   options: CarouselOptions(
                                     height: Get.height * 0.32,
                                     autoPlay: true,
                                     autoPlayInterval:
-                                        const Duration(seconds: 3),
+                                    const Duration(seconds: 3),
                                     autoPlayAnimationDuration:
-                                        const Duration(milliseconds: 800),
+                                    const Duration(milliseconds: 800),
                                     autoPlayCurve: Curves.fastOutSlowIn,
                                     enlargeCenterPage: true,
                                     viewportFraction: 1,
@@ -308,74 +251,76 @@ class _ProductDetailsState extends State<ProductDetails>
                                           horizontal: 18),
                                       child: ClipRRect(
                                         borderRadius:
-                                            BorderRadius.circular(20.0),
+                                        BorderRadius.circular(20.0),
                                         child: CachedNetworkImage(
                                           fit: BoxFit.cover,
                                           imageUrl: i?.name == null
                                               ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                                               : '${i?.name}',
                                           placeholder: (context, url) =>
-                                              const Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
+                                          const Center(
+                                              child:
+                                              CircularProgressIndicator()),
+                                          errorWidget:
+                                              (context, url, error) =>
+                                          const Icon(Icons.error),
                                         ),
                                       ),
                                     );
                                   }).toList(),
                                 ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     carouselController.nextPage(
-                          //         duration: const Duration(milliseconds: 300), curve:   Curves.linear);
-                          //   },
-                          //   child: Container(
-                          //     height: 40,
-                          //     width: 40,
-                          //     decoration: BoxDecoration(
-                          //       shape: BoxShape.circle,
-                          //       color: Color(0xff000000),
-                          //     ),
-                          //   ),
-                          // ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children:
-                                List.generate(sortedImages.length, (index) {
-                              return Container(
-                                width: 8.0,
-                                height: 8.0,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 2.0),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentIndex == index
-                                      ? AppColors.primary500
-                                      : AppColors.primary500.withOpacity(0.5),
+                                // InkWell(
+                                //   onTap: () {
+                                //     carouselController.nextPage(
+                                //         duration: const Duration(milliseconds: 300), curve:   Curves.linear);
+                                //   },
+                                //   child: Container(
+                                //     height: 40,
+                                //     width: 40,
+                                //     decoration: BoxDecoration(
+                                //       shape: BoxShape.circle,
+                                //       color: Color(0xff000000),
+                                //     ),
+                                //   ),
+                                // ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
-                              );
-                            }),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              controller.productSelected.value.stockAvailable ==
-                                      true
-                                  ? Text(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:
+                                  List.generate(sortedImages.length, (index) {
+                                    return Container(
+                                      width: 8.0,
+                                      height: 8.0,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 2.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: _currentIndex == index
+                                            ? AppColors.primary500
+                                            : AppColors.primary500.withOpacity(0.5),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    controller.productSelected.value
+                                        .stockAvailable ==
+                                        true
+                                        ? Text(
                                       "In Stock",
                                       style: kThemeData.textTheme.titleMedium
                                           ?.copyWith(
-                                              color: AppColors.success800,
-                                              fontSize: 16),
+                                          color: AppColors.success800,
+                                          fontSize: 16),
                                     )
-                                  : const Text(
+                                        : const Text(
                                       "Out of Stock",
                                       style: TextStyle(
                                         color: AppColors.error500,
@@ -384,536 +329,540 @@ class _ProductDetailsState extends State<ProductDetails>
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                              GestureDetector(
-                                  onTap: () {
-                                    Share.share(
-                                        'Check out Adora Baby ${controller.productSelected.value.permalink}',
-                                        subject: 'Look at this product!');
-                                  },
-                                  child: SvgPicture.asset(
-                                      "assets/images/send.svg"))
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          controller.productSelected.value.salePrice == 0 ||
-                                  controller.productSelected.value.salePrice ==
-                                      null
-                              ? Text(
+                                    GestureDetector(
+                                        onTap: () {
+                                          Share.share(
+                                              'Check out Adora Baby ${controller.productSelected.value.permalink}',
+                                              subject: 'Look at this product!');
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/images/send.svg"))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                controller.productSelected.value.salePrice == 0 ||
+                                    controller
+                                        .productSelected.value.salePrice ==
+                                        null
+                                    ? Text(
                                   "Rs. ${controller.productSelected.value.regularPrice}",
                                   style: kThemeData.textTheme.titleLarge,
                                 )
-                              : Row(
+                                    : Row(
                                   children: [
                                     Text(
                                       "Rs. ${controller.productSelected.value.regularPrice}",
                                       style: kThemeData.textTheme.titleLarge
                                           ?.copyWith(
-                                              color: DarkTheme.lightActive,
-                                              decoration:
-                                                  TextDecoration.lineThrough),
+                                          color: DarkTheme.lightActive,
+                                          decoration:
+                                          TextDecoration.lineThrough),
                                     ),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     controller.productSelected.value
-                                                .salePrice !=
-                                            null
+                                        .salePrice !=
+                                        null
                                         ? Text(
-                                            "Rs. ${controller.productSelected.value.salePrice}",
-                                            style:
-                                                kThemeData.textTheme.titleLarge,
-                                          )
+                                      "Rs. ${controller.productSelected.value.salePrice}",
+                                      style: kThemeData
+                                          .textTheme.titleLarge,
+                                    )
                                         : const Text("N/A")
                                   ],
                                 ),
-                          const SizedBox(
-                            height: 14,
-                          ),
-                          controller.productSelected.value.weightInGrams != null
-                              ? Text(
-                                  'Weight: ${controller.productSelected.value.weightInGrams} grams',
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontFamily: "Poppins",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ))
-                              : const Text("Weight: N/A",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontFamily: "Poppins",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                              "Best by: ${controller.productSelected.value.bestBy?.year}/${controller.productSelected.value.bestBy?.month}/${controller.productSelected.value.bestBy?.day}",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              )),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Text("Delivered within: 2-3 business days.",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontFamily: "Poppins",
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 10,
-                      color: LightTheme.whiteActive,
-                    ),
-                    Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 43, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Quantity",
-                            style: kThemeData.textTheme.titleLarge?.copyWith(
-                                color: DarkTheme.normal, fontSize: 28),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          GetBuilder<ShopController>(
-                            id: 'shopIncremenet',
-                            builder: (myController) => Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    myController.decrementCounter();
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            color: DarkTheme.normal)),
-                                    child: const Icon(
-                                      Icons.remove,
-                                      color: DarkTheme.normal,
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
-                                  width: 14,
+                                  height: 14,
                                 ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 30,
-                                          right: 30,
-                                          top: 5,
-                                          bottom: 5),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: DarkTheme.normal)),
-                                      child: Center(
-                                        child: Text(
-                                          myController.counter.value.toString(),
-                                          style: const TextStyle(
-                                              color: DarkTheme.darkNormal,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 28),
-                                        ),
-                                      )),
-                                ),
+                                controller.productSelected.value.weightInGrams !=
+                                    null
+                                    ? Text(
+                                    'Weight: ${controller.productSelected.value.weightInGrams} grams',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ))
+                                    : const Text("Weight: N/A",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    )),
                                 const SizedBox(
-                                  width: 14,
+                                  height: 8,
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (myController.counter.value ==
-                                        (controller.productSelected.value
-                                                .stockQuantity ??
-                                            1)) {
-                                      showTopSnackBar(
-                                        Overlay.of(context)!,
-                                        const CustomSnackBar.info(
-                                          message: 'No more stock available',
-                                        ),
-                                        displayDuration: const Duration(
-                                          seconds: 3,
-                                        ),
-                                      );
-                                    } else {
-                                      myController.incrementCounter(controller
-                                              .productSelected
-                                              .value
-                                              .stockQuantity ??
-                                          1);
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            color: DarkTheme.normal)),
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: DarkTheme.normal,
-                                    ),
-                                  ),
+                                Text(
+                                    "Best by: ${controller.productSelected.value.bestBy?.year}/${controller.productSelected.value.bestBy?.month}/${controller.productSelected.value.bestBy?.day}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                const SizedBox(
+                                  height: 8,
                                 ),
-                                const Expanded(
-                                  flex: 4,
-                                  child: SizedBox(),
-                                )
+                                const Text("Delivered within: 2-3 business days.",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ))
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
+                          Container(
+                            height: 10,
+                            color: LightTheme.whiteActive,
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 10,
-                      color: LightTheme.whiteActive,
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: Column(children: [
-                        TabBar(
-                          onTap: (index) {
-                            setState(() {
-                              _selectedTabBar = index;
-                            });
-                          },
-                          indicatorColor: Colors.black,
-                          controller: _controller,
-                          unselectedLabelColor: Colors.black,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: Colors.black,
-                          labelStyle: kThemeData.textTheme.labelMedium
-                              ?.copyWith(color: DarkTheme.normal),
-                          tabs: const [
-                            Tab(
-                              text: "Overview",
-                            ),
-                            Tab(
-                              text: "Details",
-                            ),
-                            Tab(
-                              text: "Reviews",
-                            ),
-                          ],
-                        ),
-                        Builder(builder: (_) {
-                          if (_selectedTabBar == 0) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 46, vertical: 20),
-                              child: HtmlWidget(
-                                controller.productSelected.value
-                                        .shortDescription ??
-                                    '',
-                                enableCaching: true,
-                                textStyle: kThemeData.textTheme.bodyLarge,
-                              ),
-                            ); //1st custom tabBarView
-                          } else if (_selectedTabBar == 1) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 46, vertical: 20),
-                              child: HtmlWidget(
-                                controller.productSelected.value
-                                        .longDescription ??
-                                    '',
-                                enableCaching: true,
-                                onTapUrl: (urlLauncher) async {
-                                  Uri url = Uri.parse(urlLauncher);
-                                  if (await canLaunchUrl(url)) {
-                                    await launchUrl(url);
-                                    return true;
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                },
-                                textStyle: kThemeData.textTheme.bodyLarge,
-                              ),
-                            ); //1st/2nd tabView
-                          } else {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 46, vertical: 20),
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    cursorColor: AppColors.mainColor,
-                                    onTap: () {
-                                      Get.to(() => const AddReview(),
-                                          arguments:
-                                              controller.productSelected.value);
-                                    },
-                                    // focusNode: searchNode,
-                                    autofocus: false,
-                                    enabled: true,
-                                    readOnly: true,
-                                    decoration: InputDecoration(
-                                      hintText: 'Add Review',
-                                      hintStyle: kThemeData.textTheme.bodyLarge
-                                          ?.copyWith(
-                                              color: const Color.fromRGBO(
-                                        175,
-                                        152,
-                                        168,
-                                        1,
-                                      )),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 24, vertical: 18),
-                                      suffixIcon: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, right: 23, bottom: 8),
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: DarkTheme.darkNormal
-                                              .withOpacity(0.8),
+                          Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 43, vertical: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Quantity",
+                                  style: kThemeData.textTheme.titleLarge?.copyWith(
+                                      color: DarkTheme.normal, fontSize: 28),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                GetBuilder<ShopController>(
+                                  id: 'shopIncremenet',
+                                  builder: (myController) => Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          myController.decrementCounter();
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: DarkTheme.normal)),
+                                          child: const Icon(
+                                            Icons.remove,
+                                            color: DarkTheme.normal,
+                                          ),
                                         ),
                                       ),
-                                      fillColor: Colors.white,
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(33),
-                                          borderSide: const BorderSide(
-                                              width: 1,
-                                              color: Color.fromRGBO(
-                                                  175, 152, 168, 1))),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(33),
-                                          borderSide: const BorderSide(
-                                              width: 1,
-                                              color: Color.fromRGBO(
-                                                  175, 152, 168, 1))),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(33),
-                                          borderSide: const BorderSide(
-                                              width: 1,
-                                              color: Color.fromRGBO(
-                                                  175, 152, 168, 1))),
+                                      const SizedBox(
+                                        width: 14,
+                                      ),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 30,
+                                                right: 30,
+                                                top: 5,
+                                                bottom: 5),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: DarkTheme.normal)),
+                                            child: Center(
+                                              child: Text(
+                                                myController.counter.value.toString(),
+                                                style: const TextStyle(
+                                                    color: DarkTheme.darkNormal,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 28),
+                                              ),
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        width: 14,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (myController.counter.value ==
+                                              (controller.productSelected.value
+                                                  .stockQuantity ??
+                                                  1)) {
+                                            showTopSnackBar(
+                                              Overlay.of(context)!,
+                                              const CustomSnackBar.info(
+                                                message: 'No more stock available',
+                                              ),
+                                              displayDuration: const Duration(
+                                                seconds: 3,
+                                              ),
+                                            );
+                                          } else {
+                                            myController.incrementCounter(controller
+                                                .productSelected
+                                                .value
+                                                .stockQuantity ??
+                                                1);
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: DarkTheme.normal)),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: DarkTheme.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      const Expanded(
+                                        flex: 4,
+                                        child: SizedBox(),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 10,
+                            color: LightTheme.whiteActive,
+                          ),
+                          Container(
+                            color: Colors.white,
+                            child: Column(children: [
+                              TabBar(
+                                onTap: (index) {
+                                  setState(() {
+                                    _selectedTabBar = index;
+                                  });
+                                },
+                                indicatorColor: Colors.black,
+                                controller: _controller,
+                                unselectedLabelColor: Colors.black,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                labelColor: Colors.black,
+                                labelStyle: kThemeData.textTheme.labelMedium
+                                    ?.copyWith(color: DarkTheme.normal),
+                                tabs: const [
+                                  Tab(
+                                    text: "Overview",
+                                  ),
+                                  Tab(
+                                    text: "Details",
+                                  ),
+                                  Tab(
+                                    text: "Reviews",
+                                  ),
+                                ],
+                              ),
+                              Builder(builder: (_) {
+                                if (_selectedTabBar == 0) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 46, vertical: 20),
+                                    child: HtmlWidget(
+                                      controller.productSelected.value
+                                          .shortDescription ??
+                                          '',
+                                      enableCaching: true,
+                                      textStyle: kThemeData.textTheme.bodyLarge,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 23,
-                                  ),
-                                  GetBuilder<ShopController>(
-                                    id: 'reviewId',
-                                    builder: (myController) =>
-                                        FutureBuilder<List<Reviews>>(
-                                      future: myController.initiateGetReviews(
-                                          myController.countingReview.value),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          if (snapshot.data != null &&
-                                              snapshot.data!.isNotEmpty) {
-                                            return ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                itemCount:
-                                                    snapshot.data?.length ?? 0,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            height: 40,
-                                                            width: 40,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: Color(
-                                                                  0xff000000),
-                                                            ),
-                                                            child: snapshot.data !=
-                                                                        null &&
-                                                                    snapshot
-                                                                        .data?[
-                                                                            index]
-                                                                        .createdBy
-                                                                        ?.profilePhoto
-                                                                        .isNotEmpty
-                                                                ? ClipRRect(
-                                                                    borderRadius:
+                                  ); //1st custom tabBarView
+                                } else if (_selectedTabBar == 1) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 46, vertical: 20),
+                                    child: HtmlWidget(
+                                      controller.productSelected.value
+                                          .longDescription ??
+                                          '',
+                                      enableCaching: true,
+                                      onTapUrl: (urlLauncher) async {
+                                        Uri url = Uri.parse(urlLauncher);
+                                        if (await canLaunchUrl(url)) {
+                                          await launchUrl(url);
+                                          return true;
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      },
+                                      textStyle: kThemeData.textTheme.bodyLarge,
+                                    ),
+                                  ); //1st/2nd tabView
+                                } else {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 46, vertical: 20),
+                                    child: Column(
+                                      children: [
+                                        TextField(
+                                          cursorColor: AppColors.mainColor,
+                                          onTap: () {
+                                            Get.to(() => const AddReview(),
+                                                arguments:
+                                                controller.productSelected.value);
+                                          },
+                                          // focusNode: searchNode,
+                                          autofocus: false,
+                                          enabled: true,
+                                          readOnly: true,
+                                          decoration: InputDecoration(
+                                            hintText: 'Add Review',
+                                            hintStyle: kThemeData.textTheme.bodyLarge
+                                                ?.copyWith(
+                                                color: const Color.fromRGBO(
+                                                  175,
+                                                  152,
+                                                  168,
+                                                  1,
+                                                )),
+                                            contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 24, vertical: 18),
+                                            suffixIcon: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, right: 23, bottom: 8),
+                                              child: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: DarkTheme.darkNormal
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                            fillColor: Colors.white,
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(33),
+                                                borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(
+                                                        175, 152, 168, 1))),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(33),
+                                                borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(
+                                                        175, 152, 168, 1))),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(33),
+                                                borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(
+                                                        175, 152, 168, 1))),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 23,
+                                        ),
+                                        GetBuilder<ShopController>(
+                                          id: 'reviewId',
+                                          builder: (myController) =>
+                                              FutureBuilder<List<Reviews>>(
+                                                future: myController.initiateGetReviews(
+                                                    myController.countingReview.value),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    if (snapshot.data != null &&
+                                                        snapshot.data!.isNotEmpty) {
+                                                      return ListView.builder(
+                                                          shrinkWrap: true,
+                                                          physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                          itemCount:
+                                                          snapshot.data?.length ?? 0,
+                                                          itemBuilder:
+                                                              (BuildContext context,
+                                                              int index) {
+                                                            return Column(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      height: 40,
+                                                                      width: 40,
+                                                                      decoration:
+                                                                      const BoxDecoration(
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        color: Color(
+                                                                            0xff000000),
+                                                                      ),
+                                                                      child: snapshot.data !=
+                                                                          null &&
+                                                                          snapshot
+                                                                              .data?[
+                                                                          index]
+                                                                              .createdBy
+                                                                              ?.profilePhoto
+                                                                              .isNotEmpty
+                                                                          ? ClipRRect(
+                                                                        borderRadius:
                                                                         BorderRadius.circular(
                                                                             100.0),
-                                                                    child:
+                                                                        child:
                                                                         CachedNetworkImage(
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      height: Get
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          height: Get
                                                                               .height *
-                                                                          0.06,
-                                                                      width: Get
+                                                                              0.06,
+                                                                          width: Get
                                                                               .height *
-                                                                          0.06,
-                                                                      imageUrl:
+                                                                              0.06,
+                                                                          imageUrl:
                                                                           '${snapshot.data?[index].createdBy?.profilePhoto['name']}',
-                                                                      placeholder: (context,
+                                                                          placeholder: (context,
                                                                               url) =>
                                                                           const Center(
                                                                               child: CircularProgressIndicator()),
-                                                                      errorWidget: (context,
+                                                                          errorWidget: (context,
                                                                               url,
                                                                               error) =>
                                                                           const Icon(
                                                                               Icons.error),
+                                                                        ),
+                                                                      )
+                                                                          : Container(),
                                                                     ),
-                                                                  )
-                                                                : Container(),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 16,
-                                                          ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
+                                                                    const SizedBox(
+                                                                      width: 16,
+                                                                    ),
+                                                                    Expanded(
+                                                                      child: Column(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                        crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                        children: [
+                                                                          Text(
+                                                                            '${snapshot.data?[index].createdBy?.fullName}',
+                                                                            style: kThemeData
+                                                                                .textTheme
+                                                                                .titleMedium
+                                                                                ?.copyWith(
+                                                                                color:
+                                                                                DarkTheme.dark),
+                                                                          ),
+                                                                          RatingBar
+                                                                              .builder(
+                                                                            initialRating:
+                                                                            double.parse(
+                                                                                '${snapshot.data?[index].grade}'),
+                                                                            ignoreGestures:
+                                                                            true,
+                                                                            itemSize: 17,
+                                                                            direction: Axis
+                                                                                .horizontal,
+                                                                            allowHalfRating:
+                                                                            true,
+                                                                            glow: false,
+                                                                            itemCount: 5,
+                                                                            itemPadding: const EdgeInsets
+                                                                                .symmetric(
+                                                                                horizontal:
+                                                                                0.0),
+                                                                            itemBuilder:
+                                                                                (context,
+                                                                                _) =>
+                                                                                GradientIcon(
+                                                                                  Icons.star,
+                                                                                  10.0,
+                                                                                  const LinearGradient(
+                                                                                    colors: <
+                                                                                        Color>[
+                                                                                      Color.fromRGBO(
+                                                                                          127,
+                                                                                          0,
+                                                                                          255,
+                                                                                          1),
+                                                                                      Color.fromRGBO(
+                                                                                          255,
+                                                                                          0,
+                                                                                          255,
+                                                                                          1)
+                                                                                    ],
+                                                                                    begin: Alignment
+                                                                                        .topLeft,
+                                                                                    end: Alignment
+                                                                                        .bottomRight,
+                                                                                  ),
+                                                                                ),
+                                                                            onRatingUpdate:
+                                                                                (rating) {},
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 11),
                                                                 Text(
-                                                                  '${snapshot.data?[index].createdBy?.fullName}',
+                                                                  '${snapshot.data?[index].review}',
                                                                   style: kThemeData
-                                                                      .textTheme
-                                                                      .titleMedium
+                                                                      .textTheme.bodyLarge
                                                                       ?.copyWith(
-                                                                          color:
-                                                                              DarkTheme.dark),
+                                                                      color: DarkTheme
+                                                                          .darkNormal),
                                                                 ),
-                                                                RatingBar
-                                                                    .builder(
-                                                                  initialRating:
-                                                                      double.parse(
-                                                                          '${snapshot.data?[index].grade}'),
-                                                                  ignoreGestures:
-                                                                      true,
-                                                                  itemSize: 17,
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  allowHalfRating:
-                                                                      true,
-                                                                  glow: false,
-                                                                  itemCount: 5,
-                                                                  itemPadding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          0.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              _) =>
-                                                                          GradientIcon(
-                                                                    Icons.star,
-                                                                    10.0,
-                                                                    const LinearGradient(
-                                                                      colors: <
-                                                                          Color>[
-                                                                        Color.fromRGBO(
-                                                                            127,
-                                                                            0,
-                                                                            255,
-                                                                            1),
-                                                                        Color.fromRGBO(
-                                                                            255,
-                                                                            0,
-                                                                            255,
-                                                                            1)
-                                                                      ],
-                                                                      begin: Alignment
-                                                                          .topLeft,
-                                                                      end: Alignment
-                                                                          .bottomRight,
-                                                                    ),
-                                                                  ),
-                                                                  onRatingUpdate:
-                                                                      (rating) {},
-                                                                ),
+                                                                const SizedBox(
+                                                                    height: 20),
                                                               ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 11),
-                                                      Text(
-                                                        '${snapshot.data?[index].review}',
-                                                        style: kThemeData
-                                                            .textTheme.bodyLarge
-                                                            ?.copyWith(
-                                                                color: DarkTheme
-                                                                    .darkNormal),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 20),
-                                                    ],
-                                                  );
-                                                });
-                                          } else {
-                                            return Container();
-                                          }
-                                        } else if (snapshot.hasError) {
-                                          return Container();
-                                        }
-                                        return Container();
-                                      },
+                                                            );
+                                                          });
+                                                    } else {
+                                                      return Container();
+                                                    }
+                                                  } else if (snapshot.hasError) {
+                                                    return Container();
+                                                  }
+                                                  return Container();
+                                                },
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ); //3rd tabView
-                          }
-                        }),
-                        const SizedBox(
-                          height: 100,
-                        )
-                      ]),
-                    )
-                  ],
-                ),
+                                  ); //3rd tabView
+                                }
+                              }),
+                              const SizedBox(
+                                height: 100,
+                              )
+                            ]),
+                          )],
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Positioned(
                 bottom: 0,
