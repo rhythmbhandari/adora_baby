@@ -143,18 +143,28 @@ class _ProductDetailsState extends State<ProductDetails>
                                 Positioned(
                                   right: 0,
                                   top: 0,
-                                  child: Container(
+                                  child: Obx(
+                                        () => Container(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 6, vertical: 2),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: AppColors.error500),
-                                    child: Obx(
-                                      () => Text(
-                                        '${_cartController.cartList.length}',
-                                        style: TextStyle(
-                                            fontSize: 8, color: Colors.white),
-                                      ),
+                                        color: _cartController.cartList.isEmpty
+                                            ? Colors.transparent
+                                            : AppColors.error500),
+                                    child: _cartController.cartList.isEmpty
+                                          ? Text(
+                                              '',
+                                              style: TextStyle(
+                                                  fontSize: 8,
+                                                  color: Colors.white),
+                                            )
+                                          : Text(
+                                              '${_cartController.cartList.length}',
+                                              style: TextStyle(
+                                                  fontSize: 8,
+                                                  color: Colors.white),
+                                            ),
                                     ),
                                   ),
                                 ),

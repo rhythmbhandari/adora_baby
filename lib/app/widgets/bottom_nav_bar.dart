@@ -78,7 +78,8 @@ class _MyHomePageState extends State<BottomNavBar>
 
   @override
   Widget build(BuildContext context) {
-    return FrostedBottomBar(
+    return Obx(
+      () => FrostedBottomBar(
         bottom: 30,
         opacity: 0.9,
         width: Get.width * 0.7,
@@ -89,15 +90,11 @@ class _MyHomePageState extends State<BottomNavBar>
         duration: const Duration(milliseconds: 10),
         hideOnScroll: false,
         body: (context, controller) => TabBarView(
-              controller: tabController,
-              dragStartBehavior: DragStartBehavior.down,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                ShopView(),
-                CartView(),
-                ProfileView(widget.scaffoldKey)
-              ],
-            ),
+          controller: tabController,
+          dragStartBehavior: DragStartBehavior.down,
+          physics: const BouncingScrollPhysics(),
+          children: [ShopView(), CartView(), ProfileView(widget.scaffoldKey)],
+        ),
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -143,32 +140,40 @@ class _MyHomePageState extends State<BottomNavBar>
                         ),
                       ],
                     )
-                  : Stack(
-                      children: [
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.error500
-                            ),
-                            child: Obx(
-                              () => Text(
-                                '${_cartController.cartList.length}',
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
+                  : _cartController.cartList.isEmpty
+                      ? Padding(
                           padding: const EdgeInsets.only(right: 3.0, top: 8),
                           child: const TabsIcon(
                             images: "assets/images/shopping-cart.svg",
                           ),
+                        )
+                      : Stack(
+                          children: [
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 2),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.error500),
+                                child: Obx(
+                                  () => Text(
+                                    '${_cartController.cartList.length}',
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 3.0, top: 8),
+                              child: const TabsIcon(
+                                images: "assets/images/shopping-cart.svg",
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
               currentPage == 2
                   ? text[2]
                   : const TabsIcon(
@@ -176,7 +181,9 @@ class _MyHomePageState extends State<BottomNavBar>
                     )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
