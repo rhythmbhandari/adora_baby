@@ -126,6 +126,8 @@ class CartLoadedWidget extends StatelessWidget {
                                     }
                                     await controller.cart();
                                     controller.priceCart.value = 0.0;
+
+                                    controller.mainCheckbox.value = false;
                                     controller.completeLoading(
                                       controller.progressBarStatusCart,
                                       controller.cartList.isNotEmpty

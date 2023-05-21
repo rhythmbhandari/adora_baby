@@ -13,6 +13,7 @@ import '../../../enums/progress_status.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
+import '../../home/controllers/home_controller.dart';
 import 'order_history.dart';
 
 class OrderWidget extends StatelessWidget {
@@ -34,7 +35,11 @@ class OrderWidget extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+
+                final HomeController homeController = Get.find();
+                homeController.isRedirected.value = 1;
+              },
               child: const Center(
                 child: Text(
                   "My Orders",
@@ -91,6 +96,8 @@ class OrderWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   // Get.to(TempView());
+                                  final HomeController homeController = Get.find();
+                                  homeController.isRedirected.value = 1;
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
