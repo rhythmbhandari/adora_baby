@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/config/constants.dart';
 import 'package:adora_baby/app/data/models/trending_images.dart';
 import '../models/stages_brands.dart';
@@ -126,6 +128,10 @@ class ShopRepository {
         'limit': limit.toString(),
       };
 
+      log('reached');
+
+      // final uri = "https://f3ec-27-34-51-137.ngrok-free.app/api/v1/search/?search=$searchKeyword";
+      //
       final uri = '$BASE_URL/$url/${Uri(queryParameters: queryParameters)}';
 
       final status = await DioHelper.getRequest(

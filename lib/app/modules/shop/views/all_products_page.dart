@@ -96,6 +96,8 @@ class AllProductsView extends HookWidget {
                                   color: DarkTheme.dark),
                               onSubmitted: (value) =>
                                   controller.onSearch(value),
+                              onChanged: (value) =>
+                                  controller.onSearch(value),
                               decoration: InputDecoration(
                                 hintText: 'Search for Items',
                                 filled: true,

@@ -1,9 +1,9 @@
-
 import 'package:adora_baby/app/modules/profile/controllers/profile_controller.dart';
 import 'package:adora_baby/app/modules/profile/views/order_history_detail.dart';
 import 'package:adora_baby/app/utils/date_time_converter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -48,35 +48,109 @@ class OrderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() {
-              switch (controller.progressStatusOrderProfile.value) {
-                case ProgressStatus.error:
-                  return SizedBox(
-                      height: Get.height * 0.3,
-                      child: const FittedBox(child: CustomErrorWidget()));
-                case ProgressStatus.internetError:
-                  return SizedBox(
-                      height: Get.height * 0.3,
-                      child: const FittedBox(child: InternetErrorWidget()));
-                case ProgressStatus.empty:
-                  return SizedBox(
-                    height: Get.height * 0.3,
-                    child: const FittedBox(child: EmptyWidget()),
-                  );
-                case ProgressStatus.idle:
-                case ProgressStatus.loading:
-                case ProgressStatus.searching:
-                case ProgressStatus.success:
-                  return controller.ordersList.isNotEmpty
-                      ? _buildFeaturedCards(controller)
-                      : Shimmer.fromColors(
-                          baseColor: Colors.white,
-                          highlightColor: LightTheme.lightActive,
-                          enabled: true,
-                          child: _buildImage(),
-                        );
-              }
-            }),
+            Column(
+              children: [
+                Obx(() {
+                  switch (controller.progressStatusOrderProfile.value) {
+                    case ProgressStatus.error:
+                      return SizedBox(
+                          height: Get.height * 0.3,
+                          child: const FittedBox(child: CustomErrorWidget()));
+                    case ProgressStatus.internetError:
+                      return SizedBox(
+                          height: Get.height * 0.3,
+                          child: const FittedBox(child: InternetErrorWidget()));
+                    case ProgressStatus.empty:
+                      return SizedBox(
+                        height: Get.height * 0.3,
+                        width: Get.width,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            vertical: Get.height * 0.02,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Text(
+                                  'You haven’t placed any orders yet.',
+                                  textAlign: TextAlign.center,
+                                  style: Get.theme.textTheme.headlineMedium
+                                      ?.copyWith(
+                                    fontSize: 16,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w400,
+                                    color: DarkTheme.darkLighter,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Get.to(TempView());
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(
+                                    'Place Order',
+                                    textAlign: TextAlign.center,
+                                    style: Get.theme.textTheme.headlineMedium
+                                        ?.copyWith(
+                                      color: AppColors.primary300,
+                                      fontSize: 16,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    case ProgressStatus.idle:
+                    case ProgressStatus.loading:
+                    case ProgressStatus.searching:
+                    case ProgressStatus.success:
+                      return controller.ordersList.isNotEmpty
+                          ? _buildFeaturedCards(controller)
+                          : Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: LightTheme.lightActive,
+                              enabled: true,
+                              child: _buildImage(),
+                            );
+                  }
+                }),
+                GestureDetector(
+                  onTap: () {
+                    controller.fetchOrders();
+                    Get.to(() => const OrderHistoryView());
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.only(top: 10, right: 24, bottom: 8),
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      'Show History',
+                      maxLines: 1,
+                      style: kThemeData.textTheme.bodyLarge
+                          ?.copyWith(color: DarkTheme.dark),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
@@ -174,7 +248,6 @@ Widget _buildFeaturedCards(ProfileController controller) {
           padding: const EdgeInsets.only(top: 10),
           margin: EdgeInsets.only(
               right: (controller.ordersList.length - 1 == i) ? 19 : 0,
-              bottom: 10,
               left: 19),
           width: controller.ordersList.length == 1
               ? Get.width * 0.9
@@ -201,8 +274,7 @@ Widget _buildFeaturedCards(ProfileController controller) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: (){
-                },
+                onTap: () {},
                 child: Container(
                   padding: const EdgeInsets.only(left: 19, top: 10),
                   child: Text(
@@ -261,7 +333,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
                                   .toLowerCase()
                                   .contains('delivered')
                               ? Container(
-                                  padding: const EdgeInsets.only(left: 19, top: 2),
+                                  padding:
+                                      const EdgeInsets.only(left: 19, top: 2),
                                   child: Text(
                                     'Delivered',
                                     maxLines: 1,
@@ -276,8 +349,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
                                       .toLowerCase()
                                       .contains('canceled')
                                   ? Container(
-                                      padding:
-                                          const EdgeInsets.only(left: 19, top: 2),
+                                      padding: const EdgeInsets.only(
+                                          left: 19, top: 2),
                                       child: Text(
                                         'Canceled',
                                         maxLines: 1,
@@ -339,7 +412,8 @@ Widget _buildFeaturedCards(ProfileController controller) {
                           ),
                         ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,7 +454,10 @@ Widget _buildFeaturedCards(ProfileController controller) {
       ));
     }
     featuredCard = Container(
-      padding: const EdgeInsets.only(top: 16, bottom: 16),
+      padding: const EdgeInsets.only(
+        top: 16,
+        // bottom: 16,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -391,22 +468,6 @@ Widget _buildFeaturedCards(ProfileController controller) {
           const SizedBox(
             height: 10,
           ),
-          GestureDetector(
-            onTap: () {
-              controller.fetchOrders();
-              Get.to(() => const OrderHistoryView());
-            },
-            child: Container(
-              padding: const EdgeInsets.only(top: 10, right: 24, bottom: 8),
-              alignment: Alignment.bottomRight,
-              child: Text(
-                'Show History',
-                maxLines: 1,
-                style: kThemeData.textTheme.bodyLarge
-                    ?.copyWith(color: DarkTheme.dark),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -415,4 +476,3 @@ Widget _buildFeaturedCards(ProfileController controller) {
   }
   return featuredCard;
 }
-
