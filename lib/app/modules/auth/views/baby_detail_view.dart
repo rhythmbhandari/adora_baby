@@ -1,7 +1,7 @@
 import 'package:adora_baby/app/config/app_theme.dart';
 import 'package:adora_baby/app/modules/auth/views/medical_condition_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' as dt;
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -134,9 +134,9 @@ class BabyDetails extends GetView<AuthController> {
                               readOnly: true,
                               style: kThemeData.textTheme.bodyLarge,
                               onTap: () {
-                                DatePicker.showDatePicker(
+                                dt.DatePicker.showDatePicker(
                                   context,
-                                  theme: DatePickerTheme(
+                                  theme: dt.DatePickerTheme(
                                     cancelStyle: Get.textTheme.bodyMedium!
                                         .copyWith(color: AppColors.error500),
                                     doneStyle: Get.textTheme.bodyMedium!

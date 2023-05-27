@@ -14,8 +14,8 @@ class DioHelper {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
+      connectTimeout: 50000,
+      receiveTimeout: 30000,
     ),
   )..interceptors.addAll([
       // PrettyDioLogger(

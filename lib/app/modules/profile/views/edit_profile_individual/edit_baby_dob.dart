@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:adora_baby/app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' as dt;
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -98,9 +98,9 @@ class EditBabyDob extends GetView<ProfileController> {
                                   cursorColor: AppColors.mainColor,
                                   style: kThemeData.textTheme.bodyLarge,
                                   onTap: () {
-                                    DatePicker.showDatePicker(
+                                    dt.DatePicker.showDatePicker(
                                       context,
-                                      theme: DatePickerTheme(
+                                      theme: dt.DatePickerTheme(
                                         cancelStyle: Get.textTheme.bodyMedium!
                                             .copyWith(
                                                 color: AppColors.error500),

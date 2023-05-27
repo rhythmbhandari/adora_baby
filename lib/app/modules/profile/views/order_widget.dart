@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../enums/progress_status.dart';
+import '../../../widgets/exit_dialog.dart';
 import '../../cart/widgets/custom_error_widget.dart';
 import '../../cart/widgets/empty_widget.dart';
 import '../../cart/widgets/internet_error_widget.dart';
@@ -35,10 +36,15 @@ class OrderWidget extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {
-
-                final HomeController homeController = Get.find();
-                homeController.isRedirected.value = 1;
+              onTap: () async {
+                // final HomeController homeController = Get.find();
+                // homeController.isRedirected.value = 1;
+                await showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return ExitDialog();
+                  },
+                );
               },
               child: const Center(
                 child: Text(
@@ -96,7 +102,8 @@ class OrderWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   // Get.to(TempView());
-                                  final HomeController homeController = Get.find();
+                                  final HomeController homeController =
+                                      Get.find();
                                   homeController.isRedirected.value = 1;
                                 },
                                 child: Container(
@@ -154,7 +161,6 @@ class OrderWidget extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(
               height: 20,
             ),

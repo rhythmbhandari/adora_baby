@@ -199,6 +199,7 @@ class OrderHistoryDetail extends GetView<ProfileController> {
                                                             error) =>
                                                         const Icon(Icons.error),
                                                   ),
+                                                  SizedBox(width: 20,),
                                                   Expanded(
                                                     child: Column(
                                                       mainAxisAlignment:

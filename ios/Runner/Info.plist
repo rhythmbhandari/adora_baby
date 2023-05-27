@@ -31,11 +31,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>To capture profile photo</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>microphone</string>
+	<string>To personalize your profile with a profile picture for a better shopping experience</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photos</string>
+	<string>To select and upload photo to personalize your profile with a profile picture</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

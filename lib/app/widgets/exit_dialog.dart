@@ -16,10 +16,11 @@ class ExitDialog extends StatelessWidget {
       ),
       // side: BorderSide(color: AppColors.linear1)),
       backgroundColor: LightTheme.lightNormalActive,
-      title: Text('Are you sure you want to quit?',
+      title: Text('Are you sure you want\nto quit?',
           textAlign: TextAlign.center,
           style: Get.theme.textTheme.titleMedium?.copyWith(
               color: DarkTheme.darkNormal,
+              fontFamily: 'Poppins',
               fontSize: 18,
               fontWeight: FontWeight.w700)),
       actionsAlignment: MainAxisAlignment.spaceBetween,
@@ -34,23 +35,24 @@ class ExitDialog extends StatelessWidget {
               width: 0.6 * Get.width,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                     colors: [
-                      AppColors.linear2,
                       AppColors.linear1,
+                      AppColors.linear1,
+                      AppColors.linear2,
                     ]),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 0.01 * Get.height, right: 0.014 * Get.height),
+                      left: 0.014 * Get.height, right: 0.014 * Get.height),
                   child: FittedBox(
                     child: Text("No, Continue Using the App",
                         maxLines: 1,
                         style: Get.theme.textTheme.labelSmall?.copyWith(
-                            color: DarkTheme.darkNormal,
+                            color: LightTheme.light,
                             fontSize: 14,
                             fontWeight: FontWeight.w400)),
                   ),
@@ -60,7 +62,7 @@ class ExitDialog extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 0.02 * Get.height,
+          height: 0.03 * Get.height,
         ),
         Center(
           child: GestureDetector(
@@ -70,9 +72,9 @@ class ExitDialog extends StatelessWidget {
             child: Text(
               "Yes, I’ll come back later",
               style: TextStyle(
-                  fontSize: 0.014*Get.height,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
+                  fontSize: 0.014 * Get.height,
+                  fontWeight: FontWeight.w400,
+                  color: DarkTheme.darkActive,
                   // decoration: TextDecoration.underline,
                   decorationColor: Colors.grey),
             ),
@@ -84,5 +86,4 @@ class ExitDialog extends StatelessWidget {
       ],
     );
   }
-
 }

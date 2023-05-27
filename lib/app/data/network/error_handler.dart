@@ -41,7 +41,7 @@ class ErrorHandler {
     try {
       final refreshToken = await storage.readRefreshToken();
       Dio dio = Dio(BaseOptions(
-          baseUrl: baseUrl, connectTimeout: 5000, receiveTimeout: 3000))
+          baseUrl: baseUrl, connectTimeout: 50000, receiveTimeout: 30000))
         ..interceptors.add(
           PrettyDioLogger(),
         );
@@ -70,7 +70,7 @@ class ErrorHandler {
 
   static Future<Response> executeWithTimeout(
       Future<Response> Function() function, String url,
-      {int seconds = 10}) async {
+      {int seconds = 60}) async {
     return await function().timeout(
       Duration(seconds: seconds),
       onTimeout: () {
