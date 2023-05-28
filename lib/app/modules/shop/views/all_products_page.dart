@@ -10,6 +10,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
 import '../../../data/models/hot_sales_model.dart';
+import '../../../data/models/stages_brands.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/gradient_icon.dart';
 import '../../cart/widgets/empty_widget.dart';
@@ -27,7 +28,7 @@ class AllProductsView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = Get.arguments['title'] ?? 'All Products';
+    final title = Get.arguments!=null? Get.arguments['title'] ?? 'All Products': 'All Products';
     final searchController = useTextEditingController();
     return WillPopScope(
       onWillPop: () async {
@@ -146,27 +147,45 @@ class AllProductsView extends HookWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
-                                  onTap: () => allStages(context),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                          "assets/images/filter-search.svg"),
-                                      const SizedBox(
-                                        width: 11,
-                                      ),
-                                      Text(
-                                        'All Stages',
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(241, 149, 157, 1),
-                                          //styleName: Button Text;
-                                          fontFamily: "Poppins",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () => allStages(context),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            "assets/images/filter-search.svg"),
+                                        const SizedBox(
+                                          width: 11,
                                         ),
-                                      ),
-                                    ],
+                                        Expanded(
+                                          child: Obx(
+                                            () => Text(
+                                              shopController.stagesList
+                                                  .firstWhere(
+                                                      (item) =>
+                                                          item.id ==
+                                                          controller
+                                                              .selectedStages
+                                                              .value,
+                                                      orElse: () => Filters(
+                                                          id: '0',
+                                                          name: 'All Stages'))
+                                                  .name,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    241, 149, 157, 1),
+                                                //styleName: Button Text;
+                                                fontFamily: "Poppins",
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 GestureDetector(
@@ -479,6 +498,7 @@ class AllProductsView extends HookWidget {
   void mostRecentPressed(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        isDismissible: true,
         builder: (context) {
           return ListView.builder(
             shrinkWrap: true,
@@ -565,7 +585,6 @@ class AllProductsView extends HookWidget {
                         ButtonsWidget(
                             name: 'Apply Filter',
                             onPressed: () {
-                              controller.onOrderSelect();
                               Navigator.pop(context);
                             })
                       ]
@@ -576,12 +595,15 @@ class AllProductsView extends HookWidget {
             },
             itemCount: AllFilters.values.length,
           );
+        }).then((value) => {
+          controller.onOrderSelect(),
         });
   }
 
   void allStages(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        isDismissible: true,
         builder: (context) {
           return ListView.builder(
             shrinkWrap: true,
@@ -669,8 +691,6 @@ class AllProductsView extends HookWidget {
                         ButtonsWidget(
                             name: 'Apply Filter',
                             onPressed: () {
-                              controller.onCategorySelect(
-                                  controller.selectedStages.value);
                               Navigator.pop(context);
                             })
                       ]
@@ -681,6 +701,8 @@ class AllProductsView extends HookWidget {
             },
             itemCount: shopController.stagesList.length,
           );
+        }).then((value) => {
+          controller.onCategorySelect(controller.selectedStages.value),
         });
   }
 }
