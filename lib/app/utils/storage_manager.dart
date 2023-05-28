@@ -1,10 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../config/constants.dart';
 
-
 class StorageManager {
-  FlutterSecureStorage flutterSecureStorage =
-  const FlutterSecureStorage(iOptions: IOSOptions.defaultOptions);
+  FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage(
+    iOptions: IOSOptions.defaultOptions,
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
 
   StorageManager() {}
 
@@ -32,6 +35,7 @@ class StorageManager {
       key: Constants.ACCESS_TOKEN,
     );
   }
+
   void saveRefreshToken(refreshToken) {
     flutterSecureStorage.write(
       key: Constants.REFRESH_TOKEN,
@@ -44,6 +48,7 @@ class StorageManager {
       key: Constants.REFRESH_TOKEN,
     );
   }
+
   void saveCartId(cartId) {
     flutterSecureStorage.write(
       key: Constants.CART_ID,
@@ -56,6 +61,7 @@ class StorageManager {
       key: Constants.CART_ID,
     );
   }
+
   void saveCityId(cityId) {
     flutterSecureStorage.write(
       key: Constants.CITY_ID,
@@ -68,6 +74,4 @@ class StorageManager {
       key: Constants.CITY_ID,
     );
   }
-
-
 }

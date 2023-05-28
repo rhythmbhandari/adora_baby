@@ -1,6 +1,7 @@
 enum AllFilters {
   high,
   low,
+  recent,
 }
 
 extension AllFiltersExtension on AllFilters {
@@ -10,6 +11,8 @@ extension AllFiltersExtension on AllFilters {
         return 'Sort by Price: High to Low';
       case AllFilters.low:
         return 'Sort by Price: Low to High';
+      case AllFilters.recent:
+        return 'Sort by Date: Recently Added';
       default:
         return 'Sort by Price: High to Low';
     }
@@ -21,6 +24,8 @@ extension AllFiltersExtension on AllFilters {
         return '-regular_price';
       case AllFilters.low:
         return 'regular_price';
+      case AllFilters.recent:
+        return 'ordering=created_at';
       default:
         return '-regular_price';
     }

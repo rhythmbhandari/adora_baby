@@ -17,9 +17,27 @@ import '../../../widgets/buttons.dart';
 import '../../../widgets/custom_progress_bar.dart';
 import '../controllers/auth_controllers.dart';
 
-class LoginView extends GetView<AuthController> {
-  LoginView({Key? key}) : super(key: key);
 
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  late AuthController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      controller = Get.find<AuthController>();
+    } catch (e) {
+      controller =
+          Get.put<AuthController>(AuthController());
+    }
+  }
   final FocusNode loginPhoneNode = FocusNode();
   final FocusNode loginPasswordNode = FocusNode();
 
