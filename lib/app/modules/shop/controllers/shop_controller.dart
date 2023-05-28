@@ -1,4 +1,3 @@
-
 import 'package:adora_baby/app/data/repositories/data_repository.dart';
 import 'package:adora_baby/app/data/repositories/shop_respository.dart';
 import 'package:flutter/material.dart';
@@ -64,10 +63,8 @@ class ShopController extends GetxController {
   final selectedStages = 10.obs;
   final selectedFilter = 0.obs;
 
-  final filtersList = [
-    ' Sort by Price: High to Low',
-    'Sort by Price: Low to High'
-  ].obs;
+  final filtersList =
+      [' Sort by Price: High to Low', 'Sort by Price: Low to High'].obs;
 
   final productDetailProgress = ProgressStatus.idle.obs;
 
@@ -114,14 +111,15 @@ class ShopController extends GetxController {
     await Future.wait(
       [
         getTrendingImages(),
-        getHotSales(true, ),
+        getHotSales(
+          true,
+        ),
         getAllProducts(true),
         getStages(),
         getTips(true, true),
       ],
     );
   }
-
 
   Future<void> getTrendingImages() async {
     try {
@@ -134,7 +132,7 @@ class ShopController extends GetxController {
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
-      Future.delayed(const Duration(seconds:0)).then(
+      Future.delayed(const Duration(seconds: 0)).then(
         (value) => hideProgressBar(),
       );
     }
@@ -187,7 +185,7 @@ class ShopController extends GetxController {
   Future<List<Reviews>> initiateGetReviews(int val) async {
     try {
       final response =
-      await DataRepository.fetchReviews(productSelected.value.id ?? '');
+          await DataRepository.fetchReviews(productSelected.value.id ?? '');
 
       if (response.isNotEmpty) {
         return response;
@@ -199,7 +197,9 @@ class ShopController extends GetxController {
     }
   }
 
-  Future<void> getNotifications(bool isRefresh,) async {
+  Future<void> getNotifications(
+    bool isRefresh,
+  ) async {
     try {
       showProgressBar();
 
@@ -207,22 +207,28 @@ class ShopController extends GetxController {
 
       await ShopRepository.fetchNotifications(keyword)
           .then((value) => {
-        if (isRefresh)
-          {
-            if (value.isEmpty)
-              {notificationsList.value = [].obs, notificationsIndex.value = 2}
-            else
-              {notificationsList.value = value, notificationsIndex.value = 2}
-          }
-        else
-          {notificationsList.addAll(value), notificationsIndex.value++}
-      })
+                if (isRefresh)
+                  {
+                    if (value.isEmpty)
+                      {
+                        notificationsList.value = [].obs,
+                        notificationsIndex.value = 2
+                      }
+                    else
+                      {
+                        notificationsList.value = value,
+                        notificationsIndex.value = 2
+                      }
+                  }
+                else
+                  {notificationsList.addAll(value), notificationsIndex.value++}
+              })
           .then((value) => hideProgressBar());
     } catch (error) {
       authError.value = error.toString();
       showErrorBar();
       Future.delayed(const Duration(seconds: 0)).then(
-            (value) => hideProgressBar(),
+        (value) => hideProgressBar(),
       );
     }
   }
@@ -232,7 +238,7 @@ class ShopController extends GetxController {
       final hotSale = await ShopRepository.fetchIndividualProduct(id);
       productSelected.value = hotSale;
       return true;
-    }catch (e){
+    } catch (e) {
       return false;
     }
   }
@@ -330,7 +336,9 @@ class ShopController extends GetxController {
         return false;
       }
       final status = await CartRepository.postReview(
-          ratingsReview.value.toStringAsPrecision(1), reviewController.text.trim(), productId);
+          ratingsReview.value.toStringAsPrecision(1),
+          reviewController.text.trim(),
+          productId);
 
       if (status) {
         return true;

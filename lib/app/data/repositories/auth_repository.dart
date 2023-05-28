@@ -287,7 +287,6 @@ class AuthRepository {
         true,
         await SecureStorage.returnHeader(),
       );
-      log('Decoded response is ${decodedResponse}');
       if (decodedResponse is Map<String, dynamic>) {
         storage.saveAccessToken(decodedResponse["token"]["access"]);
         storage.saveRefreshToken(decodedResponse["token"]["refresh"]);

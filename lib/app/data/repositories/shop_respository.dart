@@ -128,8 +128,6 @@ class ShopRepository {
         'limit': limit.toString(),
       };
 
-      log('reached');
-
       // final uri = "https://f3ec-27-34-51-137.ngrok-free.app/api/v1/search/?search=$searchKeyword";
       //
       final uri = '$BASE_URL/$url/${Uri(queryParameters: queryParameters)}';
@@ -197,6 +195,10 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<Filters> stages =
           (status['data'] as List).map((i) => Filters.fromJson(i)).toList();
+      stages.insert(
+        0,
+        Filters(id: '9-9..', name: 'All Stages'),
+      );
       return stages;
     }
 

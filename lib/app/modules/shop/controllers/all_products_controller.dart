@@ -12,7 +12,7 @@ class AllProductsController extends GetxController {
   AllProductsController({this.url = 'shop/hot_sale'});
 
   final searchText = ''.obs;
-  final selectedStages = ''.obs;
+  final selectedStages = '9-9..'.obs;
   final selectedFilter = Rx<AllFilters>(AllFilters.high);
 
   final pagingController = PagingController<int, HotSales>(
@@ -33,7 +33,7 @@ class AllProductsController extends GetxController {
         startIndex: pageKey,
         limit: 10,
         searchKeyword: searchText.value,
-        categories: selectedStages.value,
+        categories: selectedStages.value == '9-9..' ? '': selectedStages.value,
         ordering: selectedFilter.value.filterSend,
         url: url,
       );

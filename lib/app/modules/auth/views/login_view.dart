@@ -15,8 +15,8 @@ import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
 import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../../widgets/custom_progress_bar.dart';
+import '../../../widgets/exit_dialog.dart';
 import '../controllers/auth_controllers.dart';
-
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -34,10 +34,10 @@ class _LoginViewState extends State<LoginView> {
     try {
       controller = Get.find<AuthController>();
     } catch (e) {
-      controller =
-          Get.put<AuthController>(AuthController());
+      controller = Get.put<AuthController>(AuthController());
     }
   }
+
   final FocusNode loginPhoneNode = FocusNode();
   final FocusNode loginPasswordNode = FocusNode();
 
@@ -219,7 +219,7 @@ class _LoginViewState extends State<LoginView> {
                                     Overlay.of(context)!,
                                     CustomSnackBar.error(
                                       message:
-                                      controller.authError.toUpperCase(),
+                                          controller.authError.toUpperCase(),
                                     ),
                                     displayDuration: const Duration(
                                       seconds: 3,
@@ -277,10 +277,20 @@ class _LoginViewState extends State<LoginView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Don't have an account yet? ",
-                          style: Get.textTheme.bodyMedium?.copyWith(
-                              color: const Color.fromRGBO(78, 26, 61, 1)),
+                        GestureDetector(
+                          onTap: () async {
+                            await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return ExitDialog();
+                              },
+                            );
+                          },
+                          child: Text(
+                            "Don't have an account yet? ",
+                            style: Get.textTheme.bodyMedium?.copyWith(
+                                color: const Color.fromRGBO(78, 26, 61, 1)),
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
