@@ -1,8 +1,10 @@
 
 import 'package:adora_baby/app/utils/date_time_converter.dart';
+import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:timelines/timelines.dart';
 
 import '../../../config/app_colors.dart';
@@ -365,8 +367,8 @@ class TrackingView extends GetView<ProfileController> {
                         child: const FittedBox(child: InternetErrorWidget()));
                   }
                   return SizedBox(
-                      height: Get.height * 0.6,
-                      child: const FittedBox(child: InternetErrorWidget()));
+                      height: Get.height * 0.3,
+                      child: FittedBox(child: Lottie.asset('assets/animations/loader.json')));
                 },
               )),
         ],

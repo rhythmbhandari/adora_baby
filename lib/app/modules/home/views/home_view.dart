@@ -325,28 +325,67 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      Uri url = Uri.parse(
-                          'https://adora.baby/privacy-policy/');
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
-                    child: Text(
-                      'Terms of Service',
-                      textAlign: TextAlign.center,
-                      style: kThemeData.textTheme.bodyMedium?.copyWith(
-                        color: DarkTheme.normal,
-                        fontSize: 16,
-                        // fontSize: 18,
-                      ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              Uri url = Uri.parse(
+                                  'https://adora.baby/privacy-policy/');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: FittedBox(
+                              child: Text(
+                                'Terms of Service',
+                                textAlign: TextAlign.center,
+                                style:
+                                    kThemeData.textTheme.bodyMedium?.copyWith(
+                                  color: DarkTheme.normal,
+                                  fontSize: 14,
+                                  // fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(3),
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: DarkTheme.darkActive,
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              Get.toNamed(Routes.DELETEACCOUNT);
+                            },
+                            child: FittedBox(
+                              child: Text(
+                                'Delete my Account',
+                                textAlign: TextAlign.center,
+                                style:
+                                    kThemeData.textTheme.bodyMedium?.copyWith(
+                                  color: DarkTheme.normal,
+                                  fontSize: 14,
+                                  // fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: Get.height * 0.03,
                   ),
                 ],
               ),

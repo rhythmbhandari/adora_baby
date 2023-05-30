@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/checkout_view.dart';
+import '../modules/delete_account/bindings/delete_account_binding.dart';
+import '../modules/delete_account/views/delete_reason_view.dart';
 import '../modules/shop/bindings/shop_binding.dart';
 import '../modules/shop/views/product_details.dart';
 import '../modules/shop/views/shop_view.dart';
@@ -94,8 +96,15 @@ class AppPages {
         transition: Transition.rightToLeftWithFade //
         ),
     GetPage(
-        name: _Paths.ALLPRODUCTS,
-        page: () => AllProductsView(),
-        transition: Transition.rightToLeftWithFade,),
+      name: _Paths.ALLPRODUCTS,
+      page: () => AllProductsView(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: _Paths.DELETEACCOUNT,
+      page: () => DeleteReasonView(),
+      binding: DeleteAccountBinding(),
+      transition: Transition.rightToLeftWithFade,
+    ),
   ];
 }

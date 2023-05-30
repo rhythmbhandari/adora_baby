@@ -62,6 +62,38 @@ class AuthRepository {
     }
   }
 
+  static Future<bool> deleteAccount(
+      {required String reason,
+      required String password,
+      required String confirmPassword}) async {
+    const url = '$BASE_URL/accounts/delete/';
+    final body = {
+      "reason": reason,
+      "password": password,
+      "confirm_password": confirmPassword,
+    };
+
+    try {
+      final response = await DioHelper.postRequest(
+        url,
+        body,
+        false,
+        await SecureStorage.returnHeaderWithToken(),
+      );
+
+      if (response) {
+        return true;
+      } else {
+        return false;
+      }
+    } on SocketException {
+      return Future.error(
+          'Please check your internet connection and try again.');
+    } catch (e) {
+      return Future.error('$e');
+    }
+  }
+
   static Future<bool> registerUserName(
       String fullName, String username, String password) async {
     const url = '$BASE_URL/accounts/signup/';
