@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/route_manager.dart';
@@ -15,7 +16,8 @@ class ErrorHandler {
         await refreshToken();
       }
     }
-    if (e.response?.data != null) {
+    if (e.response?.data != null && e.response?.data.toString() != '') {
+      log('${e.response?.data}');
       if (e.response!.data[0] is String) {
         return Future.error('${e.response!.data[0]}');
       } else if (e.response!.data.entries.toString().contains('{')) {

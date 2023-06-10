@@ -216,6 +216,7 @@ class DeleteConfirmView extends GetView<DeleteAccountController> {
                               seconds: 3,
                             ),
                           );
+                          controller.hideProgressBar();
                         } else {
                           await storage.delete(
                             Constants.ACCESS_TOKEN,

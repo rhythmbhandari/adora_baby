@@ -66,15 +66,14 @@ class AuthRepository {
       {required String reason,
       required String password,
       required String confirmPassword}) async {
-    const url = '$BASE_URL/accounts/delete/';
+    const url = '$BASE_URL/accounts/uid';
     final body = {
-      "reason": reason,
+      "message": reason,
       "password": password,
-      "confirm_password": confirmPassword,
     };
 
     try {
-      final response = await DioHelper.postRequest(
+      final response = await DioHelper.deleteRequest(
         url,
         body,
         false,

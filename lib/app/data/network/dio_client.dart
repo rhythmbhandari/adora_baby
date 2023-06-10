@@ -146,6 +146,49 @@ class DioHelper {
     }
   }
 
+  static Future<dynamic> deleteRequest(
+      String urlInput,
+      dynamic decodedBody,
+      bool returnResponse,
+      Map<String, String> headers, {
+        bool isLogout = false,
+      }) async {
+    try {
+      final url = urlInput;
+
+      Options options = Options(
+        headers: headers,
+        responseType: ResponseType.json,
+      );
+
+      final response = await ErrorHandler.executeWithTimeout(
+            () => _dio.delete(
+          url,
+          data: decodedBody,
+          options: options,
+        ),
+        url,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (returnResponse) {
+          return response.data;
+        }
+        return true;
+      } else {
+        return Future.error(response.data);
+      }
+    } on SocketException {
+      return ErrorHandler.handleSocketException();
+    } on TimeoutException {
+      return ErrorHandler.handleTimeoutException();
+    } on DioError catch (e) {
+      return ErrorHandler.handleDioError(e);
+    } catch (e) {
+      return Future.error('Exception is $e');
+    }
+  }
+
   static Future<dynamic> patchRequest(String urlInput, dynamic decodedBody,
       bool returnResponse, Map<String, String> headers) async {
     try {
