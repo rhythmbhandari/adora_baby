@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:adora_baby/app/config/constants.dart';
+import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../../main.dart';
@@ -66,7 +67,7 @@ class AuthRepository {
       {required String reason,
       required String password,
       required String confirmPassword}) async {
-    const url = '$BASE_URL/accounts/uid';
+    final url = '$BASE_URL/accounts/${SessionManager.instance.user?.id}/';
     final body = {
       "message": reason,
       "password": password,

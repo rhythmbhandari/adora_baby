@@ -227,6 +227,16 @@ class DeleteConfirmView extends GetView<DeleteAccountController> {
                           await storage.delete(
                             Constants.REFRESH_TOKEN,
                           );
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.warning(
+                              message:
+                                  "Your account is scheduled for deactivation, but don't worry! You have a grace period of 10 days to login and keep your account active. ",
+                            ),
+                            displayDuration: const Duration(
+                              seconds: 3,
+                            ),
+                          );
                           Get.offAllNamed(Routes.LOGIN);
                         }
                       }),
