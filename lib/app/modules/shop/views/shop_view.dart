@@ -365,8 +365,8 @@ Widget shimmerHomePage() {
                         Container(
                           margin: const EdgeInsets.only(top: 12, bottom: 8),
                           child: Center(
-                            child: Image.network(
-                              "snapshot.data![0][index].productImages[0].name",
+                            child: CachedNetworkImage(
+                              imageUrl: "snapshot.data![0][index].productImages[0].name",
                               height: Get.height * 0.16,
                             ),
                           ),

@@ -1,5 +1,6 @@
 
 import 'package:adora_baby/app/widgets/custom_progress_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -235,8 +236,8 @@ class NotificationsView extends GetView<ShopController> {
                                                         margin: EdgeInsets.only(
                                                             top: 12, bottom: 8),
                                                         child: Center(
-                                                          child: Image.network(
-                                                            controller
+                                                          child: CachedNetworkImage(
+                                                            imageUrl: controller
                                                                     .hotSalesFiltered[
                                                                         index]
                                                                     .productImages

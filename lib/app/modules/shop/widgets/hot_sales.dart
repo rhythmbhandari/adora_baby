@@ -1,4 +1,5 @@
 import 'package:adora_baby/app/routes/app_pages.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -161,8 +162,8 @@ class ProductCards extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 12, bottom: 8),
                   child: Center(
-                    child: Image.network(
-                      controller.hotSales[index].productImages.isEmpty
+                    child: CachedNetworkImage(
+                      imageUrl: controller.hotSales[index].productImages.isEmpty
                           ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                           : '${controller.hotSales[index].productImages?.firstWhere(
                                 (image) =>

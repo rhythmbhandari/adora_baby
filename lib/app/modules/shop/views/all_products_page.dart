@@ -1,6 +1,7 @@
 import 'package:adora_baby/app/modules/shop/controllers/all_products_controller.dart';
 import 'package:adora_baby/app/modules/shop/enums/all_filters_enum.dart';
 import 'package:adora_baby/app/widgets/buttons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -278,8 +279,8 @@ class AllProductsView extends HookWidget {
                                                 margin: const EdgeInsets.only(
                                                     top: 12, bottom: 8),
                                                 child: Center(
-                                                  child: Image.network(
-                                                    product.productImages
+                                                  child: CachedNetworkImage(
+                                                   imageUrl:  product.productImages
                                                             ?.firstWhere(
                                                               (image) =>
                                                                   image?.isFeaturedImage !=

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../config/app_colors.dart';
@@ -104,8 +105,8 @@ class CartCardWidget extends StatelessWidget {
                     ),
                     // height: Get.height * 0.18,
                     width: Get.width * 0.35,
-                    child: Image.network(
-                      (controller
+                    child: CachedNetworkImage(
+                      imageUrl: (controller
                               .cartList[index].product?.productImages?.isEmpty
                           ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                           : '${controller.cartList[index].product.productImages?.firstWhere(

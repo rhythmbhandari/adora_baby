@@ -1,5 +1,5 @@
-
 import 'package:adora_baby/app/routes/app_pages.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -32,8 +32,7 @@ class AllProducts extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: const Center(
                 child: Text(
                   "All Products",
@@ -87,12 +86,15 @@ class AllProducts extends StatelessWidget {
                                   Stack(
                                     children: [
                                       Container(
-                                        margin:
-                                            const EdgeInsets.only(top: 12, bottom: 8),
+                                        margin: const EdgeInsets.only(
+                                            top: 12, bottom: 8),
                                         child: Center(
-                                          child: Image.network(
-                                            controller.allProducts[index]
-                                                    .productImages.isEmpty
+                                          child: CachedNetworkImage(
+                                            height: Get.height * 0.16,
+                                            imageUrl: controller
+                                                    .allProducts[index]
+                                                    .productImages
+                                                    .isEmpty
                                                 ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
                                                 : '${controller.allProducts[index].productImages?.firstWhere(
                                                       (image) =>
@@ -104,7 +106,6 @@ class AllProducts extends StatelessWidget {
                                                           name:
                                                               'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
                                                     ).name ?? ''}',
-                                            height: Get.height * 0.16,
                                           ),
                                         ),
                                       ),
@@ -117,8 +118,9 @@ class AllProducts extends StatelessWidget {
                                                   bottom: 2,
                                                   left: 6,
                                                   right: 6),
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 8),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -201,8 +203,9 @@ class AllProducts extends StatelessWidget {
                                           allowHalfRating: true,
                                           glow: false,
                                           itemCount: 5,
-                                          itemPadding: const EdgeInsets.symmetric(
-                                              horizontal: 0.0),
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
                                           itemBuilder: (context, _) =>
                                               GradientIcon(
                                             Icons.star,
@@ -216,8 +219,7 @@ class AllProducts extends StatelessWidget {
                                               end: Alignment.bottomRight,
                                             ),
                                           ),
-                                          onRatingUpdate: (rating) {
-                                          },
+                                          onRatingUpdate: (rating) {},
                                         ),
                                         const SizedBox(
                                           height: 8,
