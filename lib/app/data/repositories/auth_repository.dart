@@ -34,8 +34,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> resetPassword(String phoneNumber) async {
@@ -59,8 +59,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> deleteAccount(
@@ -90,8 +90,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> registerUserName(
@@ -115,8 +115,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> updateMedicalCondition(
@@ -140,8 +140,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> updatePhoto(File image, String pictureOf) async {
@@ -175,9 +175,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> registerBabyName(String fullName, String username,
@@ -200,8 +199,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> reset(String password) async {
@@ -227,8 +226,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> changePassword(
@@ -252,8 +251,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> verifyOtp(String phoneNumber, String code) async {
@@ -278,8 +277,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> verifyReset(String phoneNumber, String code) async {
@@ -304,8 +303,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> initiateLogin(String phoneNumber, String password) async {
@@ -327,7 +326,7 @@ class AuthRepository {
         }
         return true;
       } else {
-        if (decodedResponse.body.toString().contains('null')) {
+        if (decodedResponse.body.toString().contains('null') ) {
           return Future.error('Server Error');
         }
         return Future.error(
@@ -337,8 +336,8 @@ class AuthRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<List> fetchMedicalCategories() async {

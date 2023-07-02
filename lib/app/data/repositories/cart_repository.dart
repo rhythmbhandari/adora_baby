@@ -27,8 +27,8 @@ class CartRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error("$e");
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> updateCart(String id, int quantity) async {
@@ -46,9 +46,8 @@ class CartRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> postReview(
@@ -71,8 +70,8 @@ class CartRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> deleteCart(List ofId) async {
@@ -92,9 +91,8 @@ class CartRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<List<CartModel>> getCart() async {

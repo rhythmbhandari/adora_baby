@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/modules/cart/views/order_confirmation.dart';
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_theme.dart';
+import '../../../config/constants.dart';
 import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
 import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
@@ -95,24 +102,29 @@ class CheckOutView extends GetView<CartController> {
                         ),
                         child: Row(
                           children: [
-                            Container(
-                              height: 25,
-                              width: 25,
-                              padding: EdgeInsets.zero,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: DarkTheme.darkNormal, width: 1),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: Transform.scale(
-                                scale: 0.7,
-                                child: Checkbox(
-                                  autofocus: true,
-                                  checkColor: DarkTheme.darkNormal,
-                                  activeColor: Colors.white,
-                                  value:
-                                  myController.cashOnDeliveryCheckBox.value,
-                                  onChanged: (bool? val) {},
-                                  // onChanged: (value) => onChanged,
+                            Obx(
+                              () => Container(
+                                height: 25,
+                                width: 25,
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: DarkTheme.darkNormal, width: 1),
+                                    borderRadius: BorderRadius.circular(7)),
+                                child: Transform.scale(
+                                  scale: 0.7,
+                                  child: Checkbox(
+                                    checkColor: DarkTheme.darkNormal,
+                                    activeColor: Colors.white,
+                                    side: BorderSide.none,
+                                    value: myController
+                                        .cashOnDeliveryCheckBox.value,
+                                    onChanged: (bool? val) {
+                                      myController.cashOnDeliveryCheckBox
+                                          .value = val ?? false;
+                                    },
+                                    // onChanged: (value) => onChanged,
+                                  ),
                                 ),
                               ),
                             ),
@@ -152,8 +164,103 @@ class CheckOutView extends GetView<CartController> {
                           horizontal: 23,
                           vertical: 24,
                         ),
-                        margin:
-                            const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                        margin: const EdgeInsets.only(
+                            left: 32, right: 32, bottom: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border:
+                              Border.all(color: Colors.black.withOpacity(0.05)),
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.1),
+                              blurRadius: 0.2,
+                              spreadRadius: 1,
+                              offset: Offset(0, 2), // Shadow position
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 25,
+                              width: 25,
+                              padding: EdgeInsets.zero,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: DarkTheme.darkNormal, width: 1),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Transform.scale(
+                                scale: 0.7,
+                                child: Obx(
+                                  () => Checkbox(
+                                    checkColor: DarkTheme.darkNormal,
+                                    activeColor: Colors.white,
+                                    side: BorderSide.none,
+
+                                    value: !myController
+                                        .cashOnDeliveryCheckBox.value,
+                                    onChanged: (bool? val) {
+                                      myController.cashOnDeliveryCheckBox
+                                          .value = !(val ?? false);
+                                    },
+                                    // onChanged: (value) => onChanged,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 33,
+                            ),
+                            SvgPicture.asset(
+                              "assets/images/wallet-money.svg",
+                              // height: 22,
+                              // color: Color(0xff667080)
+                            ),
+                            const SizedBox(
+                              width: 33,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'E-sewa',
+                                    style: kThemeData.textTheme.titleMedium
+                                        ?.copyWith(color: DarkTheme.darkNormal),
+                                  ),
+                                  Text(
+                                    'Pay online',
+                                    style: kThemeData.textTheme.bodyMedium
+                                        ?.copyWith(color: DarkTheme.darkNormal),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 32, vertical: Get.height * 0.005),
+                      child: Text(
+                        'Discount Options',
+                        maxLines: 1,
+                        style: kThemeData.textTheme.titleMedium?.copyWith(
+                          color: DarkTheme.darkNormal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: Get.height * 0.008,
+                    ),
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 23,
+                          vertical: 24,
+                        ),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           border:
@@ -216,7 +323,8 @@ class CheckOutView extends GetView<CartController> {
                                               .progressBarStatusCheckout,
                                           status);
                                       // }
-                                      myController.update(['useDiamond','priceTotal']);
+                                      myController
+                                          .update(['useDiamond', 'priceTotal']);
                                     },
                                     // onChanged: (value) => onChanged,
                                   ),
@@ -303,14 +411,15 @@ class CheckOutView extends GetView<CartController> {
                                         myController.checkoutModel.value.id,
                                         myController.useDiamondCheckBox.value,
                                         myController.couponController.text
-                                            .trim().toUpperCase());
+                                            .trim()
+                                            .toUpperCase());
                                 if (status) {
                                   myController.update(['priceTotal']);
                                   showTopSnackBar(
                                     Overlay.of(context)!,
                                     CustomSnackBar.success(
                                       message:
-                                      'Coupon code applied successfully',
+                                          'Coupon code applied successfully',
                                     ),
                                     displayDuration: const Duration(
                                       seconds: 3,
@@ -321,7 +430,7 @@ class CheckOutView extends GetView<CartController> {
                                     Overlay.of(context)!,
                                     CustomSnackBar.error(
                                       message:
-                                      '${controller.authError.toUpperCase()}',
+                                          controller.authError.toUpperCase(),
                                     ),
                                     displayDuration: const Duration(
                                       seconds: 3,
@@ -398,8 +507,8 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 56, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 56, vertical: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -417,7 +526,8 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                      padding:
+                          const EdgeInsets.only(left: 56, right: 56, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -435,7 +545,8 @@ class CheckOutView extends GetView<CartController> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 56, right: 56, bottom: 5),
+                      padding:
+                          const EdgeInsets.only(left: 56, right: 56, bottom: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -485,43 +596,104 @@ class CheckOutView extends GetView<CartController> {
                             try {
                               myController.showLoading(
                                   myController.progressBarStatusCheckout);
-                              final status =
-                                  await myController.requestToPlaceOrder();
-                              if (!status) {
-                                myController.completeLoading(
-                                    myController.progressBarStatusCheckout,
-                                    false);
-                                showTopSnackBar(
-                                  Overlay.of(context)!,
-                                  CustomSnackBar.error(
-                                    message:
-                                    '${controller.authError.toUpperCase()}',
-                                  ),
-                                  displayDuration: const Duration(
-                                    seconds: 3,
-                                  ),
-                                );
+                              if (controller.cashOnDeliveryCheckBox.value) {
+                                final status =
+                                    await myController.requestToPlaceOrder();
+                                if (!status) {
+                                  myController.completeLoading(
+                                      myController.progressBarStatusCheckout,
+                                      false);
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.error(
+                                      message:
+                                          controller.authError.toUpperCase(),
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
+                                  );
+                                } else {
+                                  myController.completeLoading(
+                                      myController.progressBarStatusCheckout,
+                                      false);
+                                  showTopSnackBar(
+                                    Overlay.of(context)!,
+                                    CustomSnackBar.success(
+                                      message: 'Successfully placed order!',
+                                    ),
+                                    displayDuration: const Duration(
+                                      seconds: 3,
+                                    ),
+                                  );
+                                  myController.cart();
+                                  myController.priceCart.value = 0.0;
+                                  Get.to(() => const OrderConfirmation());
+                                }
                               } else {
-                                myController.completeLoading(
-                                    myController.progressBarStatusCheckout,
-                                    false);
-                                showTopSnackBar(
-                                  Overlay.of(context)!,
-                                  CustomSnackBar.success(
-                                    message:
-                                    'Successfully placed order!',
-                                  ),
-                                  displayDuration: const Duration(
-                                    seconds: 3,
-                                  ),
-                                );
-                                myController.cart();
-                                myController.priceCart.value = 0.0;
-                                Get.to(() => const OrderConfirmation());
+                                const CLIENT_ID =
+                                    'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R';
+                                const SECRET_KEY =
+                                    'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==';
+                                try {
+                                  EsewaFlutterSdk.initPayment(
+                                    esewaConfig: EsewaConfig(
+                                      environment: Environment.test,
+                                      clientId: CLIENT_ID,
+                                      secretId: SECRET_KEY,
+                                    ),
+                                    esewaPayment: EsewaPayment(
+                                      productId: "${controller.cartList[0].id}",
+                                      productName: "${controller.cartList[0].product.name}",
+                                      productPrice: "${controller.cartList[0].product.priceItem}",
+                                      callbackUrl: '$BASE_URL/Orders/verify-payment/'
+                                    ),
+                                    onPaymentSuccess: (EsewaPaymentSuccessResult data) {
+                                      debugPrint(":::SUCCESS::: => $data");
+                                      // myController.completeLoading(
+                                      //     myController.progressBarStatusCheckout,
+                                      //     false);
+                                      // showTopSnackBar(
+                                      //   Overlay.of(context)!,
+                                      //   CustomSnackBar.success(
+                                      //     message: 'Successfully placed order!',
+                                      //   ),
+                                      //   displayDuration: const Duration(
+                                      //     seconds: 3,
+                                      //   ),
+                                      // );
+                                      // myController.cart();
+                                      // myController.priceCart.value = 0.0;
+                                      // Get.to(() => const OrderConfirmation());
+                                    },
+                                    onPaymentFailure: (data) {
+                                      debugPrint(":::FAILURE::: => $data");
+                                      myController.completeLoading(
+                                          myController.progressBarStatusCheckout,
+                                          false);
+                                      showTopSnackBar(
+                                        Overlay.of(context)!,
+                                        CustomSnackBar.error(
+                                          message:
+                                          data.toString(),
+                                        ),
+                                        displayDuration: const Duration(
+                                          seconds: 3,
+                                        ),
+                                      );
+                                    },
+                                    onPaymentCancellation: (data) {
+                                      debugPrint(":::CANCELLATION::: => $data");
+                                    },
+                                  );
+                                } on Exception catch (e) {
+                                  debugPrint("EXCEPTION : ${e.toString()}");
+                                }
                               }
                             } catch (e) {
                               myController.completeLoading(
-                                  myController.progressBarStatusCheckout, false);
+                                  myController.progressBarStatusCheckout,
+                                  false);
                             }
                           }),
                     )

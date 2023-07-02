@@ -43,8 +43,8 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(e.toString());
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<List<AddressModel>> getAllCities() async {
@@ -82,8 +82,8 @@ class CheckOutRepository {
       }
       return [];
     } catch (e) {
-      return [];
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   //add address
@@ -109,8 +109,8 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(e);
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> updateAddress(
@@ -139,8 +139,8 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(e);
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<bool> deleteAddress(String id) async {
@@ -160,9 +160,8 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error(
-          'Please check your internet connection and try again.');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
 
@@ -185,8 +184,8 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
 
@@ -211,7 +210,7 @@ class CheckOutRepository {
       return Future.error(
           'Please check your internet connection and try again.');
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 }

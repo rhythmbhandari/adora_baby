@@ -146,8 +146,8 @@ class ShopRepository {
         return Future.error('$status');
       }
     } catch (e) {
-      return Future.error('$e');
-    }
+
+      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
   }
 
   static Future<List<Tips>> fetchTips(String keyword) async {
