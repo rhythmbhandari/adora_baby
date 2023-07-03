@@ -631,16 +631,14 @@ class CheckOutView extends GetView<CartController> {
                                   Get.to(() => const OrderConfirmation());
                                 }
                               } else {
-                                const CLIENT_ID =
-                                    'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R';
-                                const SECRET_KEY =
-                                    'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==';
+                                const CLIENT_ID = ' JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R';
+                                const SECRET_KEY = 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==';
                                 try {
                                   EsewaFlutterSdk.initPayment(
                                     esewaConfig: EsewaConfig(
-                                      environment: Environment.test,
-                                      clientId: CLIENT_ID,
-                                      secretId: SECRET_KEY,
+                                      environment: Environment.live,
+                                      clientId: 'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R',
+                                      secretId: 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==',
                                     ),
                                     esewaPayment: EsewaPayment(
                                       productId: "${controller.cartList[0].id}",
@@ -684,6 +682,9 @@ class CheckOutView extends GetView<CartController> {
                                     },
                                     onPaymentCancellation: (data) {
                                       debugPrint(":::CANCELLATION::: => $data");
+                                      myController.completeLoading(
+                                          myController.progressBarStatusCheckout,
+                                          false);
                                     },
                                   );
                                 } on Exception catch (e) {
