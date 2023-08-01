@@ -3,10 +3,6 @@ import 'dart:developer';
 import 'package:adora_baby/app/data/repositories/session_manager.dart';
 import 'package:adora_baby/app/modules/cart/controllers/cart_controller.dart';
 import 'package:adora_baby/app/modules/cart/views/order_confirmation.dart';
-import 'package:esewa_flutter_sdk/esewa_config.dart';
-import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
-import 'package:esewa_flutter_sdk/esewa_payment.dart';
-import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +14,7 @@ import '../../../widgets/awesome_snackbar/custom_snack_bar.dart';
 import '../../../widgets/awesome_snackbar/top_snack_bar.dart';
 import '../../../widgets/buttons.dart';
 import '../../shop/widgets/auth_progress_indicator.dart';
+import 'esewa_view.dart';
 
 class CheckOutView extends GetView<CartController> {
   const CheckOutView({Key? key}) : super(key: key);
@@ -631,65 +628,15 @@ class CheckOutView extends GetView<CartController> {
                                   Get.to(() => const OrderConfirmation());
                                 }
                               } else {
-                                const CLIENT_ID = ' JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R';
-                                const SECRET_KEY = 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==';
-                                try {
-                                  EsewaFlutterSdk.initPayment(
-                                    esewaConfig: EsewaConfig(
-                                      environment: Environment.live,
-                                      clientId: 'JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R',
-                                      secretId: 'BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==',
-                                    ),
-                                    esewaPayment: EsewaPayment(
-                                      productId: "${controller.cartList[0].id}",
-                                      productName: "${controller.cartList[0].product.name}",
-                                      productPrice: "${controller.cartList[0].product.priceItem}",
-                                      callbackUrl: '$BASE_URL/Orders/verify-payment/'
-                                    ),
-                                    onPaymentSuccess: (EsewaPaymentSuccessResult data) {
-                                      debugPrint(":::SUCCESS::: => $data");
-                                      // myController.completeLoading(
-                                      //     myController.progressBarStatusCheckout,
-                                      //     false);
-                                      // showTopSnackBar(
-                                      //   Overlay.of(context)!,
-                                      //   CustomSnackBar.success(
-                                      //     message: 'Successfully placed order!',
-                                      //   ),
-                                      //   displayDuration: const Duration(
-                                      //     seconds: 3,
-                                      //   ),
-                                      // );
-                                      // myController.cart();
-                                      // myController.priceCart.value = 0.0;
-                                      // Get.to(() => const OrderConfirmation());
-                                    },
-                                    onPaymentFailure: (data) {
-                                      debugPrint(":::FAILURE::: => $data");
-                                      myController.completeLoading(
-                                          myController.progressBarStatusCheckout,
-                                          false);
-                                      showTopSnackBar(
-                                        Overlay.of(context)!,
-                                        CustomSnackBar.error(
-                                          message:
-                                          data.toString(),
-                                        ),
-                                        displayDuration: const Duration(
-                                          seconds: 3,
-                                        ),
-                                      );
-                                    },
-                                    onPaymentCancellation: (data) {
-                                      debugPrint(":::CANCELLATION::: => $data");
-                                      myController.completeLoading(
-                                          myController.progressBarStatusCheckout,
-                                          false);
-                                    },
-                                  );
-                                } on Exception catch (e) {
-                                  debugPrint("EXCEPTION : ${e.toString()}");
-                                }
+                                final pid =
+                                    '${DateTime.now().millisecondsSinceEpoch}-${myController.checkoutModel.value.id}';
+                                await Get.to(() => EsewaView(
+                                    successUrl:
+                                        '$BASE_URL/Order/verify-payment/?pid=$pid&q=su',
+                                    pid: pid));
+                                myController.completeLoading(
+                                    myController.progressBarStatusCheckout,
+                                    false);
                               }
                             } catch (e) {
                               myController.completeLoading(
