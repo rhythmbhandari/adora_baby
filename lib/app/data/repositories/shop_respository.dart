@@ -22,23 +22,56 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
-      hotSales.sort((a, b) {
-        bool aHasFeatured =
-            a.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
-        bool bHasFeatured =
-            b.productImages?.any((pi) => pi?.isFeaturedImage ?? false) ?? false;
-        if (aHasFeatured && !bHasFeatured) {
-          return -1;
-        } else if (!aHasFeatured && bHasFeatured) {
-          return 1;
-        } else {
-          return 0;
-        }
+      // bool isFeaturedImage(ProductImage? image) {
+      //   return image?.isFeaturedImage == true;
+      // }
+      //
+      // for (var hotSale in hotSales) {
+      //   hotSale.productImages?.sort((a, b) {
+      //     bool isFeaturedImageA = isFeaturedImage(a);
+      //     bool isFeaturedImageB = isFeaturedImage(b);
+      //
+      //     if (isFeaturedImageA && !isFeaturedImageB) {
+      //       return -1;
+      //     } else if (!isFeaturedImageA && isFeaturedImageB) {
+      //       return 1;
+      //     }
+      //
+      //     return (hotSale.productImages?.indexOf(a) ?? 0)
+      //         .compareTo(hotSale.productImages?.indexOf(b) ?? 0);
+      //   });
+      // }
+
+      hotSales.forEach((hotSale) {
+        hotSale.productImages = sortProductImages(hotSale.productImages);
       });
       return hotSales;
     }
 
     return Future.error('Error $status');
+  }
+
+  static bool isFeaturedImage(ProductImage? image) {
+    return image?.isFeaturedImage == true;
+  }
+
+  static List<ProductImage?>? sortProductImages(List<ProductImage?>? images) {
+    if (images == null || images.isEmpty) {
+      return images;
+    }
+
+    List<ProductImage?> featuredImages = [];
+    List<ProductImage?> nonFeaturedImages = [];
+
+    for (var image in images) {
+      if (isFeaturedImage(image)) {
+        featuredImages.add(image);
+      } else {
+        nonFeaturedImages.add(image);
+      }
+    }
+
+    return [...featuredImages, ...nonFeaturedImages];
   }
 
   static Future<List<HotSales>> fetchNotifications(String keyword) async {
@@ -53,6 +86,9 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      hotSales.forEach((hotSale) {
+        hotSale.productImages = sortProductImages(hotSale.productImages);
+      });
       return hotSales;
     }
 
@@ -67,10 +103,13 @@ class ShopRepository {
     final data = response.data;
 
     if (response.statusCode == 200) {
-      List<HotSales> datas = (response.data["data"] as List)
+      List<HotSales> hotSales = (response.data["data"] as List)
           .map((i) => HotSales.fromJson(i))
           .toList();
-      return datas;
+      hotSales.forEach((hotSale) {
+        hotSale.productImages = sortProductImages(hotSale.productImages);
+      });
+      return hotSales;
     } else {
       return Future.error(data['message']);
     }
@@ -87,6 +126,9 @@ class ShopRepository {
     if (status is Map<dynamic, dynamic>) {
       List<HotSales> hotSales =
           (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+      hotSales.forEach((hotSale) {
+        hotSale.productImages = sortProductImages(hotSale.productImages);
+      });
       return hotSales;
     }
 
@@ -141,13 +183,17 @@ class ShopRepository {
       if (status is Map<dynamic, dynamic>) {
         List<HotSales> hotSales =
             (status['data'] as List).map((i) => HotSales.fromJson(i)).toList();
+        hotSales.forEach((hotSale) {
+          hotSale.productImages = sortProductImages(hotSale.productImages);
+        });
         return hotSales;
       } else {
         return Future.error('$status');
       }
     } catch (e) {
-
-      return Future.error('${e.toString() == 'P'? 'Server Error. Please contact support': e}');    }
+      return Future.error(
+          '${e.toString() == 'P' ? 'Server Error. Please contact support' : e}');
+    }
   }
 
   static Future<List<Tips>> fetchTips(String keyword) async {

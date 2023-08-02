@@ -96,16 +96,7 @@ class AllProducts extends StatelessWidget {
                                                     .productImages
                                                     .isEmpty
                                                 ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                                                : '${controller.allProducts[index].productImages?.firstWhere(
-                                                      (image) =>
-                                                          image?.isFeaturedImage !=
-                                                              null &&
-                                                          image?.isFeaturedImage ==
-                                                              true,
-                                                      orElse: () => ProductImage(
-                                                          name:
-                                                              'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
-                                                    ).name ?? ''}',
+                                                : '${controller.allProducts[index].productImages[0].name}',
                                           ),
                                         ),
                                       ),

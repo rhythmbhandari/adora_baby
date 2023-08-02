@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../config/constants.dart';
+import '../../../data/network/network_helper.dart';
 import 'order_confirmation.dart';
 
 class EsewaView extends StatefulWidget {
@@ -74,8 +75,9 @@ class _EsewaViewState extends State<EsewaView> {
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
+          onNavigationRequest: (NavigationRequest request) async {
             log('Request url is ${request.url}');
+
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
             }
@@ -88,7 +90,13 @@ class _EsewaViewState extends State<EsewaView> {
             if (request.url
                 .startsWith('$BASE_URL/Order/verify-payment/?pid=')) {
               log('Success');
-              Get.to(() => const OrderConfirmation());
+              NetworkHelper().getRequest(
+                request.url,
+              );
+              await Future.delayed(const Duration(seconds: 1)).then(
+                (value) => Get.off(() => const OrderConfirmation()),
+              );
+              return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
@@ -96,7 +104,7 @@ class _EsewaViewState extends State<EsewaView> {
       )
       ..loadRequest(
           Uri.parse(
-            '$baseUrl?amt=$amount&pdc=$deliveryCharge&psc=$serviceCharge&txAmt=$taxAmount&tAmt=$transactionAmount&pid=${widget.pid}&scd=$merchantCode&su=${widget.successUrl}&fu=$failureUrl',
+            '$baseUrl?amt=${(_cartController.checkoutModel.value.subTotal-_cartController.checkoutModel.value.discount-_cartController.checkoutModel.value.dimondOff)}&pdc=${_cartController.checkoutModel.value.deliveryCharge}&psc=$serviceCharge&txAmt=$taxAmount&tAmt=${_cartController.checkoutModel.value.grandTotal}&pid=${widget.pid}&scd=$merchantCode&su=${widget.successUrl}&fu=$failureUrl',
           ),
           method: LoadRequestMethod.post);
     // #enddocregion webview_controller

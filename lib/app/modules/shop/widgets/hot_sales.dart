@@ -165,14 +165,7 @@ class ProductCards extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: controller.hotSales[index].productImages.isEmpty
                           ? 'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'
-                          : '${controller.hotSales[index].productImages?.firstWhere(
-                                (image) =>
-                                    image?.isFeaturedImage != null &&
-                                    image?.isFeaturedImage == true,
-                                orElse: () => ProductImage(
-                                    name:
-                                        'https://sternbergclinic.com.au/wp-content/uploads/2020/03/placeholder.png'),
-                              ).name ?? ''}',
+                          : '${controller.hotSales[index].productImages[0].name}',
                       height: Get.height * 0.16,
                     ),
                   ),
